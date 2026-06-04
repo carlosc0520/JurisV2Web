@@ -4,8 +4,10 @@
         <div class="subscription-header">
             <div class="subscription-header-content">
                 <div class="header-title-section">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        class="header-icon">
+                        <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                     </svg>
                     <div>
                         <h1 class="subscription-title">Planes y Suscripción</h1>
@@ -17,32 +19,26 @@
 
         <div class="subscription-content">
             <div class="tabs-modern">
-                <button 
-                    class="tab-button" 
-                    :class="{ 'tab-active': active === 'planes' }"
+                <button class="tab-button" :class="{ 'tab-active': active === 'planes' }"
                     @click="updateActive('planes')">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                     </svg>
                     <span>Planes</span>
                 </button>
-                <button 
-                    class="tab-button tab-button-disabled" 
-                    :class="{ 'tab-active': active === 'facturacion' }"
+                <button class="tab-button tab-button-disabled" :class="{ 'tab-active': active === 'facturacion' }"
                     :disabled="!planSelected">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                        <path d="M7 11V7a5 5 0 0110 0v4"/>
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" />
                     </svg>
                     <span>Pago Seguro</span>
                 </button>
-                <button 
-                    class="tab-button" 
-                    :class="{ 'tab-active': active === 'pagos' }"
-                    @click="updateActive('pagos')">
+                <button class="tab-button" :class="{ 'tab-active': active === 'pagos' }" @click="updateActive('pagos')">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                        <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                        <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
                     </svg>
                     <span>Facturación</span>
                 </button>
@@ -52,16 +48,13 @@
                 <!-- PLANES SECTION -->
                 <div v-if="active === 'planes'" class="fade-in">
                     <div class="plans-grid">
-                        <div 
-                            v-for="plan in planes" 
-                            :key="plan.id"
-                            class="plan-card"
+                        <div v-for="plan in planes" :key="plan.id" class="plan-card"
                             :class="{ 'plan-card-active': plan?.ACTUAL === 1, 'plan-card-premium': plan?.PRINCIPAL }">
                             <div class="plan-badge" :class="{ 'plan-badge-premium': plan?.PRINCIPAL }">
                                 <img v-if="plan?.PRINCIPAL" :src="corona" alt="corona" class="badge-icon" />
                                 <span>{{ capitalizeFirst(plan?.DESCRIPCION) }}</span>
                             </div>
-                            
+
                             <div class="plan-body">
                                 <div class="plan-price-section">
                                     <div class="plan-price">
@@ -71,24 +64,27 @@
                                     </div>
                                 </div>
 
-                                <button 
-                                    @click="plan?.ACTUAL === 1 ? null : toUpdatePlan(plan)" 
-                                    class="plan-btn"
+                                <button @click="plan?.ACTUAL === 1 ? null : toUpdatePlan(plan)" class="plan-btn"
                                     :class="{ 'plan-btn-current': plan?.ACTUAL === 1, 'plan-btn-upgrade': !plan?.ACTUAL }"
                                     :disabled="plan?.ACTUAL === 1">
-                                    <svg v-if="plan?.ACTUAL === 1" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polyline points="20 6 9 17 4 12"/>
+                                    <svg v-if="plan?.ACTUAL === 1" width="18" height="18" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20 6 9 17 4 12" />
                                     </svg>
-                                    <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                    <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <path
+                                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                                     </svg>
                                     {{ plan?.ACTUAL === 1 ? "Tu Plan Actual" : "Cambiar Plan" }}
                                 </button>
 
                                 <ul class="plan-features">
-                                    <li v-for="restriccion in plan.DETALLE.RESTRICIONES" :key="restriccion" class="feature-item">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="20 6 9 17 4 12"/>
+                                    <li v-for="restriccion in plan.DETALLE.RESTRICIONES" :key="restriccion"
+                                        class="feature-item">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <polyline points="20 6 9 17 4 12" />
                                         </svg>
                                         <span>{{ restriccion }}</span>
                                     </li>
@@ -103,9 +99,10 @@
                     <div class="payment-container">
                         <div class="payment-form-card">
                             <div class="payment-header">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                                    <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                                    <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
                                 </svg>
                                 <h2>Resumen de Suscripción</h2>
                             </div>
@@ -114,13 +111,14 @@
                                 <!-- Plan Summary -->
                                 <div class="form-section">
                                     <div class="form-section-header">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <circle cx="12" cy="12" r="10"/>
-                                            <polyline points="12 6 12 12 16 14"/>
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <polyline points="12 6 12 12 16 14" />
                                         </svg>
                                         <h3>Detalles del Plan</h3>
                                     </div>
-                                    
+
                                     <div class="plan-summary">
                                         <div class="summary-row">
                                             <span class="summary-label">Plan seleccionado:</span>
@@ -140,45 +138,46 @@
                                 <!-- Card Payment Section -->
                                 <div class="form-section">
                                     <div class="form-section-header">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-                                            <line x1="1" y1="10" x2="23" y2="10"/>
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                                            <line x1="1" y1="10" x2="23" y2="10" />
                                         </svg>
                                         <h3>Métodos de Pago</h3>
                                     </div>
-                                    
+
                                     <div class="payment-methods">
                                         <img src="@/assets/img/pagos/visa.png" alt="visa" class="payment-method-img" />
-                                        <img src="@/assets/img/pagos/master.png" alt="mastercard" class="payment-method-img" />
+                                        <img src="@/assets/img/pagos/master.png" alt="mastercard"
+                                            class="payment-method-img" />
                                     </div>
                                 </div>
 
                                 <!-- Cardholder Information -->
                                 <div class="form-section">
                                     <div class="form-section-header">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                                            <circle cx="12" cy="7" r="4"/>
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                                            <circle cx="12" cy="7" r="4" />
                                         </svg>
                                         <h3>Datos del Titular</h3>
                                     </div>
-                                    
+
                                     <div class="form-grid">
                                         <div class="form-group">
                                             <label class="form-label">
                                                 Nombres <span class="required">*</span>
                                             </label>
                                             <div class="input-wrapper">
-                                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                                                    <circle cx="12" cy="7" r="4"/>
+                                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                                                    <circle cx="12" cy="7" r="4" />
                                                 </svg>
-                                                <input 
-                                                    v-model="model.NOMBRES" 
-                                                    :class="['form-input', { 'input-error': validation.hasError('model.NOMBRES') }]" 
-                                                    type="text"
-                                                    placeholder="Ingresa tus nombres"
-                                                    maxlength="100" />
+                                                <input v-model="model.NOMBRES"
+                                                    :class="['form-input', { 'input-error': validation.hasError('model.NOMBRES') }]"
+                                                    type="text" placeholder="Ingresa tus nombres" maxlength="100" />
                                             </div>
                                             <span class="error-message" v-if="validation.hasError('model.NOMBRES')">
                                                 {{ validation.firstError('model.NOMBRES') }}
@@ -190,16 +189,14 @@
                                                 Apellidos <span class="required">*</span>
                                             </label>
                                             <div class="input-wrapper">
-                                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                                                    <circle cx="12" cy="7" r="4"/>
+                                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                                                    <circle cx="12" cy="7" r="4" />
                                                 </svg>
-                                                <input 
-                                                    v-model="model.APELLIDOS" 
-                                                    :class="['form-input', { 'input-error': validation.hasError('model.APELLIDOS') }]" 
-                                                    type="text"
-                                                    placeholder="Ingresa tus apellidos"
-                                                    maxlength="100" />
+                                                <input v-model="model.APELLIDOS"
+                                                    :class="['form-input', { 'input-error': validation.hasError('model.APELLIDOS') }]"
+                                                    type="text" placeholder="Ingresa tus apellidos" maxlength="100" />
                                             </div>
                                             <span class="error-message" v-if="validation.hasError('model.APELLIDOS')">
                                                 {{ validation.firstError('model.APELLIDOS') }}
@@ -211,16 +208,15 @@
                                                 Correo Electrónico <span class="required">*</span>
                                             </label>
                                             <div class="input-wrapper">
-                                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                                    <polyline points="22,6 12,13 2,6"/>
+                                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path
+                                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                                    <polyline points="22,6 12,13 2,6" />
                                                 </svg>
-                                                <input 
-                                                    v-model="model.CORREO" 
-                                                    :class="['form-input', { 'input-error': validation.hasError('model.CORREO') }]" 
-                                                    type="email"
-                                                    placeholder="correo@ejemplo.com"
-                                                    maxlength="100" />
+                                                <input v-model="model.CORREO"
+                                                    :class="['form-input', { 'input-error': validation.hasError('model.CORREO') }]"
+                                                    type="email" placeholder="correo@ejemplo.com" maxlength="100" />
                                             </div>
                                             <span class="error-message" v-if="validation.hasError('model.CORREO')">
                                                 {{ validation.firstError('model.CORREO') }}
@@ -232,15 +228,14 @@
                                                 Teléfono <span class="required">*</span>
                                             </label>
                                             <div class="input-wrapper">
-                                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path
+                                                        d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
                                                 </svg>
-                                                <input 
-                                                    v-model="model.TELEFONO" 
-                                                    :class="['form-input', { 'input-error': validation.hasError('model.TELEFONO') }]" 
-                                                    type="tel"
-                                                    placeholder="987654321"
-                                                    maxlength="15"
+                                                <input v-model="model.TELEFONO"
+                                                    :class="['form-input', { 'input-error': validation.hasError('model.TELEFONO') }]"
+                                                    type="tel" placeholder="987654321" maxlength="15"
                                                     @input="model.TELEFONO = model.TELEFONO.replace(/[^0-9]/g, '')" />
                                             </div>
                                             <span class="error-message" v-if="validation.hasError('model.TELEFONO')">
@@ -251,16 +246,13 @@
                                         <div class="form-group">
                                             <label class="form-label">DNI</label>
                                             <div class="input-wrapper">
-                                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                                                    <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
+                                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                                                    <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
                                                 </svg>
-                                                <input 
-                                                    v-model="model.DNI" 
-                                                    class="form-input" 
-                                                    type="text"
-                                                    placeholder="12345678"
-                                                    maxlength="8"
+                                                <input v-model="model.DNI" class="form-input" type="text"
+                                                    placeholder="12345678" maxlength="8"
                                                     @input="model.DNI = model.DNI.replace(/[^0-9]/g, '')" />
                                             </div>
                                         </div>
@@ -269,9 +261,10 @@
 
                                 <div class="form-actions">
                                     <button type="submit" class="btn-pay" :disabled="culqi.loading">
-                                        <svg v-if="!culqi.loading" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                                            <path d="M7 11V7a5 5 0 0110 0v4"/>
+                                        <svg v-if="!culqi.loading" width="18" height="18" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                            <path d="M7 11V7a5 5 0 0110 0v4" />
                                         </svg>
                                         <span v-if="culqi.loading" class="spinner"></span>
                                         {{ culqi.loading ? 'Procesando...' : 'Generar Orden de Pago' }}
@@ -283,29 +276,30 @@
                         <div class="payment-sidebar">
                             <div class="sidebar-card">
                                 <div class="sidebar-header">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"/>
-                                        <line x1="12" y1="8" x2="12" y2="12"/>
-                                        <line x1="12" y1="16" x2="12.01" y2="16"/>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <line x1="12" y1="8" x2="12" y2="12" />
+                                        <line x1="12" y1="16" x2="12.01" y2="16" />
                                     </svg>
                                     <h3>Otros Medios de Pago</h3>
                                 </div>
-                                
+
                                 <div class="alternative-payments">
                                     <img src="@/assets/img/pagos/yape.png" alt="yape" class="alt-payment-img" />
                                     <img src="@/assets/img/pagos/plin.png" alt="plin" class="alt-payment-img" />
                                     <img src="@/assets/img/pagos/bcp.png" alt="bcp" class="alt-payment-img" />
-                                    <img src="@/assets/img/pagos/interbank.png" alt="interbank" class="alt-payment-img" />
+                                    <img src="@/assets/img/pagos/interbank.png" alt="interbank"
+                                        class="alt-payment-img" />
                                 </div>
 
                                 <p class="sidebar-text">
-                                    Realiza tu pago fácilmente a través de billeteras digitales o mediante transferencia bancaria.
+                                    Realiza tu pago fácilmente a través de billeteras digitales o mediante transferencia
+                                    bancaria.
                                 </p>
 
-                                <a 
-                                    href="https://wa.me/51949345646?text=Hola%2C%20estoy%20interesado%20en%20adquirir%20un%20plan%20para%20JurisSearch.%20¿Podrías%20brindarme%20más%20información%2C%20por%20favor%3F"
-                                    target="_blank" 
-                                    class="advisor-link">
+                                <a href="https://wa.me/51949345646?text=Hola%2C%20estoy%20interesado%20en%20adquirir%20un%20plan%20para%20JurisSearch.%20¿Podrías%20brindarme%20más%20información%2C%20por%20favor%3F"
+                                    target="_blank" class="advisor-link">
                                     <img src="@/assets/img/pagos/asesor.png" alt="asesor" class="advisor-icon" />
                                     <span>Hablar con un asesor</span>
                                 </a>
@@ -318,29 +312,19 @@
                 <div v-if="active === 'pagos'" class="fade-in">
                     <div class="billing-section">
                         <div class="billing-filters-card">
-                            <div class="filters-header">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="11" cy="11" r="8"/>
-                                    <path d="M21 21l-4.35-4.35"/>
-                                </svg>
-                                <h3>Filtrar Facturación</h3>
-                            </div>
-                            
+
                             <div class="filters-content">
                                 <div class="form-group">
-                                    <label class="form-label">Fecha de pago</label>
                                     <div class="input-wrapper">
-                                        <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                            <line x1="16" y1="2" x2="16" y2="6"/>
-                                            <line x1="8" y1="2" x2="8" y2="6"/>
-                                            <line x1="3" y1="10" x2="21" y2="10"/>
+                                        <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                            <line x1="16" y1="2" x2="16" y2="6" />
+                                            <line x1="8" y1="2" x2="8" y2="6" />
+                                            <line x1="3" y1="10" x2="21" y2="10" />
                                         </svg>
-                                        <date-picker 
-                                            v-model="facturacion.FCRCN" 
-                                            :value="facturacion.FCRCN" 
-                                            valueType="format"
-                                            class="form-input date-picker-custom"
+                                        <date-picker v-model="facturacion.FCRCN" :value="facturacion.FCRCN"
+                                            valueType="format" class="form-input date-picker-custom"
                                             placeholder="Selecciona una fecha"
                                             :disabledDate="time => time.getTime() > Date.now()"
                                             @change="(date) => facturacion.FCRCN = date" />
@@ -348,25 +332,19 @@
                                 </div>
 
                                 <button class="btn-search" @click="getFacturaciones">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="11" cy="11" r="8"/>
-                                        <path d="M21 21l-4.35-4.35"/>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <path d="M21 21l-4.35-4.35" />
                                     </svg>
                                     Buscar
                                 </button>
                             </div>
                         </div>
 
-                        <div class="billing-table-card">
-                            <card-table 
-                                :active="active" 
-                                title="Historial de Pagos" 
-                                :search="getFacturaciones"
-                                :fields="facturacion.fields" 
-                                :items="facturacion.grid.items" 
-                                :grid="facturacion.grid"
-                                :actions="facturacion.actions" />
-                        </div>
+                        <card-table :active="active" title="Historial de Pagos" :search="getFacturaciones"
+                            :fields="facturacion.fields" :items="facturacion.grid.items" :grid="facturacion.grid"
+                            :actions="facturacion.actions" />
                     </div>
                 </div>
             </div>
@@ -395,7 +373,7 @@ export default {
             culqi: {
                 amount: 185,
                 email: 'ccarbajalmt0520@gmail.com',
-                description: 'SUBSCRIPCIÓN JURISSEARCH',
+                description: 'SUSCRIPCIÓN JURISSEARCH',
                 loading: false,
                 message: ''
             },
@@ -601,7 +579,7 @@ export default {
                 });
 
                 Culqi.open();
-                this.culqi.loading = false; 
+                this.culqi.loading = false;
 
                 // ⚡ Callback de Culqi
                 window.culqi = async () => {
@@ -756,7 +734,6 @@ export default {
                 FCRCN: this.facturacion?.FCRCN || null
             })
                 .then((response) => {
-                    console.log("response", response);
                     this.facturacion.grid.items = response.map(item => {
                         item.TOTAL = 'S/ ' + Number(item.TOTAL).toFixed(2);
                         item.RTAFTO = item.TIPO === 'YAPE' ? '<i class="pi pi-mobile mr-2" style="font-size:1em;"></i> Yape' :
@@ -835,6 +812,7 @@ export default {
     min-height: 100vh;
     background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
     padding-bottom: 4rem;
+    font-size: 0.9em;
 }
 
 /* Header */
@@ -842,8 +820,8 @@ export default {
     background: white;
     border-bottom: 1px solid #E5E7EB;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    padding: 2rem 0;
-    margin-bottom: 2rem;
+    padding: 0.75rem 0;
+    margin-bottom: 0.75rem;
 }
 
 .subscription-header-content {
@@ -859,7 +837,7 @@ export default {
     width: 100%;
 }
 
-.header-title-section > div {
+.header-title-section>div {
     flex: 1;
     min-width: 0;
     max-width: 100%;
@@ -872,16 +850,19 @@ export default {
 }
 
 @keyframes pulse {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.1);
     }
 }
 
 .subscription-title {
-    font-size: 2rem;
+    font-size: 1.35rem;
     font-weight: 800;
     background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
     -webkit-background-clip: text;
@@ -897,8 +878,8 @@ export default {
 
 .subscription-subtitle {
     color: #6B7280;
-    font-size: 0.95rem;
-    margin: 0.25rem 0 0 0;
+    font-size: 0.8rem;
+    margin: 0.15rem 0 0 0;
     overflow-wrap: break-word;
     word-wrap: break-word;
     max-width: 100%;
@@ -916,11 +897,9 @@ export default {
 .tabs-modern {
     display: flex;
     gap: 1rem;
-    margin-bottom: 2rem;
     background: white;
     padding: 0.5rem;
-    border-radius: 16px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 16px 16px 0px 0px;
 }
 
 .tab-button {
@@ -972,6 +951,9 @@ export default {
 
 /* Tab Content */
 .tab-content {
+    background-color: white!important;
+    padding: 10px;
+    border-radius: 0px 0px 16px 16px;
     animation: fadeIn 0.4s ease-in;
 }
 
@@ -980,6 +962,7 @@ export default {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1000,7 +983,7 @@ export default {
 
 .plan-card {
     background: white;
-    border-radius: 20px;
+    border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 2px solid transparent;
@@ -1026,10 +1009,10 @@ export default {
 
 .plan-badge {
     background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
-    padding: 1rem;
+    padding: 0.75rem;
     text-align: center;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     color: #374151;
     display: flex;
     align-items: center;
@@ -1043,24 +1026,29 @@ export default {
 }
 
 .badge-icon {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     animation: rotate 10s linear infinite;
 }
 
 @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .plan-body {
-    padding: 2rem;
+    padding: 1.5rem;
 }
 
 .plan-price-section {
     text-align: center;
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
     border-bottom: 2px solid #F3F4F6;
 }
 
@@ -1072,21 +1060,21 @@ export default {
 }
 
 .currency {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 600;
     color: #6B7280;
     margin-top: 0.5rem;
 }
 
 .amount {
-    font-size: 3.5rem;
+    font-size: 2.75rem;
     font-weight: 800;
     color: #1F2937;
     line-height: 1;
 }
 
 .period {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     font-weight: 400;
     color: #9CA3AF;
     margin-top: 1.5rem;
@@ -1094,9 +1082,9 @@ export default {
 
 .plan-btn {
     width: 100%;
-    padding: 1rem;
-    border-radius: 14px;
-    font-size: 1rem;
+    padding: 0.75rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
     font-weight: 700;
     border: none;
     cursor: pointer;
@@ -1105,7 +1093,7 @@ export default {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
 }
 
 .plan-btn-upgrade {
@@ -1132,16 +1120,16 @@ export default {
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.65rem;
 }
 
 .feature-item {
     display: flex;
     align-items: flex-start;
-    gap: 0.75rem;
+    gap: 0.65rem;
     color: #4B5563;
-    font-size: 0.95rem;
-    line-height: 1.5;
+    font-size: 0.875rem;
+    line-height: 1.4;
 }
 
 .feature-item svg {
@@ -1158,19 +1146,16 @@ export default {
 }
 
 .payment-form-card {
-    background: white;
     border-radius: 20px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #F3F4F6;
+    padding: 1.25rem;
 }
 
 .payment-header {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
     border-bottom: 2px solid #F3F4F6;
 }
 
@@ -1179,7 +1164,7 @@ export default {
 }
 
 .payment-header h2 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: #1F2937;
     margin: 0;
@@ -1188,21 +1173,21 @@ export default {
 .payment-form {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.25rem;
 }
 
 /* Form Section */
 .form-section {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .form-section-header {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding-bottom: 1rem;
+    gap: 0.5rem;
+    padding-bottom: 0.65rem;
     border-bottom: 2px solid #F3F4F6;
 }
 
@@ -1211,7 +1196,7 @@ export default {
 }
 
 .form-section-header h3 {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: #1F2937;
     margin: 0;
@@ -1221,10 +1206,10 @@ export default {
 .plan-summary {
     background: linear-gradient(135deg, rgba(223, 45, 178, 0.05) 0%, rgba(24, 92, 230, 0.05) 100%);
     border-radius: 14px;
-    padding: 1.5rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
 }
 
 .summary-row {
@@ -1234,25 +1219,25 @@ export default {
 }
 
 .summary-label {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     color: #6B7280;
     font-weight: 500;
 }
 
 .summary-value {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     color: #1F2937;
     font-weight: 600;
 }
 
 .summary-total {
-    padding-top: 1rem;
+    padding-top: 0.75rem;
     border-top: 2px solid rgba(24, 92, 230, 0.2);
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
 }
 
 .summary-price {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 800;
     background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
     -webkit-background-clip: text;
@@ -1268,12 +1253,12 @@ export default {
 }
 
 .payment-method-img {
-    width: 70px;
-    height: 40px;
+    width: 60px;
+    height: 34px;
     object-fit: contain;
     border: 2px solid #E5E7EB;
     border-radius: 8px;
-    padding: 0.5rem;
+    padding: 0.4rem;
     background: white;
     transition: all 0.3s ease;
 }
@@ -1288,7 +1273,7 @@ export default {
 .form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .form-group {
@@ -1302,7 +1287,7 @@ export default {
 }
 
 .form-label {
-    font-size: 0.9rem;
+    font-size: 0.825rem;
     font-weight: 600;
     color: #374151;
     display: flex;
@@ -1324,18 +1309,20 @@ export default {
 
 .input-icon {
     position: absolute;
-    left: 1rem;
+    left: 0.875rem;
     color: #9CA3AF;
     pointer-events: none;
     z-index: 1;
+    width: 16px;
+    height: 16px;
 }
 
 .form-input {
     width: 100%;
-    padding: 0.875rem 1rem 0.875rem 3rem;
+    padding: 0.7rem 0.875rem 0.7rem 2.75rem;
     border: 2px solid #E5E7EB;
     border-radius: 12px;
-    font-size: 0.95rem;
+    font-size: 0.875rem;
     color: #1F2937;
     background: white;
     transition: all 0.3s ease;
@@ -1383,18 +1370,18 @@ export default {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
-    padding: 1rem 2.5rem;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
     background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
     color: white;
     border: none;
     border-radius: 14px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 20px rgba(223, 45, 178, 0.3);
-    min-width: 250px;
+    min-width: 200px;
 }
 
 .btn-pay:hover:not(:disabled) {
@@ -1417,7 +1404,9 @@ export default {
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* Payment Sidebar */
@@ -1428,11 +1417,8 @@ export default {
 }
 
 .sidebar-card {
-    background: white;
     border-radius: 20px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #F3F4F6;
+    padding: 1.25rem;
     position: sticky;
     top: 2rem;
 }
@@ -1440,9 +1426,9 @@ export default {
 .sidebar-header {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
     border-bottom: 2px solid #F3F4F6;
 }
 
@@ -1451,7 +1437,7 @@ export default {
 }
 
 .sidebar-header h3 {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: #1F2937;
     margin: 0;
@@ -1460,17 +1446,17 @@ export default {
 .alternative-payments {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
 }
 
 .alt-payment-img {
     width: 100%;
-    height: 60px;
+    height: 48px;
     object-fit: contain;
     border: 2px solid #E5E7EB;
     border-radius: 12px;
-    padding: 0.75rem;
+    padding: 0.5rem;
     background: white;
     transition: all 0.3s ease;
     cursor: pointer;
@@ -1484,20 +1470,21 @@ export default {
 
 .sidebar-text {
     color: #6B7280;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
+    font-size: 0.825rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
 }
 
 .advisor-link {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 1rem;
+    gap: 0.5rem;
+    padding: 0.75rem;
     background: linear-gradient(135deg, rgba(223, 45, 178, 0.08) 0%, rgba(24, 92, 230, 0.08) 100%);
     border-radius: 12px;
     color: #185CE6;
     font-weight: 600;
+    font-size: 0.875rem;
     text-decoration: none;
     transition: all 0.3s ease;
 }
@@ -1508,8 +1495,8 @@ export default {
 }
 
 .advisor-icon {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     object-fit: contain;
 }
 
@@ -1517,15 +1504,11 @@ export default {
 .billing-section {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
 }
 
 .billing-filters-card {
     background: white;
-    border-radius: 20px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #F3F4F6;
+    padding: 1.5rem 2rem;
 }
 
 .filters-header {
@@ -1565,23 +1548,9 @@ export default {
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(223, 45, 178, 0.3);
     white-space: nowrap;
 }
 
-.btn-search:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(223, 45, 178, 0.4);
-}
-
-.billing-table-card {
-    background: white;
-    border-radius: 20px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #F3F4F6;
-}
 
 /* Responsive Design */
 @media (max-width: 1200px) {
@@ -1612,7 +1581,7 @@ export default {
 
 @media (max-width: 768px) {
     .subscription-header {
-        padding: 1.25rem 0;
+        padding: 0.6rem 0;
     }
 
     .subscription-header-content {
@@ -1630,11 +1599,20 @@ export default {
     }
 
     .subscription-title {
-        font-size: 1.5rem;
+        font-size: 1.35rem;
+        line-height: 1.3;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        max-width: 100%;
+        width: 100%;
     }
 
     .subscription-subtitle {
-        font-size: 0.875rem;
+        font-size: 0.8rem;
+        line-height: 1.4;
+        overflow-wrap: break-word;
+        max-width: 100%;
+        width: 100%;
     }
 
     .subscription-content {
@@ -1672,20 +1650,18 @@ export default {
     }
 
     .amount {
-        font-size: 3rem;
+        font-size: 2.35rem;
     }
 
     .plan-btn {
-        padding: 0.875rem;
-        font-size: 0.95rem;
+        padding: 0.7rem;
+        font-size: 0.875rem;
     }
 
     .payment-form-card,
     .sidebar-card,
-    .billing-filters-card,
-    .billing-table-card {
-        padding: 1.5rem 1.25rem;
-        border-radius: 16px;
+    .billing-filters-card {
+        padding: 1.5rem 2rem;
     }
 
     .form-grid {
@@ -1744,11 +1720,21 @@ export default {
 
 @media (max-width: 480px) {
     .subscription-title {
-        font-size: 1.25rem;
+        font-size: 1.05rem;
+        line-height: 1.3;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        max-width: 100%;
+        width: 100%;
     }
 
     .subscription-subtitle {
-        font-size: 0.8rem;
+        font-size: 0.72rem;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        max-width: 100%;
+        width: 100%;
+        line-height: 1.3;
     }
 
     .header-title-section {
@@ -1774,31 +1760,30 @@ export default {
     }
 
     .amount {
-        font-size: 2.5rem;
+        font-size: 1.95rem;
     }
 
     .currency {
-        font-size: 1.25rem;
+        font-size: 1rem;
     }
 
     .period {
-        font-size: 0.95rem;
+        font-size: 0.75rem;
     }
 
     .plan-btn {
-        padding: 0.75rem;
-        font-size: 0.875rem;
+        padding: 0.65rem;
+        font-size: 0.85rem;
     }
 
     .feature-item {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
     }
 
     .payment-form-card,
     .sidebar-card,
-    .billing-filters-card,
-    .billing-table-card {
-        padding: 1.25rem 1rem;
+    .billing-filters-card {
+        padding: 1.5rem 2rem;
     }
 
     .form-input {

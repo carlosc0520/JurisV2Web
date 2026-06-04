@@ -1,9 +1,9 @@
 
 <template>
-  <div>
+  <div class="dark:bg-gray-900 min-h-screen">
     <!-- <navbar /> -->
     <main>
-      <section class="relative w-full h-full min-h-screen">
+      <section class="relative w-full h-full min-h-screen dark:bg-gray-900">
         <router-view />
       </section>
       <!-- <FooterComponent /> -->

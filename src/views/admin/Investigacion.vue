@@ -8,7 +8,7 @@
                         <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                     </svg>
                     <div>
-                        <h1 class="news-title">Centro de Noticias Jurídicas</h1>
+                        <h1 class="news-title">Investigación</h1>
                         <p class="news-subtitle">Descubre las últimas actualizaciones, análisis y noticias del mundo jurídico</p>
                     </div>
                 </div>
@@ -33,37 +33,16 @@
                         </svg>
                     </button>
                 </div>
+                <select v-model="filter.TIPO" @change="applyFilters" class="filter-select-modern">
+                    <option :value="null">🏷️ Todas las categorías</option>
+                    <option v-for="categoria in categorias" :key="categoria.value" :value="categoria.value">
+                        {{ categoria.text }}
+                    </option>
+                </select>
                 <select v-model="sortOrder" @change="applySorting" class="sort-select-modern">
                     <option value="desc">🕒 Más recientes</option>
                     <option value="asc">📅 Más antiguas</option>
                 </select>
-            </div>
-
-            <!-- Info Banner -->
-            <div class="info-banner">
-                <div class="info-item">
-                    <div class="info-icon-wrapper">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="info-number">{{ grid.totalRows }}</div>
-                        <div class="info-label">Artículos disponibles</div>
-                    </div>
-                </div>
-                <div class="info-divider"></div>
-                <div class="info-item">
-                    <div class="info-icon-wrapper">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="info-number">{{ paginatedNoticias.length }}</div>
-                        <div class="info-label">Mostrando ahora</div>
-                    </div>
-                </div>
             </div>
 
             <!-- Loading State -->
@@ -73,7 +52,7 @@
                     <div class="loading-dot"></div>
                     <div class="loading-dot"></div>
                 </div>
-                <p class="loading-message">Cargando las últimas noticias...</p>
+                <p class="loading-message">Cargando las últimas novedades...</p>
             </div>
 
             <!-- Empty State -->
@@ -88,40 +67,69 @@
                 <p class="empty-text-modern">Prueba con otros términos de búsqueda o revisa más tarde</p>
             </div>
 
-            <!-- News Grid -->
-            <div v-else class="news-grid">
-            <article v-for="noticia in paginatedNoticias" :key="noticia.ID" class="news-card">
-                <div class="card-image-container">
-                    <img :src="noticia.IMAGEN ? `https://www.jurissearch.com${noticia.IMAGEN}` : 'https://via.placeholder.com/400x250/4A5568/FFFFFF?text=Sin+Imagen'"
-                        :alt="noticia.TITULO" class="card-image" />
-
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">{{ noticia.TITULO }}</h3>
-                    <div class="card-description" v-html="truncateHTML(noticia.DESCRIPCION, 150)"></div>
-                    <div class="card-footer">
-                        <div class="card-meta">
-                            <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span class="meta-text">{{ formatDate(noticia.FCRCN) }}</span>
-                        </div>
-                        <a v-if="noticia.ENLACE" :href="noticia.ENLACE" target="_blank" class="card-button">
-                            Leer más
-                            <svg class="button-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                            </svg>
-                        </a>
+            <!-- News Grid - Dynamic Layout -->
+            <div v-else class="news-grid-dynamic">
+                <article v-for="(noticia, index) in paginatedNoticias" :key="noticia.ID" 
+                    :class="['news-card-dynamic', getCardClass(index, paginatedNoticias.length)]">
+                    <div class="card-image-container-dynamic">
+                        <img :src="noticia.IMAGEN ? `https://www.jurissearch.com${noticia.IMAGEN}` : 'https://via.placeholder.com/600x400/4A5568/FFFFFF?text=Sin+Imagen'"
+                            :alt="noticia.TITULO" class="card-image-dynamic" />
                     </div>
-                </div>
-            </article>
+                    <div class="card-content-dynamic">
+                        <h3 class="card-title-dynamic">{{ noticia.TITULO }}</h3>
+                        
+                        <!-- Subtítulo/Descripción (solo para Artículos de Investigación y Compendio) -->
+                        <div v-if="shouldShowSubtitle(noticia.TIPO)" class="card-subtitle-dynamic">
+                            {{ noticia.SUBTITULO || truncateHTML(noticia.DESCRIPCION, 80) }}
+                        </div>
+
+                        <!-- Metadata Section -->
+                        <div class="card-metadata-section">
+                            <!-- Fecha -->
+                            <div class="card-meta-item-dynamic">
+                                <svg class="meta-icon-dynamic" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <span class="meta-text-dynamic">{{ formatDate(noticia.FCRCN) }}</span>
+                            </div>
+
+                            <!-- Órgano Jurisdiccional (solo para Artículos de Investigación) -->
+                            <div v-if="shouldShowOrgano(noticia.TIPO) && noticia.DORGANO" class="card-meta-item-dynamic">
+                                <svg class="meta-icon-dynamic" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                                </svg>
+                                <span class="meta-text-dynamic">{{ noticia.DORGANO }}</span>
+                            </div>
+
+                            <!-- Autores -->
+                            <div v-if="shouldShowAutor(noticia.TIPO) && noticia.AUTORES && noticia.AUTORES.length > 0" class="card-meta-item-dynamic">
+                                <svg class="meta-icon-dynamic" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                <span class="meta-text-dynamic">{{ noticia.AUTORES.map(a => a.NOMBRE).join(', ') }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Footer con botón -->
+                        <div class="card-footer-dynamic">
+                            <a :href="noticia.ARCHIVO ? `https://www.jurissearch.com${noticia.ARCHIVO}` : '#'" target="_blank" class="card-button-dynamic">
+                                Ver documento
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </article>
             </div>
         </div>
 
         <!-- Pagination -->
-        <div v-if="!grid.isLoading && paginatedNoticias.length > 0" class="pagination-container">
+        <!-- <div v-if="!grid.isLoading && paginatedNoticias.length > 0" class="pagination-container">
             <div class="pagination-info">
                 Mostrando {{ startItem }} - {{ endItem }} de {{ grid.totalRows }} noticias
             </div>
@@ -159,7 +167,7 @@
                     </svg>
                 </button>
             </div>
-        </div>
+        </div> -->
     </section>
 </template>
 
@@ -173,8 +181,10 @@ export default {
         return {
             dominio: 'https://www.jurissearch.com/',
             dataNoticia: [],
+            categorias: [],
             filter: {
                 NOMBRES: null,
+                TIPO: null,
             },
             sortOrder: 'desc',
             grid: {
@@ -257,11 +267,16 @@ export default {
                 ROWS: 1000,
                 INIT: 0,
                 DESC: this.filter?.NOMBRES || null,
+                TIPO: this.filter?.TIPO || null,
                 CESTDO: 'A',
                 ORDER: this.sortOrder === 'desc' ? 0 : 1,
-            }, this.active)
+            }, 'noticias')
                 .then((response) => {
                     this.dataNoticia = response || [];
+                    this.dataNoticia = this.dataNoticia.map(item => ({
+                        ...item,
+                        AUTORES: item.AUTORES ? JSON.parse(item.AUTORES) : [],
+                    }));
                     this.grid.totalRows = this.dataNoticia.length;
                 })
                 .catch((error) => {
@@ -283,7 +298,19 @@ export default {
             this.filter.NOMBRES = null;
             this.searchNoticias();
         },
+        applyFilters() {
+            this.grid.currentPage = 1;
+            this.searchNoticias();
+        },
         applySorting() {
+        },
+        async loadCategorias() {
+            try {
+                const categorias = await MantenimientoProxy.listCategorias({ CESTDO: 'A', ROWS: 1000, INIT: 0 });
+                this.categorias = categorias?.map(item => ({ value: item.ID, text: item.DESCP })) || [];
+            } catch (error) {
+                console.error('Error al cargar categorías:', error);
+            }
         },
         goToPage(page) {
             if (page === '...' || page < 1 || page > this.totalPages) return;
@@ -305,6 +332,43 @@ export default {
             const text = tmp.textContent || tmp.innerText || '';
             if (text.length <= maxLength) return text;
             return text.substr(0, maxLength) + '...';
+        },
+        getCategoryName(tipoId) {
+            const categoria = this.categorias.find(c => c.value === tipoId);
+            return categoria ? categoria.text : 'Sin categoría';
+        },
+        getCardClass(index, totalCards) {
+            // Si hay 3 o menos, todos iguales
+            if (totalCards <= 3) {
+                return 'card-regular';
+            }
+            
+            // Todas las tarjetas tienen el mismo tamaño
+            return 'card-regular';
+        },
+        shouldShowSubtitle(tipoId) {
+            // Mostrar subtítulo/descripción solo en Artículos de Investigación y Compendio
+            const categoria = this.categorias.find(c => c.value === tipoId);
+            const nombreCategoria = categoria ? categoria.text.toUpperCase() : '';
+            return nombreCategoria.includes('ARTÍCULO') || 
+                   nombreCategoria.includes('ARTICULO') || 
+                   nombreCategoria.includes('COMPENDIO') ||
+                   nombreCategoria.includes('INVESTIGACIÓN') ||
+                   nombreCategoria.includes('INVESTIGACION');
+        },
+        shouldShowOrgano(tipoId) {
+            // Mostrar órgano jurisdiccional solo en Artículos de Investigación
+            const categoria = this.categorias.find(c => c.value === tipoId);
+            const nombreCategoria = categoria ? categoria.text.toUpperCase() : '';
+            return nombreCategoria.includes('ARTÍCULO') || 
+                   nombreCategoria.includes('ARTICULO') ||
+                   nombreCategoria.includes('INVESTIGACIÓN') ||
+                   nombreCategoria.includes('INVESTIGACION');
+        },
+        shouldShowAutor(tipoId) {
+            console.log(tipoId)
+            // Mostrar autores si el array existe y tiene elementos
+            return true;
         }
     },
     mounted() {
@@ -314,6 +378,7 @@ export default {
         if (searchParam) {
             this.filter.NOMBRES = searchParam;
         }
+        this.loadCategorias();
         this.searchNoticias();
     },
 };
@@ -324,28 +389,30 @@ export default {
 .news-portal {
     min-height: 100vh;
     background: linear-gradient(180deg, #fff5f8 0%, #f0f4ff 50%, #ffffff 100%);
-    padding-bottom: 4rem;
+    padding-bottom: 2rem;
+    font-size: 0.9em;
 }
 
 /* Header Section - Similar to Settings.vue */
 .news-header {
     background: white;
-    padding: 2rem 0;
-    margin-bottom: 2.5rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    border-bottom: 1px solid #F3F4F6;
+    border-bottom: 1px solid #E5E7EB;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 0.75rem 0;
+    margin-bottom: 0.75rem;
 }
 
 .news-header-content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 1rem;
 }
 
 .header-title-section {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0.75rem;
     width: 100%;
 }
 
@@ -358,16 +425,20 @@ export default {
 .header-icon {
     flex-shrink: 0;
     color: #185CE6;
-    animation: rotate 20s linear infinite;
+    animation: pulse 2s ease-in-out infinite;
 }
 
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
 }
 
 .news-title {
-    font-size: 2rem;
+    font-size: 1.35rem;
     font-weight: 800;
     background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
     -webkit-background-clip: text;
@@ -383,8 +454,8 @@ export default {
 
 .news-subtitle {
     color: #6B7280;
-    font-size: 0.95rem;
-    margin: 0.25rem 0 0 0;
+    font-size: 0.8rem;
+    margin: 0.15rem 0 0 0;
     overflow-wrap: break-word;
     word-wrap: break-word;
     max-width: 100%;
@@ -395,19 +466,19 @@ export default {
 .news-content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 1rem;
 }
 
 /* Search Bar Modern */
 .search-bar-modern {
     background: white;
-    border-radius: 20px;
-    padding: 2rem;
-    margin-bottom: 2.5rem;
+    border-radius: 14px;
+    padding: 0.85rem 1.25rem;
+    margin-bottom: 1.25rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 1px solid #F3F4F6;
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
     align-items: center;
     flex-wrap: wrap;
 }
@@ -430,11 +501,11 @@ export default {
 
 .search-input-modern {
     width: 100%;
-    padding: 0.875rem 3rem 0.875rem 3rem;
-    border-radius: 12px;
+    padding: 0.5rem 3rem 0.5rem 2.75rem;
+    border-radius: 10px;
     border: 2px solid #E5E7EB;
     background: white;
-    font-size: 0.95rem;
+    font-size: 0.875rem;
     color: #1F2937;
     transition: all 0.3s ease;
 }
@@ -467,96 +538,34 @@ export default {
 }
 
 .clear-btn-modern:hover {
-    transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(223, 45, 178, 0.4);
 }
 
+.filter-select-modern,
 .sort-select-modern {
-    padding: 0.875rem 1.5rem;
-    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
     border: 2px solid #E5E7EB;
     background: white;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: #374151;
     cursor: pointer;
     transition: all 0.3s ease;
+    min-width: 180px;
 }
 
+.filter-select-modern:hover,
 .sort-select-modern:hover {
     border-color: #185CE6;
     box-shadow: 0 0 0 3px rgba(24, 92, 230, 0.1);
 }
 
+.filter-select-modern:focus,
 .sort-select-modern:focus {
     outline: none;
     border-color: #185CE6;
     box-shadow: 0 0 0 3px rgba(24, 92, 230, 0.1);
-}
-
-/* Info Banner */
-.info-banner {
-    background: white;
-    border-radius: 20px;
-    padding: 1.75rem;
-    margin-bottom: 2.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #F3F4F6;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    gap: 2rem;
-    flex-wrap: wrap;
-}
-
-.info-item {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    flex: 1;
-    min-width: 0;
-}
-
-.info-icon-wrapper {
-    width: 56px;
-    height: 56px;
-    background: #185CE6;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(24, 92, 230, 0.25);
-}
-
-.info-icon-wrapper svg {
-    color: white;
-    width: 26px;
-    height: 26px;
-}
-
-.info-number {
-    font-size: 2rem;
-    font-weight: 900;
-    color: #185CE6;
-    line-height: 1;
-    margin-bottom: 0.25rem;
-}
-
-.info-label {
-    font-size: 0.8rem;
-    color: #6B7280;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    line-height: 1.3;
-}
-
-.info-divider {
-    width: 2px;
-    height: 60px;
-    background: #185CE6;
-    border-radius: 2px;
 }
 
 /* Loading State */
@@ -637,173 +646,187 @@ export default {
     color: #9CA3AF;
 }
 
-/* News Grid */
-.news-grid {
+/* News Grid - Dynamic Layout */
+.news-grid-dynamic {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-    margin-bottom: 3rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2rem;
 }
 
-@media (min-width: 768px) {
-    .news-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (min-width: 1024px) {
-    .news-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-/* News Card */
-.news-card {
+/* Card Styles */
+.news-card-dynamic {
     background: white;
-    border-radius: 20px;
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     border: 1px solid #F3F4F6;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
-.news-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 40px rgba(223, 45, 178, 0.2);
+.news-card-dynamic:hover {
+    box-shadow: 0 12px 35px rgba(223, 45, 178, 0.2);
 }
 
-.card-image-container {
+/* Todas las tarjetas tienen el mismo tamaño */
+.news-card-dynamic.card-regular,
+.news-card-dynamic.card-large {
+    grid-column: span 1;
+}
+
+/* Image Container */
+.card-image-container-dynamic {
     position: relative;
     overflow: hidden;
-    height: 280px;
+    height: 220px;
     background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
 }
 
-.card-image {
+.card-image-dynamic {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.news-card:hover .card-image {
-    transform: scale(1.15) rotate(2deg);
+/* Category Badge */
+.card-category-badge-dynamic {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
+    color: white;
+    padding: 0.4rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    z-index: 2;
 }
 
-.card-content {
-    padding: 2rem;
+/* Card Content */
+.card-content-dynamic {
+    padding: 1.25rem;
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
-.card-title {
-    font-size: 1.375rem;
+.card-title-dynamic {
+    font-size: 1.05rem;
     font-weight: 800;
     color: #1a202c;
-    margin-bottom: 1rem;
-    line-height: 1.3;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     transition: all 0.3s ease;
 }
 
-.news-card:hover .card-title {
-    background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+.card-subtitle-dynamic {
+    color: #4a5568;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.card-description {
-    color: #6B7280;
-    font-size: 1rem;
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
+/* Metadata Section */
+.card-metadata-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
     flex: 1;
 }
 
-.card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 1.25rem;
-    border-top: 2px solid #F3F4F6;
-}
-
-.card-meta {
+.card-meta-item-dynamic {
     display: flex;
     align-items: center;
-    gap: 0.625rem;
-    color: #9CA3AF;
-    font-size: 0.875rem;
+    gap: 0.5rem;
+    color: #6B7280;
+    font-size: 0.8rem;
 }
 
-.meta-icon {
-    width: 1.125rem;
-    height: 1.125rem;
+.meta-icon-dynamic {
+    width: 1rem;
+    height: 1rem;
     color: #DF2DB2;
+    flex-shrink: 0;
 }
 
-.meta-text {
+.meta-text-dynamic {
     font-weight: 600;
 }
 
-.card-button {
+/* Card Footer */
+.card-footer-dynamic {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #F3F4F6;
+    margin-top: auto;
+}
+
+.card-button-dynamic {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 0.5rem;
     background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
     color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 12px;
-    font-size: 0.875rem;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
     font-weight: 700;
     text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(223, 45, 178, 0.25);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 10px rgba(223, 45, 178, 0.3);
+    letter-spacing: 0.3px;
 }
 
-.card-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(223, 45, 178, 0.4);
+.card-button-dynamic:hover {
+    box-shadow: 0 4px 15px rgba(223, 45, 178, 0.35);
+    background: linear-gradient(135deg, #c91c9e 0%, #1547c7 100%);
 }
 
-.button-icon {
-    width: 1.125rem;
-    height: 1.125rem;
-    transition: transform 0.4s ease;
-}
-
-.card-button:hover .button-icon {
-    transform: translateX(6px);
+.card-button-dynamic svg {
+    width: 16px;
+    height: 16px;
 }
 
 /* Pagination */
 .pagination-container {
-    margin-top: 3rem;
+    margin-top: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 0.75rem;
     background: white;
-    padding: 2rem;
-    border-radius: 20px;
+    padding: 1rem;
+    border-radius: 14px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 1px solid #F3F4F6;
 }
 
 .pagination-info {
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.82rem;
     background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -839,7 +862,6 @@ export default {
     background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
     border-color: transparent;
     color: white;
-    transform: translateY(-4px) scale(1.1);
     box-shadow: 0 8px 20px rgba(223, 45, 178, 0.4);
 }
 
@@ -848,7 +870,6 @@ export default {
     color: white;
     border-color: transparent;
     box-shadow: 0 8px 25px rgba(223, 45, 178, 0.5);
-    transform: scale(1.15);
 }
 
 .pagination-button.disabled {
@@ -864,6 +885,10 @@ export default {
 
     .news-header-content {
         padding: 0 1.5rem;
+    }
+
+    .news-grid-dynamic {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -889,8 +914,8 @@ export default {
     }
 
     .header-icon {
-        width: 26px;
-        height: 26px;
+        width: 28px;
+        height: 28px;
     }
 
     .news-title {
@@ -946,49 +971,11 @@ export default {
         height: 16px;
     }
 
+    .filter-select-modern,
     .sort-select-modern {
         width: 100%;
         padding: 0.875rem 1.25rem;
         font-size: 0.9rem;
-    }
-
-    .info-banner {
-        padding: 1.25rem;
-        border-radius: 16px;
-        flex-direction: row;
-        gap: 1rem;
-        justify-content: space-between;
-    }
-
-    .info-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.875rem;
-        flex: 1;
-    }
-
-    .info-icon-wrapper {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-    }
-
-    .info-icon-wrapper svg {
-        width: 22px;
-        height: 22px;
-    }
-
-    .info-number {
-        font-size: 1.75rem;
-    }
-
-    .info-label {
-        font-size: 0.7rem;
-        letter-spacing: 0.3px;
-    }
-
-    .info-divider {
-        display: none;
     }
 
     .loading-state,
@@ -1006,41 +993,26 @@ export default {
         font-size: 1rem;
     }
 
-    .news-grid {
+    .news-grid-dynamic {
         grid-template-columns: 1fr;
         gap: 1.5rem;
-        margin-bottom: 2.5rem;
     }
 
-    .news-card {
-        border-radius: 16px;
+    .news-card-dynamic.card-large,
+    .news-card-dynamic.card-regular {
+        grid-column: span 1;
     }
 
-    .card-image-container {
-        height: 240px;
+    .card-image-container-dynamic {
+        height: 250px;
     }
 
-    .card-content {
+    .card-content-dynamic {
         padding: 1.5rem;
     }
 
-    .card-title {
-        font-size: 1.25rem;
-        margin-bottom: 0.875rem;
-    }
-
-    .card-description {
-        font-size: 0.95rem;
-        margin-bottom: 1.25rem;
-    }
-
-    .card-footer {
-        padding-top: 1rem;
-    }
-
-    .card-button {
-        padding: 0.625rem 1.25rem;
-        font-size: 0.8rem;
+    .card-title-dynamic {
+        font-size: 1.15rem;
     }
 
     .pagination-container {
@@ -1086,8 +1058,8 @@ export default {
     }
 
     .header-icon {
-        width: 22px;
-        height: 22px;
+        width: 24px;
+        height: 24px;
         margin-top: 0.125rem;
     }
 
@@ -1140,48 +1112,10 @@ export default {
         height: 14px;
     }
 
+    .filter-select-modern,
     .sort-select-modern {
         padding: 0.75rem 1rem;
         font-size: 0.85rem;
-    }
-
-    .info-banner {
-        padding: 1rem;
-        border-radius: 14px;
-        gap: 0.75rem;
-        justify-content: space-between;
-    }
-
-    .info-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.625rem;
-        flex: 1;
-    }
-
-    .info-icon-wrapper {
-        width: 42px;
-        height: 42px;
-        border-radius: 10px;
-    }
-
-    .info-icon-wrapper svg {
-        width: 20px;
-        height: 20px;
-    }
-
-    .info-number {
-        font-size: 1.5rem;
-    }
-
-    .info-label {
-        font-size: 0.65rem;
-        letter-spacing: 0.2px;
-        line-height: 1.2;
-    }
-
-    .info-divider {
-        display: none;
     }
 
     .loading-state,
@@ -1212,57 +1146,66 @@ export default {
         font-size: 0.9rem;
     }
 
-    .news-grid {
-        gap: 1.25rem;
-        margin-bottom: 2rem;
+    .card-image-container-dynamic {
+        height: 220px;
     }
 
-    .news-card {
-        border-radius: 14px;
+    .card-category-badge-dynamic {
+        font-size: 0.65rem;
+        padding: 0.35rem 0.75rem;
+        top: 0.75rem;
+        left: 0.75rem;
     }
 
-    .card-image-container {
-        height: 200px;
-    }
-
-    .card-content {
+    .card-content-dynamic {
         padding: 1.25rem;
     }
 
-    .card-title {
-        font-size: 1.1rem;
-        margin-bottom: 0.75rem;
+    .card-title-dynamic {
+        font-size: 1.05rem;
     }
 
-    .card-description {
-        font-size: 0.9rem;
-        margin-bottom: 1rem;
+    .card-subtitle-dynamic {
+        font-size: 0.85rem;
         line-height: 1.6;
     }
 
-    .card-footer {
-        padding-top: 0.875rem;
+    .card-meta-item-dynamic {
+        font-size: 0.75rem;
     }
 
-    .card-meta {
-        gap: 0.5rem;
+    .meta-icon-dynamic {
+        width: 0.875rem;
+        height: 0.875rem;
+    }
+
+    .card-authors-section {
+        gap: 0.325rem;
+        margin-top: 0.325rem;
+    }
+
+    .card-author-item {
+        padding: 0.3rem 0.425rem;
+        gap: 0.425rem;
+    }
+
+    .author-avatar {
+        width: 26px;
+        height: 26px;
+    }
+
+    .author-name {
+        font-size: 0.7rem;
+    }
+
+    .card-button-dynamic {
+        padding: 0.55rem 1.25rem;
         font-size: 0.8rem;
     }
 
-    .meta-icon {
-        width: 1rem;
-        height: 1rem;
-    }
-
-    .card-button {
-        padding: 0.5rem 1rem;
-        font-size: 0.75rem;
-        gap: 0.375rem;
-    }
-
-    .button-icon {
-        width: 1rem;
-        height: 1rem;
+    .card-button-dynamic svg {
+        width: 14px;
+        height: 14px;
     }
 
     .pagination-container {

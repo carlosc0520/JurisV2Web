@@ -3,7 +3,7 @@
         <div class="favorites-header">
             <div class="favorites-header-content">
                 <div class="header-title-section">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         class="header-icon">
                         <path
                             d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -20,7 +20,7 @@
             <div class="tabs-modern">
                 <button class="tab-button" :class="{ 'tab-active': active === 'documentos' }"
                     @click="updateActive('documentos')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
                         <polyline points="14 2 14 8 20 8" />
                     </svg>
@@ -28,7 +28,7 @@
                 </button>
                 <button class="tab-button" :class="{ 'tab-active': active === 'directorios' }"
                     @click="updateActive('directorios')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
                     </svg>
                     <span>Directorios</span>
@@ -39,17 +39,8 @@
                 <!-- DOCUMENTOS SECTION -->
                 <div v-if="active === 'documentos'" class="fade-in">
                     <div class="filters-card">
-                        <div class="filters-header">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <circle cx="11" cy="11" r="8" />
-                                <path d="M21 21l-4.35-4.35" />
-                            </svg>
-                            <h3>Filtros de Búsqueda</h3>
-                        </div>
-
                         <div class="filters-grid">
-                            <div class="form-group form-group-full">
+                            <div class="form-group form-group-half">
                                 <label class="form-label">Buscar documentos</label>
                                 <div class="input-wrapper">
                                     <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -62,19 +53,20 @@
                                 </div>
                             </div>
 
-                            <div class="form-group" v-if="active === 'documentos' || !visibleDirectorios.visible">
+                            <div class="form-group form-group-quarter" v-if="active === 'documentos' || !visibleDirectorios.visible">
                                 <label class="form-label">Directorio</label>
                                 <div class="input-wrapper">
-                                    <select v-model="filter.IDDIRECTORIO" :disabled="!visibleDirectorios.visible"
-                                        class="form-input form-select form-select-no-icon">
-                                        <option v-for="item in directorios" :key="item.ID" :value="item.ID">
-                                            {{ item.DSCRPCN }}
-                                        </option>
-                                    </select>
+                                    <el-select v-model="filter.IDDIRECTORIO" :disabled="!visibleDirectorios.visible"
+                                        filterable clearable placeholder="Seleccione un directorio"
+                                        class="form-input-select" no-data-text="No hay opciones disponibles">
+                                        <el-option v-for="item in directorios" :key="item.ID" :value="item.ID"
+                                            :label="item.DSCRPCN">
+                                        </el-option>
+                                    </el-select>
                                 </div>
                             </div>
 
-                            <div class="form-group" v-if="active === 'documentos' || !visibleDirectorios.visible">
+                            <div class="form-group form-group-quarter" v-if="active === 'documentos' || !visibleDirectorios.visible">
                                 <label class="form-label">Tipo</label>
                                 <div class="input-wrapper">
                                     <select v-model="filter.SHARED" class="form-input form-select form-select-no-icon">
@@ -88,7 +80,7 @@
                             <div class="filters-actions">
                                 <button class="btn-search"
                                     @click="active === 'documentos' || !visibleDirectorios.visible ? searchDocuments() : searchDirectorios()">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2">
                                         <circle cx="11" cy="11" r="8" />
                                         <path d="M21 21l-4.35-4.35" />
@@ -109,15 +101,6 @@
                 <div v-if="active === 'directorios'" class="fade-in">
                     <!-- Filters for directorios search -->
                     <div class="filters-card">
-                        <div class="filters-header">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <circle cx="11" cy="11" r="8" />
-                                <path d="M21 21l-4.35-4.35" />
-                            </svg>
-                            <h3>Filtros de Búsqueda</h3>
-                        </div>
-
                         <div class="filters-grid">
                             <div class="form-group form-group-full">
                                 <label class="form-label">Buscar directorios</label>
@@ -184,10 +167,11 @@
                                             d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
                                     </svg>
                                 </div>
-                                <div class="directory-checkbox">
-                                    <input type="checkbox" @click.stop @change="saveSelectedDirectory(item)"
+                                <label class="directory-checkbox" @click.stop>
+                                    <input type="checkbox" @change="saveSelectedDirectory(item)"
                                         class="checkbox-input" />
-                                </div>
+                                    <span class="checkbox-custom"></span>
+                                </label>
                             </div>
                             <div class="directory-card-body">
                                 <h4 class="directory-name">{{ item.label }}</h4>
@@ -736,17 +720,18 @@ export default {
                 return;
             }
 
+            // Variable temporal para almacenar el valor seleccionado
+            let selectedDirectorio = item.IDDIRECTORIO || null;
+            // Guardar referencia a directorios antes de entrar al modal
+            const directoriosRef = this.directorios;
+            
             this.$swal.fire({
-                title: '<span style="color:#185CE6;font-weight:700;">Actualizar datos del documento</span>',
+                title: '<span style="color:#185CE6;font-weight:700;font-size: 25px;">Actualizar datos del documento</span>',
                 html: `
                     <div class="row" style="text-align: left;">
                         <div class="col-md-12 mb-3">
-                            <label class="mb-1" style="text-align: left; font-size: 14px; color: #185CE6; font-weight:600;" for="swal-input-name">Directorio</label>
-                            <select value="${item.IDDIRECTORIO || ''}" id="swal-select-status" class="swal2-select" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; width: 100%;">
-                                ${this.directorios.map((directory) => `
-                                    <option ${item.IDDIRECTORIO === directory.ID ? 'selected' : ''} value="${directory.ID}">${directory.DSCRPCN}</option>
-                                `).join('')}
-                            </select>
+                            <label class="mb-1" style="text-align: left; font-size: 14px; color: #185CE6; font-weight:600;">Directorio</label>
+                            <div id="directorio-select-container" style="position: relative;"></div>
                         </div>
                         <div class="col-md-12 mb-3">
                             <label class="mb-1" style="text-align: left; font-size: 14px; color: #185CE6; font-weight:600;" for="swal-input-name">Título alternativo</label>
@@ -768,11 +753,183 @@ export default {
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 showLoaderOnConfirm: true,
+                didOpen: () => {
+                    const container = document.getElementById('directorio-select-container');
+                    const selectId = 'swal-directorio-input';
+                    const dropdownId = 'swal-directorio-dropdown';
+                    
+                    // Filtrar "-- Seleccione" del dropdown
+                    const directoriosFiltered = directoriosRef.filter(d => d.ID !== null);
+                    
+                    const currentDir = directoriosFiltered.find(d => d.ID == selectedDirectorio);
+                    const displayValue = (selectedDirectorio && currentDir) ? currentDir.DSCRPCN : '';
+                    
+                    container.innerHTML = `
+                        <div style="position: relative;">
+                            <input 
+                                type="text"
+                                id="${selectId}"
+                                value="${displayValue}"
+                                placeholder="Seleccione o busque un directorio..."
+                                autocomplete="off"
+                                style="
+                                    border: 1px solid #D1D5DB;
+                                    border-radius: 8px;
+                                    padding: 12px 16px;
+                                    width: 100%;
+                                    margin: 0;
+                                    font-size: 14px;
+                                    color: #1F2937;
+                                    background: white;
+                                    transition: all 0.2s;
+                                    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+                                "
+                                onfocus="this.style.borderColor='#185CE6'; this.style.boxShadow='0 0 0 3px rgba(24,92,230,0.1)';"
+                                onblur="this.style.borderColor='#D1D5DB'; this.style.boxShadow='0 1px 2px rgba(0,0,0,0.05)';"
+                            />
+                            <div 
+                                id="${dropdownId}"
+                                style="
+                                    position: absolute;
+                                    top: 100%;
+                                    left: 0;
+                                    right: 0;
+                                    max-height: 280px;
+                                    overflow-y: auto;
+                                    background: white;
+                                    border: 1px solid #E5E7EB;
+                                    border-radius: 8px;
+                                    margin-top: 8px;
+                                    z-index: 99999;
+                                    display: none;
+                                    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+                                    scrollbar-width: thin;
+                                    scrollbar-color: #D1D5DB transparent;
+                                "
+                            ></div>
+                            <style>
+                                #${dropdownId}::-webkit-scrollbar {
+                                    width: 6px;
+                                }
+                                #${dropdownId}::-webkit-scrollbar-track {
+                                    background: transparent;
+                                }
+                                #${dropdownId}::-webkit-scrollbar-thumb {
+                                    background-color: #D1D5DB;
+                                    border-radius: 3px;
+                                }
+                                #${dropdownId}::-webkit-scrollbar-thumb:hover {
+                                    background-color: #9CA3AF;
+                                }
+                            </style>
+                        </div>
+                    `;
+                    
+                    const input = document.getElementById(selectId);
+                    const dropdown = document.getElementById(dropdownId);
+                    
+                    const renderOptions = (filter = '') => {
+                        // Filtrar directorios excluyendo "-- Seleccione" y aplicando el filtro de búsqueda
+                        const filtered = directoriosFiltered.filter(d => {
+                            if (!d.DSCRPCN) return false;
+                            return d.DSCRPCN.toLowerCase().includes(filter.toLowerCase());
+                        });
+                        
+                        if (filtered.length === 0) {
+                            dropdown.innerHTML = `
+                                <div style="
+                                    padding: 20px;
+                                    color: #9CA3AF;
+                                    text-align: center;
+                                    font-size: 14px;
+                                ">
+                                    <i class="fa fa-search" style="margin-right: 8px;"></i>
+                                    No se encontraron directorios
+                                </div>`;
+                            return;
+                        }
+                        
+                        dropdown.innerHTML = filtered.map(d => {
+                            const isSelected = (d.ID == selectedDirectorio);
+                            return `
+                            <div 
+                                class="dropdown-option"
+                                data-id="${d.ID}"
+                                data-name="${d.DSCRPCN || ''}"
+                                style="
+                                    padding: 12px 16px;
+                                    cursor: pointer;
+                                    border-bottom: 1px solid #F3F4F6;
+                                    transition: all 0.15s ease;
+                                    font-size: 14px;
+                                    color: #1F2937;
+                                    display: flex;
+                                    align-items: center;
+                                    ${isSelected ? 'background: #EFF6FF; color: #185CE6; font-weight: 600; border-left: 3px solid #185CE6;' : 'border-left: 3px solid transparent;'}
+                                "
+                            >
+                                <i class="fa fa-folder" style="margin-right: 10px; color: ${isSelected ? '#185CE6' : '#9CA3AF'};"></i>
+                                ${d.DSCRPCN}
+                            </div>
+                        `}).join('');
+                        
+                        // Agregar listeners a las opciones
+                        dropdown.querySelectorAll('.dropdown-option').forEach(option => {
+                            option.addEventListener('mouseover', function() {
+                                const dataId = this.getAttribute('data-id');
+                                const isThisSelected = parseInt(dataId) == selectedDirectorio;
+                                if (!isThisSelected) {
+                                    this.style.background = '#F9FAFB';
+                                }
+                            });
+                            option.addEventListener('mouseout', function() {
+                                const dataId = this.getAttribute('data-id');
+                                const isThisSelected = parseInt(dataId) == selectedDirectorio;
+                                this.style.background = isThisSelected ? '#EFF6FF' : 'white';
+                            });
+                            option.addEventListener('click', (e) => {
+                                const clickedElement = e.target.closest('.dropdown-option');
+                                const id = clickedElement.getAttribute('data-id');
+                                const name = clickedElement.getAttribute('data-name');
+                                
+                                const parsedId = parseInt(id);
+                                selectedDirectorio = isNaN(parsedId) ? null : parsedId;
+                                
+                                input.value = name;
+                                dropdown.style.display = 'none';
+                                
+                                // Actualizar estilos de todas las opciones
+                                renderOptions(input.value);
+                            });
+                        });
+                    };
+                    
+                    input.addEventListener('focus', () => {
+                        renderOptions(input.value);
+                        dropdown.style.display = 'block';
+                    });
+                    
+                    input.addEventListener('input', (e) => {
+                        renderOptions(e.target.value);
+                        dropdown.style.display = 'block';
+                    });
+                    
+                    // Cerrar dropdown al hacer click fuera
+                    const closeHandler = (e) => {
+                        if (!container.contains(e.target)) {
+                            dropdown.style.display = 'none';
+                        }
+                    };
+                    document.addEventListener('click', closeHandler);
+                    
+                    // Renderizar opciones iniciales
+                    renderOptions();
+                },
                 preConfirm: async () => {
                     let name = document.getElementById('swal-input-name').value.trim();
-                    let directorio = document.getElementById('swal-select-status').value;
+                    let directorio = selectedDirectorio;
 
-                    if (['null', 'undefined', undefined].includes(directorio)) {
+                    if (['null', 'undefined', undefined, null].includes(directorio)) {
                         directorio = 0;
                     }
 
@@ -1046,9 +1203,8 @@ export default {
 /* ===== FAVORITES MODERN UI ===== */
 .favorites-container {
     min-height: 100vh;
-    background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
-    padding-bottom: 4rem;
-    animation: fadeIn 0.3s ease-in;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    padding: 0rem;
 }
 
 @keyframes fadeIn {
@@ -1067,20 +1223,20 @@ export default {
     background: white;
     border-bottom: 1px solid #E5E7EB;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    padding: 2rem 0;
-    margin-bottom: 2rem;
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
 }
 
 .favorites-header-content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0.5rem 2rem 0 2rem;
 }
 
 .header-title-section {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0.75rem;
     width: 100%;
 }
 
@@ -1110,7 +1266,7 @@ export default {
 }
 
 .favorites-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 800;
     background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
     -webkit-background-clip: text;
@@ -1126,7 +1282,7 @@ export default {
 
 .favorites-subtitle {
     color: #6B7280;
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     margin: 0.25rem 0 0 0;
     overflow-wrap: break-word;
     word-wrap: break-word;
@@ -1137,17 +1293,17 @@ export default {
 .favorites-content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 0 1.5rem 0;
 }
 
 .tabs-modern {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    padding: 0.5rem;
+    gap: 8px;
+    margin-bottom: 1rem;
+    padding: 8px;
     background: white;
-    border-radius: 16px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .tab-button {
@@ -1155,12 +1311,12 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
-    padding: 1rem 1.5rem;
+    gap: 8px;
+    padding: 8px 16px;
     background: transparent;
     border: none;
-    border-radius: 12px;
-    font-size: 1rem;
+    border-radius: 8px;
+    font-size: 14px;
     font-weight: 600;
     color: #6B7280;
     cursor: pointer;
@@ -1168,7 +1324,8 @@ export default {
 }
 
 .tab-button svg {
-    transition: transform 0.3s ease;
+    width: 18px;
+    height: 18px;
 }
 
 .tab-button:hover {
@@ -1177,7 +1334,7 @@ export default {
 }
 
 .tab-button:hover svg {
-    transform: translateY(-2px);
+    transform: none;
 }
 
 .tab-button.active,
@@ -1202,10 +1359,10 @@ export default {
 
 .filters-card {
     background: white;
-    border-radius: 20px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     border: 1px solid #F3F4F6;
 }
 
@@ -1213,8 +1370,8 @@ export default {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
     border-bottom: 2px solid #F3F4F6;
 }
 
@@ -1224,7 +1381,7 @@ export default {
 }
 
 .filters-header h3 {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: #1F2937;
     margin: 0;
@@ -1232,8 +1389,8 @@ export default {
 
 .filters-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
     align-items: end;
 }
 
@@ -1244,6 +1401,14 @@ export default {
 
 .form-group-full {
     grid-column: 1 / -1;
+}
+
+.form-group-half {
+    grid-column: span 6;
+}
+
+.form-group-quarter {
+    grid-column: span 3;
 }
 
 .form-label {
@@ -1263,7 +1428,7 @@ export default {
 
 .input-icon {
     position: absolute;
-    left: 1rem;
+    left: 0.875rem;
     color: #9CA3AF;
     pointer-events: none;
     z-index: 10;
@@ -1272,10 +1437,10 @@ export default {
 
 .form-input {
     width: 100%;
-    padding: 0.875rem 1rem 0.875rem 3rem;
+    padding: 0.65rem 0.875rem 0.65rem 2.5rem;
     border: 2px solid #E5E7EB;
-    border-radius: 12px;
-    font-size: 0.95rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
     color: #1F2937;
     background: white;
     transition: all 0.3s ease;
@@ -1313,20 +1478,76 @@ export default {
     padding-left: 1rem !important;
 }
 
+/* El-Select Custom Styles */
+.form-input-select {
+    width: 100%;
+}
+
+:deep(.form-input-select .el-select__wrapper) {
+    padding: 0.65rem 0.875rem 0.65rem 1rem;
+    border: 2px solid #E5E7EB;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    color: #1F2937;
+    background: white;
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+:deep(.form-input-select .el-select__wrapper:hover) {
+    border-color: #185CE6;
+}
+
+:deep(.form-input-select.is-focused .el-select__wrapper) {
+    border-color: #185CE6;
+    box-shadow: 0 0 0 3px rgba(24, 92, 230, 0.1);
+}
+
+:deep(.form-input-select .el-select__placeholder) {
+    color: #9CA3AF;
+    font-size: 0.9rem;
+}
+
+:deep(.form-input-select .el-select__input) {
+    color: #1F2937;
+    font-size: 0.9rem;
+}
+
+:deep(.form-input-select.is-disabled .el-select__wrapper) {
+    background-color: #F9FAFB;
+    color: #9CA3AF;
+    cursor: not-allowed;
+}
+
+:deep(.el-select-dropdown__item) {
+    font-size: 0.9rem;
+    padding: 0.65rem 1rem;
+}
+
+:deep(.el-select-dropdown__item:hover) {
+    background-color: #F3F4F6;
+}
+
+:deep(.el-select-dropdown__item.is-selected) {
+    color: #185CE6;
+    font-weight: 600;
+}
+
 .filters-actions {
     display: flex;
     gap: 1rem;
+    grid-column: 1 / -1;
 }
 
 .btn-search,
 .btn-create {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
+    gap: 6px;
+    padding: 10px 20px;
     border: none;
     border-radius: 10px;
-    font-size: 1rem;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -1339,7 +1560,6 @@ export default {
 }
 
 .btn-search:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(24, 92, 230, 0.4);
 }
 
@@ -1350,32 +1570,31 @@ export default {
 }
 
 .btn-create:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
 }
 
 .documents-table-card {
     background: white;
     border-radius: 16px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .directory-actions-bar {
     display: flex;
     gap: 1rem;
-    margin-bottom: 2rem;
-    padding: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.875rem;
     background: white;
-    border-radius: 12px;
+    border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .action-bar-btn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
+    gap: 6px;
+    padding: 10px 20px;
     background: #f7fafc;
     border: 2px solid #e2e8f0;
     border-radius: 10px;
@@ -1397,14 +1616,14 @@ export default {
 .directories-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .directory-card {
     background: white;
-    border-radius: 16px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
     cursor: pointer;
     border: 2px solid transparent;
@@ -1437,11 +1656,63 @@ export default {
     color: white;
 }
 
-.checkbox-input {
-    width: 20px;
-    height: 20px;
+/* Custom Checkbox Styles */
+.directory-checkbox {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
     cursor: pointer;
-    accent-color: #60A5FA;
+}
+
+.checkbox-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.checkbox-custom {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    border: 2.5px solid #CBD5E0;
+    border-radius: 6px;
+    background: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkbox-custom::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 11px;
+    border: solid white;
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    top: 2px;
+}
+
+.checkbox-input:checked + .checkbox-custom {
+    background: linear-gradient(135deg, #185CE6 0%, #4F7BF7 100%);
+    border-color: #185CE6;
+    box-shadow: 0 2px 8px rgba(24, 92, 230, 0.3);
+}
+
+.checkbox-input:checked + .checkbox-custom::after {
+    transform: rotate(45deg) scale(1);
+}
+
+.directory-checkbox:hover .checkbox-custom {
+    border-color: #185CE6;
+    box-shadow: 0 0 0 3px rgba(24, 92, 230, 0.1);
+}
+
+.checkbox-input:checked + .checkbox-custom:hover {
+    background: linear-gradient(135deg, #1250CE 0%, #3D6AE5 100%);
 }
 
 .directory-name {
@@ -1479,9 +1750,9 @@ export default {
 .btn-back {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    margin-bottom: 1.5rem;
+    gap: 6px;
+    padding: 10px 20px;
+    margin-bottom: 1rem;
     background: white;
     border: 2px solid #e2e8f0;
     border-radius: 10px;
@@ -1493,7 +1764,6 @@ export default {
 
 .btn-back:hover {
     background: #f7fafc;
-    transform: translateX(-4px);
 }
 
 .directory-actions {
@@ -1546,11 +1816,11 @@ export default {
 
 @media (max-width: 768px) {
     .favorites-container {
-        padding-bottom: 2rem;
+        padding: 0rem;
     }
 
     .favorites-header {
-        padding: 1.25rem 0;
+        padding: 0.75rem 0;
     }
 
     .favorites-header-content {
@@ -1597,21 +1867,26 @@ export default {
     }
 
     .filters-card {
-        padding: 1.5rem 1.25rem;
-        border-radius: 16px;
+        padding: 1rem;
+        border-radius: 14px;
     }
 
     .filters-header h3 {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 
     .filters-grid {
         grid-template-columns: 1fr;
-        gap: 1.25rem;
+        gap: 1rem;
+    }
+
+    .form-group-half,
+    .form-group-quarter {
+        grid-column: 1 / -1;
     }
 
     .form-input {
-        padding: 0.875rem 1rem 0.875rem 2.75rem;
+        padding: 0.65rem 0.875rem 0.65rem 2.5rem;
         font-size: 0.9rem;
     }
 
@@ -1634,13 +1909,13 @@ export default {
     .btn-create {
         width: 100%;
         justify-content: center;
-        padding: 0.875rem 1.5rem;
-        font-size: 0.95rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
     }
 
     .documents-table-card {
-        padding: 1.5rem 1rem;
-        border-radius: 16px;
+        padding: 1.25rem 1rem;
+        border-radius: 14px;
     }
 
     .directories-grid {
@@ -1712,6 +1987,10 @@ export default {
 }
 
 @media (max-width: 480px) {
+    .favorites-header-content {
+        padding: 0 0.875rem;
+    }
+
     .favorites-title {
         font-size: 1.25rem;
     }
@@ -1730,7 +2009,7 @@ export default {
     }
 
     .filters-card {
-        padding: 1.25rem 1rem;
+        padding: 1rem 0.875rem;
     }
 
     .filters-header h3 {
@@ -1738,7 +2017,7 @@ export default {
     }
 
     .form-input {
-        padding: 0.75rem 0.875rem 0.75rem 2.5rem;
+        padding: 0.65rem 0.75rem 0.65rem 2.25rem;
         font-size: 0.875rem;
     }
 
@@ -1749,16 +2028,16 @@ export default {
 
     .btn-search,
     .btn-create {
-        padding: 0.75rem 1.25rem;
+        padding: 0.65rem 1rem;
         font-size: 0.875rem;
     }
 
     .documents-table-card {
-        padding: 1.25rem 0.875rem;
+        padding: 1rem 0.75rem;
     }
 
     .directory-card {
-        padding: 0.875rem;
+        padding: 0.75rem;
     }
 
     .directory-icon-lg {

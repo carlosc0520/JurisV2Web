@@ -9,7 +9,7 @@
             <img :src="logoJuris" alt="Juris Search" class="footer-logo" />
           </router-link>
           <p class="footer-description">
-            Plataforma líder en búsqueda jurídica inteligente para profesionales del derecho en Costa Rica.
+            Plataforma líder en búsqueda jurídica inteligente para profesionales del derecho en Perú. 
           </p>
           <div class="footer-social">
             <a href="https://www.instagram.com/juris.search/" class="social-icon" target="_blank" rel="noreferrer"

@@ -372,7 +372,7 @@ export default {
 
 
 .hero-header {
-    padding: 4rem 2rem 0;
+    padding: 2.8rem 2rem 0;
     text-align: center;
     background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
 }
@@ -383,10 +383,10 @@ export default {
 }
 
 .hero-title {
-    font-size: 3rem;
+    font-size: 2.2rem;
     font-weight: 800;
     color: #1F2937;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
     line-height: 1.2;
 }
@@ -397,7 +397,7 @@ export default {
 }
 
 .hero-subtitle {
-    font-size: 1.125rem;
+    font-size: 0.88rem;
     color: #374151;
     line-height: 1.6;
     max-width: 600px;
@@ -424,7 +424,7 @@ export default {
 
 /* Content Section */
 .politicas-content {
-    padding: 4rem 1rem;
+    padding: 2.8rem 1rem;
     background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
     min-height: 100vh;
 }
@@ -436,8 +436,8 @@ export default {
 
 .politicas-grid {
     display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 3rem;
+    grid-template-columns: 260px 1fr;
+    gap: 2rem;
     align-items: start;
 }
 
@@ -450,18 +450,18 @@ export default {
     position: sticky;
     top: 100px;
     background: white;
-    border-radius: 20px;
-    padding: 2rem;
+    border-radius: 16px;
+    padding: 1.4rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 2px solid #f3f4f6;
 }
 
 .sidebar-title {
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #1F2937;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
     border-bottom: 2px solid #E5E7EB;
 }
 
@@ -474,12 +474,12 @@ export default {
 .nav-link {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem 1rem;
+    gap: 0.55rem;
+    padding: 0.6rem 0.8rem;
     color: #4B5563;
     text-decoration: none;
-    border-radius: 12px;
-    font-size: 0.95rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
     font-weight: 500;
     transition: all 0.3s ease;
     border: 2px solid transparent;
@@ -497,6 +497,55 @@ export default {
     flex-shrink: 0;
 }
 
+/* Policy Redirect Items */
+.policy-redirect {
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    border: 1px solid #E5E7EB;
+    transition: all 0.3s ease;
+}
+
+.policy-redirect:hover {
+    background: #f9fafb;
+    border-color: #D1D5DB;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.policy-redirect a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    color: #4B5563;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.policy-redirect:hover a {
+    color: #185CE6;
+}
+
+.policy-redirect a span {
+    flex: 1;
+    color: #4B5563;
+}
+
+.policy-redirect:hover a span {
+    color: #185CE6;
+}
+
+.policy-redirect i {
+    color: #9CA3AF;
+    font-size: 0.75rem;
+}
+
+.policy-redirect:hover i {
+    color: #185CE6;
+}
+
 /* Main Content */
 .politicas-main {
     background: white;
@@ -506,29 +555,29 @@ export default {
 }
 
 .content-policy-modern {
-    padding: 3rem;
+    padding: 2rem;
 }
 
 .policy-intro-card {
     background: linear-gradient(135deg, rgba(223, 45, 178, 0.05) 0%, rgba(24, 92, 230, 0.05) 100%);
-    padding: 2rem;
-    border-radius: 16px;
+    padding: 1.4rem;
+    border-radius: 12px;
     border: 2px solid rgba(24, 92, 230, 0.1);
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
 
 .intro-title {
-    font-size: 1.75rem;
+    font-size: 1.35rem;
     font-weight: 700;
     color: #1F2937;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .policy-text-modern {
     color: #4B5563;
-    font-size: 1rem;
-    line-height: 1.8;
-    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    line-height: 1.75;
+    margin-bottom: 0.75rem;
 }
 
 .policy-text-modern:last-child {
@@ -542,11 +591,11 @@ export default {
 
 /* Section Titles */
 .text-politica {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: #185CE6;
-    margin: 3rem 0 1.5rem;
-    padding-top: 2rem;
+    margin: 2rem 0 1rem;
+    padding-top: 1.4rem;
     border-top: 2px solid #E5E7EB;
     scroll-margin-top: 100px;
 }
@@ -559,9 +608,9 @@ export default {
 
 .policy-text {
     color: #4B5563;
-    font-size: 1rem;
-    line-height: 1.8;
-    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    line-height: 1.75;
+    margin-bottom: 1rem;
 }
 
 .policy-text span {
@@ -578,14 +627,56 @@ ul {
 
 ul li {
     color: #4B5563;
-    font-size: 1rem;
-    line-height: 1.8;
-    padding: 0.75rem 0;
+    font-size: 0.85rem;
+    line-height: 1.75;
+    padding: 0.5rem 0;
     padding-left: 0;
     position: relative;
     display: flex;
     align-items: flex-start;
+    gap: 0.6rem;
+}
+
+.policy-list {
+    display: flex;
+    flex-direction: column;
     gap: 0.75rem;
+}
+
+.policy-list li {
+    background: #f9fafb;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.policy-list li:hover {
+    background: white;
+    border-color: #D1D5DB;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.policy-list li i {
+    color: #10B981;
+    font-size: 1.1rem;
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+}
+
+.policy-list li div {
+    flex: 1;
+    color: #4B5563;
+    line-height: 1.7;
+}
+
+.policy-list li span {
+    font-weight: 700;
+    color: #185CE6;
+    display: inline;
 }
 
 li span {
@@ -690,5 +781,175 @@ li i {
     .policy-intro-card {
         padding: 1.25rem;
     }
+}
+
+/* ============================================
+   DARK MODE STYLES
+   ============================================ */
+
+/* Main Background */
+.dark .politicas-bg {
+    background: #111827;
+}
+
+.dark main {
+    background: #111827;
+}
+
+/* Hero Section */
+.dark .politicas-hero-updated {
+    background: #111827 !important;
+}
+
+.dark .hero-header {
+    background: transparent !important;
+}
+
+.dark .hero-title {
+    color: #f3f4f6 !important;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8) !important;
+}
+
+.dark .text-gradient {
+    color: #93c5fd !important;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: #93c5fd !important;
+    background-clip: unset !important;
+    text-shadow: 0 0 20px rgba(147, 197, 253, 0.5) !important;
+}
+
+.dark .hero-subtitle {
+    color: #d1d5db !important;
+}
+
+/* Politicas Content */
+.dark .politicas-content {
+    background: #111827 !important;
+}
+
+.dark .politicas-container {
+    background: transparent !important;
+}
+
+/* Sidebar */
+.dark .politicas-sidebar {
+    background: transparent !important;
+}
+
+.dark .sidebar-sticky {
+    background: #1f2937 !important;
+    border: 1px solid #374151 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.dark .sidebar-title {
+    color: #f3f4f6 !important;
+    border-bottom-color: #374151 !important;
+}
+
+.dark .sidebar-nav {
+    background: transparent !important;
+}
+
+.dark .policy-redirect {
+    background: #111827 !important;
+    border: 1px solid #374151 !important;
+}
+
+.dark .policy-redirect:hover {
+    background: #1f2937 !important;
+    border-color: #4a5568 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dark .policy-redirect a {
+    color: #d1d5db !important;
+}
+
+.dark .policy-redirect:hover a {
+    color: #93c5fd !important;
+}
+
+.dark .policy-redirect a span {
+    color: #d1d5db !important;
+}
+
+.dark .policy-redirect:hover a span {
+    color: #93c5fd !important;
+}
+
+.dark .policy-redirect i {
+    color: #6ba3ff !important;
+}
+
+/* Politicas Main (Article) */
+.dark .politicas-main {
+    background: transparent;
+}
+
+.dark .content-policy-modern {
+    background: #1f2937;
+    border: 1px solid #374151;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Policy Intro Card */
+.dark .policy-intro-card {
+    background: #111827;
+    border: 1px solid #4a5568;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.dark .intro-title {
+    color: #6ba3ff;
+}
+
+.dark .policy-text-modern {
+    color: #d1d5db;
+}
+
+.dark .highlight {
+    color: #93c5fd;
+    font-weight: 700;
+}
+
+/* Headings & Text */
+.dark .text-politica {
+    color: #f3f4f6;
+    border-bottom-color: #374151;
+}
+
+.dark .policy-text {
+    color: #d1d5db;
+}
+
+/* Policy List */
+.dark .policy-list {
+    background: transparent !important;
+}
+
+.dark .policy-list li {
+    background: #1f2937 !important;
+    border: 1px solid #374151 !important;
+    color: #d1d5db !important;
+}
+
+.dark .policy-list li:hover {
+    background: #111827 !important;
+    border-color: #4a5568 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dark .policy-list li i {
+    color: #6ba3ff !important;
+}
+
+.dark .policy-list li span {
+    color: #93c5fd !important;
+}
+
+.dark .policy-list li div {
+    color: #d1d5db !important;
 }
 </style>

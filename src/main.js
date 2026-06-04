@@ -41,6 +41,7 @@ import Tooltip from 'primevue/tooltip';
 import 'primeicons/primeicons.css';
 
 import routes from "./router/RouterIndex";
+import store from "./store/index";
 
 import PrimeVue from "primevue/config";
 import Aura from "@primevue/themes/aura";
@@ -73,6 +74,7 @@ app.use(ElementPlus);
 
 app.component("LoadingOverlay", VueLoading);
 app.use(router);
+app.use(store);
 app.use(BootstrapVueNext);
 app.use(SimpleVueValidation);
 app.component("date-picker", DatePicker);

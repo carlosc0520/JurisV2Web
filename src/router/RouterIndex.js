@@ -50,7 +50,9 @@ import JurisGPT from "../views/admin/JurisGPT.vue";
 const ifAuthenticatedAuth = async (to, from, next) => {
   await UserProxy.validate()
     .then((response) => {
-      if (response?.STATUS && response.DATA.IDR === 2) {
+      // Verificar IDR=2 O ROLE="USUARIO" (compatibilidad con diferentes respuestas del backend)
+      const isUsuario = response.DATA?.IDR === 2 || response.DATA?.ROLE === "USUARIO";
+      if (response?.STATUS && isUsuario) {
         to.params.role = response.DATA;
         if(to.fullPath === "/usuario/favoritos" && ["1"].includes(response.DATA.IDPLN)) {
           next("/usuario/busqueda");
@@ -70,7 +72,10 @@ const ifAuthenticatedAdmin = async (to, from, next) => {
   try {
     await UserProxy.validate()
       .then((response) => {
-        if (response?.STATUS && (response.DATA.IDR === 0 || response.DATA.IDR === 1)) {
+        // Verificar IDR=0/1 O ROLE="ADMIN"/"SUPERADMIN" (compatibilidad con diferentes respuestas del backend)
+        const isAdmin = (response.DATA?.IDR === 0 || response.DATA?.IDR === 1) || 
+                        (response.DATA?.ROLE === "ADMIN" || response.DATA?.ROLE === "SUPERADMIN");
+        if (response?.STATUS && isAdmin) {
           to.params.role = response.DATA;
           next();
         } else {
@@ -87,6 +92,13 @@ const ifAuthenticatedAdmin = async (to, from, next) => {
 
 
 const ifAuthenticatedAuthToken = async (to, from, next) => {
+  // Si no hay tokens, permitir acceso directo a rutas de auth
+  const accessToken = localStorage.getItem('accessToken');
+  if (!accessToken) {
+    next();
+    return;
+  }
+  
   try {
     await UserProxy.validate()
       .then((response) => {
@@ -213,7 +225,6 @@ const routes = [
         beforeEnter: ifAuthenticatedAdmin,
         component: Favorites,
         props: (route) => {
-          console.log(route.params);
           return {
             role: route?.params?.role || [],
           };
@@ -240,7 +251,7 @@ const routes = [
         }
       },
       {
-        path: "/admin/noticias",
+        path: "/admin/investigacion",
         beforeEnter: ifAuthenticatedAdmin,
         component: Noticias,
         props: (route) => {

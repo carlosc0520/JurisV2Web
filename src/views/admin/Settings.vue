@@ -3,7 +3,7 @@
     <div class="settings-header">
       <div class="settings-header-content">
         <div class="header-title-section">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             class="header-icon">
             <circle cx="12" cy="12" r="3" />
             <path
@@ -39,55 +39,59 @@
 
       <div class="tab-content">
         <div v-if="active === 'informacionPersonal'" class="fade-in">
-          <!-- Profile Picture Section -->
-          <div class="profile-card">
-            <div class="profile-card-header">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-                <polyline points="21 15 16 10 5 21" />
-              </svg>
-              <h2>Foto de Perfil</h2>
-            </div>
-            <div class="profile-card-content">
-              <div class="avatar-section">
-                <div class="avatar-wrapper" @click="openFileInput">
-                  <img :src="this.modelo.RTAFTO || team2" alt="imagen_usuario" class="avatar-image"
-                    @error="e => e.target.src = team2" />
-                  <div class="avatar-overlay">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" />
-                      <circle cx="12" cy="13" r="4" />
-                    </svg>
+          <!-- Profile & Personal Data Layout -->
+          <div class="profile-personal-wrapper">
+            <!-- Profile Picture Section -->
+            <div class="profile-card">
+              <div class="profile-card-header">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <polyline points="21 15 16 10 5 21" />
+                </svg>
+                <h2>Foto de Perfil</h2>
+              </div>
+              <div class="profile-card-content">
+                <div class="avatar-section">
+                  <div class="avatar-wrapper" @click="openFileInput">
+                    <img :src="this.modelo.RTAFTO || team2" alt="imagen_usuario" class="avatar-image"
+                      @error="e => e.target.src = team2" />
+                    <div class="avatar-overlay">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" />
+                        <circle cx="12" cy="13" r="4" />
+                      </svg>
+                    </div>
+                  </div>
+                  <input type="file" id="avatar-input" @change="onSelectImage" ref="avatarInput" class="avatar-input"
+                    accept="image/*" style="display:none;" />
+                </div>
+                <div class="avatar-info">
+                  <h3>Actualiza tu foto de perfil</h3>
+                  <p>Formatos: JPG, PNG o GIF. Máximo 5MB</p>
+                  <div class="avatar-actions">
+                    <button class="btn-upload" @click="openFileInput">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                      </svg>
+                      Cambiar foto
+                    </button>
+                    <button class="btn-remove" @click="removeAvatar" v-if="modelo.RTAFTO">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+                      </svg>
+                      Eliminar
+                    </button>
                   </div>
                 </div>
-                <input type="file" id="avatar-input" @change="onSelectImage" ref="avatarInput" class="avatar-input"
-                  accept="image/*" style="display:none;" />
-              </div>
-              <div class="avatar-info">
-                <h3>Actualiza tu foto de perfil</h3>
-                <p>Formatos: JPG, PNG o GIF. Máximo 5MB</p>
-                <div class="avatar-actions">
-                  <button class="btn-upload" @click="openFileInput">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" />
-                    </svg>
-                    Cambiar foto
-                  </button>
-                  <button class="btn-remove" @click="removeAvatar" v-if="modelo.RTAFTO">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polyline points="3 6 5 6 21 6" />
-                      <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
-                    </svg>
-                    Eliminar
-                  </button>
-                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Personal Information Form -->
-          <form @submit.prevent="save" class="settings-form">
+            <!-- Personal Data Section -->
             <div class="form-section">
               <div class="form-section-header">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -205,13 +209,17 @@
                 </div>
               </div>
             </div>
+          </div>
 
+          <!-- Contact and Other Information Form -->
+          <form @submit.prevent="save" class="settings-form">
             <div class="form-section">
               <div class="form-section-header">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0110 0v4" />
                 </svg>
-                <h3>Datos de Contacto</h3>
+                <h3>Datos de Contacto y Seguridad</h3>
               </div>
 
               <div class="form-grid">
@@ -225,13 +233,26 @@
                       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                       <polyline points="22,6 12,13 2,6" />
                     </svg>
-                    <input v-model="modelo.EMAIL"
+                    <input v-model="modelo.EMAIL" disabled
                       :class="['form-input', { 'input-error': validation.hasError('modelo.EMAIL') }]" type="email"
                       placeholder="correo@ejemplo.com" maxlength="100" />
                   </div>
                   <span class="error-message" v-if="validation.hasError('modelo.EMAIL')">
                     {{ validation.firstError('modelo.EMAIL') }}
                   </span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Dirección</label>
+                  <div class="input-wrapper">
+                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                      <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    <input v-model="modelo.DIRECCION" class="form-input" type="text"
+                      placeholder="Ej: Av. Principal 123, Lima" maxlength="200" />
+                  </div>
                 </div>
 
                 <div class="form-group">
@@ -252,43 +273,6 @@
                   <span class="error-message" v-if="validation.hasError('modelo.TELEFONO')">
                     {{ validation.firstError('modelo.TELEFONO') }}
                   </span>
-                </div>
-
-                <div class="form-group form-group-full">
-                  <label class="form-label">Dirección</label>
-                  <div class="input-wrapper">
-                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-                      <circle cx="12" cy="10" r="3" />
-                    </svg>
-                    <input v-model="modelo.DIRECCION" class="form-input" type="text"
-                      placeholder="Ej: Av. Principal 123, Lima" maxlength="200" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-section">
-              <div class="form-section-header">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                  <path d="M7 11V7a5 5 0 0110 0v4" />
-                </svg>
-                <h3>Seguridad</h3>
-              </div>
-
-              <div class="form-grid">
-                <div class="form-group">
-                  <label class="form-label">Usuario</label>
-                  <div class="input-wrapper input-disabled">
-                    <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2">
-                      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-                      <circle cx="12" cy="7" r="4" />
-                    </svg>
-                    <input v-model="modelo.EMAIL" class="form-input" type="text" disabled />
-                  </div>
                 </div>
 
                 <div class="form-group">
@@ -330,6 +314,18 @@
                   <path d="M13.73 21a2 2 0 01-3.46 0" />
                 </svg>
                 <h3>Preferencias de Notificaciones</h3>
+              </div>
+
+              <div class="notifications-alert">
+                <svg class="alert-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                  <line x1="12" y1="9" x2="12" y2="13" />
+                  <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+                <p class="alert-text">
+                  Este apartado solo corresponde a alertas de Investigación y Eventos.
+                </p>
               </div>
 
               <div class="notifications-grid">
@@ -430,13 +426,6 @@
         <div v-if="active === 'contactos'" class="fade-in">
           <div class="contacts-section">
             <div class="search-card">
-              <div class="search-card-header">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="11" cy="11" r="8" />
-                  <path d="M21 21l-4.35-4.35" />
-                </svg>
-                <h3>Buscar Contactos</h3>
-              </div>
               <AutoComplete v-model="contacto.search" :suggestions="contacto.data" @complete="searchSugges"
                 optionLabel="DESCP" class="autocomplete-modern"
                 placeholder="Busca amigos por nombre o correo electrónico">
@@ -474,24 +463,19 @@
 
       </div>
     </div>
-    
+
     <!-- Cropper Modal (fuera del contenedor principal) -->
     <div v-if="showCropper" class="cropper-modal">
       <div class="cropper-container">
-        <advanced-cropper 
-          :src="cropperImage"
-          :stencil-props="{ aspectRatio: 1, movable: true, resizable: true }"
-          :stencil-component="CircleStencil" 
-          class="cropper-area" 
-          ref="cropperRef" 
-        />
+        <advanced-cropper :src="cropperImage" :stencil-props="{ aspectRatio: 1, movable: true, resizable: true }"
+          :stencil-component="CircleStencil" class="cropper-area" ref="cropperRef" />
       </div>
       <div class="cropper-actions">
         <button class="btn-upload" @click.stop="applyCrop">Recortar y guardar</button>
         <button class="btn-remove" @click.stop="cancelCrop">Cancelar</button>
       </div>
     </div>
-    
+
     <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
   </section>
 </template>
@@ -697,10 +681,6 @@ export default {
       }
 
 
-      // imprimir formdata
-      for (let pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
-      }
 
       this.isLoading = true;
       const loadingToast = toast.loading("Espere un momento...");
@@ -830,11 +810,7 @@ export default {
     },
     searchContacto() {
       this.contacto.grid.isLoading = true;
-      console.log({
-        ROWS: this.contacto.grid.perPage,
-        INIT: (this.contacto.grid.currentPage - 1) * this.contacto.grid.perPage,
-        CDESTDO: 'A'
-      })
+
       UserProxy.getContactos({
         ROWS: this.contacto.grid.perPage,
         INIT: (this.contacto.grid.currentPage - 1) * this.contacto.grid.perPage,
@@ -969,20 +945,20 @@ export default {
   background: white;
   border-bottom: 1px solid #E5E7EB;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  padding: 2rem 0;
-  margin-bottom: 2rem;
+  padding: 0.75rem 0;
+  margin-bottom: 1.25rem;
 }
 
 .settings-header-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1rem;
 }
 
 .header-title-section {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 0.75rem;
   width: 100%;
 }
 
@@ -1009,7 +985,7 @@ export default {
 }
 
 .settings-title {
-  font-size: 2rem;
+  font-size: 1.35rem;
   font-weight: 800;
   background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
   -webkit-background-clip: text;
@@ -1025,8 +1001,8 @@ export default {
 
 .settings-subtitle {
   color: #6B7280;
-  font-size: 0.95rem;
-  margin: 0.25rem 0 0 0;
+  font-size: 0.8rem;
+  margin: 0.15rem 0 0 0;
   overflow-wrap: break-word;
   word-wrap: break-word;
   max-width: 100%;
@@ -1035,20 +1011,20 @@ export default {
 
 /* Content */
 .settings-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1rem;
 }
 
 /* Modern Tabs */
 .tabs-modern {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: 8px;
+  margin-bottom: 1.25rem;
   background: white;
-  padding: 0.5rem;
-  border-radius: 16px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .tab-button {
@@ -1056,12 +1032,12 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  padding: 1rem 1.5rem;
+  gap: 0.5rem;
+  padding: 8px 16px;
   background: transparent;
   border: none;
-  border-radius: 12px;
-  font-size: 1rem;
+  border-radius: 7px;
+  font-size: 0.95rem;
   font-weight: 600;
   color: #6B7280;
   cursor: pointer;
@@ -1112,22 +1088,41 @@ export default {
   animation: fadeIn 0.4s ease-in;
 }
 
+/* Profile & Personal Data Wrapper */
+.profile-personal-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .profile-personal-wrapper {
+    grid-template-columns: 360px 1fr;
+    gap: 1.5rem;
+  }
+
+  .profile-personal-wrapper .profile-card {
+    height: fit-content;
+  }
+}
+
 /* Profile Card */
 .profile-card {
   background: white;
-  border-radius: 20px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   border: 1px solid #F3F4F6;
 }
 
 .profile-card-header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
   border-bottom: 2px solid #F3F4F6;
 }
 
@@ -1228,10 +1223,10 @@ export default {
 .btn-remove {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 12px;
-  font-size: 0.95rem;
+  gap: 0.4rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
   font-weight: 600;
   border: none;
   cursor: pointer;
@@ -1241,7 +1236,7 @@ export default {
 .btn-upload {
   background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(223, 45, 178, 0.3);
+  box-shadow: 0 2px 8px rgba(223, 45, 178, 0.2);
 }
 
 .btn-upload:hover {
@@ -1263,23 +1258,23 @@ export default {
 .settings-form {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .form-section {
   background: white;
-  border-radius: 20px;
-  padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   border: 1px solid #F3F4F6;
 }
 
 .form-section-header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
   border-bottom: 2px solid #F3F4F6;
 }
 
@@ -1288,7 +1283,7 @@ export default {
 }
 
 .form-section-header h3 {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #1F2937;
   margin: 0;
@@ -1298,7 +1293,7 @@ export default {
 .form-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .form-group {
@@ -1435,18 +1430,18 @@ export default {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  padding: 1rem 2.5rem;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
   background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
   color: white;
   border: none;
-  border-radius: 14px;
-  font-size: 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 20px rgba(223, 45, 178, 0.3);
-  min-width: 200px;
+  box-shadow: 0 2px 8px rgba(223, 45, 178, 0.2);
+  min-width: 180px;
 }
 
 .btn-save:hover:not(:disabled) {
@@ -1482,22 +1477,22 @@ export default {
 .contacts-section {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .search-card {
   background: white;
-  border-radius: 20px;
-  padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   border: 1px solid #F3F4F6;
 }
 
 .search-card-header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .search-card-header svg {
@@ -1505,7 +1500,7 @@ export default {
 }
 
 .search-card-header h3 {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #1F2937;
   margin: 0;
@@ -1517,9 +1512,9 @@ export default {
 
 .autocomplete-modern :deep(.p-autocomplete-input) {
   width: 100%;
-  padding: 1rem 1.5rem;
+  padding: 0.75rem 1.25rem;
   border: 2px solid #E5E7EB;
-  border-radius: 14px;
+  border-radius: 10px;
   font-size: 0.95rem;
   transition: all 0.3s ease;
 }
@@ -1531,8 +1526,8 @@ export default {
 }
 
 .autocomplete-modern :deep(.p-autocomplete-panel) {
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   border: 1px solid #E5E7EB;
   margin-top: 0.5rem;
 }
@@ -1543,7 +1538,7 @@ export default {
 
 .autocomplete-modern :deep(.p-autocomplete-item) {
   padding: 0;
-  border-radius: 12px;
+  border-radius: 10px;
   margin-bottom: 0.5rem;
 }
 
@@ -1556,9 +1551,9 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  gap: 1rem;
-  border-radius: 12px;
+  padding: 0.75rem;
+  gap: 0.75rem;
+  border-radius: 10px;
   transition: background 0.3s ease;
   width: 100%;
 }
@@ -1640,13 +1635,6 @@ export default {
   box-shadow: 0 4px 15px rgba(223, 45, 178, 0.4);
 }
 
-.contacts-table-wrapper {
-  background: white;
-  border-radius: 20px;
-  padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid #F3F4F6;
-}
 
 /* Responsive Design */
 @media (max-width: 1024px) {
@@ -1707,7 +1695,7 @@ export default {
   }
 
   .settings-content {
-    padding: 0 1rem;
+    padding: 0 1.5rem;
   }
 
   .tabs-modern {
@@ -1734,8 +1722,7 @@ export default {
 
   .profile-card,
   .form-section,
-  .search-card,
-  .contacts-table-wrapper {
+  .search-card {
     padding: 1.25rem;
     border-radius: 16px;
   }
@@ -1878,13 +1865,34 @@ export default {
   .search-card-header h3 {
     font-size: 1rem;
   }
-
-  .contacts-table-wrapper {
-    padding: 1.25rem;
-  }
 }
 
 /* Notifications Section */
+.notifications-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+  border: 2px solid #F59E0B;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.alert-icon {
+  flex-shrink: 0;
+  color: #D97706;
+  margin-top: 0.125rem;
+}
+
+.alert-text {
+  color: #92400E;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 500;
+}
+
 .notifications-grid {
   display: flex;
   flex-direction: column;
@@ -2063,8 +2071,7 @@ export default {
 
   .profile-card,
   .form-section,
-  .search-card,
-  .contacts-table-wrapper {
+  .search-card {
     padding: 1rem;
     border-radius: 14px;
   }
@@ -2200,17 +2207,17 @@ export default {
     height: 400px;
     max-width: 100%;
   }
-  
+
   .cropper-modal {
     padding: 1rem;
   }
-  
+
   .cropper-actions {
     flex-direction: column;
     width: 100%;
     max-width: 300px;
   }
-  
+
   .cropper-actions .btn-upload,
   .cropper-actions .btn-remove {
     width: 100%;

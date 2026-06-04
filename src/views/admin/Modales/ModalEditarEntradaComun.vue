@@ -195,6 +195,40 @@
                         que si sube archivos, se eliminarán los archivos anteriores</span>
                 </div>
 
+                <div class="col-12 mb-3">
+                    <label for="IDSVIN" class="form-label">Normas Vinculadas</label>
+
+                    <el-autocomplete
+                        v-model="searchQueryNormas"
+                        :fetch-suggestions="fetchNormasSuggestions"
+                        placeholder="Escribe para buscar normas..."
+                        :trigger-on-focus="false"
+                        clearable
+                        @select="handleSelectNorma"
+                        style="width: 100%">
+                        <template #default="{ item }">
+                            <div class="flex justify-between items-center">
+                                <span>{{ item.label }}</span>
+                            </div>
+                        </template>
+                    </el-autocomplete>
+
+                    <div v-if="normasSeleccionadas.length > 0" class="mt-3">
+                        <div class="text-xs text-gray-600 mb-2" style="font-size: 0.65rem;">Normas seleccionadas:</div>
+                        <div class="flex flex-col gap-2">
+                            <div v-for="norma in normasSeleccionadas" :key="norma.value"
+                                class="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200">
+                                <span class="text-xs" style="font-size: 0.65rem;">{{ norma.label }}</span>
+                                <button type="button" @click="removeNorma(norma.value)"
+                                    class="text-red-500 hover:text-red-700 ml-2">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
                 <h5 class="text-app-primary">CONTENIDO</h5>
                 <hr>
 
@@ -310,6 +344,10 @@ export default {
         return {
             isShow: false,
             loadingSubmit: false,
+            normasOptions: [],
+            loadingNormas: false,
+            searchQueryNormas: '',
+            normasSeleccionadas: [],
             modelo: {
                 ID: null,
                 RTITLE: null,
@@ -334,7 +372,8 @@ export default {
                 RECURSO: [],
                 MATERIA: [],
                 JURISDICCION: [],
-                JURISDICCIONV: []
+                JURISDICCIONV: [],
+                IDSVIN: [],
             },
         }
     },
@@ -437,6 +476,7 @@ export default {
             formData.append("MATERIA", this.modelo.MATERIA?.join(","));
             formData.append("JURISDICCION", this.modelo.JURISDICCION.join(","));
             formData.append("JURISDICCIONV", this.modelo.JURISDICCIONV.join(","));
+            formData.append("IDSVIN", Array.isArray(this.modelo.IDSVIN) ? this.modelo.IDSVIN.join(",") : "");
 
             this.loadingSubmit = true;
             const loadingToast = toast.loading("Espere un momento...");
@@ -517,12 +557,64 @@ export default {
             html = html.replace(/>\s+</g, "><");
             return html;
         },
+        async fetchNormasSuggestions(queryString, cb) {
+            if (!queryString || queryString.length < 2) {
+                cb([]);
+                return;
+            }
+            try {
+                const res = await adminEntriesProxy.listSearchNames({
+                    ROWS: 40,
+                    INIT: 0,
+                    DESC: queryString,
+                    CESTDO: 'A',
+                    TYPE: "jurisprudences"
+                });
+                const results = res.map(item => ({
+                    value: item.ID,
+                    label: item.TITLE || item.RTITLE || 'Sin título'
+                }));
+                cb(results);
+            } catch (error) {
+                console.error('[EditarComun] fetchNormasSuggestions error:', error);
+                cb([]);
+            }
+        },
+        handleSelectNorma(item) {
+            if (!this.normasSeleccionadas.find(n => n.value === item.value)) {
+                this.normasSeleccionadas.unshift({
+                    value: item.value,
+                    label: item.label
+                });
+                this.modelo.IDSVIN = this.normasSeleccionadas.map(n => n.value);
+            }
+            this.searchQueryNormas = '';
+        },
+        removeNorma(id) {
+            this.normasSeleccionadas = this.normasSeleccionadas.filter(n => n.value !== id);
+            this.modelo.IDSVIN = this.normasSeleccionadas.map(n => n.value);
+        },
     },
     watch: {
         show: {
             handler(value) {
                 if (value) {
                     this.modelo = this.data;
+                    // Parsear JIDSVIN para cargar normas vinculadas existentes
+                    if (this.data.JIDSVIN) {
+                        try {
+                            const normas = JSON.parse(this.data.JIDSVIN);
+                            if (Array.isArray(normas)) {
+                                this.normasSeleccionadas = normas.map(n => ({ value: n.ID, label: n.TITLE }));
+                                this.modelo.IDSVIN = normas.map(n => n.ID);
+                            }
+                        } catch (e) {
+                            console.error('Error parsing JIDSVIN:', e);
+                        }
+                    } else {
+                        this.normasSeleccionadas = [];
+                        this.modelo.IDSVIN = [];
+                    }
                 }
 
                 if (!value) {

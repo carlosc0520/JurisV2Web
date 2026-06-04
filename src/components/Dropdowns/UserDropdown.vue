@@ -21,38 +21,59 @@
             </svg>
             <h3>Notificaciones</h3>
           </div>
-          <button class="close-btn" @click="closeSidebarNotificaciones">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="18" y1="6" x2="6" y2="18"/>
-              <line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
-          </button>
+          <div class="header-actions">
+            <button class="settings-btn" @click="toggleSelectionMenu" :title="'Opciones de selección'">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 15.5A3.5 3.5 0 1112 8.5a3.5 3.5 0 010 7z" />
+                <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06A2 2 0 014.34 17.9l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06A2 2 0 016.1 4.34l.06.06a1.65 1.65 0 001.82.33H8a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09c.11.5.45.92 1 1.51h.02c.61.43 1.29.36 1.82-.33l.06-.06A2 2 0 0119.66 6.1l-.06.06a1.65 1.65 0 00-.33 1.82V8c.58.34 1.02.89 1.02 1.6V11c0 .71-.44 1.26-1.02 1.6v.9c0 .71-.44 1.26-1.02 1.6z"/>
+              </svg>
+            </button>
+            <button class="close-btn" @click="closeSidebarNotificaciones">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
         </div>
-        
-        <div v-if="notificaciones.length > 0" class="selection-toolbar">
-          <label class="select-all-checkbox">
-            <input 
-              type="checkbox" 
-              :checked="isAllSelected"
-              @change="toggleSelectAll"
-            />
-            <span>Seleccionar todas ({{ selectedNotifications.length }})</span>
-          </label>
-          
-          <button 
-            v-if="selectedNotifications.length > 0" 
-            class="delete-selected-btn"
-            @click="deleteSelectedNotifications"
-            :title="`Eliminar ${selectedNotifications.length} notificación(es)`"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="3 6 5 6 21 6"/>
-              <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
-              <line x1="10" y1="11" x2="10" y2="17"/>
-              <line x1="14" y1="11" x2="14" y2="17"/>
-            </svg>
-            Eliminar ({{ selectedNotifications.length }})
-          </button>
+
+        <!-- Selection menu (hidden by default, toggled by settings button) -->
+        <div v-if="notificaciones.length > 0 && showSelectionMenu" class="selection-menu">
+          <div class="selection-options">
+            <label class="select-all-checkbox">
+              <input 
+                type="checkbox" 
+                :checked="isAllSelected"
+                @change="toggleSelectAll"
+              />
+              <span>Eliminar todas las notificaciones ({{ selectedNotifications.length }})</span>
+            </label>
+
+            <label class="select-all-checkbox">
+              <input 
+                type="checkbox" 
+                :checked="isAllNonType2Selected"
+                @change="toggleSelectNonType2"
+              />
+              <span>Eliminar todas las notificaciones, excepto las vinculadas con <span class="placeholder-text">investigación y eventos</span></span>
+            </label>
+          </div>
+          <div style="margin-top:8px;">
+            <button 
+              v-if="selectedNotifications.length > 0" 
+              class="delete-selected-btn"
+              @click="deleteSelectedNotifications"
+              :title="`Eliminar ${selectedNotifications.length} notificación(es)`"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                <line x1="10" y1="11" x2="10" y2="17"/>
+                <line x1="14" y1="11" x2="14" y2="17"/>
+              </svg>
+              Eliminar ({{ selectedNotifications.length }})
+            </button>
+          </div>
         </div>
 
         <div class="notifications-content">
@@ -98,7 +119,7 @@
                   </div>
                 </div>
               </div>
-              <button class="delete-notification-btn" @click="deleteNotificacion(notificacion.IDNT)"
+              <button class="delete-notification-btn" @click="deleteNotificacionDirecto(notificacion.IDNT)"
               title="Eliminar notificación">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="3 6 5 6 21 6"/>
@@ -144,7 +165,7 @@
                   </div>
                 </div>
               </div>
-              <button class="delete-notification-btn" @click="deleteNotificacion(notificacion.IDNT)"
+              <button class="delete-notification-btn" @click="deleteNotificacionDirecto(notificacion.IDNT)"
               title="Eliminar notificación">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="3 6 5 6 21 6"/>
@@ -183,7 +204,7 @@
                   </span>
                 </div>
               </div>
-              <button class="delete-notification-btn" @click="deleteNotificacion(notificacion.IDNT)"
+              <button class="delete-notification-btn" @click="deleteNotificacionDirecto(notificacion.IDNT)"
               title="Eliminar notificación">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="3 6 5 6 21 6"/>
@@ -234,7 +255,7 @@
         <div class="dropdown-divider"></div>
         
         <button class="logout-btn" @click="signOut">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
           </svg>
           Cerrar Sesión
@@ -269,6 +290,7 @@ export default {
         RTAFTO: "",
       },
       domain: "https://side.jurissearch.com" + "/usuario/investigacion?search=",
+      showSelectionMenu: false,
     };
   },
   props: {
@@ -279,8 +301,6 @@ export default {
   },
   methods: {
     goToNotification(notificacion) {
-      console.log('Navegando a notificación:', notificacion);
-
       // ir a this.domain + notificacion.DESCP
       // a notificacion.DESCP quitale Se agregó la noticia titulo noticia eeeee, quedando todo menpos Se agregó la noticia
       const noticiaTitle = notificacion.DESCP.replace('Se agregó la noticia', '').trim();
@@ -310,16 +330,57 @@ export default {
           });
       }
       this.sidebarNotificacionesShow = !this.sidebarNotificacionesShow;
+      // close selection menu when opening/closing sidebar
+      if (!this.sidebarNotificacionesShow) this.showSelectionMenu = false;
+    },
+
+    toggleSelectionMenu() {
+      this.showSelectionMenu = !this.showSelectionMenu;
+      if (this.showSelectionMenu) {
+        // add click-away listener to close menu when clicking outside
+        document.addEventListener('click', this.handleDocumentClick);
+      } else {
+        document.removeEventListener('click', this.handleDocumentClick);
+      }
     },
     closeSidebarNotificaciones() {
       this.sidebarNotificacionesShow = false;
       this.selectedNotifications = [];
+      // ensure selection menu is closed when sidebar closes
+      if (this.showSelectionMenu) {
+        this.showSelectionMenu = false;
+        document.removeEventListener('click', this.handleDocumentClick);
+      }
+    },
+
+    handleDocumentClick(e) {
+      // if click is outside the settings button and selection menu, close it
+      const settingsBtn = this.$el.querySelector('.settings-btn');
+      const selectionMenu = this.$el.querySelector('.selection-menu');
+      if (settingsBtn && settingsBtn.contains(e.target)) return;
+      if (selectionMenu && selectionMenu.contains(e.target)) return;
+      this.showSelectionMenu = false;
+      document.removeEventListener('click', this.handleDocumentClick);
     },
     async signOut() {
-      await LoginProxy.logout();
-
+      // Marcar que el logout es intencional ANTES de cualquier otra acción
+      localStorage.setItem('isLoggingOut', 'true');
+      
+      // ✅ Obtener el token ANTES de eliminarlo
+      const accessToken = localStorage.getItem("accessToken");
+      // Limpiar tokens inmediatamente para evitar requests durante logout
       localStorage.removeItem("user");
       localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      
+      // Llamar al backend con el token guardado
+      if (accessToken) {
+        LoginProxy.logout(accessToken).catch(() => {
+          // Ignorar errores del logout en backend
+        });
+      }
+      
+      // Navegar inmediatamente sin setTimeout para evitar refresh visible
       this.$router.push("/auth/login");
     },
     async getNotifications() {
@@ -388,9 +449,23 @@ export default {
           toast.error("Error al actualizar la notificación.");
         });
     },
+    async deleteNotificacionDirecto(id) {
+      try {
+        const response = await UserProxy.deleteNotificaciones(id.toString());
+        
+        if (response.STATUS) {
+          toast.success('Notificación eliminada correctamente');
+          await this.getNotifications();
+        } else {
+          toast.error(response.MESSAGE || 'Error al eliminar la notificación');
+        }
+      } catch (error) {
+        console.error('Error al eliminar la notificación:', error);
+        toast.error('Error al eliminar la notificación');
+      }
+    },
     async deleteNotificacion(ids) {
       const idsArray = Array.isArray(ids) ? ids : [ids];
-      console.log('IDs a eliminar:', idsArray);
       // Confirmación antes de eliminar
       const result = await Swal.fire({
         title: '¿Estás seguro?',
@@ -447,9 +522,24 @@ export default {
     },
     toggleSelectAll() {
       if (this.isAllSelected) {
+        // Si ya están todas seleccionadas, deseleccionar todo
         this.selectedNotifications = [];
       } else {
+        // Limpiar primero y seleccionar todas
         this.selectedNotifications = this.notificaciones.map(n => n.IDNT);
+      }
+    },
+    toggleSelectNonType2() {
+      const nonType2Ids = this.notificaciones
+        .filter(n => n.TIPO != 2)
+        .map(n => n.IDNT);
+      
+      if (this.isAllNonType2Selected) {
+        // Si ya están seleccionadas, deseleccionar todo
+        this.selectedNotifications = [];
+      } else {
+        // Limpiar primero y seleccionar solo las que no son tipo 2
+        this.selectedNotifications = [...nonType2Ids];
       }
     },
     deleteSelectedNotifications() {
@@ -465,6 +555,15 @@ export default {
     isAllSelected() {
       return this.notificaciones.length > 0 && 
              this.selectedNotifications.length === this.notificaciones.length;
+    },
+    notificacionesNoTipo2() {
+      return this.notificaciones.filter(n => n.TIPO != 2);
+    },
+    isAllNonType2Selected() {
+      if (this.notificacionesNoTipo2.length === 0) return false;
+      
+      const nonType2Ids = this.notificacionesNoTipo2.map(n => n.IDNT);
+      return nonType2Ids.every(id => this.selectedNotifications.includes(id));
     }
   },
   mounted() {
@@ -483,58 +582,86 @@ export default {
   position: relative;
 }
 
+/* Selection menu styles */
+.settings-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  margin-right: 6px;
+}
+.settings-btn svg {
+  color: #9ca3af; /* gris más suave */
+  width: 18px;
+  height: 18px;
+}
+.settings-btn:hover {
+  background: #e5e7eb;
+}
+.settings-btn:hover svg {
+  color: #374151;
+}
+.header-actions { display: flex; align-items: center; gap: 6px; }
+.selection-menu {
+  padding: 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  background: #fff;
+}
+.selection-menu .select-all-checkbox { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+
 /* Notification Button */
 .notification-btn {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  background: white;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 50%;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
 }
 
 .notification-btn svg {
-  color: #4a5568;
+  color: #6b7280;
+  width: 20px;
+  height: 20px;
 }
 
 .notification-btn:hover {
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.05) 0%, rgba(24, 92, 230, 0.05) 100%);
-  border-color: #60A5FA;
-  box-shadow: 0 4px 12px rgba(223, 45, 178, 0.15);
+  background: #e5e7eb;
 }
 
 .notification-btn:hover svg {
-  color: #60A5FA;
+  color: #374151;
 }
 
 .notification-badge {
   position: absolute;
-  top: -6px;
-  right: -6px;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 6px;
-  background: linear-gradient(135deg, #DF2DB2 0%, #E71FB3 100%);
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: #ef4444;
   color: white;
-  font-size: 11px;
-  font-weight: 700;
-  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px solid white;
-  box-shadow: 0 2px 8px rgba(223, 45, 178, 0.4);
-  animation: pulse-badge 2s ease-in-out infinite;
-}
-
-@keyframes pulse-badge {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 /* Overlay */
@@ -555,10 +682,10 @@ export default {
   position: fixed;
   top: 0;
   right: 0;
-  width: 420px;
+  width: 360px;
   height: 100vh;
   background: white;
-  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+  box-shadow: -2px 0 12px rgba(0, 0, 0, 0.1);
   z-index: 999;
   display: flex;
   flex-direction: column;
@@ -568,43 +695,52 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem;
-  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-  color: white;
+  padding: 1rem 1.25rem;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  color: #1f2937;
 }
 
 .header-title {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
+}
+
+.header-title svg {
+  color: #6b7280;
+  width: 20px;
+  height: 20px;
 }
 
 .header-title h3 {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 700;
   margin: 0;
+  color: #1f2937;
 }
 
 .close-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: rgba(255, 255, 255, 0.15);
+  width: 32px;
+  height: 32px;
+  background: #f3f4f6;
   border: none;
-  border-radius: 8px;
+  border-radius: 50%;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .close-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: rotate(90deg);
+  background: #e5e7eb;
 }
 
 .close-btn svg {
-  color: white;
+  color: #6b7280;
+  width: 18px;
+  height: 18px;
 }
 
 /* Selection Toolbar */
@@ -612,9 +748,19 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.5rem;
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.05) 0%, rgba(24, 92, 230, 0.05) 100%);
-  border-bottom: 2px solid #e2e8f0;
+  padding: 0.625rem 0.875rem;
+  background: linear-gradient(to bottom, #ffffff, #f9fafb);
+  border-bottom: 1px solid #e5e7eb;
+  gap: 0.75rem;
+  min-height: 48px;
+}
+
+.selection-options {
+  display: flex;
+  gap: 0.875rem;
+  align-items: center;
+  flex: 1;
+  flex-wrap: wrap;
 }
 
 .select-all-checkbox {
@@ -623,67 +769,144 @@ export default {
   gap: 0.5rem;
   cursor: pointer;
   user-select: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+
+.select-all-checkbox:hover {
+  background: #f3f4f6;
 }
 
 .select-all-checkbox input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   width: 18px;
   height: 18px;
   cursor: pointer;
-  accent-color: #60a5fa;
+  border-radius: 4px;
+  border: 2px solid #d1d5db;
+  background: white;
+  transition: all 0.15s ease;
+  position: relative;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.select-all-checkbox input[type="checkbox"]:hover {
+  border-color: #9ca3af;
+}
+
+.select-all-checkbox input[type="checkbox"]:checked {
+  border-color: #3b82f6;
+  background: #3b82f6;
+}
+
+.select-all-checkbox input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
 
 .select-all-checkbox span {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  color: #4a5568;
+  color: #374151;
+  letter-spacing: -0.01em;
+}
+
+.select-all-checkbox .placeholder-text {
+  font-weight: 400;
+  color: #6b7280;
+  font-style: italic;
 }
 
 .delete-selected-btn {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  gap: 0.375rem;
+  padding: 0.5rem 0.875rem;
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 0.875rem;
+  border-radius: 7px;
+  font-size: 0.8125rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .delete-selected-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
   background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+  transform: translateY(-1px);
 }
 
 .delete-selected-btn:active {
   transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(239, 68, 68, 0.2);
 }
 
 .delete-selected-btn svg {
   flex-shrink: 0;
+  width: 14px;
+  height: 14px;
 }
 
 /* Notifications Content */
 .notifications-content {
   flex: 1;
   overflow-y: auto;
-  padding: 1.5rem;
+  padding: 0;
+}
+
+.notifications-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.notifications-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.notifications-content::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+.notifications-content::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }
 
 .notification-card {
   display: flex;
-  gap: 1rem;
-  padding: 1.25rem;
+  gap: 0.625rem;
+  padding: 0.75rem 0.875rem;
+  padding-right: 2.75rem;
   background: white;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  margin-bottom: 1rem;
-  transition: all 0.3s ease;
+  border: none;
+  border-bottom: 1px solid #f3f4f6;
+  border-radius: 0;
+  margin-bottom: 0;
+  transition: all 0.2s ease;
   position: relative;
+}
+
+.notification-card:hover {
+  background: #f9fafb;
+}
+
+.notification-card.selected {
+  background: #eff6ff;
 }
 
 .notification-checkbox {
@@ -694,31 +917,65 @@ export default {
 }
 
 .notification-checkbox input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   width: 18px;
   height: 18px;
   cursor: pointer;
-  accent-color: #60a5fa;
   margin: 0;
+  border-radius: 4px;
+  border: 2px solid #d1d5db;
+  background: white;
+  transition: all 0.15s ease;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.notification-checkbox input[type="checkbox"]:hover {
+  border-color: #9ca3af;
+}
+
+.notification-checkbox input[type="checkbox"]:checked {
+  border-color: #3b82f6;
+  background: #3b82f6;
+}
+
+.notification-checkbox input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
 
 .notification-icon {
   flex-shrink: 0;
-  width: 44px;
-  height: 44px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
+  border-radius: 50%;
 }
 
 .notification-icon.type-request {
-  background: linear-gradient(135deg, rgba(72, 187, 120, 0.1) 0%, rgba(56, 161, 105, 0.1) 100%);
-  color: #48bb78;
+  background: #dcfce7;
+  color: #16a34a;
 }
 
 .notification-icon.type-info {
-  background: linear-gradient(135deg, rgba(24, 92, 230, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
-  color: #185CE6;
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.notification-icon svg {
+  width: 17px;
+  height: 17px;
 }
 
 .notification-body {
@@ -727,10 +984,10 @@ export default {
 }
 
 .notification-message {
-  font-size: 0.875rem;
-  color: #2d3748;
-  margin: 0 0 0.75rem 0;
-  line-height: 1.5;
+  font-size: 0.8125rem;
+  color: #1f2937;
+  line-height: 1.4;
+  margin: 0 0 0.25rem 0;
   word-break: break-word;
 }
 
@@ -744,87 +1001,100 @@ export default {
 .notification-time {
   display: flex;
   align-items: center;
-  gap: 0.375rem;
-  font-size: 0.75rem;
-  color: #718096;
+  gap: 0.25rem;
+  font-size: 0.6875rem;
+  color: #9ca3af;
 }
 
 .notification-time svg {
   flex-shrink: 0;
+  width: 11px;
+  height: 11px;
 }
 
 .notification-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.375rem;
 }
 
 .action-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .accept-btn {
-  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  background: #10b981;
   color: white;
 }
 
+.accept-btn:hover {
+  background: #059669;
+}
+
 .decline-btn {
-  background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+  background: #ef4444;
   color: white;
 }
 
 .decline-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(245, 101, 101, 0.3);
+  background: #dc2626;
+}
+
+.action-btn:active {
+  transform: scale(0.95);
+}
+
+.action-btn svg {
+  width: 13px;
+  height: 13px;
 }
 
 /* Delete Notification Button */
 .delete-notification-btn {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: 0;
-  transform: scale(0.8);
+  color: #9ca3af;
+  transition: all 0.2s ease;
 }
 
 .notification-card:hover .delete-notification-btn {
-  opacity: 1;
-}
-
-.delete-notification-btn svg {
-  color: #718096;
-  transition: color 0.3s ease;
+  background: #f3f4f6;
+  border-color: #d1d5db;
+  color: #6b7280;
 }
 
 .delete-notification-btn:hover {
-  background: rgba(239, 68, 68, 0.1);
-  border-color: #ef4444;
-  transform: scale(1.1);
-}
-
-.delete-notification-btn:hover svg {
-  color: #ef4444;
+  background: #fee2e2 !important;
+  border-color: #fecaca !important;
+  color: #ef4444 !important;
+  transform: translateY(-50%) scale(1.08);
 }
 
 .delete-notification-btn:active {
-  transform: scale(0.95);
+  transform: translateY(-50%) scale(0.95);
+}
+
+.delete-notification-btn svg {
+  width: 14px;
+  height: 14px;
 }
 
 /* Empty State */
@@ -833,48 +1103,50 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem 2rem;
+  padding: 3rem 1.5rem;
   text-align: center;
 }
 
 .empty-state svg {
-  color: #cbd5e0;
+  color: #d1d5db;
   margin-bottom: 1rem;
+  width: 56px;
+  height: 56px;
 }
 
 .empty-state p {
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 600;
-  color: #4a5568;
-  margin: 0 0 0.5rem 0;
+  color: #4b5563;
+  margin: 0 0 0.375rem 0;
 }
 
 .empty-state span {
   font-size: 0.875rem;
-  color: #a0aec0;
+  color: #9ca3af;
 }
 
 /* Divider */
 .divider {
   width: 1px;
   height: 32px;
-  background: linear-gradient(to bottom, transparent, #e2e8f0, transparent);
+  background: linear-gradient(to bottom, transparent, #e5e7eb, transparent);
 }
 
 /* User Avatar */
 .user-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   overflow: hidden;
-  border: 2px solid #e2e8f0;
-  transition: all 0.3s ease;
+  border: 2px solid #e5e7eb;
+  transition: all 0.2s ease;
 }
 
 .user-avatar:hover {
-  border-color: #60A5FA;
-  box-shadow: 0 4px 12px rgba(223, 45, 178, 0.2);
-  transform: scale(1.05);
+  border-color: #185CE6;
+  box-shadow: 0 2px 8px rgba(24, 92, 230, 0.15);
+  transform: scale(1.03);
 }
 
 .user-avatar img {
@@ -888,27 +1160,27 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   background: white;
-  border: 2px solid #e2e8f0;
-  border-radius: 10px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .dropdown-toggle svg {
-  color: #4a5568;
-  transition: all 0.3s ease;
+  color: #6b7280;
+  transition: all 0.2s ease;
 }
 
 .dropdown-toggle:hover {
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.05) 0%, rgba(24, 92, 230, 0.05) 100%);
-  border-color: #60A5FA;
+  background: #f3f4f6;
+  border-color: #d1d5db;
 }
 
 .dropdown-toggle:hover svg {
-  color: #60A5FA;
+  color: #374151;
 }
 
 .dropdown-toggle svg.rotate-180 {
@@ -920,27 +1192,27 @@ export default {
   position: absolute;
   top: calc(100% + 0.75rem);
   right: 0;
-  min-width: 280px;
+  min-width: 260px;
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
   z-index: 1000;
-  border: 2px solid #e2e8f0;
+  border: 1px solid #e5e7eb;
 }
 
 .dropdown-user-info {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .user-avatar-large {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
   overflow: hidden;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #e5e7eb;
   flex-shrink: 0;
 }
 
@@ -958,18 +1230,18 @@ export default {
 }
 
 .user-name {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #2d3748;
-  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.125rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .user-email {
-  font-size: 0.875rem;
-  color: #718096;
+  font-size: 0.75rem;
+  color: #6b7280;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -977,31 +1249,33 @@ export default {
 
 .dropdown-divider {
   height: 1px;
-  background: #e2e8f0;
-  margin: 1rem 0;
+  background: #e5e7eb;
+  margin: 0.75rem 0;
 }
 
 .logout-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.625rem;
+  gap: 0.5rem;
   width: 100%;
-  padding: 0.875rem;
-  background: linear-gradient(135deg, #DF2DB2 0%, #E71FB3 100%);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 600;
+  padding: 0.625rem 0.875rem;
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
 }
 
 .logout-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(223, 45, 178, 0.3);
-  background: linear-gradient(135deg, #c528a0 0%, #d01aa4 100%);
+  background: #185CE6;
+  color: white;
+  border-color: #185CE6;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(24, 92, 230, 0.2);
 }
 
 .logout-btn:active {

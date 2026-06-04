@@ -51,7 +51,10 @@
     "vue3-editor": "^0.1.1",
     "vue3-tel-input": "^1.0.4",
     "vue3-toastify": "^0.2.3",
-    "vue3-treeselect": "^0.1.0"
+    "vue3-treeselect": "^0.1.0",
+    "vuex": "^4.1.0",
+    "xlsx": "^0.18.5",
+    "xlsx-js-style": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "7.13.10",

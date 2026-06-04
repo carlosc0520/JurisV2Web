@@ -729,11 +729,6 @@ export default {
       }
 
 
-      // imprimir formdata
-      for (let pair of formData.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]); 
-      }
-
       this.isLoading = true;
       const loadingToast = toast.loading("Espere un momento...");
       await UserProxy.editarFoce(formData)
@@ -858,11 +853,7 @@ export default {
     },
     searchContacto() {
       this.contacto.grid.isLoading = true;
-      console.log({
-        ROWS: this.contacto.grid.perPage,
-        INIT: (this.contacto.grid.currentPage - 1) * this.contacto.grid.perPage,
-        CDESTDO: 'A'
-      })
+
       UserProxy.getContactos({
         ROWS: this.contacto.grid.perPage,
         INIT: (this.contacto.grid.currentPage - 1) * this.contacto.grid.perPage,

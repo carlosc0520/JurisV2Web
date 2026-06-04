@@ -4,11 +4,11 @@
         <div class="noticias-header">
             <div class="noticias-header-content">
                 <div class="header-title-section">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
                         <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                     </svg>
                     <div>
-                        <h1 class="noticias-title">Noticias y Contenido</h1>
+                        <h1 class="noticias-title">Investigación</h1>
                         <p class="noticias-subtitle">Gestión de noticias, autores, categorías y recursos</p>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                     </svg>
-                    <span>Noticias</span>
+                    <span>Investigación</span>
                 </button>
                 <button
                     class="tab-button"
@@ -56,7 +56,7 @@
                 </button>
             </div>
             <!-- Filtros Modernos -->
-            <div class="filters-section">
+            <div class="filters-section" :class="{'filters-section-with-tipo': active === 'noticias'}">
                 <div class="search-input-wrapper">
                     <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="11" cy="11" r="8"/>
@@ -65,9 +65,20 @@
                     <input
                         type="text"
                         class="modern-input"
-                        :placeholder="`Buscar por ${active === 'noticias' ? 'noticia' : active === 'autores' ? 'autor' : active === 'categorias' ? 'categoría' : 'recurso'}...`"
+                        :placeholder="`Buscar por ${active === 'noticias' ? 'investigación' : active === 'autores' ? 'autor' : active === 'categorias' ? 'categoría' : 'recurso'}...`"
                         v-model="filter.NOMBRES"
                         id="name" />
+                </div>
+
+                <div class="select-wrapper" v-if="active === 'noticias'">
+                    <b-form-select
+                        v-model="filter.TIPO"
+                        class="modern-select"
+                        :options="[
+                            { text: '-- Seleccione Tipo', value: null },
+                            ...selects.categorias
+                        ]">
+                    </b-form-select>
                 </div>
 
                 <div class="select-wrapper">
@@ -75,7 +86,7 @@
                         v-model="filter.CDESTDO"
                         class="modern-select"
                         :options="[
-                            { text: '-- Seleccione Estado ', value: null },
+                            { text: '-- Seleccione Estado', value: null },
                             { text: 'Activo', value: 'A' },
                             { text: 'Inactivo', value: 'I' }]">
                     </b-form-select>
@@ -150,11 +161,11 @@
             <!-- CATEGORIAS -->
             <ModalCategoriaAgregar :role="role" :show="modalAgregarCategoria.show"
                 :close="() => modalAgregarCategoria.show = false"
-                :update="() => searchCategorias(grid.currentPage, grid.perPage)" />
+                :update="updateCategoriasData" />
 
             <ModalCategoriaEditar :role="role" :show="modalEditarCategoria.show"
                 :close="() => modalEditarCategoria.show = false"
-                :update="() => searchCategorias(grid.currentPage, grid.perPage)" :data="modalEditarCategoria.data" />
+                :update="updateCategoriasData" :data="modalEditarCategoria.data" />
 
             <ModalEliminar :message="'¿Está seguro de cambiar el estado del registro?'" :buttonOk="'Si, Cambiar'"
                 :action="deleteCategoria" :openDelete="modalEliminarCategoria.show"
@@ -194,6 +205,7 @@ import ModalRecursoAgregar from "./ModalesMantenimiento/ModalRecursoAgregar.vue"
 
 // PROXIES
 import MantenimientoProxy from '../../proxies/MantenimientoProxy';
+import filterProxy from '../../proxies/FilterProxy';
 
 export default {
     components: {
@@ -231,8 +243,8 @@ export default {
             },
             fieldsNoticias: [
                 { key: "RN", label: "" },
+                { key: "DTIPO", label: "Tipo", width: "15%" },
                 { key: "TITULO", label: "Título", width: "30%" },
-                { key: "DESCRIPCION", label: "Descripción", width: "30%" },
                 {
                     key: "FCRCN",
                     label: "Fecha de Creación",
@@ -420,6 +432,7 @@ export default {
             filter: {
                 NOMBRES: null,
                 CDESTDO: null,
+                TIPO: null,
             },
 
             isLoading: false,
@@ -427,6 +440,7 @@ export default {
             selects: {
                 categorias: [],
                 autores: [],
+                organos: [],
                 planes: [],
             },
         };
@@ -448,6 +462,7 @@ export default {
                 INIT: init,
                 DESC: this.filter?.NOMBRES || null,
                 CESTDO: this.filter?.CDESTDO || null,
+                TIPO: this.filter?.TIPO || null,
             }, this.active)
                 .then((response) => {
                     this.dataNoticia = response || [];
@@ -540,12 +555,30 @@ export default {
 
         async selectAllPromises() {
             try {
-                const [categorias, autores] = await Promise.all([
-                    MantenimientoProxy.listCategorias({ CESTDO: '', ROWS: 1000, INIT: 0 }),
-                    MantenimientoProxy.listAutores({ CESTDO: '', ROWS: 1000, INIT: 0 })
+                const [autores, categorias, filters] = await Promise.all([
+                    MantenimientoProxy.listAutores({ CESTDO: '', ROWS: 1000, INIT: 0 }),
+                    MantenimientoProxy.listCategorias({ CESTDO: 'A', ROWS: 1000, INIT: 0 }),
+                    filterProxy.list({ NIVEL: 5 }, null).catch(() => []),
                 ]);
-                this.selects.categorias = categorias?.map(item => { return { value: item.ID, label: item?.DESCP } }) || [];
-                this.selects.autores = autores?.map(item => { return { value: item.ID, label: (item?.NOMBRES || '') + ' ' + (item?.APELLIDOS || '') } }) || [];
+                this.selects.autores = autores?.map(item => ({ value: item.ID, label: (item?.NOMBRES || '') + ' ' + (item?.APELLIDOS || '') })) || [];
+                this.selects.categorias = categorias?.map(item => ({ value: item.ID, text: item.DESCP })) || [];
+
+                const organoItem = (filters || []).find(f => f.LABEL?.toUpperCase() === 'ÓRGANO JURISDICCIONAL');
+                if (organoItem) {
+                    const NIVEL_2 = JSON.parse(organoItem.NIVEL_2);
+                    this.selects.organos = NIVEL_2.map(item => ({
+                        value: item.VALUE,
+                        label: item.LABEL,
+                        children: (item.NIVEL_3 || []).map(item2 => ({
+                            value: item2.VALUE,
+                            label: item2.LABEL,
+                            children: (item2.NIVEL_4 || []).map(item3 => ({
+                                value: item3.VALUE,
+                                label: item3.LABEL,
+                            })),
+                        })),
+                    }));
+                }
             } catch (error) {
                 toast.error(error?.MESSAGE || 'Error al cargar los selects', { toastId: 'error-selects' });
             }
@@ -603,7 +636,7 @@ export default {
 
                     if (response.STATUS) {
                         toast.success('Registro cambiado de estado correctamente', { toastId: 'success-delete' });
-                        this.searchCategorias(this.grid.currentPage, this.grid.perPage);
+                        this.updateCategoriasData();
                         this.modalEliminarCategoria.show = false;
                     } else toast.error(toastMessage, { toastId: 'error-delete' });
                 })
@@ -630,11 +663,26 @@ export default {
                 .finally(() => this.isLoading = false);
         },
 
+        async updateCategoriasData() {
+            await this.searchCategorias(this.grid.currentPage, this.grid.perPage);
+            await this.loadCategorias();
+        },
+
+        async loadCategorias() {
+            try {
+                let categorias = await MantenimientoProxy.listCategorias({ CESTDO: 'A', ROWS: 1000, INIT: 0 });
+                this.selects.categorias = categorias?.map(item => ({ value: item.ID, text: item.DESCP })) || [];
+            } catch (error) {
+                console.error('Error al cargar categorías:', error);
+            }
+        },
+
         updateActive(text) {
             this.active = text;
-            this.selectedFilter = {
+            this.filter = {
                 NOMBRES: null,
-                CDESTDO: 'A',
+                CDESTDO: null,
+                TIPO: null,
             };
             this.grid = {
                 ...this.grid,
@@ -646,6 +694,7 @@ export default {
             if (text == 'noticias') this.searchNoticias(this.grid.currentPage, this.grid.perPage);
             if (text == 'autores') this.searchAutores(this.grid.currentPage, this.grid.perPage);
             if (text == 'categorias') this.searchCategorias(this.grid.currentPage, this.grid.perPage);
+            if (text == 'recursos') this.searchRecursos(this.grid.currentPage, this.grid.perPage);
         },
     },
     mounted() {
@@ -726,20 +775,20 @@ export default {
     background: white;
     border-bottom: 1px solid #E5E7EB;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    padding: 2rem 0;
-    margin-bottom: 2rem;
+    padding: 0.75rem 0;
+    margin-bottom: 1.25rem;
 }
 
 .noticias-header-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 1rem;
 }
 
 .header-title-section {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0.75rem;
 }
 
 .header-icon {
@@ -759,7 +808,7 @@ export default {
 
 .noticias-title {
     font-family: Lato, sans-serif;
-    font-size: 2rem;
+    font-size: 1.35rem;
     font-weight: 800;
     background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
     -webkit-background-clip: text;
@@ -771,36 +820,36 @@ export default {
 .noticias-subtitle {
     font-family: Lato, sans-serif;
     color: #6B7280;
-    font-size: 0.95rem;
-    margin: 0.25rem 0 0 0;
+    font-size: 0.8rem;
+    margin: 0.15rem 0 0 0;
 }
 
 /* Content */
 .noticias-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 2rem 2rem;
+    padding: 0 1rem 1rem;
 }
 
 /* Modern Tabs */
 .tabs-modern {
     display: flex;
-    gap: 12px;
-    margin-bottom: 2rem;
+    gap: 8px;
+    margin-bottom: 1.25rem;
     background: white;
-    padding: 8px;
-    border-radius: 12px;
+    padding: 5px;
+    border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .tab-button {
     flex: 1;
-    padding: 14px 24px;
+    padding: 8px 16px;
     border: none;
     background: transparent;
-    border-radius: 8px;
+    border-radius: 7px;
     font-family: Lato, sans-serif;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 600;
     color: #64748b;
     cursor: pointer;
@@ -808,7 +857,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 6px;
 }
 
 .tab-button:hover {
@@ -822,21 +871,25 @@ export default {
 }
 
 .tab-button svg {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
 }
 
 /* Filters Section */
 .filters-section {
     background: white;
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    padding: 0.875rem 1rem;
+    margin-bottom: 1rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     display: grid;
-    grid-template-columns: 2fr 1fr auto;
-    gap: 1rem;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 0.75rem;
     align-items: center;
+}
+
+.filters-section.filters-section-with-tipo {
+    grid-template-columns: 1fr 1fr 1fr auto;
 }
 
 /* Search Input */
@@ -857,13 +910,14 @@ export default {
 /* Modern Input (Settings.vue style) */
 .modern-input {
     width: 100%;
-    padding: 0.875rem 1rem 0.875rem 2.5rem;
+    padding: 0.625rem 0.75rem 0.625rem 2.75rem;
     border: 2px solid #E5E7EB;
-    border-radius: 12px;
-    font-size: 0.95rem;
+    border-radius: 10px;
+    font-size: 0.8125rem;
     color: #1F2937;
     background: white;
     transition: all 0.3s ease;
+    height: 42px;
 }
 
 .modern-input:focus {
@@ -884,14 +938,15 @@ export default {
 /* Modern Select (Settings.vue style) */
 .modern-select {
     width: 100%;
-    padding: 0.875rem 1rem;
+    padding: 0.625rem 0.75rem;
     border: 2px solid #E5E7EB;
-    border-radius: 12px;
-    font-size: 0.95rem;
+    border-radius: 10px;
+    font-size: 0.8125rem;
     color: #1F2937;
     background: white;
     transition: all 0.3s ease;
     cursor: pointer;
+    height: 42px;
 }
 
 .modern-select:focus {
@@ -907,23 +962,23 @@ export default {
 }
 
 .modern-btn {
-    padding: 12px 24px;
+    padding: 8px 16px;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     font-family: Lato, sans-serif;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     white-space: nowrap;
 }
 
 .modern-btn svg {
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px;
 }
 
 .btn-search {
@@ -952,7 +1007,7 @@ export default {
 /* Table Section (Settings.vue style) */
 .table-section {
     background: white;
-    border-radius: 20px;
+    border-radius: 14px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 1px solid #F3F4F6;
@@ -1003,7 +1058,8 @@ export default {
     .tab-button span {
         font-size: 0.75rem;
     }
-    .filters-section {
+    .filters-section,
+    .filters-section.filters-section-with-tipo {
         grid-template-columns: 1fr;
         padding: 1rem;
     }

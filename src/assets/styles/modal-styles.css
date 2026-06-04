@@ -168,8 +168,8 @@ input:-webkit-autofill:focus {
 }
 
 /* Readonly inputs */
-.form-control:read-only,
-:deep(.form-control:read-only),
+.form-control:read-only:not(select),
+:deep(.form-control:read-only:not(select)),
 input:read-only {
   background: #f8fafc !important;
   color: #64748b !important;
@@ -753,4 +753,350 @@ button.btn-success:hover {
   :deep(.btn-secondary) {
     width: 100%;
   }
+}
+
+/* ==================== MODAL DARK MODE ==================== */
+
+/* Modal content container */
+html.dark .modal-content,
+.dark :deep(.modal-content) {
+  background: #1e293b !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Modal body */
+html.dark .modal-body,
+.dark :deep(.modal-body) {
+  background: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+/* Modal footer */
+html.dark .modal-footer,
+.dark :deep(.modal-footer) {
+  background: #111827 !important;
+  border-top-color: #374151 !important;
+}
+
+/* Modal header - keep gradient but adjust */
+html.dark .modal-header,
+.dark :deep(.modal-header) {
+  background: linear-gradient(135deg, #4338ca 0%, #3730a3 50%, #312e81 100%) !important;
+}
+
+/* Form labels in modals */
+html.dark .form-label,
+.dark :deep(.form-label),
+html.dark .modal-body .form-label {
+  color: #cbd5e1 !important;
+}
+
+/* Form controls in modals */
+html.dark .form-control,
+html.dark .modal-body input,
+html.dark .modal-body textarea,
+html.dark .modal-body select,
+.dark :deep(.form-control),
+.dark :deep(input.form-control),
+.dark :deep(textarea.form-control),
+.dark :deep(select.form-control) {
+  background: #0f172a !important;
+  border-color: #374151 !important;
+  color: #e2e8f0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark .form-control::placeholder,
+html.dark .modal-body input::placeholder,
+html.dark .modal-body textarea::placeholder,
+.dark :deep(.form-control::placeholder) {
+  color: #64748b !important;
+}
+
+html.dark .form-control:hover,
+html.dark .modal-body input:hover,
+html.dark .modal-body textarea:hover,
+.dark :deep(.form-control:hover) {
+  border-color: #4b5563 !important;
+}
+
+html.dark .form-control:focus,
+html.dark .modal-body input:focus,
+html.dark .modal-body textarea:focus,
+.dark :deep(.form-control:focus) {
+  background: #1e293b !important;
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2), 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Error states in dark mode */
+html.dark .form-control.error,
+.dark :deep(.form-control.error) {
+  border-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+}
+
+/* Autofill in dark mode */
+html.dark input:-webkit-autofill,
+html.dark input:-webkit-autofill:hover,
+html.dark input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #0f172a inset !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
+  border-color: #374151 !important;
+}
+
+/* Readonly inputs in dark mode */
+html.dark .form-control:read-only:not(select),
+.dark :deep(.form-control:read-only:not(select)) {
+  background: #111827 !important;
+  color: #94a3b8 !important;
+}
+
+/* Select elements in dark mode */
+html.dark select.form-control,
+html.dark select.form-select,
+html.dark select,
+.dark :deep(select.form-control),
+.dark :deep(select.form-select) {
+  background-color: #0f172a !important;
+  color: #e2e8f0 !important;
+  border-color: #374151 !important;
+}
+
+html.dark select option {
+  background: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+/* Element Plus inputs in modals */
+html.dark .el-input__wrapper,
+.dark :deep(.el-input__wrapper) {
+  background: #0f172a !important;
+  border-color: #374151 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark .el-input__inner,
+.dark :deep(.el-input__inner) {
+  color: #e2e8f0 !important;
+}
+
+/* Tags in dark mode */
+html.dark .b-form-tags,
+.dark :deep(.b-form-tags) {
+  background: #0f172a !important;
+  border-color: #374151 !important;
+}
+
+html.dark .b-form-tags-input,
+.dark :deep(.b-form-tags-input) {
+  color: #e2e8f0 !important;
+}
+
+/* Date picker in dark mode */
+html.dark .mx-input,
+.dark :deep(.mx-input) {
+  background: #0f172a !important;
+  border-color: #374151 !important;
+  color: #e2e8f0 !important;
+}
+
+/* Section headers (h5) in dark mode */
+html.dark .modal-body h5,
+html.dark h5 {
+  color: #e2e8f0 !important;
+}
+
+html.dark hr {
+  background: linear-gradient(90deg, #374151 0%, transparent 100%) !important;
+}
+
+/* Secondary buttons in dark mode */
+html.dark .btn-secondary,
+.dark :deep(.btn-secondary) {
+  background: #374151 !important;
+  border-color: #4b5563 !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .btn-secondary:hover,
+.dark :deep(.btn-secondary:hover) {
+  background: #4b5563 !important;
+  border-color: #6b7280 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Close button in dark mode */
+html.dark .btn-close,
+.dark :deep(.btn-close) {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  filter: invert(1);
+}
+
+html.dark .btn-close:hover,
+.dark :deep(.btn-close:hover) {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* File input in dark mode */
+html.dark input[type="file"],
+html.dark .custom-input[type="file"],
+.dark :deep(input[type="file"]) {
+  background: #0f172a !important;
+  border-color: #374151 !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark input[type="file"]:hover,
+.dark :deep(input[type="file"]:hover) {
+  background: #1e293b !important;
+  border-color: #6366f1 !important;
+}
+
+/* Switches in dark mode */
+html.dark .form-check-input,
+.dark :deep(.form-check-input) {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+}
+
+/* Validation messages in dark */
+html.dark .message {
+  color: #f87171 !important;
+}
+
+/* Modal-specific elements */
+html.dark .modal-modern-content {
+  background: #1e293b !important;
+  border-color: #374151 !important;
+}
+
+html.dark .modal-icon-warning {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(252, 165, 165, 0.1) 100%) !important;
+}
+
+html.dark .modal-btn-cancel {
+  background: #374151 !important;
+  color: #e2e8f0 !important;
+}
+
+/* User rows in share modals */
+html.dark .user-row {
+  background: #0f172a !important;
+  border-color: #374151 !important;
+}
+
+html.dark .user-row:hover {
+  background: #1e293b !important;
+}
+
+/* Permission badges in dark mode */
+html.dark .permission-badge {
+  opacity: 0.9;
+}
+
+/* PDF container in dark mode */
+html.dark .pdf-container {
+  background: #111827 !important;
+}
+
+/* Dropzone in dark mode */
+html.dark .dropzone,
+html.dark [style*="border: 2px dashed"] {
+  border-color: #4b5563 !important;
+  background: #0f172a !important;
+}
+
+/* Form sections and icons in share/directory modals */
+html.dark .icon-bg {
+  background: rgba(99, 102, 241, 0.15) !important;
+}
+
+/* Select in share modals */
+html.dark .btn-search-modal {
+  background: #374151 !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .btn-save-modal {
+  color: white !important;
+}
+
+html.dark .btn-cancel-modal {
+  background: #374151 !important;
+  color: #e2e8f0 !important;
+}
+
+/* Favorito button in resolution modal */
+html.dark .favorito-btn {
+  background: #374151 !important;
+  color: #fbbf24 !important;
+  border-color: #4b5563 !important;
+}
+
+/* Navigation buttons in resolution modal */
+html.dark .nav-btn-prev,
+html.dark .nav-btn-next {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border-color: #374151 !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .nav-btn-prev:hover,
+html.dark .nav-btn-next:hover {
+  background: #1e293b !important;
+  border-color: #6366f1 !important;
+}
+
+/* Info cards in resolution modal tabs */
+html.dark .info-card,
+html.dark .detail-card {
+  background: #0f172a !important;
+  border-color: #374151 !important;
+}
+
+/* Convertir file label */
+html.dark .convertir_file span {
+  color: #94a3b8 !important;
+}
+
+/* Modal backdrop overlay */
+html.dark .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Vue editor in dark mode */
+html.dark .ql-toolbar,
+html.dark .ql-container {
+  background: #0f172a !important;
+  border-color: #374151 !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .ql-editor {
+  color: #e2e8f0 !important;
+}
+
+html.dark .ql-toolbar button {
+  color: #94a3b8 !important;
+}
+
+html.dark .ql-toolbar button:hover {
+  color: #e2e8f0 !important;
+}
+
+html.dark .ql-toolbar .ql-stroke {
+  stroke: #94a3b8 !important;
+}
+
+html.dark .ql-toolbar .ql-fill {
+  fill: #94a3b8 !important;
+}
+
+html.dark .ql-toolbar button:hover .ql-stroke {
+  stroke: #e2e8f0 !important;
+}
+
+html.dark .ql-toolbar button:hover .ql-fill {
+  fill: #e2e8f0 !important;
 }

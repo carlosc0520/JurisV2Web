@@ -4,7 +4,7 @@
         <div class="filtros-header">
             <div class="filtros-header-content">
                 <div class="header-title-section">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
                         <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/>
                     </svg>
                     <div>
@@ -22,7 +22,7 @@
                     class="tab-button"
                     :class="{ 'tab-active': active == '0' }"
                     @click="updateActive('0')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                         <circle cx="9" cy="7" r="4"/>
                         <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
@@ -34,7 +34,7 @@
                     class="tab-button"
                     :class="{ 'tab-active': active == '1' }"
                     @click="updateActive('1')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/>
                     </svg>
                     <span>Filtros</span>
@@ -43,7 +43,7 @@
                     class="tab-button tab-disabled"
                     disabled
                     :class="{ 'tab-active': active == '2' }">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
                     </svg>
                     <span>Nivel 2</span>
@@ -52,7 +52,7 @@
                     class="tab-button tab-disabled"
                     disabled
                     :class="{ 'tab-active': active == '3' }">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
                     </svg>
                     <span>Nivel 3</span>
@@ -61,7 +61,7 @@
                     class="tab-button tab-disabled"
                     disabled
                     :class="{ 'tab-active': active == '4' }">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
                     </svg>
                     <span>Nivel 4</span>
@@ -70,7 +70,7 @@
                     class="tab-button tab-disabled"
                     disabled
                     :class="{ 'tab-active': active == '5' }">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
                     </svg>
                     <span>Nivel 5</span>
@@ -79,7 +79,7 @@
                     class="tab-button tab-disabled"
                     disabled
                     :class="{ 'tab-active': active == '6' }">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
                     </svg>
                     <span>Nivel 6</span>
@@ -144,7 +144,7 @@
                         else searchFiltros(grid.currentPage, grid.perPage,
                             (Number(active) == 1) ? null : this.Niveles[`ID${Number(active) - 1}`]);
                     }">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="11" cy="11" r="8"/>
                             <path d="m21 21-4.35-4.35"/>
                         </svg>
@@ -154,7 +154,7 @@
                         if (active == 0) modalAgregarMagistrados.show = true;
                         else modalAgregarFiltros.show = true;
                     }">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="12" y1="5" x2="12" y2="19"/>
                             <line x1="5" y1="12" x2="19" y2="12"/>
                         </svg>
@@ -166,7 +166,7 @@
                         this.searchFiltros(grid.currentPage, grid.perPage,
                             (Number(this.active) == 1) ? null : this.Niveles[`ID${Number(this.active) - 1}`]);
                     }">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="19" y1="12" x2="5" y2="12"/>
                             <polyline points="12 19 5 12 12 5"/>
                         </svg>
@@ -659,8 +659,8 @@ export default {
     background: white;
     border-bottom: 1px solid #E5E7EB;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    padding: 2rem 0;
-    margin-bottom: 2rem;
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
 }
 
 .filtros-header-content {
@@ -672,7 +672,7 @@ export default {
 .header-title-section {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0.75rem;
 }
 
 .header-icon {
@@ -692,7 +692,7 @@ export default {
 
 .filtros-title {
     font-family: Lato, sans-serif;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 800;
     background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
     -webkit-background-clip: text;
@@ -704,7 +704,7 @@ export default {
 .filtros-subtitle {
     font-family: Lato, sans-serif;
     color: #6B7280;
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     margin: 0.25rem 0 0 0;
 }
 
@@ -720,15 +720,15 @@ export default {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 8px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     background: white;
     padding: 8px;
-    border-radius: 12px;
+    border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .tab-button {
-    padding: 12px 16px;
+    padding: 8px 16px;
     border: none;
     background: transparent;
     border-radius: 8px;
@@ -793,8 +793,8 @@ export default {
 .filters-section {
     background: white;
     border-radius: 16px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     display: grid;
     grid-template-columns: 2fr 1fr 1fr auto;
@@ -814,7 +814,7 @@ export default {
 
 .search-icon {
     position: absolute;
-    left: 14px;
+    left: 12px;
     top: 50%;
     transform: translateY(-50%);
     color: #94a3b8;
@@ -823,11 +823,11 @@ export default {
 
 .modern-input {
     width: 100%;
-    padding: 12px 14px 12px 44px;
+    padding: 10px 12px 10px 40px;
     border: 2px solid #e2e8f0;
-    border-radius: 12px;
+    border-radius: 10px;
     font-family: Lato, sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     color: #1e293b;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     background: #f8fafc;
@@ -852,11 +852,11 @@ export default {
 
 .modern-select {
     width: 100%;
-    padding: 12px 14px;
+    padding: 10px 12px;
     border: 2px solid #e2e8f0;
-    border-radius: 12px;
+    border-radius: 10px;
     font-family: Lato, sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     color: #1e293b;
     background: #f8fafc;
     cursor: pointer;
@@ -879,9 +879,9 @@ export default {
 }
 
 .modern-btn {
-    padding: 12px 20px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     font-family: Lato, sans-serif;
     font-size: 14px;
     font-weight: 600;
@@ -889,13 +889,13 @@ export default {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     white-space: nowrap;
 }
 
 .modern-btn svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
 }
 
 .btn-search {
@@ -905,7 +905,6 @@ export default {
 }
 
 .btn-search:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
 }
 
@@ -916,7 +915,6 @@ export default {
 }
 
 .btn-create:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(223, 45, 178, 0.4);
 }
 
@@ -927,16 +925,15 @@ export default {
 }
 
 .btn-back:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(100, 116, 139, 0.4);
 }
 
 /* Table Section */
 .table-section {
     background: white;
-    border-radius: 20px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     border: 1px solid #F3F4F6;
 }
 
@@ -961,11 +958,11 @@ export default {
         padding: 0 0.5rem 1rem 0.5rem;
     }
     .filtros-header {
-        padding: 0 0 1.25rem 0;
-        margin: 0 -0.5rem 1.5rem -0.5rem;
+        padding: 0 0 0.75rem 0;
+        margin: 0 -0.5rem 1rem -0.5rem;
     }
     .filtros-header-content {
-        padding: 1.25rem 0.5rem 0 0.5rem;
+        padding: 0.75rem 0.5rem 0 0.5rem;
     }
     .header-title-section {
         gap: 0.875rem;
@@ -1000,8 +997,8 @@ export default {
         height: 18px;
     }
     .filters-section {
-        padding: 1.25rem;
-        border-radius: 16px;
+        padding: 1rem;
+        border-radius: 14px;
         grid-template-columns: 1fr;
     }
     .button-group-extended {
@@ -1012,11 +1009,11 @@ export default {
     .modern-btn {
         flex: 1;
         justify-content: center;
-        padding: 0.875rem 1.25rem;
-        font-size: 0.9rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
     }
     .table-section {
-        border-radius: 16px;
+        border-radius: 14px;
     }
 }
 
@@ -1025,11 +1022,11 @@ export default {
         padding: 0 0.875rem;
     }
     .filtros-header {
-        padding: 0 0 1rem 0;
-        margin: 0 -0.875rem 1.25rem -0.875rem;
+        padding: 0 0 0.5rem 0;
+        margin: 0 -0.875rem 1rem -0.875rem;
     }
     .filtros-header-content {
-        padding: 1rem 0.875rem 0 0.875rem;
+        padding: 0.5rem 0.875rem 0 0.875rem;
     }
     .header-title-section {
         gap: 0.625rem;

@@ -27,7 +27,8 @@
                 </div> -->
                 <div class="col-md-4 col-12  mb-3">
                     <label for="SITUACION" class="form-label">Estado </label>
-                    <select style="padding: .70rem !important" class="form-select" v-model="modelo.SITUACION" aria-label="Default select example">
+                    <select style="padding: .70rem !important" class="form-select" v-model="modelo.SITUACION"
+                        aria-label="Default select example">
                         <option selected value="">-- Seleccione</option>
                         <option value="Vigente">Vigente</option>
                         <option value="Modificado">Modificado</option>
@@ -75,7 +76,8 @@
                 </div>
 
                 <div class="col-md-6 col-12 mb-3">
-                    <label for="BLOG3" class="form-label">Fecha de publicación <span class="text-danger">*</span></label>
+                    <label for="BLOG3" class="form-label">Fecha de publicación <span
+                            class="text-danger">*</span></label>
                     <date-picker :class="{ error: validation.hasError('modelo.FRESOLUTION') }"
                         v-model="modelo.FRESOLUTION" :value="modelo.FRESOLUTION" valueType="format"
                         :disabledDate="time => time.getTime() > Date.now()"
@@ -93,6 +95,40 @@
                     <span class="message" v-if="validation.hasError('modelo.ENTRIEFILE')">
                         {{ validation.firstError('modelo.ENTRIEFILE') }}
                     </span>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label for="IDSVIN" class="form-label">Normas Vinculadas</label>
+
+                    <el-autocomplete
+                        v-model="searchQueryNormas"
+                        :fetch-suggestions="fetchNormasSuggestions"
+                        placeholder="Escribe para buscar normas..."
+                        :trigger-on-focus="false"
+                        clearable
+                        @select="handleSelectNorma"
+                        style="width: 100%">
+                        <template #default="{ item }">
+                            <div class="flex justify-between items-center">
+                                <span>{{ item.label }}</span>
+                            </div>
+                        </template>
+                    </el-autocomplete>
+
+                    <div v-if="normasSeleccionadas.length > 0" class="mt-3">
+                        <div class="text-xs text-gray-600 mb-2" style="font-size: 0.65rem;">Normas seleccionadas:</div>
+                        <div class="flex flex-col gap-2">
+                            <div v-for="norma in normasSeleccionadas" :key="norma.value"
+                                class="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200">
+                                <span class="text-xs" style="font-size: 0.65rem;">{{ norma.label }}</span>
+                                <button type="button" @click="removeNorma(norma.value)"
+                                    class="text-red-500 hover:text-red-700 ml-2">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </form>
@@ -149,6 +185,10 @@ export default {
         return {
             isShow: false,
             loadingSubmit: false,
+            normasOptions: [],
+            loadingNormas: false,
+            searchQueryNormas: '',
+            normasSeleccionadas: [],
             modelo: {
                 TITLE: null,
                 RTITLE: null,
@@ -158,7 +198,8 @@ export default {
                 NMRCN: null,
                 FRESOLUTION: null,
                 ENTRIEFILE: null,
-                SITUACION: ""
+                SITUACION: "",
+                IDSVIN: []
             },
         }
     },
@@ -211,6 +252,7 @@ export default {
             formData.append("TIPO", "executive")
             formData.append("SITUACION", this.modelo.SITUACION);
             formData.append("OEMISOR", this.modelo.OEMISOR.join(",") || this.modelo.OEMISOR);
+            formData.append("IDSVIN", Array.isArray(this.modelo.IDSVIN) ? this.modelo.IDSVIN.join(",") : "");
 
 
             this.loadingSubmit = true;
@@ -245,12 +287,53 @@ export default {
                 FRESOLUTION: null,
                 ENTRIEFILE: null,
                 SITUACION: "",
+                IDSVIN: [],
             }
 
             let inputs = document.querySelectorAll("input[type='file']");
             if (inputs) inputs.forEach(input => input.value = "");
 
+            this.searchQueryNormas = '';
+            this.normasSeleccionadas = [];
+            this.normasOptions = [];
+
             this.validation.reset();
+        },
+        async fetchNormasSuggestions(queryString, cb) {
+            if (!queryString || queryString.length < 2) {
+                cb([]);
+                return;
+            }
+            try {
+                const res = await adminEntriesProxy.listSearchNames({
+                    ROWS: 40,
+                    INIT: 0,
+                    DESC: queryString,
+                    CESTDO: 'A',
+                    TYPE: "legislations"
+                });
+                const results = res.map(item => ({
+                    value: item.ID,
+                    label: item.TITLE || item.RTITLE || 'Sin título'
+                }));
+                cb(results);
+            } catch (error) {
+                cb([]);
+            }
+        },
+        handleSelectNorma(item) {
+            if (!this.normasSeleccionadas.find(n => n.value === item.value)) {
+                this.normasSeleccionadas.unshift({
+                    value: item.value,
+                    label: item.label
+                });
+                this.modelo.IDSVIN = this.normasSeleccionadas.map(n => n.value);
+            }
+            this.searchQueryNormas = '';
+        },
+        removeNorma(id) {
+            this.normasSeleccionadas = this.normasSeleccionadas.filter(n => n.value !== id);
+            this.modelo.IDSVIN = this.normasSeleccionadas.map(n => n.value);
         }
     },
     watch: {

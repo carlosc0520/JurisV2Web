@@ -1,4 +1,4 @@
-import decode from 'jwt-decode';
+import { jwtDecode as decode } from 'jwt-decode';
 import { AUTH_REQUEST, AUTH_RECOVER, AUTH_ERROR, AUTH_SUCCESS, AUTH_LOGOUT } from '@/store/actions/auth';
 import { USER_REQUEST, USER_ERROR, USER_SUCCESS } from '@/store/actions/user'
 
@@ -36,7 +36,7 @@ const mutations = {
     [USER_REQUEST]: (state) => {
         state.status = 'loading'
     },
-    [USER_SUCCESS]: (state, resp) => {
+    [USER_SUCCESS]: (state) => {
         state.status = 'success'
     },
     [USER_ERROR]: (state) => {
@@ -66,8 +66,9 @@ const actions = {
             }
         })
     },
+    // eslint-disable-next-line no-unused-vars
     async [AUTH_RECOVER]({ commit, dispatch }, user) {
-        var recover = await auth.recoverPassword(user);
+        var recover = await LoginProxy.recoverPassword(user);
         return new Promise((resolve, reject) => {
             if (recover.data.status == 'Success') {
                 resolve(recover.data)
@@ -76,9 +77,20 @@ const actions = {
             }
         })
     },
-    async [AUTH_LOGOUT]({ commit, dispatch }) {
-        var logout = await LoginProxy.logout();
-        return new Promise((resolve, reject) => {
+    async [AUTH_LOGOUT]({ commit }) {
+        // ✅ Obtener el token ANTES de cualquier limpieza
+        const accessToken = localStorage.getItem('accessToken');
+        
+        // Intentar cerrar sesión en el backend
+        if (accessToken) {
+            try {
+                await LoginProxy.logout(accessToken);
+            } catch (error) {
+                console.error('Error en logout:', error);
+            }
+        }
+        
+        return new Promise((resolve) => {
             commit(AUTH_LOGOUT)
             // localStorage.removeItem('user-token')
             resolve()

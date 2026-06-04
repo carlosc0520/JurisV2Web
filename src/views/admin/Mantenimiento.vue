@@ -4,7 +4,7 @@
         <div class="mantenimiento-header">
             <div class="mantenimiento-header-content">
                 <div class="header-title-section">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
                         <path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
                     </svg>
                     <div>
@@ -22,7 +22,7 @@
                     class="tab-button"
                     :class="{ 'tab-active': active === 'preguntas' }"
                     @click="updateActive('preguntas')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10"/>
                         <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
                         <line x1="12" y1="17" x2="12.01" y2="17"/>
@@ -33,7 +33,7 @@
                     class="tab-button"
                     :class="{ 'tab-active': active === 'planes' }"
                     @click="updateActive('planes')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                     </svg>
                     <span>Planes</span>
@@ -43,7 +43,7 @@
             <!-- Filtros Modernos -->
             <div class="filters-section">
                 <div class="search-input-wrapper">
-                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="11" cy="11" r="8"/>
                         <path d="m21 21-4.35-4.35"/>
                     </svg>
@@ -71,7 +71,7 @@
                         if (active === 'preguntas') searchPregunta(grid.currentPage, grid.perPage);
                         if (active === 'planes') searchPlanes(grid.currentPage, grid.perPage);
                     }">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="11" cy="11" r="8"/>
                             <path d="m21 21-4.35-4.35"/>
                         </svg>
@@ -81,7 +81,7 @@
                         if (active === 'preguntas') modalAgregarPregunta.show = true;
                         if (active === 'planes') modalAgregarPlanes.show = true;
                     }">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="12" y1="5" x2="12" y2="19"/>
                             <line x1="5" y1="12" x2="19" y2="12"/>
                         </svg>
@@ -478,21 +478,21 @@ export default {
     background: white;
     border-bottom: 1px solid #E5E7EB;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    padding: 0 0 1.5rem 0;
-    margin: 0 -2rem 2rem -2rem;
+    padding: 0 0 0.5rem 0;
+    margin: 0 -2rem 1rem -2rem;
 }
 
 /* Header Content */
 .mantenimiento-header-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 1.5rem 2rem 0 2rem;
+    padding: 0.5rem 2rem 0 2rem;
 }
 
 .header-title-section {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0.75rem;
 }
 
 .header-icon {
@@ -512,7 +512,7 @@ export default {
 
 .mantenimiento-title {
     font-family: Lato, sans-serif;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 800;
     background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
     -webkit-background-clip: text;
@@ -524,7 +524,7 @@ export default {
 .mantenimiento-subtitle {
     font-family: Lato, sans-serif;
     color: #6B7280;
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     margin: 0.25rem 0 0 0;
 }
 
@@ -533,28 +533,28 @@ export default {
 .mantenimiento-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 0 2rem 0;
+    padding: 0 0 1.5rem 0;
 }
 
 /* Modern Tabs */
 .tabs-modern {
     display: flex;
-    gap: 12px;
-    margin-bottom: 2rem;
+    gap: 8px;
+    margin-bottom: 1rem;
     background: white;
     padding: 8px;
-    border-radius: 12px;
+    border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .tab-button {
     flex: 1;
-    padding: 14px 24px;
+    padding: 8px 16px;
     border: none;
     background: transparent;
     border-radius: 8px;
     font-family: Lato, sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     color: #64748b;
     cursor: pointer;
@@ -562,7 +562,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .tab-button:hover {
@@ -576,18 +576,18 @@ export default {
 }
 
 .tab-button svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
 }
 
 /* Filters Section */
 /* Filters Section */
 .filters-section {
     background: white;
-    border-radius: 20px;
-    padding: 2rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     border: 1px solid #F3F4F6;
     display: grid;
     grid-template-columns: 2fr 1fr auto;
@@ -603,7 +603,7 @@ export default {
 
 .search-icon {
     position: absolute;
-    left: 14px;
+    left: 12px;
     top: 50%;
     transform: translateY(-50%);
     color: #94a3b8;
@@ -614,11 +614,11 @@ export default {
 /* Search Input */
 .modern-input {
     width: 100%;
-    padding: 0.875rem 1rem 0.875rem 2.75rem;
+    padding: 0.65rem 0.875rem 0.65rem 2.5rem;
     border: 2px solid #E5E7EB;
-    border-radius: 12px;
+    border-radius: 10px;
     font-family: Lato, sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #1F2937;
     transition: all 0.3s ease;
     background: white;
@@ -644,11 +644,11 @@ export default {
 /* Select Wrapper */
 .modern-select {
     width: 100%;
-    padding: 0.875rem 1rem;
+    padding: 0.65rem 0.875rem;
     border: 2px solid #E5E7EB;
-    border-radius: 12px;
+    border-radius: 10px;
     font-family: Lato, sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #1F2937;
     background: white;
     cursor: pointer;
@@ -669,23 +669,23 @@ export default {
 }
 
 .modern-btn {
-    padding: 12px 24px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     font-family: Lato, sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     white-space: nowrap;
 }
 
 .modern-btn svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
 }
 
 .btn-search {
@@ -695,7 +695,6 @@ export default {
 }
 
 .btn-search:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
 }
 
@@ -706,7 +705,6 @@ export default {
 }
 
 .btn-create:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(223, 45, 178, 0.4);
 }
 
@@ -714,9 +712,9 @@ export default {
 /* Table Section */
 .table-section {
     background: white;
-    border-radius: 20px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     border: 1px solid #F3F4F6;
 }
 
@@ -738,11 +736,11 @@ export default {
         padding: 0 1rem;
     }
     .mantenimiento-header {
-        padding: 0 0 1.25rem 0;
-        margin: 0 -1rem 1.5rem -1rem;
+        padding: 0 0 0.75rem 0;
+        margin: 0 -1rem 1rem -1rem;
     }
     .mantenimiento-header-content {
-        padding: 1.25rem 1rem 0 1rem;
+        padding: 0.75rem 1rem 0 1rem;
     }
     .header-title-section {
         gap: 0.875rem;
@@ -772,8 +770,8 @@ export default {
     }
     .filters-section {
         grid-template-columns: 1fr;
-        padding: 1.25rem;
-        border-radius: 16px;
+        padding: 1rem;
+        border-radius: 14px;
     }
     .button-group {
         width: 100%;
@@ -781,11 +779,11 @@ export default {
     .modern-btn {
         flex: 1;
         justify-content: center;
-        padding: 0.875rem 1.25rem;
-        font-size: 0.9rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
     }
     .table-section {
-        border-radius: 16px;
+        border-radius: 14px;
     }
 }
 
@@ -794,11 +792,11 @@ export default {
         padding: 0 0.875rem;
     }
     .mantenimiento-header {
-        padding: 0 0 1rem 0;
-        margin: 0 -0.875rem 1.25rem -0.875rem;
+        padding: 0 0 0.5rem 0;
+        margin: 0 -0.875rem 1rem -0.875rem;
     }
     .mantenimiento-header-content {
-        padding: 1rem 0.875rem 0 0.875rem;
+        padding: 0.5rem 0.875rem 0 0.875rem;
     }
     .header-title-section {
         gap: 0.625rem;

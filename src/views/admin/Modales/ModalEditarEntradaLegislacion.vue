@@ -109,6 +109,40 @@
                     </a>
                 </div>
 
+                <div class="col-12 mb-3">
+                    <label for="IDSVIN" class="form-label">Normas Vinculadas</label>
+
+                    <el-autocomplete
+                        v-model="searchQueryNormas"
+                        :fetch-suggestions="fetchNormasSuggestions"
+                        placeholder="Escribe para buscar normas..."
+                        :trigger-on-focus="false"
+                        clearable
+                        @select="handleSelectNorma"
+                        style="width: 100%">
+                        <template #default="{ item }">
+                            <div class="flex justify-between items-center">
+                                <span>{{ item.label }}</span>
+                            </div>
+                        </template>
+                    </el-autocomplete>
+
+                    <div v-if="normasSeleccionadas.length > 0" class="mt-3">
+                        <div class="text-xs text-gray-600 mb-2" style="font-size: 0.65rem;">Normas seleccionadas:</div>
+                        <div class="flex flex-col gap-2">
+                            <div v-for="norma in normasSeleccionadas" :key="norma.value"
+                                class="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200">
+                                <span class="text-xs" style="font-size: 0.65rem;">{{ norma.label }}</span>
+                                <button type="button" @click="removeNorma(norma.value)"
+                                    class="text-red-500 hover:text-red-700 ml-2">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
 
             </div>
         </form>
@@ -169,6 +203,10 @@ export default {
         return {
             isShow: false,
             loadingSubmit: false,
+            normasOptions: [],
+            loadingNormas: false,
+            searchQueryNormas: '',
+            normasSeleccionadas: [],
             modelo: {
                 ID: null,
                 TITLE: null,
@@ -181,6 +219,7 @@ export default {
                 RTITLE: null,
                 OEMISOR: [],
                 SITUACION: "",
+                IDSVIN: [],
             },
         }
     },
@@ -244,6 +283,7 @@ export default {
             formData.append("TIPO", this.typeEntrie);
             formData.append("SITUACION", this.modelo.SITUACION);
             formData.append("OEMISOR", this.modelo.OEMISOR.join(","));
+            formData.append("IDSVIN", Array.isArray(this.modelo.IDSVIN) ? this.modelo.IDSVIN.join(",") : "");
 
 
             this.loadingSubmit = true;
@@ -306,6 +346,42 @@ export default {
             if (inputs) inputs.forEach(input => input.value = "");
 
             this.validation.reset();
+        },
+        async fetchNormasSuggestions(queryString, cb) {
+            if (!queryString || queryString.length < 2) {
+                cb([]);
+                return;
+            }
+            try {
+                const res = await adminEntriesProxy.listSearchNames({
+                    ROWS: 40,
+                    INIT: 0,
+                    DESC: queryString,
+                    CESTDO: 'A',
+                    TYPE: 'legislations'
+                });
+                const results = res.map(item => ({
+                    value: item.ID,
+                    label: item.TITLE || item.RTITLE || 'Sin título'
+                }));
+                cb(results);
+            } catch (error) {
+                cb([]);
+            }
+        },
+        handleSelectNorma(item) {
+            if (!this.normasSeleccionadas.find(n => n.value === item.value)) {
+                this.normasSeleccionadas.unshift({
+                    value: item.value,
+                    label: item.label
+                });
+                this.modelo.IDSVIN = this.normasSeleccionadas.map(n => n.value);
+            }
+            this.searchQueryNormas = '';
+        },
+        removeNorma(id) {
+            this.normasSeleccionadas = this.normasSeleccionadas.filter(n => n.value !== id);
+            this.modelo.IDSVIN = this.normasSeleccionadas.map(n => n.value);
         }
     },
     watch: {
@@ -315,6 +391,21 @@ export default {
                     this.modelo = {
                         ...this.data,
                         TPONRMA: this.data.TPONRMA.length > 0 ? this.data.TPONRMA[0] : null,
+                    }
+                    // Parsear JIDSVIN para cargar normas vinculadas existentes
+                    if (this.data.JIDSVIN) {
+                        try {
+                            const normas = JSON.parse(this.data.JIDSVIN);
+                            if (Array.isArray(normas)) {
+                                this.normasSeleccionadas = normas.map(n => ({ value: n.ID, label: n.TITLE }));
+                                this.modelo.IDSVIN = normas.map(n => n.ID);
+                            }
+                        } catch (e) {
+                            console.error('Error parsing JIDSVIN:', e);
+                        }
+                    } else {
+                        this.normasSeleccionadas = [];
+                        this.modelo.IDSVIN = [];
                     }
                 }
 

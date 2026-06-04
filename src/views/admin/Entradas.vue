@@ -4,7 +4,7 @@
     <div class="entradas-header">
       <div class="entradas-header-content">
         <div class="header-title-section">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
             <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
             <polyline points="14 2 14 8 20 8"/>
             <line x1="16" y1="13" x2="8" y2="13"/>
@@ -26,7 +26,7 @@
           class="tab-button"
           :class="{ 'tab-active': active === 'jurisprudences' }"
           @click="updateActive('jurisprudences')">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
             <polyline points="14 2 14 8 20 8"/>
           </svg>
@@ -36,7 +36,7 @@
           class="tab-button"
           :class="{ 'tab-active': active === 'legislations' }"
           @click="updateActive('legislations')">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
           </svg>
@@ -103,7 +103,7 @@
         <!-- Botones de Acción -->
         <div class="actions-row">
           <button class="modern-btn btn-search" @click="getEntries(grid.currentPage, grid.perPage)">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="11" cy="11" r="8"/>
               <path d="m21 21-4.35-4.35"/>
             </svg>
@@ -112,7 +112,7 @@
 
           <div v-if="active == 'jurisprudences'" class="dropdown-modern">
             <button class="modern-btn btn-create dropdown-toggle" type="button" id="dropdownCreate" data-bs-toggle="dropdown" aria-expanded="false">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="12" y1="5" x2="12" y2="19"/>
                 <line x1="5" y1="12" x2="19" y2="12"/>
               </svg>
@@ -135,7 +135,7 @@
             </ul>
           </div>
           <button v-else class="modern-btn btn-create" @click="loadFiltersIfNeeded().then(() => modalAgregarEntradalegislacion.show = true)">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="12" y1="5" x2="12" y2="19"/>
               <line x1="5" y1="12" x2="19" y2="12"/>
             </svg>
@@ -144,7 +144,7 @@
 
           <div class="dropdown-modern">
             <button class="modern-btn btn-export dropdown-toggle" type="button" id="dropdownExport" data-bs-toggle="dropdown" aria-expanded="false">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
                 <polyline points="7 10 12 15 17 10"/>
                 <line x1="12" y1="15" x2="12" y2="3"/>
@@ -450,6 +450,7 @@ export default {
         materias: [],
         jurisdicion: [],
         jurisdicionV: [],
+        normas: [],
       },
       // Control de carga de filtros
       filtersLoaded: false,
@@ -481,6 +482,7 @@ export default {
       }, this.active)
         .then((entries) => {
           this.data = entries
+          console.log("this.data", this.data)
           this.grid.totalRows = entries[0]?.TOTALROWS || 0;
         })
         .catch((error) => {
@@ -582,6 +584,7 @@ export default {
 
     // ACTIONS ... 
     async edit(data) {
+      await this.loadFiltersIfNeeded();
       if (data.BLOG === 'common' || data.BLOG === 'undefined') {
         this.modalEditarEntradaComun.data = await this.obtenerDatosEdit(data.ID);
         if (this.modalEditarEntradaComun.data) this.modalEditarEntradaComun.show = true;
@@ -788,6 +791,8 @@ export default {
           JURISDICCION: jurisdiccion,
           JURISDICCIONV: jurisdiccionV,
           SITUACION: response.SITUACION,
+          JIDSVIN: response.JIDSVIN,
+          IDSVIN: response.IDSVIN
         };
 
         return retorno;
@@ -813,6 +818,30 @@ export default {
       }
       await this.getAllFilters();
     },
+    // Buscar normas dinámicamente
+    async searchNormas(query) {
+      if (!query || query.length < 3) {
+        this.selects.normas = [];
+        return;
+      }
+
+      try {
+        const normasResponse = await adminEntriesProxy.listSearchNames({ 
+          ROWS: 40, 
+          INIT: 0, 
+          DESC: query,
+          CESTDO: 'A',
+          TYPE: this.active,
+        });
+
+        this.selects.normas = normasResponse.map(item => ({
+          value: item.ID,
+          label: item.TITLE || item.RTITLE || 'Sin título',
+        }));
+      } catch (error) {
+        this.selects.normas = [];
+      }
+    },
     // COMUN
     async getAllFilters() {
       try {
@@ -827,7 +856,6 @@ export default {
           value: item.ID,
           label: (item.APELLIDOS + " " + item.NOMBRES).replace(/null/g, ""),
         }));
-
 
         if (filtersResponse && filtersResponse.length > 0) {
           const ambitos = this.configFilter(filtersResponse, "ÁMBITO");
@@ -974,20 +1002,20 @@ export default {
   background: white;
   border-bottom: 1px solid #E5E7EB;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  padding: 0 0 1.5rem 0;
-  margin: 0 -2rem 2rem -2rem;
+  padding: 0 0 0.5rem 0;
+  margin: 0 -2rem 1rem -2rem;
 }
 
 .entradas-header-content {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 1.5rem 2rem 0 2rem;
+  padding: 0.5rem 2rem 0 2rem;
 }
 
 .header-title-section {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 0.75rem;
 }
 
 .header-icon {
@@ -1007,7 +1035,7 @@ export default {
 
 .entradas-title {
   font-family: Lato, sans-serif;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 800;
   background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
   -webkit-background-clip: text;
@@ -1019,8 +1047,8 @@ export default {
 .entradas-subtitle {
   font-family: Lato, sans-serif;
   color: #6B7280;
-  font-size: 0.95rem;
-  margin: 0.25rem 0 0 0;
+  font-size: 0.8rem;
+  margin: 0.2rem 0 0 0;
 }
 
 /* Content Wrapper */
@@ -1034,28 +1062,28 @@ export default {
 .entradas-content {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 0 2rem 0;
+  padding: 0 0 1.5rem 0;
 }
 
 /* Modern Tabs */
 .tabs-modern {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: 8px;
+  margin-bottom: 1rem;
   background: white;
   padding: 0.5rem;
-  border-radius: 16px;
+  border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .tab-button {
   flex: 1;
-  padding: 1rem 1.5rem;
+  padding: 8px 16px;
   border: 2px solid transparent;
   background: transparent;
-  border-radius: 12px;
+  border-radius: 10px;
   font-family: Lato, sans-serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: #6B7280;
   cursor: pointer;
@@ -1079,30 +1107,25 @@ export default {
 }
 
 .tab-button svg {
-  width: 20px;
-  height: 20px;
-  transition: transform 0.3s ease;
-}
-
-.tab-button:hover svg {
-  transform: translateY(-2px);
+  width: 18px;
+  height: 18px;
 }
 
 /* Filters Advanced */
 .filters-advanced {
   background: white;
-  border-radius: 20px;
-  padding: 2rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   border: 1px solid #F3F4F6;
 }
 
 .filters-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .filter-item {
@@ -1113,7 +1136,7 @@ export default {
 
 .filter-label {
   font-family: Lato, sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: #475569;
   margin: 0;
@@ -1121,11 +1144,11 @@ export default {
 
 .modern-input {
   width: 100%;
-  padding: 0.875rem 1rem;
+  padding: 0.65rem 0.875rem;
   border: 2px solid #E5E7EB;
-  border-radius: 12px;
+  border-radius: 10px;
   font-family: Lato, sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #1F2937;
   transition: all 0.3s ease;
   background: white;
@@ -1144,9 +1167,9 @@ export default {
 
 .modern-select {
   width: 100%;
-  padding: 0.875rem 1rem;
+  padding: 0.65rem 0.875rem;
   border: 2px solid #E5E7EB;
-  border-radius: 12px;
+  border-radius: 10px;
   font-family: Lato, sans-serif;
   font-size: 0.95rem;
   color: #1F2937;
@@ -1164,11 +1187,11 @@ export default {
 
 /* DatePicker Styling */
 .modern-datepicker :deep(.mx-input) {
-  padding: 0.875rem 1rem;
+  padding: 0.65rem 0.875rem;
   border: 2px solid #E5E7EB;
-  border-radius: 12px;
+  border-radius: 10px;
   font-family: Lato, sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #1F2937;
   background: white;
   transition: all 0.3s ease;
@@ -1183,30 +1206,30 @@ export default {
 /* Actions Row */
 .actions-row {
   display: flex;
-  gap: 12px;
-  padding-top: 1rem;
+  gap: 10px;
+  padding-top: 0.75rem;
   border-top: 1px solid #e2e8f0;
   flex-wrap: wrap;
 }
 
 .modern-btn {
-  padding: 12px 24px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   font-family: Lato, sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   white-space: nowrap;
 }
 
 .modern-btn svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
 }
 
 .btn-search {
@@ -1216,7 +1239,6 @@ export default {
 }
 
 .btn-search:hover {
-  transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
 }
 
@@ -1227,7 +1249,6 @@ export default {
 }
 
 .btn-create:hover {
-  transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(223, 45, 178, 0.4);
 }
 
@@ -1238,7 +1259,6 @@ export default {
 }
 
 .btn-export:hover {
-  transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
 }
 
@@ -1249,24 +1269,24 @@ export default {
 
 .dropdown-menu-modern {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   border: 1px solid #e2e8f0;
-  padding: 8px;
-  margin-top: 8px;
-  min-width: 220px;
+  padding: 6px;
+  margin-top: 6px;
+  min-width: 200px;
 }
 
 .dropdown-item-modern {
-  padding: 12px 16px;
-  border-radius: 8px;
+  padding: 10px 14px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   font-family: Lato, sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   color: #475569;
 }
@@ -1285,9 +1305,9 @@ export default {
 /* Table Section */
 .table-section {
   background: white;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   border: 1px solid #F3F4F6;
 }
 
@@ -1459,8 +1479,8 @@ export default {
   .modern-btn {
     width: 100%;
     justify-content: center;
-    padding: 0.875rem 1.25rem;
-    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
   }
 
   .table-section {

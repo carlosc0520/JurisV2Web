@@ -4,7 +4,7 @@
         <div class="usuarios-header">
             <div class="usuarios-header-content">
                 <div class="header-title-section">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
                         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                         <circle cx="9" cy="7" r="4"/>
                         <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
@@ -25,7 +25,7 @@
                     class="tab-button"
                     :class="{ 'tab-active': active === 'Subscriptores' }"
                     @click="updateActive('Subscriptores')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                         <circle cx="9" cy="7" r="4"/>
                     </svg>
@@ -35,7 +35,7 @@
                     class="tab-button"
                     :class="{ 'tab-active': active === 'Digitadores' }"
                     @click="updateActive('Digitadores')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                         <circle cx="12" cy="7" r="4"/>
                     </svg>
@@ -45,7 +45,7 @@
                     class="tab-button"
                     :class="{ 'tab-active': active === 'Administradores' }"
                     @click="updateActive('Administradores')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                     </svg>
                     <span>Administradores</span>
@@ -55,7 +55,7 @@
             <!-- Filtros Modernos -->
             <div class="filters-section">
                 <div class="search-input-wrapper">
-                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="11" cy="11" r="8"/>
                         <path d="m21 21-4.35-4.35"/>
                     </svg>
@@ -80,14 +80,22 @@
 
                 <div class="button-group">
                     <button class="modern-btn btn-search" @click="search(grid.currentPage, grid.perPage)">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="11" cy="11" r="8"/>
                             <path d="m21 21-4.35-4.35"/>
                         </svg>
                         <span>Buscar</span>
                     </button>
-                    <button class="modern-btn btn-create" @click="modalAgregarUsuario.show = true">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <button v-if="canAccessReport" class="modern-btn btn-report" @click="exportarReporte">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        <span>Reporte</span>
+                    </button>
+                    <button v-if="canAccessCreate" class="modern-btn btn-create" @click="modalAgregarUsuario.show = true">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="12" y1="5" x2="12" y2="19"/>
                             <line x1="5" y1="12" x2="19" y2="12"/>
                         </svg>
@@ -99,7 +107,7 @@
             <!-- Tabla -->
             <div class="table-section">
                 <card-table :active="active" title="Usuarios" :search="search" :fields="fields" :items="data"
-                    :grid="grid" :actions="actions" />
+                    :grid="grid" :actions="availableActions" />
             </div>
 
             <LoadingOverlay :active="isLoading" :is-full-page="false" :loader="'bars'" />
@@ -124,6 +132,7 @@ import CardTable from "@/components/Cards/CardTable.vue";
 import { BFormSelect } from 'bootstrap-vue-next';
 import { toast } from 'vue3-toastify';
 import searchIcon from "@/assets/img/icons/search.svg";
+import * as XLSX from 'xlsx-js-style';
 
 // MODALES
 import ModalEliminar from "./Modales/ModalEliminar.vue";
@@ -175,6 +184,11 @@ export default {
                     sortable: true,
                 },
                 {
+                    key: "DESCRIPCION",
+                    label: "Plan",
+                    sortable: true,
+                },
+                {
                     key: "FCRCN",
                     label: "Fecha de Ingreso",
                     sortable: true,
@@ -210,20 +224,6 @@ export default {
                     class: "text-center w-130",
                 },
             ],
-            actions: {
-                edit: {
-                    label: "Editar",
-                    icon: "fas fa-edit",
-                    class: "btn-edit",
-                    action: null,
-                },
-                delete: {
-                    label: "Eliminar",
-                    icon: "fas fa-trash",
-                    class: "btn-delete",
-                    action: null,
-                },
-            },
 
             isLoading: false,
 
@@ -250,8 +250,62 @@ export default {
             },
             selects: {
                 planes: [],
-            }
+            },
+            // Arrays de correos autorizados por funcionalidad
+            emailsAutorizadosReporte: [
+                'CCARBAJALMT0520@GMAIL.COM',
+                'mbasurto@ccfirma.com',
+            ],
+            emailsAutorizadosCrear: [
+                'CCARBAJALMT0520@GMAIL.COM',
+            ],
+            emailsAutorizadosEditar: [
+                'CCARBAJALMT0520@GMAIL.COM',
+            ],
+            emailsAutorizadosEliminar: [
+                'CCARBAJALMT0520@GMAIL.COM',
+            ]
         };
+    },
+    computed: {
+        canAccessReport() {
+            return this.verificarAcceso(this.emailsAutorizadosReporte);
+        },
+        canAccessCreate() {
+            return this.verificarAcceso(this.emailsAutorizadosCrear);
+        },
+        canAccessEdit() {
+            return this.verificarAcceso(this.emailsAutorizadosEditar);
+        },
+        canAccessDelete() {
+            return this.verificarAcceso(this.emailsAutorizadosEliminar);
+        },
+        availableActions() {
+            const actions = {};
+            
+            if (this.canAccessEdit) {
+                actions.edit = {
+                    label: "Editar",
+                    icon: "fas fa-edit",
+                    class: "btn-edit",
+                    action: (data) => this.edit(data)
+                };
+            }
+            
+            if (this.canAccessDelete) {
+                actions.delete = {
+                    label: "Eliminar",
+                    icon: "fas fa-trash",
+                    class: "btn-delete",
+                    action: (data) => {
+                        this.modalEliminar.show = true;
+                        this.modalEliminar.data = data;
+                    }
+                };
+            }
+            
+            return actions;
+        }
     },
     props: {
         role: {
@@ -260,6 +314,24 @@ export default {
         }
     },
     methods: {
+        verificarAcceso(emailsList) {
+            try {
+                const userData = localStorage.getItem('user');
+                if (!userData) return false;
+                
+                const user = JSON.parse(userData);
+                const userEmail = user?.EMAIL?.toUpperCase();
+                
+                if (!userEmail) return false;
+                
+                return emailsList.some(email => 
+                    email.toUpperCase() === userEmail
+                );
+            } catch (error) {
+                console.error('Error al verificar acceso:', error);
+                return false;
+            }
+        },
         async search(currentPage, perPage) {
             const init = (currentPage - 1) * perPage;
             const rows = perPage;
@@ -330,24 +402,156 @@ export default {
                     toast.error('Error al cargar los planes', { toastId: 'error-planes' });
                 });
         },
+        async exportarReporte() {
+            this.isLoading = true;
+            
+            try {
+                // Obtener todos los datos con los filtros aplicados
+                const response = await userProxy.list({
+                    ROWS: 10000,
+                    INIT: 0,
+                    DESC: this.filter?.NOMBRES || null,
+                    CESTDO: this.filter?.CDESTDO || null,
+                }, this.active === 'Administradores' ? 0 : this.active === 'Digitadores' ? 1 : 2);
+
+                if (!response || response.length === 0) {
+                    toast.warning('No hay datos para exportar', { toastId: 'warning-export' });
+                    return;
+                }
+
+                // Preparar los datos para el Excel
+                const excelData = response.map((item, index) => ({
+                    'N°': index + 1,
+                    'Apellido Paterno': item.APATERNO?.trim() || '',
+                    'Apellido Materno': item.AMATERNO?.trim() || '',
+                    'Nombres': item.NOMBRES || '',
+                    'Correo Electrónico': item.EMAIL || '',
+                    'Teléfono': item.TELEFONO || '',
+                    'Plan': item.DESCRIPCION || '',
+                    'Fecha de Nacimiento': item.FNACIMIENTO ? new Date(item.FNACIMIENTO).toLocaleDateString('es-PE') : '',
+                    'Fecha de Creación': item.FCRCN ? new Date(item.FCRCN).toLocaleDateString('es-PE') : '',
+                    'Estado': item.CDESTDO === 'A' ? 'Activo' : 'Inactivo'
+                }));
+
+                // Crear un nuevo libro de trabajo
+                const wb = XLSX.utils.book_new();
+                const ws = XLSX.utils.json_to_sheet(excelData);
+
+                // Establecer el ancho de las columnas
+                const columnWidths = [
+                    { wch: 6 },  // N°
+                    { wch: 20 }, // Apellido Paterno
+                    { wch: 20 }, // Apellido Materno
+                    { wch: 25 }, // Nombres
+                    { wch: 35 }, // Correo Electrónico
+                    { wch: 15 }, // Teléfono
+                    { wch: 30 }, // Plan
+                    { wch: 18 }, // Fecha de Nacimiento
+                    { wch: 18 }, // Fecha de Creación
+                    { wch: 12 }  // Estado
+                ];
+                ws['!cols'] = columnWidths;
+
+                // Aplicar estilos a los encabezados (primera fila)
+                const range = XLSX.utils.decode_range(ws['!ref']);
+                
+                // Estilo para encabezados
+                const headerStyle = {
+                    fill: {
+                        patternType: 'solid',
+                        fgColor: { rgb: 'FF8B5CF6' } // Color violeta del tema
+                    },
+                    font: {
+                        name: 'Calibri',
+                        sz: 12,
+                        bold: true,
+                        color: { rgb: 'FFFFFFFF' }
+                    },
+                    alignment: {
+                        horizontal: 'center',
+                        vertical: 'center'
+                    },
+                    border: {
+                        top: { style: 'thin', color: { rgb: 'FF000000' } },
+                        bottom: { style: 'thin', color: { rgb: 'FF000000' } },
+                        left: { style: 'thin', color: { rgb: 'FF000000' } },
+                        right: { style: 'thin', color: { rgb: 'FF000000' } }
+                    }
+                };
+
+                // Aplicar estilo a cada encabezado
+                for (let col = range.s.c; col <= range.e.c; col++) {
+                    const cellAddress = XLSX.utils.encode_cell({ r: 0, c: col });
+                    if (!ws[cellAddress]) continue;
+                    ws[cellAddress].s = headerStyle;
+                }
+
+                // Aplicar estilos a las celdas de datos
+                for (let row = range.s.r + 1; row <= range.e.r; row++) {
+                    for (let col = range.s.c; col <= range.e.c; col++) {
+                        const cellAddress = XLSX.utils.encode_cell({ r: row, c: col });
+                        if (!ws[cellAddress]) continue;
+                        
+                        // Color de fondo alternado
+                        const bgColor = row % 2 === 0 ? 'FFF8FAFC' : 'FFFFFFFF';
+                        
+                        // Estilo base para datos
+                        const dataStyle = {
+                            fill: {
+                                patternType: 'solid',
+                                fgColor: { rgb: bgColor }
+                            },
+                            font: {
+                                name: 'Calibri',
+                                sz: 11,
+                                color: { rgb: 'FF1F2937' }
+                            },
+                            alignment: {
+                                horizontal: col === 0 ? 'center' : 'left',
+                                vertical: 'center'
+                            },
+                            border: {
+                                top: { style: 'thin', color: { rgb: 'FFE5E7EB' } },
+                                bottom: { style: 'thin', color: { rgb: 'FFE5E7EB' } },
+                                left: { style: 'thin', color: { rgb: 'FFE5E7EB' } },
+                                right: { style: 'thin', color: { rgb: 'FFE5E7EB' } }
+                            }
+                        };
+
+                        ws[cellAddress].s = dataStyle;
+
+                        // Estilo especial para la columna Estado (última columna)
+                        if (col === range.e.c) {
+                            const value = ws[cellAddress].v;
+                            ws[cellAddress].s.alignment.horizontal = 'center';
+                            ws[cellAddress].s.font.bold = true;
+                            ws[cellAddress].s.font.color = { 
+                                rgb: value === 'Activo' ? 'FF10B981' : 'FFEF4444' 
+                            };
+                        }
+                    }
+                }
+
+                // Agregar la hoja al libro
+                const sheetName = this.active || 'Usuarios';
+                XLSX.utils.book_append_sheet(wb, ws, sheetName);
+
+                // Generar el archivo y descargarlo
+                const fechaActual = new Date().toLocaleDateString('es-PE').replace(/\//g, '-');
+                const nombreArchivo = `Reporte_${sheetName}_${fechaActual}.xlsx`;
+                XLSX.writeFile(wb, nombreArchivo);
+
+                toast.success('Reporte generado exitosamente', { toastId: 'success-export' });
+            } catch (error) {
+                console.error('Error al generar el reporte:', error);
+                toast.error(error?.MESSAGE || 'Error al generar el reporte', { toastId: 'error-export' });
+            } finally {
+                this.isLoading = false;
+            }
+        },
     },
     mounted() {
         this.getPlanes();
-        this.actions = {
-            ...this.actions,
-            edit: {
-                ...this.actions.edit,
-                action: (data) => this.edit(data),
-            },
-            delete: {
-                ...this.actions.delete,
-                action: (data) => {
-                    this.modalEliminar.show = true;
-                    this.modalEliminar.data = data;
-                }
-            },
-        }
-
     }
 };
 </script>
@@ -365,20 +569,20 @@ export default {
     background: white;
     border-bottom: 1px solid #E5E7EB;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    padding: 0 0 1.5rem 0;
-    margin: 0 -2rem 2rem -2rem;
+    padding: 0 0 0.5rem 0;
+    margin: 0 -2rem 1rem -2rem;
 }
 
 .usuarios-header-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 1.5rem 2rem 0 2rem;
+    padding: 0.5rem 2rem 0 2rem;
 }
 
 .header-title-section {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0.75rem;
 }
 
 .header-icon {
@@ -398,7 +602,7 @@ export default {
 
 .usuarios-title {
     font-family: Lato, sans-serif;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 800;
     background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
     -webkit-background-clip: text;
@@ -410,8 +614,8 @@ export default {
 .usuarios-subtitle {
     font-family: Lato, sans-serif;
     color: #6B7280;
-    font-size: 0.95rem;
-    margin: 0.25rem 0 0 0;
+    font-size: 0.8rem;
+    margin: 0.2rem 0 0 0;
 }
 
 /* Content */
@@ -425,29 +629,29 @@ export default {
 .usuarios-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 0 2rem 0;
+    padding: 0 0 1.5rem 0;
 }
 
 /* Modern Tabs */
 /* Modern Tabs */
 .tabs-modern {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: 8px;
+    margin-bottom: 1rem;
     background: white;
     padding: 0.5rem;
-    border-radius: 16px;
+    border-radius: 12px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .tab-button {
     flex: 1;
-    padding: 1rem 1.5rem;
+    padding: 8px 16px;
     border: 2px solid transparent;
     background: transparent;
-    border-radius: 12px;
+    border-radius: 10px;
     font-family: Lato, sans-serif;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: #6B7280;
     cursor: pointer;
@@ -471,23 +675,18 @@ export default {
 }
 
 .tab-button svg {
-    width: 20px;
-    height: 20px;
-    transition: transform 0.3s ease;
-}
-
-.tab-button:hover svg {
-    transform: translateY(-2px);
+    width: 18px;
+    height: 18px;
 }
 
 /* Filters Section */
 /* Filters Section */
 .filters-section {
     background: white;
-    border-radius: 20px;
-    padding: 2rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     border: 1px solid #F3F4F6;
     display: grid;
     grid-template-columns: 2fr 1fr auto;
@@ -503,7 +702,7 @@ export default {
 
 .search-icon {
     position: absolute;
-    left: 14px;
+    left: 12px;
     top: 50%;
     transform: translateY(-50%);
     color: #94a3b8;
@@ -513,11 +712,11 @@ export default {
 /* Search Input */
 .modern-input {
     width: 100%;
-    padding: 0.875rem 1rem 0.875rem 2.75rem;
+    padding: 0.65rem 0.875rem 0.65rem 2.5rem;
     border: 2px solid #E5E7EB;
-    border-radius: 12px;
+    border-radius: 10px;
     font-family: Lato, sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #1F2937;
     transition: all 0.3s ease;
     background: white;
@@ -542,11 +741,11 @@ export default {
 /* Select Wrapper */
 .modern-select {
     width: 100%;
-    padding: 0.875rem 1rem;
+    padding: 0.65rem 0.875rem;
     border: 2px solid #E5E7EB;
-    border-radius: 12px;
+    border-radius: 10px;
     font-family: Lato, sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #1F2937;
     background: white;
     cursor: pointer;
@@ -567,23 +766,23 @@ export default {
 }
 
 .modern-btn {
-    padding: 12px 24px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     font-family: Lato, sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     white-space: nowrap;
 }
 
 .modern-btn svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
 }
 
 .btn-search {
@@ -593,8 +792,17 @@ export default {
 }
 
 .btn-search:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+}
+
+.btn-report {
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-report:hover {
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
 }
 
 .btn-create {
@@ -604,7 +812,6 @@ export default {
 }
 
 .btn-create:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(223, 45, 178, 0.4);
 }
 
@@ -612,9 +819,9 @@ export default {
 /* Table Section */
 .table-section {
     background: white;
-    border-radius: 20px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     border: 1px solid #F3F4F6;
 }
 
@@ -639,12 +846,12 @@ export default {
     }
 
     .usuarios-header {
-        padding: 0 0 1.25rem 0;
-        margin: 0 -1rem 1.5rem -1rem;
+        padding: 0 0 0.75rem 0;
+        margin: 0 -1rem 1rem -1rem;
     }
 
     .usuarios-header-content {
-        padding: 1.25rem 1rem 0 1rem;
+        padding: 0.75rem 1rem 0 1rem;
     }
 
     .header-title-section {
@@ -687,8 +894,8 @@ export default {
     }
 
     .filters-section {
-        padding: 1.25rem;
-        border-radius: 16px;
+        padding: 1rem;
+        border-radius: 14px;
     }
 
     .button-group {
@@ -698,11 +905,8 @@ export default {
     .modern-btn {
         flex: 1;
         justify-content: center;
-        padding: 0.875rem 1.25rem;
-        font-size: 0.9rem;
-    }
-
-    .table-section {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
         border-radius: 16px;
     }
 }
@@ -713,12 +917,12 @@ export default {
     }
 
     .usuarios-header {
-        padding: 0 0 1rem 0;
-        margin: 0 -0.875rem 1.25rem -0.875rem;
+        padding: 0 0 0.5rem 0;
+        margin: 0 -0.875rem 1rem -0.875rem;
     }
 
     .usuarios-header-content {
-        padding: 1rem 0.875rem 0 0.875rem;
+        padding: 0.5rem 0.875rem 0 0.875rem;
     }
 
     .header-title-section {

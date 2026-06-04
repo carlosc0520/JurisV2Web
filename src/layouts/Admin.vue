@@ -1,14 +1,14 @@
 <template>
-  <div class="navbarDesign" :class="{ collapsed: isCollapsed }">
+  <div class="navbarDesign dark:bg-gray-900" :class="{ collapsed: isCollapsed }">
     <!-- Sidebar -->
-    <div class="sidebar" :class="isCollapsed ? 'w-content-0' : 'w-content-10'">
+    <div class="sidebar dark:bg-gray-800" :class="isCollapsed ? 'w-content-0' : 'w-content-10'">
       <sidebar :is-collapsed="isCollapsed" :toggleSidebar="toggleSidebar" :menu="menu" :role="role" />
     </div>
 
     <!-- Contenido principal -->
-    <div class="main-content transition-all duration-300" :class="isCollapsed ? 'w-content-100' : 'w-content-90'">
+    <div class="main-content transition-all duration-300 dark:bg-gray-900" :class="isCollapsed ? 'w-content-100' : 'w-content-90'">
       <admin-navbar :RTAFTO="RTAFTO" :toggleSidebar="toggleSidebar" />
-      <div class="content-wrapper">
+      <div class="content-wrapper dark:bg-gray-900">
         <router-view :RTAFTO="RTAFTO" :UPDATERTAFTO="UPDATERTAFTO" />
       </div>
     </div>
@@ -41,14 +41,14 @@ export default {
       isVisible: true,
       menu: [
         { name: 'Inicio', route: '/admin/dashboard', icon: homeIcon },
-        { name: 'Busqueda', route: '/admin/busqueda', icon: busquedaIcon },
+        { name: 'Búsqueda', route: '/admin/busqueda', icon: busquedaIcon },
         { name: 'Perfil', route: '/admin/settings', icon: perfilIcon },
         { name: 'Resoluciones', route: '/admin/entradas', icon: jurisIcon },
         { name: 'Usuarios', route: '/admin/usuarios', icon: usersIcon },
         { name: 'Filtros', route: '/admin/filtros', icon: filtersIcon },
         { name: 'Mantenimiento', route: '/admin/mantenimiento', icon: mantenimientoIcon },
         { name: "Favoritos", route: "/admin/favoritos", icon: estrellaIcon },
-        { name: "Noticias", route: "/admin/noticias", icon: noticiasIcon },
+        { name: "Investigación", route: "/admin/investigacion", icon: noticiasIcon },
         // { name: "Juris GPT", route: "/admin/jurisgpt", icon: noticiasIcon },
 
         // { name: 'Busqueda', route: '/admin/busqueda', icon: 'fas fa-search' },
@@ -114,6 +114,10 @@ body {
     background-color: #f9fafb !important;
 }
 
+.dark body {
+    background-color: #1a202c !important;
+}
+
 .content-wrapper {
     padding-top: 60px;
     min-height: calc(100vh - 60px);
@@ -128,6 +132,10 @@ hr {
     border-top: 1.5px solid rgba(0, 0, 0, 0.1);
     width: 90%;
     margin: 0 auto;
+}
+
+.dark hr {
+    border-top-color: rgba(255, 255, 255, 0.1);
 }
 
 

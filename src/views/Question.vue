@@ -64,14 +64,14 @@
             </section>
 
             <!-- Resume Section (cuando se usa como componente) -->
-            <section v-if="resumeSection" class="py-5">
+            <section v-if="resumeSection" >
                 <div class="container mx-auto px-4">
                     <div class="flex flex-wrap">
                         <div class="container relative mx-auto aparecer-r-to-l">
                             <div class="border-bottom content-title-question" v-for="pregunta in preguntas.slice(0, 3)"
                                 :key="pregunta.ID">
                                 <button @click="togglePregunta(pregunta.ID)"
-                                    class="flex justify-between items-center w-full text-left rounded-lg focus:outline-none font-bold sm:text-sm md:text-base lg:text-lg text-blueGray-800 hover:bg-white hover:text-blueGray-800 py-10">
+                                    class="flex justify-between items-center w-full text-left rounded-lg focus:outline-none font-bold sm:text-sm md:text-base text-blueGray-800 hover:bg-white hover:text-blueGray-800 py-10">
                                     <span>{{ pregunta?.DESCRIPCION || "" }}</span>
                                     <i v-if="isOpen(pregunta.ID)" class="text-blue-500 fas fa-chevron-up"></i>
                                     <i v-else class="text-blue-500 fas fa-chevron-down"></i>
@@ -192,7 +192,7 @@ export default {
 
 /* Hero Section */
 .hero-section {
-    padding: 3.5rem 2rem;
+    padding: 2.5rem 2rem;
     text-align: center;
 }
 
@@ -202,14 +202,14 @@ export default {
 }
 
 .hero-title {
-    font-size: 3rem;
+    font-size: 2.2rem;
     font-weight: 800;
     color: #1F2937;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .hero-subtitle {
-    font-size: 1.125rem;
+    font-size: 0.88rem;
     color: #4B5563;
     line-height: 1.6;
     max-width: 600px;
@@ -219,17 +219,17 @@ export default {
 /* Loading */
 .loading-container {
     text-align: center;
-    padding: 4rem 2rem;
+    padding: 2.8rem 2rem;
 }
 
 .loading-spinner {
-    width: 60px;
-    height: 60px;
-    border: 4px solid rgba(107, 163, 255, 0.3);
+    width: 46px;
+    height: 46px;
+    border: 3px solid rgba(107, 163, 255, 0.3);
     border-top-color: #6ba3ff;
     border-radius: 50%;
     animation: spin 1s linear infinite;
-    margin: 0 auto 1rem;
+    margin: 0 auto 0.75rem;
 }
 
 @keyframes spin {
@@ -240,7 +240,7 @@ export default {
 
 .loading-text {
     color: #1F2937;
-    font-size: 1.125rem;
+    font-size: 0.88rem;
     font-weight: 600;
 }
 
@@ -260,7 +260,7 @@ export default {
 
 .question-item {
     background: white;
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
@@ -276,7 +276,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem;
+    padding: 1.2rem 1.25rem;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -295,38 +295,38 @@ export default {
 .question-header {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
     flex: 1;
 }
 
 .question-number {
-    min-width: 40px;
-    height: 40px;
+    min-width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, #f084d4 0%, #6ba3ff 100%);
     color: white;
-    border-radius: 10px;
+    border-radius: 8px;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.78rem;
     flex-shrink: 0;
 }
 
 .question-text {
-    font-size: 1.1rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: #1F2937;
     line-height: 1.5;
 }
 
 .question-icon {
-    width: 32px;
-    height: 32px;
+    width: 26px;
+    height: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: 6px;
     background: rgba(107, 163, 255, 0.1);
     flex-shrink: 0;
     transition: all 0.3s ease;
@@ -341,8 +341,8 @@ export default {
 }
 
 .icon {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     color: #6ba3ff;
     transition: all 0.3s ease;
 }
@@ -352,10 +352,10 @@ export default {
 }
 
 .question-answer {
-    padding: 10px 1.5rem 1.5rem 1.5rem;
+    padding: 0.75rem 1.25rem 1.25rem 1.25rem;
     color: #4B5563;
-    line-height: 1.7;
-    font-size: 1rem;
+    line-height: 1.65;
+    font-size: 0.85rem;
     border-top: 2px solid #F3F4F6;
 }
 
@@ -397,9 +397,9 @@ export default {
 /* CTA Section */
 .cta-section {
     background: rgba(33,37,41, 1);
-    padding: 3rem 2rem;
-    margin: 3rem 2rem 0;
-    border-radius: 20px;
+    padding: 2rem 2rem;
+    margin: 1.5rem 2rem 0;
+    border-radius: 16px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
@@ -410,29 +410,29 @@ export default {
 }
 
 .cta-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 800;
     color: white;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
 }
 
 .cta-text {
-    font-size: 1.125rem;
+    font-size: 0.88rem;
     color: white;
     opacity: 0.95;
-    margin-bottom: 2rem;
+    margin-bottom: 1.4rem;
     line-height: 1.6;
 }
 
 .cta-button {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     background: white;
     color: #6ba3ff;
-    padding: 1rem 2rem;
-    border-radius: 12px;
-    font-size: 1rem;
+    padding: 0.7rem 1.5rem;
+    border-radius: 10px;
+    font-size: 0.82rem;
     font-weight: 700;
     text-decoration: none;
     transition: all 0.3s ease;
@@ -446,8 +446,8 @@ export default {
 }
 
 .button-icon {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     transition: transform 0.3s ease;
 }
 
@@ -513,5 +513,192 @@ export default {
     .cta-section {
         margin: 2rem 1rem 0;
     }
+}
+
+/* ============================================
+   DARK MODE STYLES
+   ============================================ */
+
+/* Main Background */
+.dark main {
+    background: #111827;
+}
+
+.dark .question-landing {
+    background: #111827;
+}
+
+/* Hero Section */
+.dark .hero-section {
+    background: transparent;
+}
+
+.dark .hero-title {
+    color: #f3f4f6 !important;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8) !important;
+}
+
+.dark .hero-subtitle {
+    color: #d1d5db !important;
+}
+
+/* Loading Container */
+.dark .loading-container {
+    background: transparent;
+}
+
+.dark .loading-text {
+    color: #d1d5db;
+}
+
+.dark .loading-spinner {
+    border-color: rgba(107, 163, 255, 0.2);
+    border-top-color: #6ba3ff;
+}
+
+/* Questions Container */
+.dark .questions-container {
+    background: transparent;
+}
+
+.dark .questions-wrapper {
+    background: transparent;
+}
+
+/* Question Items */
+.dark .question-item {
+    background: #1f2937;
+    border: 1px solid #374151;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark .question-button {
+    background: #1f2937;
+    color: #f3f4f6;
+}
+
+.dark .question-button:hover {
+    background: #111827;
+    border-color: #4a5568;
+}
+
+.dark .question-button.active {
+    background: #111827;
+    border-color: #6ba3ff;
+}
+
+.dark .question-header {
+    color: #f3f4f6;
+}
+
+.dark .question-number {
+    background: linear-gradient(135deg, #1864FF 0%, #6ba3ff 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(24, 100, 255, 0.4);
+}
+
+.dark .question-text {
+    color: #f3f4f6;
+}
+
+.dark .question-icon {
+    color: #93c5fd;
+}
+
+.dark .question-answer {
+    background: #111827;
+    color: #d1d5db;
+    border-top: 1px solid #374151;
+}
+
+/* CTA Section */
+.dark .cta-section {
+    background: #111827;
+    border: 1px solid #374151;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+}
+
+.dark .cta-title {
+    color: #f3f4f6;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.dark .cta-text {
+    color: #d1d5db;
+}
+
+.dark .cta-button {
+    background: white !important;
+    color: #0d47a1 !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.dark .cta-button:hover {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+    color: #0d47a1 !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+.dark .cta-button .button-icon {
+    color: #0d47a1 !important;
+    stroke: #0d47a1 !important;
+}
+
+/* Resume Section (cuando se usa como componente) */
+.dark section .container {
+    background: transparent;
+}
+
+.dark .content-title-question {
+    border-bottom: 2px solid #374151 !important;
+    background: transparent;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.dark .content-title-question button {
+    color: #f3f4f6 !important;
+    background: transparent !important;
+    padding: 1.5rem 0 !important;
+    transition: all 0.3s ease;
+}
+
+.dark .content-title-question button:hover {
+    background: rgba(31, 41, 55, 0.5) !important;
+    color: #f3f4f6 !important;
+    padding-left: 1rem !important;
+}
+
+.dark .content-title-question button span {
+    color: #f3f4f6 !important;
+}
+
+.dark .content-title-question button i {
+    color: #93c5fd !important;
+}
+
+.dark .content-title-question .bg-white {
+    background: #1f2937 !important;
+    color: #d1d5db !important;
+    border-color: #374151 !important;
+    border-top: 1px solid #374151 !important;
+    margin-top: 0 !important;
+}
+
+/* Estilos para el contenido HTML de las respuestas */
+.dark .content-title-question .bg-white p,
+.dark .content-title-question .bg-white div,
+.dark .content-title-question .bg-white span,
+.dark .content-title-question .bg-white li {
+    color: #d1d5db !important;
+}
+
+.dark .content-title-question .bg-white strong,
+.dark .content-title-question .bg-white b {
+    color: #f3f4f6 !important;
+}
+
+.dark .content-title-question .bg-white a {
+    color: #93c5fd !important;
 }
 </style>

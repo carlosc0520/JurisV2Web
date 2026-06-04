@@ -5,7 +5,7 @@
       <div class="dashboard-header">
         <div class="dashboard-header-content">
           <div class="header-title-section">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="header-icon">
               <rect x="3" y="3" width="7" height="7"/>
               <rect x="14" y="3" width="7" height="7"/>
               <rect x="14" y="14" width="7" height="7"/>
@@ -152,7 +152,6 @@ export default {
               ENTRADAS: JSON.parse(response?.[0]?.ENTRADAS) || [],
               PALABRAS: JSON.parse(response?.[0]?.PALABRAS) || []
             }
-            console.log(this.head );
           }
         })
         .catch((error) => toast.error(error, { toastId: 'error-head' }));
@@ -173,27 +172,27 @@ export default {
 .dashboard-wrapper {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1rem;
 }
 
 .dashboard-header {
   background: white;
   border-bottom: 1px solid #E5E7EB;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  padding: 0 0 1.5rem 0;
-  margin: 0 -2rem 2rem -2rem;
+  padding: 0 0 0.75rem 0;
+  margin: 0 -1rem 1.25rem -1rem;
 }
 
 .dashboard-header-content {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 1.5rem 2rem 0 2rem;
+  padding: 0.75rem 1rem 0 1rem;
 }
 
 .header-title-section {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 0.75rem;
 }
 
 .header-icon {
@@ -213,7 +212,7 @@ export default {
 
 .dashboard-title {
   font-family: Lato, sans-serif;
-  font-size: 2rem;
+  font-size: 1.35rem;
   font-weight: 800;
   background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
   -webkit-background-clip: text;
@@ -226,26 +225,26 @@ export default {
 .dashboard-subtitle {
   font-family: Lato, sans-serif;
   color: #6B7280;
-  font-size: 0.95rem;
-  margin: 0.25rem 0 0 0;
+  font-size: 0.8rem;
+  margin: 0.15rem 0 0 0;
   font-weight: 500;
 }
 
 /* Stats Cards */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .stat-card {
   background: white;
-  border-radius: 16px;
-  padding: 1.5rem;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid #F3F4F6;
@@ -258,9 +257,9 @@ export default {
 }
 
 .stat-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -268,8 +267,8 @@ export default {
 }
 
 .stat-icon svg {
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   color: white;
 }
 
@@ -291,15 +290,15 @@ export default {
 
 .stat-label {
   font-family: Lato, sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   color: #64748b;
-  margin: 0 0 4px 0;
+  margin: 0 0 2px 0;
   font-weight: 500;
 }
 
 .stat-value {
   font-family: Lato, sans-serif;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 700;
   color: #1e293b;
   margin: 0;
@@ -309,22 +308,22 @@ export default {
 /* Chart Tabs */
 .chart-tabs {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: 0.625rem;
+  margin-bottom: 1rem;
   background: white;
-  padding: 0.5rem;
-  border-radius: 16px;
+  padding: 0.375rem;
+  border-radius: 14px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .tab-button {
   flex: 1;
-  padding: 1rem 1.5rem;
+  padding: 0.6rem 1rem;
   border: none;
   background: transparent;
-  border-radius: 12px;
+  border-radius: 10px;
   font-family: Lato, sans-serif;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: #6B7280;
   cursor: pointer;
@@ -332,12 +331,12 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .tab-icon {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
 .tab-button:hover {
@@ -348,7 +347,7 @@ export default {
 
 .tab-button.active {
   background: rgba(24, 92, 230, 0.08);
-  color: #185CE6 !important;
+  color: #185CE6;
   border: 2px solid #185CE6;
 }
 
@@ -360,15 +359,15 @@ export default {
 .charts-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .chart-container,
 .table-container {
   background: white;
-  border-radius: 16px;
+  border-radius: 14px;
   overflow: hidden;
-  padding: 1.5rem;
+  padding: 1rem;
   border: 1px solid #F3F4F6;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }

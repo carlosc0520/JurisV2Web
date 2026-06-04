@@ -63,8 +63,15 @@ class AdminEntriesProxy {
     return data;
   }
 
-  async listdata(model, TYPE = null) {
-    const { data } = await axios.get(`/admin/entries/list-data?TYPE=${TYPE}`, {
+  async listSearchNames(model) {
+    const { data } = await axios.get(`/admin/entries/list-search-names`, {
+      params: model,
+    });
+    return data;
+  }
+
+  async listdata(model, type = null) {
+    const { data } = await axios.get(`/admin/entries/list-data?TYPE=${type}`, {
       params: model,
     });
     return data;
@@ -125,6 +132,21 @@ class AdminEntriesProxy {
     return data;
   }
 
+  async filtersBusquedaSearch(model) {
+    const { data } = await axios.get(`/admin/entries/filters-busqueda-search`, {
+      params: model,
+    });
+    return data;
+  }
+
+  async saveOpenEntrie(model) {
+    const { data } = await axios.post(
+      `/admin/entries/save-open-entrie`,
+      model
+    );
+    return data;
+  }
+
   // * FILES
   async downloadFile(model) {
     const { data } = await axios.post(`/admin/entries/download-file`, model, {
@@ -174,11 +196,15 @@ class AdminEntriesProxy {
     return data;
   }
 
-  async clearTopSearch(GLOBAL, TYPE = null) {
-    const { data } = await axios.post(`/admin/entries/clearTopSearch`, { GLOBAL, TYPE });
+  async clearTopSearch(GLOBAL) {
+    const { data } = await axios.post(`/admin/entries/clearTopSearch`, { GLOBAL });
     return data;
   }
 
+  async intercambioOrderSearch(IdOrden, IdOrden2) {
+    const { data } = await axios.post(`/admin/entries/intercambio-order-search`, { IdOrden, IdOrden2 });
+    return data;
+  }
 }
 
 export default new AdminEntriesProxy();

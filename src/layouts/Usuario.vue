@@ -1,11 +1,11 @@
 <template>
-  <div class="navbarDesign" :class="{ collapsed: isCollapsed }">
-    <div class="sidebar" :class="isCollapsed ? 'w-content-0' : 'w-content-10'">
+  <div class="navbarDesign dark:bg-gray-900" :class="{ collapsed: isCollapsed }">
+    <div class="sidebar dark:bg-gray-800" :class="isCollapsed ? 'w-content-0' : 'w-content-10'">
             <sidebar :is-collapsed="isCollapsed" :toggleSidebar="toggleSidebar" :menu="menu" :role="role"/>
         </div>
-    <div class="main-content transition-all duration-300" :class="isCollapsed ? 'w-content-100' : 'w-content-90'">
+    <div class="main-content transition-all duration-300 dark:bg-gray-900" :class="isCollapsed ? 'w-content-100' : 'w-content-90'">
             <admin-navbar :RTAFTO="RTAFTO" :toggleSidebar="toggleSidebar" />
-            <div class="content-wrapper">
+            <div class="content-wrapper dark:bg-gray-900">
                 <router-view :RTAFTO="RTAFTO" :UPDATERTAFTO="UPDATERTAFTO" />
             </div>
         </div>
@@ -42,12 +42,12 @@ export default {
             RTAFTO: JSON.parse(localStorage.getItem("user"))?.RTAFTO,
             isCollapsed: false,
             menu: [
-                { name: 'Busqueda', route: '/usuario/busqueda', icon: busquedaIcon },
+                { name: 'Búsqueda', route: '/usuario/busqueda', icon: busquedaIcon },
                 { name: 'Perfil', route: '/usuario/settings', icon: perfilIcon },
                 // { name: 'Publicación', route: '/usuario/dashboard', icon: homeIcon },
                 { name: 'Favoritos', route: '/usuario/favoritos', icon: estrellaIcon },
-                { name: 'Subscripción', route: '/usuario/subscripcion', icon: subscripcionIcon },
                 { name: 'Investigación', route: '/usuario/investigacion', icon: noticiasIcon },
+                { name: 'Suscripción', route: '/usuario/subscripcion', icon: subscripcionIcon },
                 // { name: "Reportes", route: "/usuario/reportes", icon: reportIcon },
             ],
         };
@@ -90,6 +90,10 @@ html {
 body {
     margin: 0;
     background-color: #f9fafb !important;
+}
+
+.dark body {
+    background-color: #1a202c !important;
 }
 
 .content-wrapper {

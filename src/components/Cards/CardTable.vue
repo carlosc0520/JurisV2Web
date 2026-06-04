@@ -1,245 +1,224 @@
 <template>
-  <div class="relative flex flex-col min-w-0 break-words w-full mb-6rounded pt-2 pb-4">
-
-
-    <!-- <div class="rounded-t mb-0 px-4 py-3 border-0">
-      <div class="flex flex-wrap items-center">
-        <div class="relative w-full max-w-full flex-grow flex-1">
-          <h3 class="font-semibold text-lg m-0"
-            :class="[color === 'light' ? 'm-0 text-blueGray-700' : 'm-0 text-white']">
-            {{ title }}
-          </h3>
+  <div class="billing-table-card">
+    <div class="relative flex flex-col min-w-0 break-words w-full mb-6rounded pt-2 pb-4">
+      <div class="overflow-x-auto">
+        <div class="table-perOptions" style="margin-left: 1.5rem;">
+          <b-form-select v-model="perPage" :options="grid.pageOptions" style="width: 95px; height: 42px;"
+            @change="() => myCallback(currentPage, perPage)" />
+          <p style="font-size: 14px; color: #727370 !important; margin: 0; padding: 0; font-family: Lato;">
+            Se están mostrando {{ items.length }} de {{ grid.perPage }} registros por página (total: {{ grid.totalRows
+            }}
+            registros)
+          </p>
         </div>
-      </div>
-    </div> -->
 
-    <!-- <div class="flex justify-start mb-3 gap-2 flex-col md:flex-row">
-      <b-form-select v-model="perPage" :options="grid.pageOptions" class="ml-2"
-        style="width: 70px;height: 37px; padding: 1px!important;" @change="() => myCallback(currentPage, perPage)" />
+        <b-table :items="items" :fields="computedFields" :busy="grid.isLoading" busyLoadingText="Cargando..."
+          no-local-sorting responsive="sm" :noProviderSorting="false" :noProviderFiltering="false"
+          :noSortableIcon="true" class="mb-4">
+          <template #emptyText>
+            <div class="text-center my-3">
+              <b-icon icon="exclamation-circle-fill"></b-icon>
+              <p>No existen datos</p>
+            </div>
+          </template>
 
-      <b-pagination v-model="currentPage" :total-rows="grid.totalRows" @update:model-value="myCallback"
-        :per-page="grid.perPage" aria-controls="my-table" class="my-0" />
+          <template #cell(FCRCN)="data">
+            <span>{{ formatoFecha(data.value) }}</span>
+          </template>
 
-      <b-input type="number" v-model="currentPage" @input="currentPage" placeholder="Buscar..." class="ml-2"
-        style="width: 70px;height: 37px" />
-    </div> -->
-
-    <div class="overflow-x-auto">
-      <div class="table-perOptions" style="margin-left: 1.5rem;">
-        <b-form-select v-model="perPage" :options="grid.pageOptions" style="width: 70px;"
-          @change="() => myCallback(currentPage, perPage)" />
-        <p style="font-size: 14px; color: #727370 !important; margin: 0; padding: 0; font-family: Lato;">
-          Se están mostrando {{ items.length }} de {{ grid.perPage }} registros por página (total: {{ grid.totalRows }}
-          registros)
-        </p>
-      </div>
-
-      <b-table :items="items" :fields="computedFields" :busy="grid.isLoading" busyLoadingText="Cargando..."
-        no-local-sorting responsive="sm" :noProviderSorting="false" :noProviderFiltering="false" :noSortableIcon="true"
-        class="mb-4">
-        <template #emptyText>
-          <div class="text-center my-3">
-            <b-icon icon="exclamation-circle-fill"></b-icon>
-            <p>No existen datos</p>
-          </div>
-        </template>
-
-        <template #cell(FCRCN)="data">
-          <span>{{ formatoFecha(data.value) }}</span>
-        </template>
-
-        <template #head(CHECK)>
-          <div class="flex items-center justify-center">
-            <input type="checkbox" class="check-head form-check-input"
-              @change="(e) => actions.checkeoud.actionFull(e.target.checked)" />
-          </div>
-        </template>
+          <template #head(CHECK)>
+            <div class="flex items-center justify-center">
+              <input type="checkbox" class="check-head form-check-input"
+                @change="(e) => actions.checkeoud.actionFull(e.target.checked)" />
+            </div>
+          </template>
 
 
-        <template #cell(CHECK)="data">
-          <input type="checkbox" class="check-item form-check-input" :checked="data.item?.checked"
-            v-model="data.item.checked" @change="(e) => actions.checkeoud.action(e.target.checked, data.item)" />
-        </template>
+          <template #cell(CHECK)="data">
+            <input type="checkbox" class="check-item form-check-input" :checked="data.item?.checked"
+              v-model="data.item.checked" @change="(e) => actions.checkeoud.action(e.target.checked, data.item)" />
+          </template>
 
-        <template #cell(FEDCN)="data">
-          <span>{{ formatoFecha(data.value) }}</span>
-        </template>
+          <template #cell(FEDCN)="data">
+            <span>{{ formatoFecha(data.value) }}</span>
+          </template>
 
-        <template #cell(CDESTDO)="data">
-          <span :style="{
-            display: 'inline-block',
-            width: '16px',
-            height: '16px',
-            borderRadius: '50%',
-            background: data.value === 'A' ? '#22c55e' : '#ef4444',
-            cursor: 'pointer'
-          }" :title="data.value === 'A' ? 'Activo' : 'Inactivo'"></span>
-        </template>
+          <template #cell(CDESTDO)="data">
+            <span :style="{
+              display: 'inline-block',
+              width: '16px',
+              height: '16px',
+              borderRadius: '50%',
+              background: data.value === 'A' ? '#22c55e' : '#ef4444',
+              cursor: 'pointer'
+            }" :title="data.value === 'A' ? 'Activo' : 'Inactivo'"></span>
+          </template>
 
 
-        <template #cell(ESTADO)="data">
-          <span :class="data.value ? 'estado-circle estado-active' : 'estado-circle estado-inactive'"
-            :title="data.value ? 'Activo' : 'Inactivo'"
-            style="display: inline-block; width: 16px; height: 16px; border-radius: 50%; cursor: pointer;"></span>
-        </template>
+          <template #cell(ESTADO)="data">
+            <span :class="data.value ? 'estado-circle estado-active' : 'estado-circle estado-inactive'"
+              :title="data.value ? 'Activo' : 'Inactivo'"
+              style="display: inline-block; width: 16px; height: 16px; border-radius: 50%; cursor: pointer;"></span>
+          </template>
 
-        <template #cell(IMAGEN)="data">
-          <div style="width: 100px; height: 100px;">
+          <template #cell(IMAGEN)="data">
+            <div style="width: 100px; height: 100px;">
+              <a :href="data.value" target="_blank">
+                <img :src="data.value" alt="imagen" style="width: 100%; height: 100%; object-fit: cover;">
+              </a>
+            </div>
+          </template>
+
+          <template #cell(TITLEALT)="data">
+            <div v-html="data.value" @click="actions.execute.action(data.item)" style="cursor: pointer;">
+
+            </div>
+          </template>
+
+          <template #cell(BAN)="data">
+            <div v-html="data.value"></div>
+          </template>
+
+          <template #cell(DDIRECTORIO)="data">
+            <div v-html="data.value"></div>
+          </template>
+
+
+          <template #cell(BOLETIN)="data">
             <a :href="data.value" target="_blank">
-              <img :src="data.value" alt="imagen" style="width: 100%; height: 100%; object-fit: cover;">
+              <span>{{
+                data.value.length > 30 ? data.value.substring(0, 30) + '...' : data.value
+              }}</span>
             </a>
-          </div>
-        </template>
+          </template>
 
-        <template #cell(TITLEALT)="data">
-          <div v-html="data.value" @click="actions.execute.action(data.item)" style="cursor: pointer;">
+          <!-- // HTML -->
+          <template #cell(TEMA)="data">
+            <span v-html="data.value"></span>
+          </template>
 
-          </div>
-        </template>
+          <template #cell(DETALLE)="data">
+            <span v-html="data.value"></span>
+          </template>
 
-        <template #cell(BAN)="data">
-          <div v-html="data.value"></div>
-        </template>
+          <template #cell(AUTOR)="data">
+            <span v-html="data.value"></span>
+          </template>
 
-        <template #cell(DDIRECTORIO)="data">
-          <div v-html="data.value"></div>
-        </template>
+          <template #cell(DESCRIPCION)="data">
+            <span v-html="data.value"></span>
+          </template>
 
+          <template #cell(RTAFTO)="data">
+            <span v-html="data.value"></span>
+          </template>
 
-        <template #cell(BOLETIN)="data">
-          <a :href="data.value" target="_blank">
-            <span>{{
-              data.value.length > 30 ? data.value.substring(0, 30) + '...' : data.value
-            }}</span>
-          </a>
-        </template>
-
-        <!-- // HTML -->
-        <template #cell(TEMA)="data">
-          <span v-html="data.value"></span>
-        </template>
-
-        <template #cell(DETALLE)="data">
-          <span v-html="data.value"></span>
-        </template>
-
-        <template #cell(AUTOR)="data">
-          <span v-html="data.value"></span>
-        </template>
-
-        <template #cell(DESCRIPCION)="data">
-          <span v-html="data.value"></span>
-        </template>
-
-        <template #cell(RTAFTO)="data">
-          <span v-html="data.value"></span>
-        </template>
-
-        <!-- COLUMNA EXPANDIR -->
-        <template #cell(EXPANDIR)="data">
-          <button @click="data.toggleDetails" class="expand-btn" :class="{ 'expanded': data.detailsShowing }"
-            :title="data.detailsShowing ? 'Ocultar auditoría' : 'Ver auditoría'">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
-        </template>
-
-        <!-- DETALLES DE AUDITORÍA -->
-        <template #row-details="data">
-          <div class="audit-details">
-            <div class="audit-header">
+          <!-- COLUMNA EXPANDIR -->
+          <template #cell(EXPANDIR)="data">
+            <button @click="data.toggleDetails" class="expand-btn" :class="{ 'expanded': data.detailsShowing }"
+              :title="data.detailsShowing ? 'Ocultar auditoría' : 'Ver auditoría'">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
+                <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
-              <h4>Información de Auditoría</h4>
+            </button>
+          </template>
+
+          <!-- DETALLES DE AUDITORÍA -->
+          <template #row-details="data">
+            <div class="audit-details">
+              <div class="audit-header">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <h4>Información de Auditoría</h4>
+              </div>
+              <div class="audit-grid">
+                <div v-if="data.item.FCRCN" class="audit-item">
+                  <label>Fecha de Creación:</label>
+                  <span>{{ formatoFecha(data.item.FCRCN) }}</span>
+                </div>
+                <div v-if="data.item.UCRCN" class="audit-item">
+                  <label>Usuario Creación:</label>
+                  <span>{{ data.item.UCRCN }}</span>
+                </div>
+                <div v-if="data.item.FEDCN" class="audit-item">
+                  <label>Fecha de Edición:</label>
+                  <span>{{ formatoFecha(data.item.FEDCN) }}</span>
+                </div>
+                <div v-if="data.item.UEDCN" class="audit-item">
+                  <label>Usuario Edición:</label>
+                  <span>{{ data.item.UEDCN }}</span>
+                </div>
+              </div>
             </div>
-            <div class="audit-grid">
-              <div v-if="data.item.FCRCN" class="audit-item">
-                <label>Fecha de Creación:</label>
-                <span>{{ formatoFecha(data.item.FCRCN) }}</span>
-              </div>
-              <div v-if="data.item.UCRCN" class="audit-item">
-                <label>Usuario Creación:</label>
-                <span>{{ data.item.UCRCN }}</span>
-              </div>
-              <div v-if="data.item.FEDCN" class="audit-item">
-                <label>Fecha de Edición:</label>
-                <span>{{ formatoFecha(data.item.FEDCN) }}</span>
-              </div>
-              <div v-if="data.item.UEDCN" class="audit-item">
-                <label>Usuario Edición:</label>
-                <span>{{ data.item.UEDCN }}</span>
-              </div>
-            </div>
-          </div>
-        </template>
+          </template>
 
-        <!-- ACCIONES -->
-        <template #cell(ACCIONES)="data">
-          <div class="flex items-center justify-center gap-0">
-            <b-button v-if="actions.edit" :title="actions.edit.label" @click="actions.edit.action(data.item)"
-              class="action-btn action-btn-edit">
-              <img src="@/assets/img/icons/edit.svg" alt="edit" width="24" height="24" />
-            </b-button>
-            <b-button v-if="actions.delete && deleteRole && (data.item?.PROP === undefined || data.item.PROP === 1)"
-              :title="actions.delete.label" @click="actions.delete.action(data.item)"
-              class="action-btn action-btn-delete">
-              <img src="@/assets/img/icons/delete.svg" alt="delete" width="24" height="24" />
-            </b-button>
-
-            <b-button v-if="actions.shared && (data.item?.PROP === undefined || data.item.PROP === 1)"
-              :title="actions.shared.label" @click="actions.shared.action(data.item)"
-              class="action-btn action-btn-shared">
-              <img src="@/assets/img/icons/shared.svg" alt="share" width="24" height="24" />
-            </b-button>
-
-            <b-button v-if="actions.users" :title="actions.users.label" @click="actions.users.action(data.item)"
-              class="action-btn action-btn-users">
-              <img src="@/assets/img/icons/usersshared.svg" alt="users" width="24" height="24" />
-            </b-button>
-
-            <b-button v-if="actions.updateShared && (data.item?.PROP === undefined || data.item.PROP === 1)"
-              :title="actions.updateShared.label" @click="actions.updateShared.action(data.item)"
-              class="action-btn action-btn-settings">
-              <img src="@/assets/img/icons/settings.svg" alt="users" width="24" height="24" />
-            </b-button>
-
-            <b-button v-if="actions.view" :title="actions.view.label" @click="actions.view.action(data.item)"
-              class="action-btn action-btn-view">
-              <img src="@/assets/img/icons/eyeView.svg" alt="visualizar" width="24" height="24" />
-            </b-button>
-
-            <div v-if="actions.download">
-              <b-button v-if="!actions.download.dropdown" :title="actions.download.label"
-                @click="actions.download.action(data.item)" class="mr-2 btn-delete" size="sm">
-                <i :class="actions.download.icon"></i>
+          <!-- ACCIONES -->
+          <template #cell(ACCIONES)="data">
+            <div class="flex items-center justify-center gap-0">
+              <b-button v-if="actions.edit" :title="actions.edit.label" @click="actions.edit.action(data.item)"
+                class="action-btn action-btn-edit">
+                <img src="@/assets/img/icons/edit.svg" alt="edit" width="24" height="24" />
+              </b-button>
+              <b-button v-if="actions.delete && deleteRole && (data.item?.PROP === undefined || data.item.PROP === 1)"
+                :title="actions.delete.label" @click="actions.delete.action(data.item)"
+                class="action-btn action-btn-delete">
+                <img src="@/assets/img/icons/delete.svg" alt="delete" width="24" height="24" />
               </b-button>
 
-              <b-dropdown v-else :text="actions.download.label" variant="primary" size="sm" no-caret>
-                <template #button-content>
+              <b-button v-if="actions.shared && (data.item?.PROP === undefined || data.item.PROP === 1)"
+                :title="actions.shared.label" @click="actions.shared.action(data.item)"
+                class="action-btn action-btn-shared">
+                <img src="@/assets/img/icons/shared.svg" alt="share" width="24" height="24" />
+              </b-button>
+
+              <b-button v-if="actions.users" :title="actions.users.label" @click="actions.users.action(data.item)"
+                class="action-btn action-btn-users">
+                <img src="@/assets/img/icons/usersshared.svg" alt="users" width="24" height="24" />
+              </b-button>
+
+              <b-button v-if="actions.updateShared && (data.item?.PROP === undefined || data.item.PROP === 1)"
+                :title="actions.updateShared.label" @click="actions.updateShared.action(data.item)"
+                class="action-btn action-btn-settings">
+                <img src="@/assets/img/icons/settings.svg" alt="users" width="24" height="24" />
+              </b-button>
+
+              <b-button v-if="actions.view" :title="actions.view.label" @click="actions.view.action(data.item)"
+                class="action-btn action-btn-view">
+                <img src="@/assets/img/icons/eyeView.svg" alt="visualizar" width="24" height="24" />
+              </b-button>
+
+              <div v-if="actions.download">
+                <b-button v-if="!actions.download.dropdown" :title="actions.download.label"
+                  @click="actions.download.action(data.item)" class="mr-2 btn-delete" size="sm">
                   <i :class="actions.download.icon"></i>
-                </template>
+                </b-button>
 
-                <b-dropdown-item v-for="(item, index) in actions.download.dropdown.items" :key="index"
-                  @click="item.action(data.item)">
-                  <i :class="item.icon"></i>
-                  {{ item.label }}
-                </b-dropdown-item>
-              </b-dropdown>
+                <b-dropdown v-else :text="actions.download.label" variant="primary" size="sm" no-caret>
+                  <template #button-content>
+                    <i :class="actions.download.icon"></i>
+                  </template>
+
+                  <b-dropdown-item v-for="(item, index) in actions.download.dropdown.items" :key="index"
+                    @click="item.action(data.item)">
+                    <i :class="item.icon"></i>
+                    {{ item.label }}
+                  </b-dropdown-item>
+                </b-dropdown>
+              </div>
             </div>
-          </div>
-        </template>
-      </b-table>
+          </template>
+        </b-table>
 
-    </div>
+      </div>
 
-    <div class="flex justify-start mb-3 gap-2 flex-col md:flex-row" style="margin-left: 1.5rem;">
-      <b-pagination v-model="currentPage" :total-rows="grid.totalRows" @update:model-value="myCallback"
-        :per-page="grid.perPage" aria-controls="my-table" class="my-0" />
-      <!-- <b-input type="number" v-model="currentPage" @input="currentPage" placeholder="Buscar..." class="ml-2"
+      <div class="flex justify-start mb-3 gap-2 flex-col md:flex-row" style="margin-left: 1.5rem;">
+        <b-pagination v-model="currentPage" :total-rows="grid.totalRows" @update:model-value="myCallback"
+          :per-page="grid.perPage" aria-controls="my-table" class="my-0" />
+        <!-- <b-input type="number" v-model="currentPage" @input="currentPage" placeholder="Buscar..." class="ml-2"
         style="width: 70px;height: 37px" /> -->
+      </div>
     </div>
   </div>
 </template>
@@ -384,6 +363,7 @@ export default {
 }
 
 @media (max-width: 1024px) {
+
   table th,
   table td {
     padding: 0.7rem 0.7rem !important;
@@ -495,7 +475,7 @@ table tbody tr:last-child td:last-child {
 .table-perOptions {
   display: flex;
   justify-content: start;
-  margin-bottom: 1.5rem;
+  margin-bottom: .5rem;
   gap: 1rem;
   flex-direction: row;
   align-items: center;
@@ -506,7 +486,7 @@ table tbody tr:last-child td:last-child {
   border: 2px solid #e2e8f0;
   border-radius: 12px;
   font-family: Lato, sans-serif;
-  font-size: 14px;
+  font-size: 12.5px;
   color: #4a5568;
   background-color: white;
   transition: all 0.2s ease;
@@ -803,6 +783,27 @@ table tbody tr:last-child td:last-child {
 
   table thead tr th:last-child {
     border-top-right-radius: 12px;
+  }
+}
+
+
+.billing-table-card {
+  background: white !important;
+  border-radius: 0 0 20px 20px !important;
+  padding: .5rem 1rem !important;
+}
+
+@media (max-width: 768px) {
+  .billing-table-card {
+    padding: 1.5rem 1.25rem !important;
+    border-radius: 0 0 20px 20px !important;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .billing-table-card {
+    padding: 1.25rem 1rem !important;
   }
 }
 </style>

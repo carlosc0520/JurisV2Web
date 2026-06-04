@@ -1,5 +1,5 @@
 <template>
-  <section class="navbar-wrapper">
+  <section class="navbar-wrapper" :class="{ 'navbar-hidden': !isNavbarVisible }">
     <!-- Banner Premium -->
     <transition name="slide-down">
       <div v-if="toggleShowAlert" class="premium-banner">
@@ -83,6 +83,7 @@
 
         <!-- Auth Button - Desktop -->
         <div class="navbar-actions">
+          <!-- <dark-mode-toggle class="mr-3" /> -->
           <router-link to="/auth/login" class="navbar-login-btn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/>
@@ -153,6 +154,7 @@
             </li>
           </ul>
           <div class="mobile-menu-footer">
+            <!-- <dark-mode-toggle class="mr-3" /> -->
             <router-link to="/auth/login" @click="navbarOpen = false" class="mobile-login-btn">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/>
@@ -169,8 +171,12 @@
 <script>
 import logoJuris from "@/assets/img/resources/logo-jurissearch.png";
 import { useRoute } from "vue-router";
+// import DarkModeToggle from "@/components/DarkModeToggle.vue";
 
 export default {
+  components: {
+    // DarkModeToggle
+  },
   setup() {
     const route = useRoute();
     return { route };
@@ -179,8 +185,17 @@ export default {
     return {
       logoJuris,
       navbarOpen: false,
-      toggleShowAlert: localStorage.getItem('premiumBannerClosed') !== 'true'
+      toggleShowAlert: localStorage.getItem('premiumBannerClosed') !== 'true',
+      lastScrollPosition: 0,
+      scrollDirection: 'up',
+      isNavbarVisible: true
     };
+  },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
     setNavbarOpen: function () {
@@ -195,11 +210,29 @@ export default {
     closeBanner() {
       this.toggleShowAlert = false;
       localStorage.setItem('premiumBannerClosed', 'true');
+    },
+    handleScroll() {
+      const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Si estamos en el top, siempre mostrar
+      if (currentScrollPosition < 10) {
+        this.isNavbarVisible = true;
+        this.lastScrollPosition = currentScrollPosition;
+        return;
+      }
+
+      // Detectar dirección del scroll
+      if (currentScrollPosition < this.lastScrollPosition) {
+        // Scrolling up
+        this.isNavbarVisible = true;
+      } else if (currentScrollPosition > this.lastScrollPosition && currentScrollPosition > 100) {
+        // Scrolling down y después de 100px
+        this.isNavbarVisible = false;
+      }
+
+      this.lastScrollPosition = currentScrollPosition;
     }
-  },
-  components: {
-    // IndexDropdown,
-  },
+  }
 };
 </script>
 
@@ -210,6 +243,11 @@ export default {
   top: 0;
   z-index: 1000;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar-hidden {
+  transform: translateY(-100%);
 }
 
 /* Premium Banner */
@@ -319,6 +357,12 @@ export default {
   border-bottom: 1px solid #E5E7EB;
   position: relative;
   z-index: 100;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.dark .navbar-modern {
+  background: #1a202c;
+  border-bottom: 1px solid #2d3748;
 }
 
 .navbar-container {
@@ -370,6 +414,20 @@ export default {
   border-radius: 12px;
   transition: all 0.3s ease;
   position: relative;
+}
+
+.dark .navbar-link {
+  color: #cbd5e0;
+}
+
+.dark .navbar-link:hover {
+  color: #6b9aff;
+  background: rgba(107, 154, 255, 0.1);
+}
+
+.dark .navbar-link-active {
+  color: #6b9aff;
+  background: linear-gradient(135deg, rgba(223, 45, 178, 0.15) 0%, rgba(107, 154, 255, 0.15) 100%);
 }
 
 .navbar-link svg {
@@ -449,7 +507,11 @@ export default {
   align-items: center;
   gap: 5px;
   width: 40px;
-  height: 40px;
+ 
+
+.dark .hamburger-line {
+  background: #e2e8f0;
+} height: 40px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -496,7 +558,11 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background: white;
+ 
+
+.dark .mobile-menu {
+  background: #1a202c;
+} background: white;
   z-index: 99;
   padding: 5rem 2rem 2rem;
   overflow-y: auto;
@@ -520,13 +586,34 @@ export default {
   align-items: center;
   gap: 1rem;
   padding: 1.25rem 1.5rem;
-  color: #4B5563;
+ 
+
+.dark .mobile-menu-link {
+  color: #cbd5e0;
+  background: #2d3748;
+}
+
+.dark .mobile-menu-link:hover {
+  background: rgba(107, 154, 255, 0.1);
+  border-color: rgba(107, 154, 255, 0.3);
+  color: #6b9aff;
+}
+
+.dark .mobile-menu-link-active {
+  background: linear-gradient(135deg, rgba(223, 45, 178, 0.15) 0%, rgba(107, 154, 255, 0.15) 100%);
+  border-color: #6b9aff;
+  color: #6b9aff;
+} color: #4B5563;
   font-size: 1.1rem;
   font-weight: 600;
   text-decoration: none;
   border-radius: 16px;
   transition: all 0.3s ease;
-  background: white;
+ 
+
+.dark .mobile-menu-footer {
+  border-top: 2px solid #2d3748;
+} background: white;
   border: 2px solid transparent;
 }
 

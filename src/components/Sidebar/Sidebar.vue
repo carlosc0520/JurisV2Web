@@ -37,9 +37,6 @@
       </ul>
     </div>
   </nav>
-
-
-
 </template>
 
 
@@ -109,7 +106,7 @@ export default {
   left: 0;
   bottom: 0;
   background: white;
-  padding: 1rem 0.5rem;
+  padding: 0.75rem 0.35rem;
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -125,11 +122,11 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 5.5rem;
+  width: 4.25rem;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(254, 245, 251, 0.9) 100%);
-  border-radius: 16px;
-  margin-bottom: 1.5rem;
-  padding: 0.5rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  padding: 0.35rem;
   box-shadow: 0 4px 15px rgba(223, 45, 178, 0.1);
   transition: all 0.3s ease;
 }
@@ -140,8 +137,8 @@ export default {
 }
 
 .menu-btn {
-  padding: 0.5rem;
-  border-radius: 12px;
+  padding: 0.35rem;
+  border-radius: 8px;
   transition: all 0.3s ease;
   background: white;
   border: 2px solid #F3F4F6;
@@ -149,7 +146,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
 }
 
 .menu-btn:hover {
@@ -164,8 +161,8 @@ export default {
 }
 
 .menu-icon {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.1rem;
+  height: 1.1rem;
   transition: all 0.3s ease;
 }
 
@@ -181,8 +178,8 @@ export default {
 }
 
 .logo-img {
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 3.25rem;
+  height: 3.25rem;
   object-fit: contain;
   transition: all 0.3s ease;
 }
@@ -219,8 +216,8 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.75rem 0.5rem;
-  border-radius: 16px;
+  padding: 0.5rem 0.35rem;
+  border-radius: 12px;
   transition: all 0.3s ease;
   text-decoration: none;
   color: #4A5568;
@@ -257,27 +254,27 @@ export default {
 
 /* Icon Wrapper */
 .icon-wrapper {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 1.9rem;
+  height: 1.9rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
+  border-radius: 9px;
   background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
   transition: all 0.4s ease;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
 }
 
 .menu-icon-img {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.1rem;
+  height: 1.1rem;
   opacity: 0.7;
   transition: all 0.4s ease;
 }
 
 /* Menu Text */
 .menu-text {
-  font-size: 0.75rem;
+  font-size: 0.62rem;
   font-weight: 600;
   text-align: center;
   transition: all 0.4s ease;
@@ -287,9 +284,9 @@ export default {
 /* Menu Divider */
 .menu-divider {
   width: 70%;
-  height: 2px;
+  height: 1px;
   background: linear-gradient(90deg, transparent 0%, rgba(223, 45, 178, 0.2) 50%, transparent 100%);
-  margin: 0.5rem auto;
+  margin: 0.3rem auto;
   border-radius: 2px;
 }
 
@@ -315,7 +312,7 @@ export default {
 /* Responsive */
 @media (min-width: 768px) {
   .sidebar-modern {
-    width: 6.5rem;
+    width: 5rem;
   }
 }
 
@@ -352,5 +349,79 @@ export default {
   .menu-text {
     font-size: 0.65rem;
   }
+}
+</style>
+
+<!-- Dark Mode (unscoped to allow html.dark ancestor selector) -->
+<style>
+html.dark .sidebar-modern {
+  background: #111827 !important;
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3) !important;
+  border-right: 1px solid rgba(99, 102, 241, 0.15) !important;
+}
+
+html.dark .sidebar-modern .logo-section {
+  background: linear-gradient(135deg, rgba(17, 24, 39, 0.9) 0%, rgba(31, 41, 55, 0.9) 100%) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark .sidebar-modern .logo-section:hover {
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.2) !important;
+}
+
+html.dark .sidebar-modern .menu-btn {
+  background: #1f2937 !important;
+  border-color: #374151 !important;
+}
+
+html.dark .sidebar-modern .menu-icon {
+  filter: brightness(0) invert(0.7);
+}
+
+html.dark .sidebar-modern .menu-link {
+  background: #111827 !important;
+  color: #9ca3af !important;
+}
+
+html.dark .sidebar-modern .menu-link:hover {
+  background: #1f2937 !important;
+}
+
+html.dark .sidebar-modern .menu-link-active {
+  background: #1f2937 !important;
+  color: #a78bfa !important;
+}
+
+html.dark .sidebar-modern .menu-link-active .menu-text {
+  color: #a78bfa !important;
+}
+
+html.dark .sidebar-modern .menu-text {
+  color: #9ca3af !important;
+}
+
+html.dark .sidebar-modern .icon-wrapper {
+  background: linear-gradient(135deg, #1f2937 0%, #374151 100%) !important;
+}
+
+html.dark .sidebar-modern .menu-icon-img {
+  filter: brightness(0) invert(0.6);
+}
+
+html.dark .sidebar-modern .menu-link-active .icon-wrapper {
+  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%) !important;
+}
+
+html.dark .sidebar-modern .menu-link-active .menu-icon-img {
+  filter: brightness(0) invert(1) !important;
+  opacity: 1 !important;
+}
+
+html.dark .sidebar-modern .menu-divider {
+  background: linear-gradient(90deg, transparent 0%, rgba(99, 102, 241, 0.25) 50%, transparent 100%) !important;
+}
+
+html.dark .sidebar-modern .menu-container::-webkit-scrollbar-track {
+  background: #1f2937 !important;
 }
 </style>

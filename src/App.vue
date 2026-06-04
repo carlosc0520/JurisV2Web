@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{ 'dark': isDarkMode }">
     <router-view />
     <div class="floating-whatsapp" v-if="!urlBusqueda">
       <div class="whatsapp-icon-wrapper">
@@ -15,11 +15,25 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
-      urlBusqueda: this.$route.path.includes('busqueda')
+      urlBusqueda: false,
     }
+  },
+  computed: {
+    ...mapGetters('theme', ['isDarkMode'])
+  },
+  created() {
+    // Inicializar la ruta actual
+    if (this.$route) {
+      this.urlBusqueda = this.$route.path.includes('/admin') || this.$route.path.includes('/usuario');
+    }
+  },
+  mounted() {
+    this.$store.dispatch('theme/initializeTheme');
   },
   methods: {
     openWhatsApp() {
@@ -31,7 +45,7 @@ export default {
   },
   watch: {
     $route(to) {
-      this.urlBusqueda = to.path.includes('busqueda');
+      this.urlBusqueda = to.path.includes('/admin') || to.path.includes('/usuario');
     }
   }
 }

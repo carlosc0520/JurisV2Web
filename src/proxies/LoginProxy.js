@@ -2,19 +2,26 @@ import axios from 'axios';
 
 class LoginProxy {
     async login(model) {
-        const resp = await axios.post(`/login/autenticar`, model)
+        const resp = await axios.post(`/login/autenticar`, model);
         return resp;
     }
 
-    async logout() {
-        const resp = await axios.get(`/login/logout?token=${localStorage.getItem('user-token')}`);
+    async logout(token = null) {
+        // Usar el token proporcionado o intentar obtenerlo del localStorage
+        const accessToken = token || localStorage.getItem('accessToken');
+        const resp = await axios.get(`/login/logout?token=${accessToken}`);
+        return resp;
+    }
+
+    async refresh(refreshToken) {
+        const resp = await axios.post(`/login/refresh`, { refreshToken });
         return resp;
     }
 
     // * NOTICIAS
     async list(model) {
         const { data } = await axios.get(`/login/noticias`, {
-            params: model
+            params: model 
         });
         return data;
     }
@@ -33,6 +40,7 @@ class LoginProxy {
         });
         return data;
     }
+    
     async recover(model) {
         const { data } = await axios.post(`/auth/lost-password`, model);
         return data;

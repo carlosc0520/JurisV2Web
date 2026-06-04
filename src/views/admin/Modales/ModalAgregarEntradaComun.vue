@@ -7,7 +7,8 @@
             <div class="row">
                 <div class="col-md-4 col-12 mb-3">
                     <label for="name" class="form-label">Título de entrada <span class="text-danger">*</span></label>
-                    <input type="text" :class="{ error: validation.hasError('modelo.TITLE') }" v-model="modelo.TITLE" id="TITLE" class="form-control mayus" />
+                    <input type="text" :class="{ error: validation.hasError('modelo.TITLE') }" v-model="modelo.TITLE"
+                        id="TITLE" class="form-control mayus" />
                     <span class="message" v-if="validation.hasError('modelo.TITLE')">
                         {{ validation.firstError('modelo.TITLE') }}
                     </span>
@@ -29,7 +30,8 @@
 
                 <div class="col-md-4 col-12 mb-3">
                     <label for="BLOG3" class="form-label">Fecha de resolución <span class="text-danger">*</span></label>
-                    <date-picker  :class="{ error: validation.hasError('modelo.FRESOLUTION') }" v-model="modelo.FRESOLUTION" :value="modelo.FRESOLUTION" valueType="format"
+                    <date-picker :class="{ error: validation.hasError('modelo.FRESOLUTION') }"
+                        v-model="modelo.FRESOLUTION" :value="modelo.FRESOLUTION" valueType="format"
                         :disabledDate="time => time.getTime() > Date.now()"
                         @change="(date) => modelo.FRESOLUTION = date"></date-picker>
                     <span class="message" v-if="validation.hasError('modelo.FRESOLUTION')">
@@ -43,7 +45,8 @@
                 <div class="col-md-6 col-12 mb-3">
                     <label for="name" class="form-label">Ámbito <span class="text-danger">*</span></label>
 
-                    <el-tree-select :class="{ error: validation.hasError('modelo.AMBIT') }" v-model="modelo.AMBIT" :data="selects.ambitos" multiple :render-after-expand="false"
+                    <el-tree-select :class="{ error: validation.hasError('modelo.AMBIT') }" v-model="modelo.AMBIT"
+                        :data="selects.ambitos" multiple :render-after-expand="false"
                         placeholder="Seleccione una opción" show-checkbox check-strictly check-on-click-node filterable
                         no-data-text="No hay opciones disponibles" clearable collapse-tags :max-collapse-tags="1" />
 
@@ -52,7 +55,7 @@
                     </span>
                 </div>
 
-                <div class="col-md-6 col-12 mb-3" >
+                <div class="col-md-6 col-12 mb-3">
                     <label for="DELITO" class="form-label">Delito </label>
 
                     <el-tree-select v-model="modelo.DELITO" :data="selects.delitos" multiple
@@ -65,10 +68,10 @@
                     <label for="RECURSO" class="form-label">Recurso <span class="text-danger"> *</span>
                     </label>
 
-                    <el-tree-select  :class="{ error: validation.hasError('modelo.RECURSO') }" v-model="modelo.RECURSO" :data="selects.recursos" multiple
-                        :render-after-expand="false" placeholder="Seleccione una opción" show-checkbox check-strictly
-                        check-on-click-node filterable no-data-text="No hay opciones disponibles" clearable
-                        collapse-tags :max-collapse-tags="1" />
+                    <el-tree-select :class="{ error: validation.hasError('modelo.RECURSO') }" v-model="modelo.RECURSO"
+                        :data="selects.recursos" multiple :render-after-expand="false"
+                        placeholder="Seleccione una opción" show-checkbox check-strictly check-on-click-node filterable
+                        no-data-text="No hay opciones disponibles" clearable collapse-tags :max-collapse-tags="1" />
 
 
                     <span class="message" v-if="validation.hasError('modelo.RECURSO')">
@@ -88,10 +91,10 @@
                 <div class="col-md-6 col-12 mb-3">
                     <label for="JURISDICCION" class="form-label">Jurisdicción <span class="text-danger">*</span></label>
 
-                    <el-tree-select :class="{ error: validation.hasError('modelo.JURISDICCION') }" v-model="modelo.JURISDICCION" :data="selects.jurisdicion" multiple
-                        :render-after-expand="false" placeholder="Seleccione una opción" show-checkbox check-strictly
-                        check-on-click-node filterable no-data-text="No hay opciones disponibles" clearable
-                        collapse-tags :max-collapse-tags="1" />
+                    <el-tree-select :class="{ error: validation.hasError('modelo.JURISDICCION') }"
+                        v-model="modelo.JURISDICCION" :data="selects.jurisdicion" multiple :render-after-expand="false"
+                        placeholder="Seleccione una opción" show-checkbox check-strictly check-on-click-node filterable
+                        no-data-text="No hay opciones disponibles" clearable collapse-tags :max-collapse-tags="1" />
 
                     <span class="message" v-if="validation.hasError('modelo.JURISDICCION')">
                         {{ validation.firstError('modelo.JURISDICCION') }}
@@ -112,7 +115,8 @@
                     <label for="OJURISDICCIONAL" class="form-label">Órgano jurisdiccional <span
                             class="text-danger">*</span></label>
 
-                    <el-tree-select :class="{ error: validation.hasError('modelo.OJURISDICCIONAL') }" v-model="modelo.OJURISDICCIONAL" :data="selects.jurisdiccionales" multiple
+                    <el-tree-select :class="{ error: validation.hasError('modelo.OJURISDICCIONAL') }"
+                        v-model="modelo.OJURISDICCIONAL" :data="selects.jurisdiccionales" multiple
                         :render-after-expand="false" placeholder="Seleccione una opción" show-checkbox check-strictly
                         check-on-click-node filterable no-data-text="No hay opciones disponibles" clearable
                         collapse-tags :max-collapse-tags="1" />
@@ -125,10 +129,10 @@
                 <div class="col-md-6 col-12 mb-3">
                     <label class="form-label" for="MAGISTRATES">Magistrados <span class="text-danger">*</span></label>
 
-                    <el-tree-select :class="{ error: validation.hasError('modelo.MAGISTRATES') }" v-model="modelo.MAGISTRATES" :data="selects.magistrados" multiple
-                        :render-after-expand="false" placeholder="Seleccione una opción" show-checkbox check-strictly
-                        check-on-click-node filterable no-data-text="No hay opciones disponibles" clearable
-                        collapse-tags :max-collapse-tags="1" />
+                    <el-tree-select :class="{ error: validation.hasError('modelo.MAGISTRATES') }"
+                        v-model="modelo.MAGISTRATES" :data="selects.magistrados" multiple :render-after-expand="false"
+                        placeholder="Seleccione una opción" show-checkbox check-strictly check-on-click-node filterable
+                        no-data-text="No hay opciones disponibles" clearable collapse-tags :max-collapse-tags="1" />
 
                     <span class="message" v-if="validation.hasError('modelo.MAGISTRATES')">
                         {{ validation.firstError('modelo.MAGISTRATES') }}
@@ -164,11 +168,41 @@
 
                 <div class="col-md-8 col-12 mb-3 flex flex-col">
                     <label for="file" class="forml-label">Documento Principal <span class="text-danger">*</span></label>
-                    <input class="custom-input" :class="{ error: validation.hasError('modelo.ENTRIEFILE') }" type="file" accept=".pdf" name="file_input" placeholder="Escribe aquí"
+                    <input class="custom-input" :class="{ error: validation.hasError('modelo.ENTRIEFILE') }" type="file"
+                        accept=".pdf" name="file_input" placeholder="Escribe aquí"
                         @change="modelo.ENTRIEFILE = $event.target.files[0]">
                     <span class="message" v-if="validation.hasError('modelo.ENTRIEFILE')">
                         {{ validation.firstError('modelo.ENTRIEFILE') }}
                     </span>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label for="IDSVIN" class="form-label">Normas Vinculadas</label>
+
+                    <el-autocomplete v-model="searchQueryNormas" :fetch-suggestions="fetchNormasSuggestions"
+                        placeholder="Escribe para buscar normas..." :trigger-on-focus="false" clearable
+                        @select="handleSelectNorma" style="width: 100%">
+                        <template #default="{ item }">
+                            <div class="flex justify-between items-center">
+                                <span>{{ item.label }}</span>
+                            </div>
+                        </template>
+                    </el-autocomplete>
+
+                    <div v-if="normasSeleccionadas.length > 0" class="mt-3">
+                        <div class="text-xs text-gray-600 mb-2" style="font-size: 0.65rem;">Normas seleccionadas:</div>
+                        <div class="flex flex-col gap-2">
+                            <div v-for="norma in normasSeleccionadas" :key="norma.value"
+                                class="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200">
+                                <span class="text-xs" style="font-size: 0.65rem;">{{ norma.label }}</span>
+                                <button type="button" @click="removeNorma(norma.value)"
+                                    class="text-red-500 hover:text-red-700 ml-2">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <h5 class="text-app-primary">CONTENIDO</h5>
@@ -176,7 +210,8 @@
 
                 <div class="col-12 mb-3">
                     <label for="KEYWORDS" class="form-label">Palabras clave <span class="text-danger">*</span></label>
-                    <b-form-tags :class="{ error: validation.hasError('modelo.ENTRIEFILERESUMEN') }" separator="," v-model="modelo.KEYWORDS" tag-variant="primary" tag-pills tag-readonly
+                    <b-form-tags :class="{ error: validation.hasError('modelo.ENTRIEFILERESUMEN') }" separator=","
+                        v-model="modelo.KEYWORDS" tag-variant="primary" tag-pills tag-readonly
                         tag-class="bg-app-secondary-b text-app-primary-b" tag-size="sm"
                         placeholder="Agregar un voto concurrente" addButtonText="Agregar" removeButtonText="Eliminar"
                         removeOnDeleteKey />
@@ -187,7 +222,8 @@
 
                 <div class="col-12 mb-3">
                     <label for="theme" class="form-label">Tema <span class="text-danger">*</span></label>
-                    <vue-editor :class="{ error: validation.hasError('modelo.TEMA') }" v-model="modelo.TEMA" class="mb-0 pb-0"></vue-editor>
+                    <vue-editor :class="{ error: validation.hasError('modelo.TEMA') }" v-model="modelo.TEMA"
+                        class="mb-0 pb-0"></vue-editor>
                     <span class="message" v-if="validation.hasError('modelo.TEMA')">
                         {{ validation.firstError('modelo.TEMA') }}
                     </span>
@@ -195,7 +231,8 @@
 
                 <div class="col-12 mb-3">
                     <label for="theme" class="form-label">Subtema <span class="text-danger">*</span></label>
-                    <vue-editor :class="{ error: validation.hasError('modelo.SUBTEMA') }" v-model="modelo.SUBTEMA" class="mb-0 pb-0"></vue-editor>
+                    <vue-editor :class="{ error: validation.hasError('modelo.SUBTEMA') }" v-model="modelo.SUBTEMA"
+                        class="mb-0 pb-0"></vue-editor>
                     <span class="message" v-if="validation.hasError('modelo.SUBTEMA')">
                         {{ validation.firstError('modelo.SUBTEMA') }}
                     </span>
@@ -204,7 +241,8 @@
                 <div class="col-12 mb-3">
                     <label for="theme" class="form-label">Síntesis de los fundamentos jurídicos relevantes <span
                             class="text-danger">*</span></label>
-                    <vue-editor :class="{ error: validation.hasError('modelo.SHORTSUMMARY') }" v-model="modelo.SHORTSUMMARY" class="mb-0 pb-0"></vue-editor>
+                    <vue-editor :class="{ error: validation.hasError('modelo.SHORTSUMMARY') }"
+                        v-model="modelo.SHORTSUMMARY" class="mb-0 pb-0"></vue-editor>
                     <span class="message" v-if="validation.hasError('modelo.SHORTSUMMARY')">
                         {{ validation.firstError('modelo.SHORTSUMMARY') }}
                     </span>
@@ -213,7 +251,8 @@
                 <div class="col-12 mb-3">
                     <label for="theme" class="form-label">Fundamentos jurídicos relevantes <span
                             class="text-danger">*</span></label>
-                    <vue-editor :class="{ error: validation.hasError('modelo.RESUMEN') }" v-model="modelo.RESUMEN" class="mb-0 pb-0"></vue-editor>
+                    <vue-editor :class="{ error: validation.hasError('modelo.RESUMEN') }" v-model="modelo.RESUMEN"
+                        class="mb-0 pb-0"></vue-editor>
                     <span class="message" v-if="validation.hasError('modelo.RESUMEN')">
                         {{ validation.firstError('modelo.RESUMEN') }}
                     </span>
@@ -278,6 +317,10 @@ export default {
         return {
             isShow: false,
             loadingSubmit: false,
+            normasOptions: [],
+            loadingNormas: false,
+            searchQueryNormas: '',
+            normasSeleccionadas: [],
             modelo: {
                 TITLE: null,
                 RTITLE: null,
@@ -300,6 +343,7 @@ export default {
                 MATERIA: [],
                 JURISDICCION: [],
                 JURISDICCIONV: [],
+                IDSVIN: [],
             },
         }
     },
@@ -361,7 +405,7 @@ export default {
         async submit(e) {
             e.preventDefault();
 
-            if(this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
+            if (this.role.IDR == 1) return toast.warning('No tiene permisos para realizar esta acción', { toastId: 'warning-delete' });
 
 
             let validate = await this.$validate();
@@ -391,6 +435,7 @@ export default {
             formData.append("MATERIA", this.modelo.MATERIA.join(",") || "");
             formData.append("JURISDICCION", this.modelo.JURISDICCION.join(","));
             formData.append("JURISDICCIONV", this.modelo.JURISDICCIONV.join(","));
+            formData.append("IDSVIN", Array.isArray(this.modelo.IDSVIN) ? this.modelo.IDSVIN.join(",") : "");
 
 
             this.loadingSubmit = true;
@@ -437,12 +482,55 @@ export default {
                 MATERIA: [],
                 JURISDICCION: [],
                 JURISDICCIONV: [],
+                IDSVIN: [],
             }
 
             let inputs = document.querySelectorAll("input[type='file']");
             if (inputs) inputs.forEach(input => input.value = "");
 
+            this.searchQueryNormas = '';
+            this.normasSeleccionadas = [];
+            this.normasOptions = [];
+
             this.validation.reset();
+        },
+        async fetchNormasSuggestions(queryString, cb) {
+            if (!queryString || queryString.length < 2) {
+                cb([]);
+                return;
+            }
+            try {
+                const res = await adminEntriesProxy.listSearchNames({
+                    ROWS: 40,
+                    INIT: 0,
+                    DESC: queryString,
+                    CESTDO: 'A',
+                    TYPE: "jurisprudences"
+                });
+                const results = res.map(item => ({
+                    value: item.ID,
+                    label: item.TITLE || item.RTITLE || 'Sin título'
+                }));
+                cb(results);
+            } catch (error) {
+                console.error('[AgregarComun] fetchNormasSuggestions error:', error);
+                cb([]);
+            }
+        },
+        handleSelectNorma(item) {
+            if (!this.normasSeleccionadas.find(n => n.value === item.value)) {
+                this.normasSeleccionadas.unshift({
+                    value: item.value,
+                    label: item.label
+                });
+                this.modelo.IDSVIN = this.normasSeleccionadas.map(n => n.value);
+            }
+            this.searchQueryNormas = '';
+        },
+        removeNorma(id) {
+            this.normasSeleccionadas = this.normasSeleccionadas.filter(n => n.value !== id);
+            // Actualizar el array de IDs
+            this.modelo.IDSVIN = this.normasSeleccionadas.map(n => n.value);
         }
     },
     watch: {
