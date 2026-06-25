@@ -25,9 +25,7 @@ axios.interceptors.request.use(
   (request) => {
     // Solo agregar base URL si es una URL relativa (API call)
     if (request.url && !request.url.startsWith('http')) {
-      request.url = "http://localhost:3000" + request.url;
-      // request.url = "https://api.caroasociados.pe" + request.url;
-      // request.url = "https://api.jurissearch.com" + request.url;
+      request.url = (process.env.VUE_APP_API_URL || 'https://api.jurissearch.com') + request.url;
     }
     
     // const token = app.$store.state.auth.token;
