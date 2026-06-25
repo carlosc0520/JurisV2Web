@@ -277,7 +277,7 @@
                       <polyline points="12 6 12 12 16 14" />
                     </svg>
                     <h4
-                      class="text-xs font-bold m-0 bg-gradient-to-br from-brand-pink via-purple-500 to-brand-blue bg-clip-text text-transparent uppercase tracking-wide">
+                      class="text-xs font-bold m-0 text-gradient-brand-section uppercase tracking-wide">
                       Información de Auditoría
                     </h4>
                   </div>

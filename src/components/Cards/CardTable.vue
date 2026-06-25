@@ -104,7 +104,7 @@
                 <svg class="w-5 h-5 text-purple-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
                 </svg>
-                <h4 class="text-base font-bold m-0 bg-gradient-to-br from-brand-pink via-purple-500 to-brand-blue bg-clip-text text-transparent">
+                <h4 class="text-base font-bold m-0 text-gradient-brand-section">
                   Información de Auditoría
                 </h4>
               </div>

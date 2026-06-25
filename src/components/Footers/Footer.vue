@@ -36,7 +36,7 @@
         <!-- Navegación -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div class="flex flex-col gap-4">
-            <h3 class="text-base font-bold m-0 bg-gradient-to-br from-[#DF2DB2] via-purple-500 to-[#185CE6] bg-clip-text text-transparent">Navegación</h3>
+            <h3 class="text-base font-bold m-0 text-section-gradient">Navegación</h3>
             <ul class="list-none p-0 m-0 flex flex-col gap-3">
               <li v-for="link in navLinks" :key="link.to">
                 <router-link :to="link.to" class="group relative inline-block text-white/70 hover:text-white transition-all hover:translate-x-1 text-[0.9375rem]">
@@ -48,7 +48,7 @@
           </div>
 
           <div class="flex flex-col gap-4">
-            <h3 class="text-base font-bold m-0 bg-gradient-to-br from-[#DF2DB2] via-purple-500 to-[#185CE6] bg-clip-text text-transparent">Soporte</h3>
+            <h3 class="text-base font-bold m-0 text-section-gradient">Soporte</h3>
             <ul class="list-none p-0 m-0 flex flex-col gap-3">
               <li v-for="link in supportLinks" :key="link.to">
                 <router-link :to="link.to" class="group relative inline-block text-white/70 hover:text-white transition-all hover:translate-x-1 text-[0.9375rem]">
@@ -60,7 +60,7 @@
           </div>
 
           <div class="flex flex-col gap-4">
-            <h3 class="text-base font-bold m-0 bg-gradient-to-br from-[#DF2DB2] via-purple-500 to-[#185CE6] bg-clip-text text-transparent">Contacto</h3>
+            <h3 class="text-base font-bold m-0 text-section-gradient">Contacto</h3>
             <ul class="list-none p-0 m-0 flex flex-col gap-4">
               <li class="flex items-center gap-3 text-white/70 text-[0.9375rem]">
                 <svg class="w-5 h-5 text-brand-pink flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -85,7 +85,7 @@
         <div class="flex flex-col items-center gap-2 text-center">
           <p class="text-white/60 text-sm m-0">
             © {{ date }}
-            <span class="font-bold bg-gradient-to-br from-[#DF2DB2] via-purple-500 to-[#185CE6] bg-clip-text text-transparent">Juris Search</span>
+            <span class="font-bold text-section-gradient">Juris Search</span>
             • Todos los derechos reservados
           </p>
           <p class="text-white/40 text-[0.8125rem] italic m-0">Desarrollado con pasión para profesionales del derecho</p>

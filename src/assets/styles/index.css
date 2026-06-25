@@ -119,20 +119,8 @@ img, svg { display: block; max-width: 100%; }
    UTILITIES — @layer utilities
    ═══════════════════════════════════════════════════════════ */
 @layer utilities {
-  /* Brand gradient text */
-  .text-brand-gradient {
-    background: var(--brand-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .text-brand-soft {
-    background: var(--brand-soft);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
 
+  
   /* Surface colors via CSS vars */
   .bg-surface          { background-color: var(--bg); }
   .bg-surface-raised   { background-color: var(--bg-raised); }

@@ -62,7 +62,7 @@
           </div>
           <div class="mb-8 anim-fade-up-1">
             <h2 class="text-[1.5rem] max-sm:text-[1.75rem] font-extrabold leading-[1.4] text-gray-900 dark:text-gray-100 mb-4">
-              <span class="bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] bg-clip-text text-transparent font-black">Juris Search</span>
+              <span class="text-gradient-inline font-black">Juris Search</span>
               es una herramienta digital diseñada para simplificar la búsqueda selectiva de jurisprudencia
             </h2>
             <p class="text-[0.82rem] max-sm:text-base text-gray-500 dark:text-gray-300 leading-[1.7] max-w-[800px] mx-auto">
@@ -129,7 +129,7 @@
       <div class="max-w-[1400px] mx-auto">
         <div class="text-center mb-6 reveal">
           <h2 class="text-[2rem] font-extrabold text-gray-900 dark:text-gray-100 mb-4">
-            Conoce <span class="bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] bg-clip-text text-transparent">nuestro propósito</span>
+            Conoce <span class="text-gradient-inline">nuestro propósito</span>
           </h2>
           <p class="text-base text-gray-500 dark:text-gray-300 max-w-[600px] mx-auto">
             Impulsamos la excelencia jurídica a través de tecnología e innovación
@@ -268,7 +268,7 @@
       <div class="max-w-[1400px] mx-auto px-8 max-sm:px-4">
         <div class="text-center mb-4 reveal">
           <h2 class="text-[2rem] font-extrabold text-gray-900 dark:text-gray-100 mb-4">
-            Lo que te <span class="bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] bg-clip-text text-transparent">ofrecemos</span>
+            Lo que te <span class="text-gradient-inline">ofrecemos</span>
           </h2>
           <p class="text-base text-gray-500 dark:text-gray-300 max-w-[600px] mx-auto">
             Herramientas y recursos diseñados para potenciar tu práctica jurídica
@@ -332,7 +332,7 @@
       <div class="max-w-[1400px] mx-auto">
         <div class="text-center mb-8 reveal">
           <h2 class="text-[1.6rem] max-sm:text-[2rem] font-extrabold text-gray-900 dark:text-gray-100 mb-3">
-            Nuestros <span class="bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] bg-clip-text text-transparent">planes</span>
+            Nuestros <span class="text-gradient-inline">planes</span>
           </h2>
           <p class="text-[0.82rem] max-sm:text-base text-gray-500 dark:text-gray-300 max-w-[600px] mx-auto">
             Elige el plan que mejor se adapte a tus necesidades
@@ -394,7 +394,7 @@
       <div class="max-w-[1400px] mx-auto">
         <div class="animation-b-t text-center mb-8">
           <h2 class="text-[1.6rem] max-sm:text-[1.75rem] font-extrabold text-gray-900 dark:text-gray-100 m-0">
-            Resolvemos tus <span class="bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] bg-clip-text text-transparent">preguntas frecuentes</span>
+            Resolvemos tus <span class="text-gradient-inline">preguntas frecuentes</span>
           </h2>
         </div>
         <div class="px-4 max-sm:px-0">
