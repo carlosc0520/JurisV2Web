@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-gradient-to-br from-[#1e293b] to-[#0f172a] pt-16 relative overflow-hidden">
+  <footer class="bg-[#0f172a] bg-gradient-to-br from-[#1e293b] to-[#0f172a] pt-16 relative overflow-hidden">
     <!-- Borde superior decorativo -->
     <div class="absolute top-0 left-0 right-0 h-px"
       style="background: linear-gradient(90deg, transparent 0%, #DF2DB2 20%, #185CE6 50%, #DF2DB2 80%, transparent 100%)"></div>

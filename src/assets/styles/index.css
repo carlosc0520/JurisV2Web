@@ -63,6 +63,15 @@
 /* ═══════════════════════════════════════════════════════════
    BASE RESET & GLOBALS
    ═══════════════════════════════════════════════════════════ */
+
+/* Gradient position vars — Tailwind v3.4 addDefaults puede no incluirlos
+   en ciertos entornos de build; los definimos explícitamente como fallback */
+*, *::before, *::after {
+  --tw-gradient-from-position: ;
+  --tw-gradient-via-position: ;
+  --tw-gradient-to-position: ;
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; }
 
 html {
