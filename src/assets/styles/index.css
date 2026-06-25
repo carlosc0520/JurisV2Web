@@ -64,12 +64,13 @@
    BASE RESET & GLOBALS
    ═══════════════════════════════════════════════════════════ */
 
-/* Gradient position vars — Tailwind v3.4 addDefaults puede no incluirlos
-   en ciertos entornos de build; los definimos explícitamente como fallback */
+/* Tailwind v3.4 usa --tw-gradient-X-position en var() pero el minificador
+   elimina valores de espacio en blanco. Inicializamos con % equivalentes
+   al default CSS: from=0%, via=50%, to=100% */
 *, *::before, *::after {
-  --tw-gradient-from-position: ;
-  --tw-gradient-via-position: ;
-  --tw-gradient-to-position: ;
+  --tw-gradient-from-position: 0%;
+  --tw-gradient-via-position: 50%;
+  --tw-gradient-to-position: 100%;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; }
