@@ -1,190 +1,166 @@
 <template>
   <div>
     <index-navbar />
-    <section class="hero-section-clean opcion-1" :style="{ backgroundImage: `url(${portada})` }">
-      <div class="hero-overlay"></div>
-      <div class="hero-content-wrapper">
-        <div class="hero-text-content">
-          <div class="hero-badge">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
+    <!-- HERO SECTION (responsive unificado) -->
+    <section
+      class="relative pt-16 pb-24 px-8 max-sm:pt-12 max-sm:pb-20 max-sm:px-6 min-h-[56vh] max-sm:min-h-[50vh] flex items-center bg-cover bg-center overflow-hidden w-full"
+      :style="{ backgroundImage: `url(${portada})` }">
+      <div class="absolute inset-0 z-[1] bg-gradient-to-br from-[#DF2DB2]/50 to-[#185CE6]/50 dark:from-purple-500/40 dark:to-blue-500/40"></div>
+      <div class="max-w-[1200px] mx-auto w-full relative z-10">
+        <div class="max-w-[800px] mx-auto text-center">
+          <div class="inline-flex items-center gap-1.5 px-[1.1rem] py-2 bg-white/95 border-2 border-white/30 rounded-full text-[0.78rem] max-sm:text-[0.72rem] font-semibold text-[#185CE6] mb-[1.4rem] backdrop-blur-[10px] anim-fade-up">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-[#DF2DB2]">
               <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
             <span>Plataforma especializada en Derecho Penal</span>
           </div>
-          
-          <h1 class="hero-title-modern">
-            Optimiza tu estrategia jurídica con 
-            <span class="hero-gradient-text">jurisprudencia actual</span>
-            y <span class="hero-gradient-text">seleccionada</span>
+          <h1 class="text-[2rem] max-sm:text-[1.6rem] font-extrabold leading-[1.2] text-white mb-4 [text-shadow:0_2px_10px_rgba(0,0,0,0.3)] anim-fade-up-1">
+            Optimiza tu estrategia jurídica con
+            <span class="font-black [text-shadow:0_0_20px_rgba(255,255,255,0.5)]">jurisprudencia actual</span>
+            y <span class="font-black [text-shadow:0_0_20px_rgba(255,255,255,0.5)]">seleccionada</span>
           </h1>
-          
-          <p class="hero-subtitle-modern">
+          <p class="text-[0.85rem] max-sm:text-[0.82rem] text-white/95 leading-[1.7] mb-[1.8rem] [text-shadow:0_2px_8px_rgba(0,0,0,0.3)] anim-fade-up-2">
             Consulta jurisprudencia penal en esta herramienta online especializada
           </p>
-          
-          <div class="hero-cta-buttons">
-            <a href="#mi-seccion-planes" class="hero-btn-primary">
+          <div class="flex max-sm:flex-col gap-3 justify-center flex-wrap anim-fade-up-3">
+            <a href="#mi-seccion-planes"
+              class="inline-flex items-center justify-center gap-2 px-[1.35rem] py-[0.65rem] bg-white text-[#185CE6] rounded-full text-[0.78rem] font-bold no-underline transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:-translate-y-[3px] hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] hover:bg-[#f8f9fa] hover:text-[#185CE6]">
               Explorar planes
-              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="transition-transform group-hover:translate-x-1">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
               </svg>
             </a>
-            <a href="#conoce-proposito" class="hero-btn-secondary">
+            <a href="#conoce-proposito"
+              class="inline-flex items-center justify-center px-[1.35rem] py-[0.65rem] bg-transparent text-white border-2 border-white rounded-full text-[0.78rem] font-bold no-underline transition-all duration-300 hover:bg-white hover:text-[#185CE6] hover:-translate-y-[3px]">
               Conocer más
             </a>
           </div>
         </div>
       </div>
+
+      <!-- Ola suave inferior -->
+      <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-[5] pointer-events-none">
+        <svg viewBox="0 0 1440 50" preserveAspectRatio="none"
+          class="w-full h-[35px] md:h-[42px] lg:h-[50px] fill-white dark:fill-gray-900">
+          <path d="M0,25 C360,50 720,0 1080,30 C1260,42 1380,22 1440,28 L1440,50 L0,50 Z"/>
+        </svg>
+      </div>
     </section>
 
-    <div :style="{ backgroundImage: `url(${portada})` }"
-      class="relative container-mobile d-flex bg-contain bg-no-repeat lg:bg-cover lg:bg-center">
-      <div class="degradado"></div>
-      <section class="hero-section-clean opcion-2" :style="{ backgroundImage: `url(${portada})` }">
-        <div class="hero-overlay"></div>
-        <div class="hero-content-wrapper">
-          <div class="hero-text-content">
-            <div class="hero-badge">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-              <span>Plataforma especializada en Derecho Penal</span>
-            </div>
-            
-            <h1 class="hero-title-modern">
-              Optimiza tu estrategia jurídica con 
-              <span class="hero-gradient-text">jurisprudencia actual</span>
-              y <span class="hero-gradient-text">seleccionada</span>
-            </h1>
-            
-            <p class="hero-subtitle-modern">
-              Consulta jurisprudencia penal en esta herramienta online especializada
-            </p>
-            
-            <div class="hero-cta-buttons">
-              <a href="#mi-seccion-planes" class="hero-btn-primary">
-                Explorar planes
-                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-              </a>
-              <a href="#conoce-proposito" class="hero-btn-secondary">
-                Conocer más
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <section class="info-section-modern relative">
-      <div class="info-container">
-        <div class="info-content-wrapper">
-          <!-- Badge decorativo -->
-          <div class="info-badge-wrapper">
-            <div class="info-badge">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <!-- INFO SECTION -->
+    <section class="py-[2.8rem] max-sm:py-12 px-8 max-sm:px-4 bg-gradient-to-b from-white via-gray-50 to-white dark:from-gray-900 dark:via-gray-900 dark:to-gray-900 relative overflow-hidden">
+      <div class="max-w-[1400px] mx-auto relative z-[1]">
+        <div class="max-w-[1000px] mx-auto mb-10 text-center">
+          <div class="flex justify-center mb-[1.4rem] anim-fade-up">
+            <div class="inline-flex items-center gap-1.5 px-[1.1rem] py-2 bg-gradient-to-br from-[#DF2DB2]/10 to-[#185CE6]/10 dark:from-[#DF2DB2]/30 dark:to-[#185CE6]/30 border-2 border-[#185CE6]/20 dark:border-[#6ba3ff]/50 rounded-full text-[0.78rem] max-sm:text-[0.85rem] font-semibold text-[#185CE6] dark:text-[#bfdbfe] backdrop-blur-[10px]">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-[#DF2DB2]">
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
               </svg>
               <span>Plataforma especializada</span>
             </div>
           </div>
-
-          <!-- Título y descripción mejorados -->
-          <div class="info-text-block">
-            <h2 class="info-title">
-              <span class="info-highlight">Juris Search</span> es una herramienta digital diseñada para simplificar la búsqueda selectiva de jurisprudencia
+          <div class="mb-8 anim-fade-up-1">
+            <h2 class="text-[1.5rem] max-sm:text-[1.75rem] font-extrabold leading-[1.4] text-gray-900 dark:text-gray-100 mb-4">
+              <span class="bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] bg-clip-text text-transparent font-black">Juris Search</span>
+              es una herramienta digital diseñada para simplificar la búsqueda selectiva de jurisprudencia
             </h2>
-            <p class="info-description">
-              Especializada en derecho penal, derecho penal económico y de la empresa, 
+            <p class="text-[0.82rem] max-sm:text-base text-gray-500 dark:text-gray-300 leading-[1.7] max-w-[800px] mx-auto">
+              Especializada en derecho penal, derecho penal económico y de la empresa,
               nuestra plataforma te permite acceder a información jurídica relevante de manera rápida y eficiente.
             </p>
           </div>
-
-          <!-- Características destacadas -->
-          <div class="info-features-grid">
-            <div class="info-feature-item">
-              <div class="feature-icon-wrapper feature-icon-blue">
+          <div class="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] max-sm:grid-cols-1 gap-6 mt-8 anim-fade-up-2">
+            <div class="flex items-start gap-3 p-[1.1rem] max-sm:p-5 bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] dark:shadow-none transition-all duration-300 hover:-translate-y-[5px] hover:shadow-[0_8px_25px_rgba(0,0,0,0.1)] dark:hover:border-[#6ba3ff] text-left">
+              <div class="flex-shrink-0 w-[38px] h-[38px] flex items-center justify-center rounded-[10px] bg-gradient-to-br from-[#185CE6]/10 to-[#185CE6]/20 dark:from-blue-500/30 dark:to-blue-500/40 text-[#185CE6] dark:text-blue-300">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
                   <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
                   <line x1="12" y1="22.08" x2="12" y2="12"/>
                 </svg>
               </div>
-              <div class="feature-content">
-                <h4>Base actualizada</h4>
-                <p>Información jurídica constantemente renovada</p>
+              <div>
+                <h4 class="text-[0.88rem] font-bold text-gray-900 dark:text-gray-100 mb-1">Base actualizada</h4>
+                <p class="text-[0.78rem] text-gray-500 dark:text-gray-300 leading-[1.55] m-0">Información jurídica constantemente renovada</p>
               </div>
             </div>
-
-            <div class="info-feature-item">
-              <div class="feature-icon-wrapper feature-icon-purple">
+            <div class="flex items-start gap-3 p-[1.1rem] max-sm:p-5 bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] dark:shadow-none transition-all duration-300 hover:-translate-y-[5px] hover:shadow-[0_8px_25px_rgba(0,0,0,0.1)] dark:hover:border-[#6ba3ff] text-left">
+              <div class="flex-shrink-0 w-[38px] h-[38px] flex items-center justify-center rounded-[10px] bg-gradient-to-br from-purple-500/10 to-purple-500/20 dark:from-purple-500/30 dark:to-purple-500/40 text-purple-500 dark:text-purple-300">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="11" cy="11" r="8"/>
                   <path d="M21 21l-4.35-4.35"/>
                 </svg>
               </div>
-              <div class="feature-content">
-                <h4>Búsqueda inteligente</h4>
-                <p>Encuentra jurisprudencia relevante al instante</p>
+              <div>
+                <h4 class="text-[0.88rem] font-bold text-gray-900 dark:text-gray-100 mb-1">Búsqueda inteligente</h4>
+                <p class="text-[0.78rem] text-gray-500 dark:text-gray-300 leading-[1.55] m-0">Encuentra jurisprudencia relevante al instante</p>
               </div>
             </div>
-
-            <div class="info-feature-item">
-              <div class="feature-icon-wrapper feature-icon-pink">
+            <div class="flex items-start gap-3 p-[1.1rem] max-sm:p-5 bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] dark:shadow-none transition-all duration-300 hover:-translate-y-[5px] hover:shadow-[0_8px_25px_rgba(0,0,0,0.1)] dark:hover:border-[#6ba3ff] text-left">
+              <div class="flex-shrink-0 w-[38px] h-[38px] flex items-center justify-center rounded-[10px] bg-gradient-to-br from-[#DF2DB2]/10 to-[#DF2DB2]/20 dark:from-pink-500/30 dark:to-pink-500/40 text-[#DF2DB2] dark:text-pink-300">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M12 2L2 7l10 5 10-5-10-5z"/>
                   <path d="M2 17l10 5 10-5"/>
                   <path d="M2 12l10 5 10-5"/>
                 </svg>
               </div>
-              <div class="feature-content">
-                <h4>Organización eficiente</h4>
-                <p>Gestiona y categoriza tus consultas fácilmente</p>
+              <div>
+                <h4 class="text-[0.88rem] font-bold text-gray-900 dark:text-gray-100 mb-1">Organización eficiente</h4>
+                <p class="text-[0.78rem] text-gray-500 dark:text-gray-300 leading-[1.55] m-0">Gestiona y categoriza tus consultas fácilmente</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Imagen con efecto parallax mejorado -->
-        <div class="info-image-container">
-          <div class="image-decoration-circle circle-1"></div>
-          <div class="image-decoration-circle circle-2"></div>
-          <img :src="screen" alt="Plataforma Juris Search" class="info-screenshot" />
+        <!-- Screenshot -->
+        <div class="relative max-w-[1100px] mx-auto px-8 max-sm:px-4 anim-fade-up-3">
+          <div class="absolute w-[300px] h-[300px] rounded-full z-[1] opacity-60 top-[-50px] left-[-100px] anim-float hidden sm:block"
+            style="background: radial-gradient(circle, rgba(223,45,178,0.2) 0%, transparent 70%)"></div>
+          <div class="absolute w-[250px] h-[250px] rounded-full z-[1] opacity-60 bottom-[-50px] right-[-80px] anim-float-delayed hidden sm:block"
+            style="background: radial-gradient(circle, rgba(24,92,230,0.2) 0%, transparent 70%)"></div>
+          <img :src="screen" alt="Plataforma Juris Search"
+            class="w-full h-auto rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.15),0_0_0_1px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.05)] relative z-[2] transition-transform duration-500 hover:-translate-y-[10px]" />
         </div>
       </div>
     </section>
 
-    <section class="proposito-section-modern" id="conoce-proposito">
-      <div class="proposito-container">
-        <!-- Header -->
-        <div class="proposito-header">
-          <h2 class="proposito-title">
-            Conoce <span class="text-gradient">nuestro propósito</span>
+    <!-- PROPÓSITO SECTION -->
+    <section class="py-10 max-sm:py-8 px-8 max-sm:px-4 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-900 relative overflow-hidden" id="conoce-proposito">
+      <div class="max-w-[1400px] mx-auto">
+        <div class="text-center mb-6 reveal">
+          <h2 class="text-[2rem] font-extrabold text-gray-900 dark:text-gray-100 mb-4">
+            Conoce <span class="bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] bg-clip-text text-transparent">nuestro propósito</span>
           </h2>
-          <p class="proposito-subtitle">
+          <p class="text-base text-gray-500 dark:text-gray-300 max-w-[600px] mx-auto">
             Impulsamos la excelencia jurídica a través de tecnología e innovación
           </p>
         </div>
 
-        <!-- Tabs Navigation -->
-        <div class="proposito-tabs-wrapper">
-          <div class="proposito-tabs">
-            <button 
+        <!-- Tabs -->
+        <div class="flex justify-center mb-6">
+          <div class="inline-flex max-sm:flex-col max-sm:w-full max-sm:max-w-[350px] bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-[60px] max-sm:rounded-2xl p-2 shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-none gap-2">
+            <button
               @click="selectedSection = 'quienes-somos'"
-              :class="['proposito-tab', { 'proposito-tab-active': selectedSection === 'quienes-somos' }]">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              :class="['flex items-center gap-3 max-sm:justify-center px-8 max-sm:px-6 py-4 max-sm:py-[0.875rem] rounded-full text-base font-bold cursor-pointer transition-all duration-300 outline-none border-none',
+                selectedSection === 'quienes-somos'
+                  ? 'bg-[#185CE6]/5 dark:bg-[#6ba3ff]/25 text-[#185CE6] dark:text-[#bfdbfe]'
+                  : 'bg-transparent text-gray-500 dark:text-gray-400 hover:text-[#185CE6] hover:bg-[#185CE6]/5']">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                :class="selectedSection === 'quienes-somos' ? 'scale-110' : ''">
                 <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
                 <circle cx="9" cy="7" r="4"/>
                 <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
               </svg>
               <span>¿Quiénes somos?</span>
             </button>
-            
-            <button 
+            <button
               @click="selectedSection = 'nuestros-valores'"
-              :class="['proposito-tab', { 'proposito-tab-active': selectedSection === 'nuestros-valores' }]">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              :class="['flex items-center gap-3 max-sm:justify-center px-8 max-sm:px-6 py-4 max-sm:py-[0.875rem] rounded-full text-base font-bold cursor-pointer transition-all duration-300 outline-none border-none',
+                selectedSection === 'nuestros-valores'
+                  ? 'bg-[#185CE6]/5 dark:bg-[#6ba3ff]/25 text-[#185CE6] dark:text-[#bfdbfe]'
+                  : 'bg-transparent text-gray-500 dark:text-gray-400 hover:text-[#185CE6] hover:bg-[#185CE6]/5']">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                :class="selectedSection === 'nuestros-valores' ? 'scale-110' : ''">
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
               </svg>
               <span>Nuestros valores</span>
@@ -192,86 +168,88 @@
           </div>
         </div>
 
-        <!-- Content: Quiénes somos -->
+        <!-- Quiénes somos -->
         <transition name="fade-slide">
-          <div v-if="selectedSection === 'quienes-somos'" class="proposito-content">
-            <div class="vision-mision-grid">
-              <!-- Visión Card -->
-              <div class="vm-card vm-card-vision">
-                <div class="vm-card-icon-wrapper">
-                  <div class="vm-card-icon vm-icon-vision">
+          <div v-if="selectedSection === 'quienes-somos'" class="px-4">
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] max-sm:grid-cols-1 gap-6 max-w-[1200px] mx-auto">
+              <!-- Visión -->
+              <div class="group bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-3xl p-8 max-sm:p-6 shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-none relative overflow-hidden transition-all duration-[400ms] border-2 border-transparent flex flex-row items-start gap-6 max-sm:gap-4 hover:-translate-y-2 hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] hover:border-[#185CE6] dark:hover:border-[#93c5fd] reveal reveal-left delay-1">
+                <div class="flex-shrink-0">
+                  <div class="w-[60px] h-[60px] max-sm:w-[50px] max-sm:h-[50px] rounded-2xl flex items-center justify-center bg-gradient-to-br from-[#185CE6]/10 to-[#185CE6]/20 dark:from-blue-500/30 dark:to-blue-500/40 text-[#185CE6] dark:text-blue-300 transition-all duration-300 group-hover:scale-110 group-hover:rotate-[5deg]">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                       <circle cx="12" cy="12" r="3"/>
                     </svg>
                   </div>
                 </div>
-                <div class="vm-card-content">
-                  <h3 class="vm-card-title">Visión</h3>
-                  <p class="vm-card-description">
+                <div class="relative z-[2] flex-1 text-left">
+                  <h3 class="text-[1.35rem] font-extrabold text-[#185CE6] dark:text-blue-300 mb-3 mt-0">Visión</h3>
+                  <p class="text-[0.95rem] text-gray-600 dark:text-gray-300 leading-[1.8] m-0">
                     Brindar a nuestros usuarios una plataforma digital intuitiva, completa y actualizada, que facilite
-                    la consulta y búsqueda de jurisprudencia nacional y extranjera en derecho penal económico y de la
-                    empresa.
+                    la consulta y búsqueda de jurisprudencia nacional y extranjera en derecho penal económico y de la empresa.
                   </p>
                 </div>
-                <div class="vm-card-decoration vm-decoration-vision"></div>
+                <div class="absolute w-[200px] h-[200px] rounded-full opacity-[0.08] z-[1] bottom-[-50px] right-[-50px] transition-all duration-500 group-hover:scale-[1.3] group-hover:opacity-[0.12]"
+                  style="background: radial-gradient(circle, #185CE6 0%, transparent 70%)"></div>
               </div>
 
-              <!-- Misión Card -->
-              <div class="vm-card vm-card-mision">
-                <div class="vm-card-icon-wrapper">
-                  <div class="vm-card-icon vm-icon-mision">
+              <!-- Misión -->
+              <div class="group bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-3xl p-8 max-sm:p-6 shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-none relative overflow-hidden transition-all duration-[400ms] border-2 border-transparent flex flex-row items-start gap-6 max-sm:gap-4 hover:-translate-y-2 hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] hover:border-[#DF2DB2] dark:hover:border-[#f472b6] reveal reveal-right delay-2">
+                <div class="flex-shrink-0">
+                  <div class="w-[60px] h-[60px] max-sm:w-[50px] max-sm:h-[50px] rounded-2xl flex items-center justify-center bg-gradient-to-br from-[#DF2DB2]/10 to-[#DF2DB2]/20 dark:from-pink-500/30 dark:to-pink-500/40 text-[#DF2DB2] dark:text-pink-400 transition-all duration-300 group-hover:scale-110 group-hover:rotate-[5deg]">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
                     </svg>
                   </div>
                 </div>
-                <div class="vm-card-content">
-                  <h3 class="vm-card-title">Misión</h3>
-                  <p class="vm-card-description">
+                <div class="relative z-[2] flex-1 text-left">
+                  <h3 class="text-[1.35rem] font-extrabold text-[#DF2DB2] dark:text-pink-400 mb-3 mt-0">Misión</h3>
+                  <p class="text-[0.95rem] text-gray-600 dark:text-gray-300 leading-[1.8] m-0">
                     Ser la herramienta digital líder en consulta y búsqueda de jurisprudencia en derecho penal
                     económico y de la empresa en Perú.
                   </p>
                 </div>
-                <div class="vm-card-decoration vm-decoration-mision"></div>
+                <div class="absolute w-[200px] h-[200px] rounded-full opacity-[0.08] z-[1] bottom-[-50px] right-[-50px] transition-all duration-500 group-hover:scale-[1.3] group-hover:opacity-[0.12]"
+                  style="background: radial-gradient(circle, #DF2DB2 0%, transparent 70%)"></div>
               </div>
             </div>
           </div>
         </transition>
 
-        <!-- Content: Valores -->
+        <!-- Valores -->
         <transition name="fade-slide">
-          <div v-if="selectedSection === 'nuestros-valores'" class="proposito-content">
-            <div class="valores-carousel-wrapper">
-              <Carousel 
-                :breakpoints="carouselConfig.breakpoints" 
-                :wrap-around="carouselConfig.wrapAround" 
+          <div v-if="selectedSection === 'nuestros-valores'" class="px-4">
+            <div class="max-w-[1200px] mx-auto">
+              <Carousel
+                :breakpoints="carouselConfig.breakpoints"
+                :wrap-around="carouselConfig.wrapAround"
                 :autoplay="false"
                 :settings="{ navigationEnabled: true }">
-                <Slide v-for="valor in valores" :key="valor.id" class="valores-slide">
-                  <div class="valor-card">
-                    <div class="valor-icon-wrapper">
-                      <img :src="valor?.image" class="valor-icon" alt="" />
+                <Slide v-for="valor in valores" :key="valor.id" class="p-4 max-sm:p-3">
+                  <div class="group bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-[20px] p-8 px-6 max-sm:p-6 shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-none transition-all duration-300 h-full flex flex-row items-start text-left border-2 border-transparent gap-5 max-sm:gap-4 hover:-translate-y-2 hover:shadow-[0_12px_35px_rgba(0,0,0,0.12)] hover:border-[#185CE6]/30 dark:hover:border-[#6ba3ff]">
+                    <div class="w-[70px] h-[70px] max-sm:w-[55px] max-sm:h-[55px] bg-gradient-to-br from-[#DF2DB2]/10 to-[#185CE6]/10 dark:from-[#DF2DB2]/30 dark:to-[#185CE6]/30 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:-rotate-[5deg]">
+                      <img :src="valor?.image" class="w-[42px] h-[42px] max-sm:w-[35px] max-sm:h-[35px] object-contain" alt="" />
                     </div>
-                    <div class="valor-content">
-                      <h4 class="valor-title">{{ valor?.name }}</h4>
-                      <p class="valor-description">{{ valor?.description }}</p>
+                    <div class="flex-1">
+                      <h4 class="text-[1.1rem] font-bold text-gray-900 dark:text-gray-100 mb-2.5 mt-0">{{ valor?.name }}</h4>
+                      <p class="text-[0.9rem] text-gray-500 dark:text-gray-300 leading-[1.6] m-0">{{ valor?.description }}</p>
                     </div>
                   </div>
                 </Slide>
-
                 <template #addons>
                   <CarouselNavigation>
                     <template #prev>
-                      <button class="carousel-nav-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <button class="group relative bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-full w-12 h-12 max-sm:w-10 max-sm:h-10 flex items-center justify-center cursor-pointer transition-all duration-300 overflow-hidden hover:border-transparent hover:scale-110 hover:shadow-[0_8px_20px_rgba(223,45,178,0.3)]">
+                        <span class="absolute inset-0 bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="relative z-10 text-gray-500 dark:text-gray-300 group-hover:text-white transition-colors">
                           <polyline points="15 18 9 12 15 6"/>
                         </svg>
                       </button>
                     </template>
                     <template #next>
-                      <button class="carousel-nav-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <button class="group relative bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-full w-12 h-12 max-sm:w-10 max-sm:h-10 flex items-center justify-center cursor-pointer transition-all duration-300 overflow-hidden hover:border-transparent hover:scale-110 hover:shadow-[0_8px_20px_rgba(223,45,178,0.3)]">
+                        <span class="absolute inset-0 bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="relative z-10 text-gray-500 dark:text-gray-300 group-hover:text-white transition-colors">
                           <polyline points="9 18 15 12 9 6"/>
                         </svg>
                       </button>
@@ -285,61 +263,59 @@
       </div>
     </section>
 
-    <section class="ofrecemos-section-modern" id="mi-nosotros">
-      <div class="ofrecemos-container">
-        <!-- Header -->
-        <div class="ofrecemos-header">
-          <h2 class="ofrecemos-title">
-            Lo que te <span class="text-gradient">ofrecemos</span>
+    <!-- OFRECEMOS SECTION -->
+    <section class="py-16 max-sm:py-12 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-900 relative overflow-hidden" id="mi-nosotros">
+      <div class="max-w-[1400px] mx-auto px-8 max-sm:px-4">
+        <div class="text-center mb-4 reveal">
+          <h2 class="text-[2rem] font-extrabold text-gray-900 dark:text-gray-100 mb-4">
+            Lo que te <span class="bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] bg-clip-text text-transparent">ofrecemos</span>
           </h2>
-          <p class="ofrecemos-subtitle">
+          <p class="text-base text-gray-500 dark:text-gray-300 max-w-[600px] mx-auto">
             Herramientas y recursos diseñados para potenciar tu práctica jurídica
           </p>
         </div>
 
-        <!-- Carousel moderno -->
-        <div class="ofrecemos-carousel-container">
-          <Carousel 
+        <div class="relative mx-auto max-w-full ofrecemos-carousel">
+          <Carousel
             :items-to-show="3"
             :items-to-scroll="1"
-            :breakpoints="carouselConfig.breakpoints" 
+            :breakpoints="carouselConfig.breakpoints"
             :wrap-around="true"
-            :autoplay="5000" 
+            :autoplay="5000"
             snap-align="start">
-            
             <Slide v-for="slide in slides" :key="slide.id">
-              <div class="ofrecemos-card">
-                <div class="ofrecemos-image-wrapper">
-                  <img :src="slide.image" class="ofrecemos-image" alt="" />
-                  <div class="ofrecemos-overlay"></div>
+              <div class="group bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-[20px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-none transition-all duration-[400ms] flex flex-col border-2 border-transparent mx-3 max-sm:mx-2 hover:-translate-y-2 hover:shadow-[0_12px_30px_rgba(0,0,0,0.12)] hover:border-[#185CE6]/30 dark:hover:border-[#6ba3ff]">
+                <div class="relative w-full h-[160px] max-sm:h-[140px] overflow-hidden">
+                  <img :src="slide.image" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="" />
+                  <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 transition-opacity duration-300 group-hover:opacity-80"></div>
                 </div>
-                
-                <div class="ofrecemos-content">
-                  <div class="ofrecemos-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <div class="p-[1.3rem_1.2rem] max-sm:p-[1.2rem_1rem] flex flex-row items-start gap-4">
+                  <div class="w-12 h-12 max-sm:w-[42px] max-sm:h-[42px] bg-gradient-to-br from-[#DF2DB2]/10 to-[#185CE6]/10 dark:from-[#DF2DB2]/30 dark:to-[#185CE6]/30 rounded-xl flex items-center justify-center text-[#185CE6] dark:text-blue-300 flex-shrink-0 transition-all duration-300 group-hover:from-[#DF2DB2] group-hover:to-[#185CE6] group-hover:text-white group-hover:scale-110 group-hover:-rotate-[5deg]">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="max-sm:w-5 max-sm:h-5">
                       <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                   </div>
-                  <div class="ofrecemos-text-wrapper">
-                    <h3 class="ofrecemos-card-title">{{ slide.text }}</h3>
-                    <p class="ofrecemos-card-description">{{ slide.description }}</p>
+                  <div class="flex-1 flex flex-col gap-1.5">
+                    <h3 class="text-[1.05rem] max-sm:text-base font-extrabold text-gray-900 dark:text-gray-100 m-0 leading-[1.3]">{{ slide.text }}</h3>
+                    <p class="text-[0.88rem] max-sm:text-[0.85rem] text-gray-500 dark:text-gray-300 leading-[1.5] m-0">{{ slide.description }}</p>
                   </div>
                 </div>
               </div>
             </Slide>
-
             <template #addons>
               <CarouselNavigation>
                 <template #prev>
-                  <button class="ofrecemos-nav-btn ofrecemos-nav-prev">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <button class="group relative bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-full w-12 h-12 max-sm:w-11 max-sm:h-11 flex items-center justify-center cursor-pointer transition-all duration-300 overflow-hidden outline-none hover:border-transparent hover:scale-110 hover:shadow-[0_8px_20px_rgba(223,45,178,0.3)]">
+                    <span class="absolute inset-0 bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="relative z-10 text-gray-500 dark:text-gray-300 group-hover:text-white transition-colors">
                       <polyline points="15 18 9 12 15 6"/>
                     </svg>
                   </button>
                 </template>
                 <template #next>
-                  <button class="ofrecemos-nav-btn ofrecemos-nav-next">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <button class="group relative bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-full w-12 h-12 max-sm:w-11 max-sm:h-11 flex items-center justify-center cursor-pointer transition-all duration-300 overflow-hidden outline-none hover:border-transparent hover:scale-110 hover:shadow-[0_8px_20px_rgba(223,45,178,0.3)]">
+                    <span class="absolute inset-0 bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="relative z-10 text-gray-500 dark:text-gray-300 group-hover:text-white transition-colors">
                       <polyline points="9 18 15 12 9 6"/>
                     </svg>
                   </button>
@@ -351,59 +327,58 @@
       </div>
     </section>
 
-    <section class="planes-section" id="mi-seccion-planes">
-      <div class="planes-container">
-        <div class="planes-header">
-          <h2 class="planes-title">Nuestros <span class="text-gradient">planes</span></h2>
-          <p class="planes-subtitle">
+    <!-- PLANES SECTION -->
+    <section class="py-[2.8rem] max-sm:py-14 px-4 max-sm:px-2 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-900" id="mi-seccion-planes">
+      <div class="max-w-[1400px] mx-auto">
+        <div class="text-center mb-8 reveal">
+          <h2 class="text-[1.6rem] max-sm:text-[2rem] font-extrabold text-gray-900 dark:text-gray-100 mb-3">
+            Nuestros <span class="bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] bg-clip-text text-transparent">planes</span>
+          </h2>
+          <p class="text-[0.82rem] max-sm:text-base text-gray-500 dark:text-gray-300 max-w-[600px] mx-auto">
             Elige el plan que mejor se adapte a tus necesidades
           </p>
         </div>
 
-        <div class="planes-grid">
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] max-sm:grid-cols-1 gap-6 px-4 max-sm:px-2 reveal delay-1">
           <div
-            class="plan-card"
-            :class="{ 'plan-featured': plan?.PRINCIPAL }"
-            v-for="plan in planes" :key="plan.id">
-            
-            <!-- Header Card -->
-            <div class="plan-header" :class="{
-              'plan-header-featured': plan?.PRINCIPAL,
-              'plan-header-normal': !plan?.PRINCIPAL
-            }">
-              <h3 class="plan-name">
-                <img v-if="plan?.PRINCIPAL" :src="corona" class="corona-icon" />
+            v-for="plan in planes" :key="plan.id"
+            :class="['bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-none transition-all duration-[400ms] relative border-2 border-transparent hover:-translate-y-2 hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] hover:border-[#6ba3ff] dark:hover:shadow-[0_12px_40px_rgba(107,163,255,0.3)]',
+              plan?.PRINCIPAL ? 'border-[#6ba3ff] shadow-[0_8px_30px_rgba(107,163,255,0.2)] scale-[1.05] max-sm:scale-100 dark:shadow-[0_8px_30px_rgba(107,163,255,0.5)]' : '']">
+            <div :class="['px-[1.2rem] py-[1.4rem] text-center',
+              plan?.PRINCIPAL ? 'bg-gradient-to-br from-[#DF2DB2] to-[#185CE6]' : 'bg-gradient-to-br from-gray-200 to-gray-100 dark:from-gray-700 dark:to-gray-600']">
+              <h3 :class="['text-[1.05rem] font-bold m-0 flex items-center justify-center gap-1.5',
+                plan?.PRINCIPAL ? 'text-white' : 'text-gray-900 dark:text-gray-100']">
+                <img v-if="plan?.PRINCIPAL" :src="corona" class="w-6 h-6" />
                 {{ capitalizeFirst(plan?.DESCRIPCION) }}
               </h3>
             </div>
-            
-            <!-- Body Card -->
-            <div class="plan-body">
-              <!-- Precio -->
-              <div class="plan-price-section">
-                <div class="price-wrapper">
-                  <span class="currency">S/</span>
-                  <span class="price-amount">{{ plan?.PRECIO || "" }}</span>
-                  <span class="price-period">/ {{ plan.PERIODO || "" }}</span>
+            <div class="p-[1.4rem_1.2rem]">
+              <div class="text-center mb-[1.4rem]">
+                <div class="flex items-start justify-center gap-1">
+                  <span class="text-base font-semibold text-gray-500 dark:text-gray-300 mt-1.5">S/</span>
+                  <span class="text-[1.9rem] font-extrabold text-gray-900 dark:text-gray-100 leading-none">{{ plan?.PRECIO || "" }}</span>
+                  <span class="text-[0.8rem] text-gray-400 dark:text-gray-300 self-end mb-1.5">/ {{ plan.PERIODO || "" }}</span>
                 </div>
               </div>
-
-              <!-- Botón CTA -->
-              <button @click="goToPlan(plan)" class="plan-button"
-                :class="{ 'plan-button-featured': plan?.PRINCIPAL }">
-                {{ plan?.VALOR != "1" ? "Adquirir Plan" : "Probar gratis" }}
-                <svg class="button-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <button @click="siteConfig.ALLOW_PLAN_PURCHASE && goToPlan(plan)"
+                :class="['w-full px-[1.2rem] py-[0.7rem] rounded-[10px] text-[0.82rem] font-bold transition-all duration-300 flex items-center justify-center gap-1.5 mb-[1.4rem] border-2',
+                  !siteConfig.ALLOW_PLAN_PURCHASE
+                    ? 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 border-transparent cursor-not-allowed opacity-60'
+                    : plan?.PRINCIPAL
+                      ? 'bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] text-white border-transparent cursor-pointer hover:shadow-[0_8px_25px_rgba(223,45,178,0.4)] hover:-translate-y-0.5'
+                      : 'bg-white dark:bg-gray-800 text-[#6ba3ff] border-[#6ba3ff] cursor-pointer hover:bg-[#6ba3ff] hover:text-white hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(107,163,255,0.3)]']">
+                {{ !siteConfig.ALLOW_PLAN_PURCHASE ? 'No disponible' : plan?.VALOR != "1" ? "Adquirir Plan" : "Probar gratis" }}
+                <svg v-if="siteConfig.ALLOW_PLAN_PURCHASE" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
               </button>
-
-              <!-- Lista de características -->
-              <ul class="plan-features">
-                <li class="feature-item" v-for="restriccion in plan.DETALLE.RESTRICIONES" :key="restriccion">
-                  <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <ul class="list-none p-0 m-0">
+                <li class="flex items-start gap-3 py-3 border-b border-gray-100 dark:border-gray-700 last:border-0"
+                  v-for="restriccion in plan.DETALLE.RESTRICIONES" :key="restriccion">
+                  <svg class="w-5 h-5 text-[#6ba3ff] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                   </svg>
-                  <span class="feature-text">{{ restriccion }}</span>
+                  <span class="text-[0.78rem] text-gray-600 dark:text-gray-300 leading-[1.55]">{{ restriccion }}</span>
                 </li>
               </ul>
             </div>
@@ -411,27 +386,30 @@
         </div>
       </div>
 
-      <ModalCrearUsuario :show="modalCrearUsuario.show" :close="() => modalCrearUsuario.show = false"
-        :update="() => { }" />
+      <ModalCrearUsuario :show="modalCrearUsuario.show" :close="() => modalCrearUsuario.show = false" :update="() => { }" />
     </section>
 
-    <section class="preguntas-section" id="mi-nosotros">
-      <div class="preguntas-container">
-        <div class="animation-b-t preguntas-header">
-          <h2 class="preguntas-title">Resolvemos tus <span class="text-gradient">preguntas frecuentes</span></h2>
+    <!-- PREGUNTAS SECTION -->
+    <section class="py-[2.8rem] max-sm:py-12 px-4 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-900">
+      <div class="max-w-[1400px] mx-auto">
+        <div class="animation-b-t text-center mb-8">
+          <h2 class="text-[1.6rem] max-sm:text-[1.75rem] font-extrabold text-gray-900 dark:text-gray-100 m-0">
+            Resolvemos tus <span class="bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] bg-clip-text text-transparent">preguntas frecuentes</span>
+          </h2>
         </div>
-
-        <div class="preguntas-content">
-          <div class="preguntas-grid">
-            <div class="preguntas-image-container">
-              <img :src="preguntasFrecuentes" alt="Preguntas frecuentes" class="preguntas-image" />
+        <div class="px-4 max-sm:px-0">
+          <div class="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] max-sm:grid-cols-1 gap-12 max-sm:gap-10 items-center">
+            <div class="flex justify-center items-center">
+              <img :src="preguntasFrecuentes" alt="Preguntas frecuentes"
+                class="w-full max-w-[380px] max-sm:max-w-full h-auto rounded-[20px] shadow-[0_8px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.7)] dark:border dark:border-gray-700 transition-transform duration-300 hover:scale-[1.02]" />
             </div>
-            <div class="preguntas-accordion-container">
+            <div class="bg-white dark:bg-gray-900 dark:border-2 dark:border-gray-700 rounded-2xl p-[1.4rem] max-sm:p-[1.75rem_1.25rem] shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
               <Question :resumeSection="true" />
-              <div class="preguntas-cta">
-                <router-link to="/questions" class="preguntas-button">
+              <div class="flex justify-center mt-8">
+                <router-link to="/questions"
+                  class="inline-flex items-center gap-2 px-6 max-sm:px-7 py-[0.7rem] max-sm:py-4 bg-gradient-to-br from-[#DF2DB2] to-[#185CE6] text-white border-none rounded-full text-[0.82rem] max-sm:text-base font-bold no-underline transition-all duration-300 shadow-[0_4px_15px_rgba(223,45,178,0.3)] hover:-translate-y-[3px] hover:shadow-[0_8px_25px_rgba(223,45,178,0.4)] hover:text-white">
                   Ver más preguntas frecuentes
-                  <svg class="button-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-[15px] h-[15px] transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                   </svg>
                 </router-link>
@@ -442,102 +420,40 @@
       </div>
     </section>
 
-    <section class="hidden d-none py-4 pt-5 mt-5 bg-comments" :style="{ backgroundImage: `url(${bgComments})` }"
-      id="mi-seccion">
-      <div id="pricing" class="py-6 px-6 mb-0 lg:px-20 my-2 md:my-6">
-        <div class="text-center mb-6">
-          <h2 style="text-align: center!important">Lo que <span class="text-primary">nuestros usuarios dicen</span></h2>
-        </div>
+    <!-- CTA SECTION -->
+    <section class="py-16 max-sm:py-12 px-4 dark:bg-gray-900">
+      <div class="cta-gradient-bg max-w-[1280px] mx-auto rounded-3xl max-sm:rounded-[20px] p-12 max-sm:p-[2.5rem_1.8rem] shadow-[0_20px_60px_rgba(0,0,0,0.2)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.6)] reveal reveal-scale">
+        <div class="cta-orb-1 hidden sm:block"/>
+        <div class="cta-orb-2 hidden sm:block"/>
+        <div class="cta-orb-3 hidden sm:block"/>
 
-        <div class="container mx-auto">
-          <Carousel :breakpoints="carouselConfig.breakpoints" :wrap-around="carouselConfig.wrapAround"
-            :autoplay="carouselConfig.autoplay" :settings="{ navigationEnabled: true }">
-            <Slide v-for="comment in comments" :key="comment.id">
-              <div class="flex justify-center p-3">
-                <div class="bg-white text-center p-6 rounded-xl shadow" style="max-width: 400px;">
-                  <img :src="comment.image" class="w-20 h-20 rounded-full mx-auto mb-4" />
-                  <p class="text-gray-600 text-sm mb-4">
-                    {{ comment.text }}
-                  </p>
-                  <h3 class="text-lg font-semibold text-gray-900">{{ comment.name }}</h3>
-                  <p class="text-primary font-medium">{{ comment.profession }}</p>
-                </div>
-              </div>
-            </Slide>
-
-            <template #addons>
-              <CarouselNavigation>
-                <template #prev>
-                  <button class="p-2 bg-gray-200 rounded-full hover:bg-gray-300">
-                    <img :src="leftArrow" alt="left-arrow" class="w-5 h-5" />
-                  </button>
-                </template>
-                <template #next>
-                  <button class="p-2 bg-gray-200 rounded-full hover:bg-gray-300">
-                    <img :src="rightArrow" alt="right-arrow" class="w-5 h-5" />
-                  </button>
-                </template>
-              </CarouselNavigation>
-            </template>
-          </Carousel>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-      <div class="cta-container">
-        <!-- Decorative Elements -->
-        <div class="cta-decoration cta-decoration-1"></div>
-        <div class="cta-decoration cta-decoration-2"></div>
-        <div class="cta-decoration cta-decoration-3"></div>
-
-        <div class="cta-content">
-          <!-- Badge -->
-          <div class="cta-badge">
-            <svg class="cta-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <div class="relative z-10 flex flex-col items-center text-center gap-5">
+          <div class="inline-flex items-center gap-1.5 px-4 py-[0.4rem] bg-white/15 backdrop-blur-[10px] border border-white/20 rounded-full text-white text-[0.75rem] font-semibold anim-fade-up">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
             </svg>
             <span>Soporte 24/7</span>
           </div>
-
-          <!-- Title -->
-          <h2 class="cta-title">
+          <h2 class="text-[1.75rem] max-sm:text-[1.5rem] font-black text-white m-0 leading-[1.2] max-w-[700px] anim-fade-up-1">
             ¿Necesitas ayuda con tu búsqueda jurídica?
           </h2>
-
-          <!-- Description -->
-          <p class="cta-description">
+          <p class="text-[0.9rem] max-sm:text-[0.85rem] text-white/90 m-0 leading-[1.6] max-w-[650px] anim-fade-up-2">
             Nuestro equipo de expertos está listo para atenderte. Responderemos todas tus consultas y te guiaremos en el uso de la plataforma.
           </p>
-
-          <!-- CTA Button -->
-          <router-link to="/contacto" class="cta-button">
+          <router-link to="/contacto"
+            class="inline-flex items-center gap-2.5 px-[1.8rem] py-3 max-sm:py-4 max-sm:text-base bg-white text-[#667eea] dark:text-[#3730a3] text-[0.9rem] font-bold rounded-xl no-underline transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.2)] dark:shadow-[0_10px_40px_rgba(255,255,255,0.3)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] hover:bg-[#f8f9fa] hover:text-[#667eea] anim-fade-up-3">
             <span>Contáctanos ahora</span>
-            <svg class="cta-button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
           </router-link>
-
-          <!-- Features -->
-          <div class="cta-features">
-            <div class="cta-feature">
-              <svg class="cta-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <div class="flex gap-6 max-sm:flex-col max-sm:gap-4 mt-2 flex-wrap justify-center anim-fade-up-3">
+            <div v-for="feat in ['Respuesta rápida', 'Soporte profesional', 'Guía personalizada']" :key="feat"
+              class="flex items-center gap-1.5 text-white/95 text-[0.85rem] font-medium">
+              <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
-              <span>Respuesta rápida</span>
-            </div>
-            <div class="cta-feature">
-              <svg class="cta-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-              <span>Soporte profesional</span>
-            </div>
-            <div class="cta-feature">
-              <svg class="cta-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-              <span>Guía personalizada</span>
+              <span>{{ feat }}</span>
             </div>
           </div>
         </div>
@@ -547,8 +463,8 @@
     <footer-component />
   </div>
 </template>
-<script>
 
+<script>
 import login from "@/assets/img/login.jpg";
 import profile from "@/assets/img/profile.jpg";
 import landing from "@/assets/img/landing.jpg";
@@ -574,7 +490,6 @@ import { toast } from 'vue3-toastify';
 import { Carousel, Slide, Navigation as CarouselNavigation } from 'vue3-carousel';
 import 'vue3-carousel/dist/carousel.css';
 
-// * USADOS
 import IndexNavbar from "@/components/Navbars/IndexNavbar.vue";
 import FooterComponent from "@/components/Footers/Footer.vue";
 import patternVue from "@/assets/img/resources/imagen.png";
@@ -583,8 +498,6 @@ import visionVue from "@/assets/img/resources/Show.png";
 import portada from "@/assets/img/resources/portada-inicio.jpg";
 import screen from "@/assets/img/resources/imagen_portada.png";
 
-
-// * PROXIES
 import LoginProxy from "@/proxies/LoginProxy";
 import SettingsProxy from "@/proxies/SettingsProxy.js";
 import MantenimientoProxy from "@/proxies/MantenimientoProxy.js";
@@ -604,7 +517,6 @@ export default {
       login,
       profile,
       landing,
-      // VARIABLES USADAS
       noticias: [],
       currentIndex: 0,
       misionVue,
@@ -628,6 +540,7 @@ export default {
         data: null,
       },
       planes: [],
+      siteConfig: { ALLOW_PLAN_PURCHASE: true },
       carouselConfig: {
         wrapAround: true,
         autoplay: 5000,
@@ -703,12 +616,6 @@ export default {
           name: "Compromiso Ético",
           description: "Contribuimos el fortalecimiento del Estado de Derecho y a la construcción de una sociedad mas justa mediante el libre y fácil acceso a la información digital.",
         },
-        // {
-        //   id: 5,
-        //   image: valorImg5,
-        //   name: "Compromiso Ético",
-        //   description: "Contribuimos el fortalecimiento del Estado de Derecho y a la construcción de una sociedad mas justa mediante el libre y fácil acceso a la información digital.",
-        // },
       ],
       planesSuggets: {
         "1": {
@@ -803,17 +710,15 @@ export default {
         CESTDO: 'A'
       })
         .then(async (response) => {
-          const processedResponse = await Promise.all(response.map(noticia => {
+          const items = Array.isArray(response) ? response : (response?.DATA ?? response?.data ?? []);
+          const processedResponse = await Promise.all(items.map(noticia => {
             const type = noticia.IMAGEN.split('.').pop();
             const imageData = noticia?.IMAGEN2?.data || null;
-
             if (!imageData) return noticia;
-
             const base64String = imageData.reduce((acc, byte) => acc + String.fromCharCode(byte), '');
             noticia.IMAGEN2 = `data:image/${type};base64,${window.btoa(base64String)}`;
             return noticia;
           }));
-
           this.noticias = processedResponse;
           this.startRotation();
         })
@@ -827,8 +732,7 @@ export default {
         ROWS: 1000,
         INIT: 0,
         DESC: null
-      }
-      ).then((response) => {
+      }).then((response) => {
         response = response.map((item) => {
           item.PRECIO = item.PRECIO.toFixed(2);
           item.TIEMPO = Number((item.TIEMPO / 30).toFixed(0));
@@ -839,24 +743,37 @@ export default {
           item["PERIODO"] = item?.TIEMPO + (item?.TIEMPO <= 1 ? ' mes' : ' meses');
           return item;
         });
-
         const principalIndex = response.findIndex(item => item.PRINCIPAL);
         if (principalIndex !== -1 && principalIndex < response.length - 1) {
           const principalItem = response.splice(principalIndex, 1)[0];
           response.splice(response.length - 1, 0, principalItem);
         }
-
-
-
         this.planes = response;
       })
         .catch((error) => {
           toast.error(error?.message || 'Ocurrió un error al obtener los planes', { toastId: 'error' });
         })
     },
-    goToPlan() {
-      return 1
-      // this.modalCrearUsuario.show = true;
+    goToPlan(plan) {
+      const accessToken = localStorage.getItem('accessToken');
+      if (accessToken) {
+        try {
+          const b64 = accessToken.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+          const payload = JSON.parse(atob(b64));
+          const IDR = payload.role ?? payload.IDR;
+          if (IDR === 2) {
+            this.$router.push(`/usuario/subscripcion?plan=${plan.ID}`);
+            return;
+          }
+          if (IDR === 0 || IDR === 1) {
+            // Admin no compra desde el landing
+            this.$router.push('/admin/subscripcion');
+            return;
+          }
+        } catch { /* token inválido, caer a login */ }
+      }
+      // No logueado: ir a registro (si es free va a login directo para simplificar)
+      this.$router.push(`/auth/register?plan=${plan.ID}`);
     },
     startRotation() {
       setInterval(() => {
@@ -865,21 +782,13 @@ export default {
     },
     async submit(e) {
       e.preventDefault();
-
       let validate = await this.$validate();
       if (!validate) return;
-
       this.isLoading = true;
       await SettingsProxy.create(this.modelo)
         .then((response) => {
           if (response.STATUS) {
-            this.modelo = {
-              NOMBRES: null,
-              CORREO: null,
-              ASUNTO: null,
-              MENSAJE: null,
-            };
-
+            this.modelo = { NOMBRES: null, CORREO: null, ASUNTO: null, MENSAJE: null };
             this.validation.reset();
             toast.success('Mensaje enviado correctamente', { toastId: 'success' });
           } else {
@@ -893,2657 +802,153 @@ export default {
       await Promise.all([this.getNoticias(), this.getPlanes()]);
     }
   },
-
   mounted() {
-    // validar si en url viene /#xxxxxxxxxxxx
+    LoginProxy.siteConfig().then(cfg => { if (cfg) this.siteConfig = { ...this.siteConfig, ...cfg }; }).catch(() => {});
     const sectionId = window.location.hash;
     if (sectionId) {
       const section = document.querySelector(sectionId);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth" });
-      }
+      if (section) section.scrollIntoView({ behavior: "smooth" });
     }
-
     this.getParams();
 
-    document.addEventListener('DOMContentLoaded', function () {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
       });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
-      const elementos = document.querySelectorAll('.animation-b-t');
-      const elementos2 = document.querySelectorAll('.animation-r-l');
-      const elementos3 = document.querySelectorAll('.animation-l-r');
-
-      elementos.forEach(elemento => {
-        observer.observe(elemento);
-      });
-
-      elementos2.forEach(elemento => {
-        observer.observe(elemento);
-      });
-
-      elementos3.forEach(elemento => {
-        observer.observe(elemento);
-      });
+    this.$nextTick(() => {
+      document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .animation-b-t')
+        .forEach(el => revealObserver.observe(el));
     });
-
-
-
   },
 };
 </script>
 
 <style scoped>
-@media (max-width: 768px) {
-
-  .planes-juris {
-    margin-top: 10px !important;
-  }
-
-  /* // haacer responsive donde se agrega la iagen al incio */
-  .container-mobile {
-    background-image: url("~@/assets/img/resources/portada-inicio.jpg");
-    background-size: cover;
-    background-position: right;
-    background-repeat: no-repeat;
-    height: 50vh;
-    width: 100%;
-    position: relative;
-    z-index: 1;
-  }
-
-  .container-text-first {
-    margin-top: 15px !important;
-    padding: 20px 0px !important;
-  }
-
-  .container-text-first .row {
-    margin: 0 !important;
-    display: block !important;
-  }
-
-  .ofrecemos-lo {
-    margin-top: 20px 0px 10px 0px !important;
-  }
-}
-
-
-/* Cuando el elemento es visible, se aplicará la animación */
-.animation-b-t.visible {
-  animation: frame3 1s ease-in-out;
-}
-
-/* Keyframes que definen los "frames" de la animación */
-@keyframes frame3 {
-  from {
-    opacity: 0;
-    transform: translateY(100%);
-  }
-
-  to {
-    opacity: 0.8;
-    transform: translateY(0);
-  }
-}
-
-/* Celulares en modo vertical */
-@media only screen and (max-width: 480px) {
-
-  /* Estilos para dispositivos móviles */
-  .container-h-screen {
-    margin-bottom: 1rem
-  }
-
-  .container-contactanos {
-    margin: 0 !important;
-  }
-
-  .container-contactanos .contactos-container {
-    padding: 0 !important;
-  }
-
-  .container-contactanos .contacto {
-    padding: 2rem !important;
-  }
-}
-
-/* Tabletas en modo vertical y horizontal */
-@media only screen and (min-width: 481px) and (max-width: 768px) {
-
-  /* Estilos para tabletas */
-  .container-text {
-    width: 100% !important;
-  }
-
-  .container-h-screen {
-    height: 70vh;
-  }
-
-  .w-full-container {
-    width: 100% !important;
-    text-align: justify;
-  }
-
-  .w-full-container .container-imagen {
-    justify-content: center;
-  }
-}
-
-@media only screen and (min-width: 769px) and (max-width: 1024px) {
-  .container-text {
-    width: 100% !important;
-  }
-}
-
-@media (max-width: 768px) {
-  #img-inicio {
-    display: none;
-  }
-
-  #container-fluid-img {
-    padding: 0 !important;
-  }
-
-
-  .h2-init {
-    padding-top: 30px;
-  }
-
-  .container-mision-v {
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  .container-valor {
-    padding: 0 !important;
-  }
-}
-
-.img-container img {
-  max-height: 40px;
-  max-width: 40px;
-
-}
-
-.ul-list-details li {
-  list-style-type: none;
-}
-
-.card-price:hover {
-  border: 1px solid #a5bef5;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Planes Section - Nuevo Diseño */
-.planes-section {
-  padding: 2.8rem 1rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
-}
-
-.planes-container {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.planes-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.planes-title {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #1F2937;
-  margin-bottom: 0.75rem;
-}
-
-.text-gradient {
-  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.planes-subtitle {
-  font-size: 0.82rem;
-  color: #6B7280;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.planes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  padding: 0 1rem;
-}
-
-.plan-card {
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  border: 2px solid transparent;
-}
-
-.plan-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-  border-color: #6ba3ff;
-}
-
-.plan-featured {
-  border: 2px solid #6ba3ff;
-  box-shadow: 0 8px 30px rgba(107, 163, 255, 0.2);
-  transform: scale(1.05);
-}
-
-.plan-featured:hover {
-  transform: scale(1.08) translateY(-8px);
-  box-shadow: 0 15px 50px rgba(107, 163, 255, 0.3);
-}
-
-.plan-header {
-  padding: 1.4rem 1.2rem 1.1rem;
-  text-align: center;
-}
-
-.plan-header-featured {
-  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-}
-
-.plan-header-normal {
-  background: linear-gradient(135deg, #E5E7EB 0%, #F3F4F6 100%);
-}
-
-.plan-name {
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-}
-
-.corona-icon {
-  width: 24px;
-  height: 24px;
-}
-
-.plan-header-featured .plan-name {
-  color: white;
-}
-
-.plan-header-normal .plan-name {
-  color: #1F2937;
-}
-
-.plan-body {
-  padding: 1.4rem 1.2rem;
-}
-
-.plan-price-section {
-  text-align: center;
-  margin-bottom: 1.4rem;
-}
-
-.price-wrapper {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 0.25rem;
-}
-
-.currency {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #6B7280;
-  margin-top: 0.4rem;
-}
-
-.price-amount {
-  font-size: 1.9rem;
-  font-weight: 800;
-  color: #1F2937;
-  line-height: 1;
-}
-
-.price-period {
-  font-size: 0.8rem;
-  color: #9CA3AF;
-  align-self: flex-end;
-  margin-bottom: 0.4rem;
-}
-
-.plan-button {
-  width: 100%;
-  padding: 0.7rem 1.2rem;
-  border-radius: 10px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  border: 2px solid #6ba3ff;
-  background: white;
-  color: #6ba3ff;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  margin-bottom: 1.4rem;
-}
-
-.plan-button:hover {
-  background: #6ba3ff;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(107, 163, 255, 0.3);
-}
-
-.plan-button-featured {
-  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-  color: white;
-  border: none;
-}
-
-.plan-button-featured:hover {
-  background: linear-gradient(135deg, #c528a0 0%, #1450c9 100%);
-  box-shadow: 0 8px 25px rgba(223, 45, 178, 0.4);
-}
-
-.button-arrow {
-  width: 20px;
-  height: 20px;
-  transition: transform 0.3s ease;
-}
-
-.plan-button:hover .button-arrow {
-  transform: translateX(4px);
-}
-
-.plan-features {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #F3F4F6;
-}
-
-.feature-item:last-child {
-  border-bottom: none;
-}
-
-.feature-icon {
-  width: 20px;
-  height: 20px;
-  color: #6ba3ff;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.feature-text {
-  font-size: 0.78rem;
-  color: #4B5563;
-  line-height: 1.55;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .planes-section {
-    padding: 3.5rem 0.5rem;
-  }
-
-  .planes-title {
-    font-size: 2rem;
-  }
-
-  .planes-subtitle {
-    font-size: 1rem;
-  }
-
-  .planes-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    padding: 0 0.5rem;
-  }
-
-  .plan-featured {
-    transform: scale(1);
-  }
-
-  .plan-featured:hover {
-    transform: translateY(-8px);
-  }
-
-  .price-amount {
-    font-size: 2.5rem;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1200px) {
-  .planes-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-
-.imagen-logo-main {
-  margin-top: 10rem;
-  padding: 0 !important;
-  margin-right: 5rem;
-  margin-left: 5rem;
-  border-radius: 10px;
-  width: 40%;
-  height: auto;
-  box-shadow: -1px 1px 5px 4px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: -1px 1px 5px 4px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: -1px 1px 5px 4px rgba(0, 0, 0, 0.3);
-  opacity: 0.8;
-  animation: frame 1s ease-in-out;
-}
-
-
-.animation-r-l {
-  animation: frame2 1s ease-in-out;
-}
-
-@keyframes frame {
-  from {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-
-  to {
-    opacity: 0.8;
-    transform: translateX(0);
-  }
-}
-
-@keyframes frame2 {
-  from {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-
-  to {
-    opacity: 0.8;
-    transform: translateX(0);
-  }
-}
-
-:deep(.carousel__viewport) {
-  gap: 20px;
-}
-
-.slide-content {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  margin-right: 20px;
-}
-
-.slide-image {
-  width: 100%;
-  display: block;
-}
-
-.text-container {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  padding: 10px;
-  transition: all 0.5s ease;
-}
-
-.slide-text {
-  margin: 0;
-  color: white;
-  transition: transform 0.5s ease;
-}
-
-.slide-description {
-  color: white;
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: opacity 0.5s ease, max-height 0.5s ease;
-}
-
-.slide-content:hover .text-container {
-  bottom: 20px;
-}
-
-.slide-content .slide-text {
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.slide-content:hover .slide-text {
-  transform: translateY(-80px);
-}
-
-.slide-content:hover .slide-description {
-  opacity: 1;
-  max-height: 100px;
-}
-
-/* Botones de navegación */
-.nav-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 10px;
-  font-size: 24px;
-  cursor: pointer;
-  border-radius: 50%;
-  z-index: 10;
-}
-
-.prev-button {
-  left: -30px;
-  /* Ajusta la posición izquierda */
-}
-
-.next-button {
-  right: -30px;
-  /* Ajusta la posición derecha */
-}
-
-.bg-comments {
-  background-size: cover;
-  background-position: center top;
-}
-
-
-/* Hero Section - Modern Design */
-.hero-section-clean {
-  position: relative;
-  padding: 4rem 2rem;
-  min-height: 56vh;
-  display: flex;
-  align-items: center;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  overflow: hidden;
-  width: 100%;
-}
-
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.5) 0%, rgba(24, 92, 230, 0.5) 100%);
-  z-index: 1;
-}
-
-.hero-content-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-  position: relative;
-  z-index: 10;
-}
-
-.hero-text-content {
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.5rem 1.1rem;
-  background: rgba(255, 255, 255, 0.95);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #185CE6;
-  margin-bottom: 1.4rem;
-  animation: fadeInUp 0.6s ease-out;
-  backdrop-filter: blur(10px);
-}
-
-.hero-badge svg {
-  color: #DF2DB2;
-}
-
-.hero-title-modern {
-  font-size: 2rem;
-  font-weight: 800;
-  line-height: 1.2;
-  color: #ffffff;
-  margin-bottom: 1rem;
-  animation: fadeInUp 0.6s ease-out 0.1s backwards;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.hero-gradient-text {
-  color: #ffffff;
-  display: inline;
-  font-weight: 900;
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-}
-
-.hero-subtitle-modern {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.95);
-  line-height: 1.7;
-  margin-bottom: 1.8rem;
-  animation: fadeInUp 0.6s ease-out 0.2s backwards;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.hero-cta-buttons {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  animation: fadeInUp 0.6s ease-out 0.3s backwards;
-}
-
-.hero-btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.35rem;
-  background: white;
-  color: #185CE6;
-  border: none;
-  border-radius: 50px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.hero-btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-  background: #f8f9fa;
-  color: #185CE6;
-  text-decoration: none;
-}
-
-.hero-btn-primary svg {
-  width: 15px;
-  height: 15px;
-  transition: transform 0.3s ease;
-}
-
-.hero-btn-primary:hover svg {
-  transform: translateX(4px);
-}
-
-.hero-btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.65rem 1.35rem;
-  background: transparent;
-  color: white;
-  border: 2px solid white;
-  border-radius: 50px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.hero-btn-secondary:hover {
-  background: white;
-  color: #185CE6;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  text-decoration: none;
-}
-
-/* Dark mode styles for hero buttons */
-.dark .hero-btn-primary {
-  background: white;
-  color: #185CE6;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-}
-
-.dark .hero-btn-primary:hover {
-  background: #f3f4f6;
-  color: #185CE6;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-}
-
-.dark .hero-btn-secondary {
-  background: transparent;
-  color: #f3f4f6;
-  border: 2px solid #f3f4f6;
-  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
-}
-
-.dark .hero-btn-secondary:hover {
-  background: #f3f4f6;
-  color: #111827;
-  border-color: #f3f4f6;
-  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
-}
-
-/* Dark mode for text gradient */
-.dark .text-gradient {
-  background: linear-gradient(135deg, #ec4899 0%, #93c5fd 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
+/* ── Vue tab transitions ──────────────────────────────── */
+.fade-slide-enter-active,
+.fade-slide-leave-active { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.fade-slide-enter-from   { opacity: 0; transform: translateY(20px); }
+.fade-slide-leave-to     { opacity: 0; transform: translateY(-20px); }
+
+/* ── Hero entrance (loads immediately — above fold) ────── */
+.anim-fade-up   { animation: fadeInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+.anim-fade-up-1 { animation: fadeInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.12s backwards; }
+.anim-fade-up-2 { animation: fadeInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.22s backwards; }
+.anim-fade-up-3 { animation: fadeInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.32s backwards; }
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.opcion-1 {
-  display: none;
+/* ── Scroll Reveal (IntersectionObserver adds .visible) ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
+.reveal.visible { opacity: 1; transform: translateY(0); }
 
-.opcion-2 {
-  display: block;
+.reveal-left {
+  opacity: 0; transform: translateX(-55px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
 
-.container-mobile {
-  display: block;
+.reveal-right {
+  opacity: 0; transform: translateX(55px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
 
-@media (max-width: 768px) {
-  .hero-section-clean {
-    padding: 3rem 1.5rem;
-    min-height: 50vh;
-  }
-
-  .hero-title-modern {
-    font-size: 1.6rem;
-  }
-
-  .hero-subtitle-modern {
-    font-size: 0.82rem;
-  }
-
-  .hero-cta-buttons {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .hero-btn-primary,
-  .hero-btn-secondary {
-    justify-content: center;
-    width: 100%;
-  }
-
-  .hero-badge {
-    font-size: 0.72rem;
-    padding: 0.45rem 0.9rem;
-  }
-
-  .opcion-1 {
-    display: block;
-  }
-
-  .opcion-2 {
-    display: none;
-  }
-
-  .container-mobile {
-    display: none!important;
-  }
-
-  .container-mobile .degradado {
-    display: none;
-  }
-
-  .container-text-first {
-    position: absolute;
-  }
-
-  .card-price {
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  .slide-content {
-    margin-right: 0 !important;
-  }
-
-  .link-questions {
-    display: flex;
-    justify-content: center;
-  }
-
-  .link-questions a {
-    margin-right: 0 !important;
-    margin-left: 0 !important;
-    margin-top: 20px !important;
-  }
+.reveal-scale {
+  opacity: 0; transform: scale(0.88) translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
+.reveal-scale.visible { opacity: 1; transform: scale(1) translateY(0); }
 
-/* Sección de Preguntas Frecuentes */
-.preguntas-section {
-  padding: 2.8rem 1rem;
-  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
-}
+/* Stagger delays */
+.delay-1 { transition-delay: 0.08s; }
+.delay-2 { transition-delay: 0.16s; }
+.delay-3 { transition-delay: 0.24s; }
+.delay-4 { transition-delay: 0.32s; }
+.delay-5 { transition-delay: 0.40s; }
 
-.preguntas-container {
-  max-width: 1400px;
-  margin: 0 auto;
-}
+/* Legacy animation-b-t (now powered by observer) */
+.animation-b-t.visible { animation: fadeInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
-.preguntas-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.preguntas-title {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #1F2937;
-  margin: 0;
-}
-
-.preguntas-content {
-  padding: 0 1rem;
-}
-
-.preguntas-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 3rem;
-  align-items: center;
-}
-
-.preguntas-image-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.preguntas-image {
-  width: 100%;
-  max-width: 380px;
-  height: auto;
-  border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.preguntas-image:hover {
-  transform: scale(1.02);
-}
-
-.preguntas-accordion-container {
-  background: white;
-  border-radius: 16px;
-  padding: 1.4rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
-.preguntas-cta {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-}
-
-.preguntas-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.7rem 1.5rem;
-  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-  color: white;
-  border: none;
-  border-radius: 50px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 15px rgba(223, 45, 178, 0.3);
-}
-
-.preguntas-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(223, 45, 178, 0.4);
-  color: white;
-  text-decoration: none;
-}
-
-.preguntas-button .button-arrow {
-  width: 15px;
-  height: 15px;
-  transition: transform 0.3s ease;
-}
-
-.preguntas-button:hover .button-arrow {
-  transform: translateX(4px);
-}
-
-@media (max-width: 768px) {
-  .preguntas-section {
-    padding: 3rem 1rem;
-  }
-
-  .preguntas-header {
-    margin-bottom: 2rem;
-  }
-
-  .preguntas-title {
-    font-size: 1.75rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .preguntas-content {
-    padding: 0;
-  }
-
-  .preguntas-grid {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-
-  .preguntas-accordion-container {
-    padding: 1.75rem 1.25rem;
-  }
-
-  .preguntas-image {
-    max-width: 100%;
-  }
-
-  .preguntas-button {
-    padding: 1rem 1.75rem;
-    font-size: 1rem;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  .preguntas-grid {
-    gap: 2rem;
-  }
-}
-
-/* Info Section - Nueva sección moderna */
-.info-section-modern {
-  padding: 2.8rem 2rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 50%, #ffffff 100%);
-  position: relative;
-  overflow: hidden;
-}
-
-.info-section-modern::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -50%;
-  width: 200%;
-  height: 100%;
-  background: radial-gradient(circle at 30% 50%, rgba(223, 45, 178, 0.03) 0%, transparent 50%),
-              radial-gradient(circle at 70% 50%, rgba(24, 92, 230, 0.03) 0%, transparent 50%);
-  pointer-events: none;
-}
-
-.info-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.info-content-wrapper {
-  max-width: 1000px;
-  margin: 0 auto 2.5rem;
-  text-align: center;
-}
-
-.info-badge-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.4rem;
-  animation: fadeInUp 0.6s ease-out;
-}
-
-.info-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.5rem 1.1rem;
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.1) 0%, rgba(24, 92, 230, 0.1) 100%);
-  border: 2px solid rgba(24, 92, 230, 0.2);
-  border-radius: 50px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #185CE6;
-  backdrop-filter: blur(10px);
-}
-
-.info-badge svg {
-  color: #DF2DB2;
-}
-
-.info-text-block {
-  margin-bottom: 2rem;
-  animation: fadeInUp 0.6s ease-out 0.1s backwards;
-}
-
-.info-title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  line-height: 1.4;
-  color: #1F2937;
-  margin-bottom: 1rem;
-}
-
-.info-highlight {
-  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 900;
-}
-
-.info-description {
-  font-size: 0.82rem;
-  color: #6B7280;
-  line-height: 1.7;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.info-features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-  animation: fadeInUp 0.6s ease-out 0.2s backwards;
-}
-
-.info-feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.8rem;
-  padding: 1.1rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-  text-align: left;
-}
-
-.info-feature-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-}
-
-.feature-icon-wrapper {
-  flex-shrink: 0;
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  transition: transform 0.3s ease;
-}
-
-.info-feature-item:hover .feature-icon-wrapper {
-  transform: scale(1.1) rotate(5deg);
-}
-
-.feature-icon-blue {
-  background: linear-gradient(135deg, rgba(24, 92, 230, 0.1) 0%, rgba(24, 92, 230, 0.2) 100%);
-  color: #185CE6;
-}
-
-.feature-icon-purple {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(139, 92, 246, 0.2) 100%);
-  color: #8b5cf6;
-}
-
-.feature-icon-pink {
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.1) 0%, rgba(223, 45, 178, 0.2) 100%);
-  color: #DF2DB2;
-}
-
-.feature-content h4 {
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: #1F2937;
-  margin-bottom: 0.35rem;
-}
-
-.feature-content p {
-  font-size: 0.78rem;
-  color: #6B7280;
-  line-height: 1.55;
-  margin: 0;
-}
-
-.info-image-container {
-  position: relative;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  animation: fadeInUp 0.8s ease-out 0.3s backwards;
-}
-
-.info-screenshot {
-  width: 100%;
-  height: auto;
-  border-radius: 24px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
-              0 0 0 1px rgba(0, 0, 0, 0.05);
-  position: relative;
-  z-index: 2;
-  transition: transform 0.5s ease;
-}
-
-.info-screenshot:hover {
-  transform: translateY(-10px);
-}
-
-.image-decoration-circle {
-  position: absolute;
-  border-radius: 50%;
-  z-index: 1;
-  opacity: 0.6;
-  animation: float 6s ease-in-out infinite;
-}
-
-.circle-1 {
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(223, 45, 178, 0.2) 0%, transparent 70%);
-  top: -50px;
-  left: -100px;
-}
-
-.circle-2 {
-  width: 250px;
-  height: 250px;
-  background: radial-gradient(circle, rgba(24, 92, 230, 0.2) 0%, transparent 70%);
-  bottom: -50px;
-  right: -80px;
-  animation-delay: 3s;
-}
+/* ── Float / ambient decorations ─────────────────────── */
+.anim-float         { animation: float 7s ease-in-out infinite; }
+.anim-float-delayed { animation: float 7s ease-in-out 3.5s infinite; }
+.cta-deco-1 { animation: floatSlow 22s ease-in-out infinite; }
+.cta-deco-2 { animation: floatSlow 17s ease-in-out infinite reverse; }
+.cta-deco-3 { animation: floatSlow 19s ease-in-out 4s infinite; }
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0px) scale(1);
-  }
-  50% {
-    transform: translateY(-20px) scale(1.05);
-  }
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-18px) scale(1.04); }
 }
-
-@media (max-width: 768px) {
-  .info-section-modern {
-    padding: 3rem 1rem;
-  }
-
-  .info-title {
-    font-size: 1.75rem;
-  }
-
-  .info-description {
-    font-size: 1rem;
-  }
-
-  .info-features-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .info-feature-item {
-    padding: 1.25rem;
-  }
-
-  .info-image-container {
-    padding: 0 1rem;
-  }
-
-  .circle-1,
-  .circle-2 {
-    display: none;
-  }
-
-  .info-badge {
-    font-size: 0.85rem;
-    padding: 0.6rem 1.2rem;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  .info-title {
-    font-size: 2rem;
-  }
-
-  .info-features-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Propósito Section - Modernizada */
-.proposito-section-modern {
-  padding: 2.5rem 2rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
-  position: relative;
-  overflow: hidden;
-}
-
-.proposito-container {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.proposito-header {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.proposito-title {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #1F2937;
-  margin-bottom: 1rem;
-}
-
-.proposito-subtitle {
-  font-size: 1rem;
-  color: #6B7280;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.proposito-tabs-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-}
-
-.proposito-tabs {
-  display: inline-flex;
-  background: white;
-  border-radius: 60px;
-  padding: 0.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  gap: 0.5rem;
-}
-
-.proposito-tab {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 2rem;
-  background: transparent;
-  border: none;
-  border-radius: 50px;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #6B7280;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  outline: none;
-}
-
-.proposito-tab svg {
-  transition: transform 0.3s ease;
-}
-
-.proposito-tab:hover {
-  color: #185CE6;
-  background: rgba(24, 92, 230, 0.05);
-}
-
-.proposito-tab-active {
-  background: rgba(24, 92, 230, 0.05);
-  color: #185CE6;
-}
-
-.proposito-tab-active:hover {
-  background: rgba(24, 92, 230, 0.08);
-  color: #185CE6;
-}
-
-.proposito-tab-active svg {
-  transform: scale(1.1);
-}
-
-.proposito-content {
-  padding: 0 1rem;
-}
-
-/* Vision y Misión Cards */
-.vision-mision-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 1.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.vm-card {
-  background: white;
-  border-radius: 24px;
-  padding: 2rem 1.8rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 2px solid transparent;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 1.5rem;
-}
-
-.vm-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-}
-
-.vm-card-vision:hover {
-  border-color: #185CE6;
-}
-
-.vm-card-mision:hover {
-  border-color: #DF2DB2;
-}
-
-.vm-card-icon-wrapper {
-  flex-shrink: 0;
-}
-
-.vm-card-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-
-.vm-icon-vision {
-  background: linear-gradient(135deg, rgba(24, 92, 230, 0.1) 0%, rgba(24, 92, 230, 0.2) 100%);
-  color: #185CE6;
-}
-
-.vm-icon-mision {
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.1) 0%, rgba(223, 45, 178, 0.2) 100%);
-  color: #DF2DB2;
-}
-
-.vm-card:hover .vm-card-icon {
-  transform: scale(1.1) rotate(5deg);
-}
-
-.vm-card-content {
-  position: relative;
-  z-index: 2;
-  flex: 1;
-  text-align: left;
-}
-
-.vm-card-title {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: #1F2937;
-  margin-bottom: 0.8rem;
-  margin-top: 0;
-}
-
-.vm-card-vision .vm-card-title {
-  color: #185CE6;
-}
-
-.vm-card-mision .vm-card-title {
-  color: #DF2DB2;
-}
-
-.vm-card-description {
-  font-size: 0.95rem;
-  color: #4B5563;
-  line-height: 1.8;
-  margin: 0;
-}
-
-.vm-card-decoration {
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  opacity: 0.08;
-  z-index: 1;
-  transition: all 0.5s ease;
-}
-
-.vm-decoration-vision {
-  background: radial-gradient(circle, #185CE6 0%, transparent 70%);
-  bottom: -50px;
-  right: -50px;
-}
-
-.vm-decoration-mision {
-  background: radial-gradient(circle, #DF2DB2 0%, transparent 70%);
-  bottom: -50px;
-  right: -50px;
-}
-
-.vm-card:hover .vm-card-decoration {
-  transform: scale(1.3);
-  opacity: 0.12;
-}
-
-/* Valores Carousel */
-.valores-carousel-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.valores-slide {
-  padding: 1rem;
-}
-
-.valor-card {
-  background: white;
-  border-radius: 20px;
-  padding: 2rem 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  text-align: left;
-  border: 2px solid transparent;
-  gap: 1.2rem;
-}
-
-.valor-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
-  border-color: rgba(24, 92, 230, 0.3);
-}
-
-.valor-icon-wrapper {
-  width: 70px;
-  height: 70px;
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.1) 0%, rgba(24, 92, 230, 0.1) 100%);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.3s ease;
-}
-
-.valor-card:hover .valor-icon-wrapper {
-  transform: scale(1.1) rotate(-5deg);
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.15) 0%, rgba(24, 92, 230, 0.15) 100%);
-}
-
-.valor-icon {
-  width: 42px;
-  height: 42px;
-  object-fit: contain;
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-25px) rotate(6deg); }
+  66%       { transform: translateY(10px) rotate(-4deg); }
 }
 
-.valor-content {
-  flex: 1;
-}
-
-.valor-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #1F2937;
-  margin-bottom: 0.6rem;
-  margin-top: 0;
-}
-
-.valor-description {
-  font-size: 0.9rem;
-  color: #6B7280;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.carousel-nav-btn {
-  background: white;
-  border: 2px solid #E5E7EB;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.carousel-nav-btn:hover {
-  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-  border-color: transparent;
-  transform: scale(1.1);
-  box-shadow: 0 8px 20px rgba(223, 45, 178, 0.3);
-}
-
-.carousel-nav-btn svg {
-  color: #6B7280;
-  transition: all 0.3s ease;
-}
-
-.carousel-nav-btn:hover svg {
-  color: white;
-}
-
-/* Transiciones */
-.fade-slide-enter-active,
-.fade-slide-leave-active {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.fade-slide-enter-from {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.fade-slide-leave-to {
-  opacity: 0;
-  transform: translateY(-20px);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .proposito-section-modern {
-    padding: 2rem 1rem;
-  }
-
-  .proposito-title {
-    font-size: 2rem;
-  }
-
-  .proposito-subtitle {
-    font-size: 1rem;
-  }
-
-  .proposito-tabs {
-    flex-direction: column;
-    width: 100%;
-    max-width: 350px;
-    padding: 0.75rem;
-  }
-
-  .proposito-tab {
-    width: 100%;
-    justify-content: center;
-    padding: 0.875rem 1.5rem;
-  }
-
-  .vision-mision-grid {
-    grid-template-columns: 1fr;
-    gap: 1.2rem;
-  }
-
-  .vm-card {
-    padding: 1.5rem 1.2rem;
-    flex-direction: row;
-    gap: 1rem;
-  }
-
-  .vm-card-icon {
-    width: 50px;
-    height: 50px;
-  }
-
-  .vm-card-title {
-    font-size: 1.15rem;
-  }
-
-  .vm-card-description {
-    font-size: 0.9rem;
-  }
-
-  .valor-card {
-    padding: 1.5rem 1.2rem;
-    flex-direction: row;
-    gap: 1rem;
-  }
-
-  .valor-icon-wrapper {
-    width: 55px;
-    height: 55px;
-  }
-
-  .valor-icon {
-    width: 35px;
-    height: 35px;
-  }
-
-  .valor-title {
-    font-size: 1rem;
-  }
-
-  .valor-description {
-    font-size: 0.85rem;
-  }
-
-  .carousel-nav-btn {
-    width: 40px;
-    height: 40px;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  .proposito-title {
-    font-size: 2.25rem;
-  }
-
-  .vision-mision-grid {
-    gap: 2rem;
-  }
-}
-
-/* Ofrecemos Section - Modernizada */
-.ofrecemos-section-modern {
-  padding: 4rem 0;
-  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
-  position: relative;
-  overflow: hidden;
-}
-
-.ofrecemos-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.ofrecemos-header {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.ofrecemos-title {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #1F2937;
-  margin-bottom: 1rem;
-}
-
-.ofrecemos-subtitle {
-  font-size: 1rem;
-  color: #6B7280;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.ofrecemos-carousel-container {
-  position: relative;
-  margin: 0 auto;
-  max-width: 100%;
-}
-
-.ofrecemos-slide {
-  padding: 0 0.75rem;
-  height: auto;
-}
-
-.ofrecemos-card {
-  background: white;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  border: 2px solid transparent;
-  margin: 0 0.75rem;
-}
-
-.ofrecemos-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-  border-color: rgba(24, 92, 230, 0.3);
-}
-
-.ofrecemos-image-wrapper {
-  position: relative;
-  width: 100%;
-  height: 160px;
-  overflow: hidden;
-}
-
-.ofrecemos-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.ofrecemos-card:hover .ofrecemos-image {
-  transform: scale(1.1);
-}
-
-.ofrecemos-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
-  transition: opacity 0.3s ease;
-}
-
-.ofrecemos-card:hover .ofrecemos-overlay {
-  opacity: 0.8;
-}
-
-.ofrecemos-content {
-  padding: 1.3rem 1.2rem;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 1rem;
-}
-
-.ofrecemos-icon {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.1) 0%, rgba(24, 92, 230, 0.1) 100%);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #185CE6;
-  flex-shrink: 0;
-  transition: all 0.3s ease;
-}
-
-.ofrecemos-icon svg {
-  width: 22px;
-  height: 22px;
-}
-
-.ofrecemos-card:hover .ofrecemos-icon {
-  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-  color: white;
-  transform: scale(1.1) rotate(-5deg);
-}
-
-.ofrecemos-text-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.ofrecemos-card-title {
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: #1F2937;
-  margin: 0;
-  line-height: 1.3;
-}
-
-.ofrecemos-card-description {
-  font-size: 0.88rem;
-  color: #6B7280;
-  line-height: 1.5;
-  margin: 0;
-}
-
-.ofrecemos-nav-btn {
-  background: white;
-  border: 2px solid #E5E7EB;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  outline: none;
-}
-
-.ofrecemos-nav-btn:hover {
-  background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
-  border-color: transparent;
-  transform: scale(1.1);
-  box-shadow: 0 8px 20px rgba(223, 45, 178, 0.3);
-}
-
-.ofrecemos-nav-btn svg {
-  color: #6B7280;
-  transition: all 0.3s ease;
-}
-
-.ofrecemos-nav-btn:hover svg {
-  color: white;
-}
-
-/* Estilos del carousel */
-:deep(.ofrecemos-carousel-container .carousel) {
-  position: relative;
-}
+/* vue3-carousel deep overrides */
+:deep(.carousel__viewport) { gap: 20px; }
 
-:deep(.ofrecemos-carousel-container .carousel__viewport) {
+:deep(.ofrecemos-carousel .carousel__viewport) {
   overflow: hidden;
   padding: 1.5rem 0;
 }
-
-:deep(.ofrecemos-carousel-container .carousel__track) {
+:deep(.ofrecemos-carousel .carousel__track) {
   display: flex;
   align-items: stretch;
 }
-
-:deep(.ofrecemos-carousel-container .carousel__slide) {
+:deep(.ofrecemos-carousel .carousel__slide) {
   flex: 0 0 auto;
   width: calc(33.333% - 1.5rem);
   margin: 0;
   padding: 0;
 }
-
-/* Pagination dots */
-:deep(.ofrecemos-carousel-container .carousel__pagination) {
+:deep(.ofrecemos-carousel .carousel__pagination) {
   margin-top: 2.5rem;
   gap: 0.75rem;
   display: flex;
   justify-content: center;
 }
-
-:deep(.ofrecemos-carousel-container .carousel__pagination-button) {
-  width: 12px;
-  height: 12px;
+:deep(.ofrecemos-carousel .carousel__pagination-button) {
+  width: 12px; height: 12px;
   border-radius: 50%;
   background: #E5E7EB;
   transition: all 0.3s ease;
-  padding: 0;
-  border: none;
+  padding: 0; border: none;
   margin: 0 0.25rem;
 }
-
-:deep(.ofrecemos-carousel-container .carousel__pagination-button:hover) {
+:deep(.ofrecemos-carousel .carousel__pagination-button:hover) {
   background: #9CA3AF;
   transform: scale(1.2);
 }
-
-:deep(.ofrecemos-carousel-container .carousel__pagination-button--active) {
+:deep(.ofrecemos-carousel .carousel__pagination-button--active) {
   background: linear-gradient(135deg, #DF2DB2 0%, #185CE6 100%);
   width: 32px;
   border-radius: 6px;
 }
+.dark :deep(.ofrecemos-carousel .carousel__pagination-button) { background: #374151; }
+.dark :deep(.ofrecemos-carousel .carousel__pagination-button:hover) { background: #6b7280; }
 
-/* Responsive */
 @media (max-width: 768px) {
-  .ofrecemos-section-modern {
-    padding: 3rem 0;
-  }
-
-  .ofrecemos-container {
-    padding: 0 1rem;
-  }
-
-  .ofrecemos-title {
-    font-size: 2rem;
-  }
-
-  .ofrecemos-subtitle {
-    font-size: 1rem;
-  }
-
-  :deep(.ofrecemos-carousel-container .carousel__slide) {
-    width: 100%;
-  }
-
-  .ofrecemos-card {
-    margin: 0 0.5rem;
-    min-height: auto;
-  }
-
-  .ofrecemos-image-wrapper {
-    height: 140px;
-  }
-
-  .ofrecemos-content {
-    padding: 1.2rem 1rem;
-    flex-direction: row;
-    gap: 1rem;
-  }
-
-  .ofrecemos-icon {
-    width: 42px;
-    height: 42px;
-  }
-
-  .ofrecemos-icon svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .ofrecemos-card-title {
-    font-size: 1rem;
-  }
-
-  .ofrecemos-card-description {
-    font-size: 0.85rem;
-  }
-
-  .ofrecemos-nav-btn {
-    width: 44px;
-    height: 44px;
-  }
-
-  .ofrecemos-nav-btn img {
-    width: 16px;
-    height: 16px;
-  }
+  :deep(.ofrecemos-carousel .carousel__slide) { width: 100%; }
 }
-
 @media (min-width: 769px) and (max-width: 1024px) {
-  .ofrecemos-container {
-    padding: 0 1.5rem;
-  }
-
-  .ofrecemos-title {
-    font-size: 2.25rem;
-  }
-
-  .ofrecemos-image-wrapper {
-    height: 150px;
-  }
-
-  :deep(.ofrecemos-carousel-container .carousel__slide) {
-    width: calc(50% - 1rem);
-  }
-
-  .ofrecemos-card {
-    margin: 0 0.5rem;
-  }
-}
-
-/* CTA Section */
-.cta-section {
-  padding: 4rem 1rem;
-  background: transparent;
-}
-
-.cta-container {
-  max-width: 1280px;
-  margin: 0 auto;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 24px;
-  padding: 3rem 2.5rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.cta-decoration {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.1;
-  background: white;
-}
-
-.cta-decoration-1 {
-  width: 400px;
-  height: 400px;
-  top: -200px;
-  right: -100px;
-  animation: float 20s ease-in-out infinite;
-}
-
-.cta-decoration-2 {
-  width: 300px;
-  height: 300px;
-  bottom: -150px;
-  left: -80px;
-  animation: float 15s ease-in-out infinite reverse;
-}
-
-.cta-decoration-3 {
-  width: 200px;
-  height: 200px;
-  top: 50%;
-  left: 10%;
-  animation: float 18s ease-in-out infinite;
-  opacity: 0.05;
-}
-
-.cta-content {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 1.3rem;
-}
-
-/* CTA Badge */
-.cta-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.4rem 1rem;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50px;
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 600;
-  animation: fadeInUp 0.8s ease-out;
-}
-
-.cta-badge-icon {
-  width: 16px;
-  height: 16px;
-}
-
-/* CTA Title */
-.cta-title {
-  font-size: 1.75rem;
-  font-weight: 900;
-  color: white;
-  margin: 0;
-  line-height: 1.2;
-  max-width: 700px;
-  animation: fadeInUp 0.8s ease-out 0.1s backwards;
-}
-
-/* CTA Description */
-.cta-description {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0;
-  line-height: 1.6;
-  max-width: 650px;
-  animation: fadeInUp 0.8s ease-out 0.2s backwards;
-}
-
-/* CTA Button */
-.cta-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.8rem 1.8rem;
-  background: white;
-  color: #667eea;
-  font-size: 0.9rem;
-  font-weight: 700;
-  border-radius: 12px;
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  animation: fadeInUp 0.8s ease-out 0.3s backwards;
-}
-
-.cta-button:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  background: #f8f9fa;
-}
-
-.cta-button-icon {
-  width: 20px;
-  height: 20px;
-  transition: transform 0.3s ease;
-}
-
-.cta-button:hover .cta-button-icon {
-  transform: translateX(5px);
-}
-
-/* CTA Features */
-.cta-features {
-  display: flex;
-  gap: 1.5rem;
-  margin-top: 0.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  animation: fadeInUp 0.8s ease-out 0.4s backwards;
-}
-
-.cta-feature {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  color: rgba(255, 255, 255, 0.95);
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
-.cta-feature-icon {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-}
-
-/* CTA Responsive */
-@media (max-width: 768px) {
-  .cta-section {
-    padding: 3rem 1rem;
-  }
-
-  .cta-container {
-    padding: 2.5rem 1.8rem;
-    border-radius: 20px;
-  }
-
-  .cta-title {
-    font-size: 1.5rem;
-  }
-
-  .cta-description {
-    font-size: 0.85rem;
-  }
-
-  .cta-button {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-  }
-
-  .cta-features {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-  }
-
-  .cta-decoration-1,
-  .cta-decoration-2,
-  .cta-decoration-3 {
-    display: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .cta-container {
-    padding: 2.5rem 1.5rem;
-  }
-
-  .cta-title {
-    font-size: 1.75rem;
-  }
-
-  .cta-description {
-    font-size: 0.9375rem;
-  }
-}
-
-/* ===========================
-   DARK MODE STYLES - MEJORADOS
-   =========================== */
-
-/* Planes Section Dark Mode */
-.dark .planes-section {
-  background: #111827;
-}
-
-.dark .planes-title {
-  color: #f3f4f6;
-}
-
-.dark .planes-subtitle {
-  color: #d1d5db;
-}
-
-.dark .plan-card {
-  background: #1f2937;
-  border-color: #374151;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-}
-
-.dark .plan-card:hover {
-  box-shadow: 0 12px 40px rgba(107, 163, 255, 0.3);
-  border-color: #6ba3ff;
-}
-
-.dark .plan-featured {
-  border-color: #6ba3ff;
-  box-shadow: 0 8px 30px rgba(107, 163, 255, 0.5);
-}
-
-.dark .plan-header-normal {
-  background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
-}
-
-.dark .plan-header-normal .plan-name {
-  color: #f3f4f6;
-}
-
-.dark .plan-body {
-  background: #1f2937;
-}
-
-.dark .currency,
-.dark .price-amount {
-  color: #f3f4f6;
-}
-
-.dark .price-period {
-  color: #d1d5db;
-}
-
-.dark .plan-button {
-  background: #1f2937;
-  color: #6ba3ff;
-  border-color: #6ba3ff;
-}
-
-.dark .plan-button:hover {
-  background: #6ba3ff;
-  color: white;
-}
-
-.dark .feature-item {
-  border-bottom-color: #374151;
-}
-
-.dark .feature-text {
-  color: #e5e7eb;
-}
-
-/* Info Section Dark Mode */
-.dark .info-section-modern {
-  background: #111827;
-}
-
-.dark .info-section-modern::before {
-  background: radial-gradient(circle at 30% 50%, rgba(223, 45, 178, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 70% 50%, rgba(24, 92, 230, 0.1) 0%, transparent 50%);
-}
-
-.dark .info-badge {
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.3) 0%, rgba(24, 92, 230, 0.3) 100%);
-  border-color: rgba(107, 163, 255, 0.5);
-  color: #bfdbfe;
-}
-
-.dark .info-title {
-  color: #f3f4f6;
-}
-
-.dark .info-description {
-  color: #d1d5db;
-}
-
-.dark .info-feature-item {
-  background: #1f2937;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  border: 1px solid #374151;
-}
-
-.dark .info-feature-item:hover {
-  box-shadow: 0 8px 25px rgba(107, 163, 255, 0.3);
-  border-color: #6ba3ff;
-}
-
-.dark .feature-content h4 {
-  color: #f3f4f6;
-}
-
-.dark .feature-content p {
-  color: #d1d5db;
-}
-
-.dark .info-screenshot {
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7),
-              0 0 0 1px rgba(255, 255, 255, 0.05);
-}
-
-/* Propósito Section Dark Mode */
-.dark .proposito-section-modern {
-  background: #111827;
-}
-
-.dark .proposito-title {
-  color: #f3f4f6;
-}
-
-.dark .proposito-subtitle {
-  color: #d1d5db;
-}
-
-.dark .proposito-tabs {
-  background: #1f2937;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  border: 1px solid #374151;
-}
-
-.dark .proposito-tab {
-  color: #9ca3af;
-}
-
-.dark .proposito-tab:hover {
-  color: #bfdbfe;
-  background: rgba(107, 163, 255, 0.15);
-}
-
-.dark .proposito-tab-active {
-  background: rgba(107, 163, 255, 0.25);
-  color: #bfdbfe;
-}
-
-.dark .proposito-tab-active:hover {
-  background: rgba(107, 163, 255, 0.3);
-}
-
-.dark .vm-card {
-  background: #1f2937;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  border: 1px solid #374151;
-}
-
-.dark .vm-card:hover {
-  box-shadow: 0 12px 40px rgba(107, 163, 255, 0.3);
-  border-color: #6ba3ff;
-}
-
-.dark .vm-card-vision:hover {
-  border-color: #93c5fd;
-}
-
-.dark .vm-card-mision:hover {
-  border-color: #f472b6;
-}
-
-.dark .vm-icon-vision {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.4) 100%);
-  color: #93c5fd;
-}
-
-.dark .vm-icon-mision {
-  background: linear-gradient(135deg, rgba(236, 72, 153, 0.3) 0%, rgba(236, 72, 153, 0.4) 100%);
-  color: #f472b6;
-}
-
-.dark .vm-card-title {
-  color: #f3f4f6;
-}
-
-.dark .vm-card-vision .vm-card-title {
-  color: #93c5fd;
-}
-
-.dark .vm-card-mision .vm-card-title {
-  color: #f472b6;
-}
-
-.dark .vm-card-description {
-  color: #e5e7eb;
-}
-
-.dark .valor-card {
-  background: #1f2937;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  border: 1px solid #374151;
-}
-
-.dark .valor-card:hover {
-  box-shadow: 0 12px 35px rgba(107, 163, 255, 0.3);
-  border-color: #6ba3ff;
-}
-
-.dark .valor-icon-wrapper {
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.3) 0%, rgba(24, 92, 230, 0.3) 100%);
-}
-
-.dark .valor-card:hover .valor-icon-wrapper {
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.4) 0%, rgba(24, 92, 230, 0.4) 100%);
-}
-
-.dark .valor-title {
-  color: #f3f4f6;
-}
-
-.dark .valor-description {
-  color: #d1d5db;
-}
-
-.dark .carousel-nav-btn {
-  background: #1f2937;
-  border: 1px solid #374151;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-}
-
-.dark .carousel-nav-btn svg {
-  color: #d1d5db;
-}
-
-.dark .carousel-nav-btn:hover {
-  border-color: #6ba3ff;
-}
-
-/* Preguntas Section Dark Mode */
-.dark .preguntas-section {
-  background: #111827;
-}
-
-.dark .preguntas-title {
-  color: #f3f4f6;
-}
-
-.dark .preguntas-accordion-container {
-  background: #111827;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  border: 2px solid #374151;
-  padding: 1.5rem;
-}
-
-/* Primera pregunta sin borde superior */
-.dark .preguntas-accordion-container .content-title-question:first-child {
-  border-top: none !important;
-  padding-top: 0 !important;
-}
-
-/* Última pregunta con border inferior más definido */
-.dark .preguntas-accordion-container .content-title-question:last-of-type {
-  margin-bottom: 1rem;
-}
-
-/* Sobrescribir clases de Tailwind para el componente Question */
-.dark .preguntas-accordion-container .container {
-  background: transparent !important;
-  padding: 0 !important;
-}
-
-.dark .preguntas-accordion-container .flex {
-  background: transparent !important;
-}
-
-.dark .preguntas-image {
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
-  border: 1px solid #374151;
-  border-radius: 20px;
-}
-
-.dark .preguntas-button {
-  background: white !important;
-  color: #0d47a1 !important;
-  border: none;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-}
-
-.dark .preguntas-button:hover {
-  background: #f8f9fa !important;
-  color: #0d47a1 !important;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-  transform: translateY(-3px);
-}
-
-.dark .preguntas-button .button-arrow {
-  color: #0d47a1 !important;
-  stroke: #0d47a1 !important;
-}
-
-.dark .preguntas-button svg {
-  stroke: #0d47a1 !important;
-}
-
-/* CTA dentro de preguntas */
-.dark .preguntas-accordion-container .preguntas-cta {
-  border-top: 2px solid #374151;
-  padding-top: 2rem;
-  margin-top: 2rem;
-}
-
-/* Ofrecemos Section Dark Mode */
-.dark .ofrecemos-section-modern {
-  background: #111827;
-}
-
-.dark .ofrecemos-title {
-  color: #f3f4f6;
-}
-
-.dark .ofrecemos-subtitle {
-  color: #d1d5db;
-}
-
-.dark .ofrecemos-card {
-  background: #1f2937;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  border: 1px solid #374151;
-}
-
-.dark .ofrecemos-card:hover {
-  box-shadow: 0 12px 30px rgba(107, 163, 255, 0.3);
-  border-color: #6ba3ff;
-}
-
-.dark .ofrecemos-icon {
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.3) 0%, rgba(24, 92, 230, 0.3) 100%);
-  color: #93c5fd;
-}
-
-.dark .ofrecemos-card-title {
-  color: #f3f4f6;
-}
-
-.dark .ofrecemos-card-description {
-  color: #d1d5db;
-}
-
-.dark .ofrecemos-nav-btn {
-  background: #1f2937;
-  border: 1px solid #374151;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-}
-
-.dark .ofrecemos-nav-btn svg {
-  color: #d1d5db;
-}
-
-.dark .ofrecemos-nav-btn:hover {
-  border-color: #6ba3ff;
-}
-
-/* CTA Section Dark Mode - Gradiente más oscuro y vibrante */
-.dark .cta-section {
-  background: #111827;
-}
-
-.dark .cta-container {
-  background: linear-gradient(135deg, #3730a3 0%, #4c1d95 100%);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-}
-
-.dark .cta-button {
-  background: #ffffff;
-  color: #3730a3;
-  box-shadow: 0 10px 40px rgba(255, 255, 255, 0.3);
-  font-weight: 700;
-}
-
-.dark .cta-button:hover {
-  background: #fafafa;
-  color: #3730a3;
-  box-shadow: 0 20px 50px rgba(255, 255, 255, 0.4);
-  transform: translateY(-4px);
-}
-
-.dark .cta-button span,
-.dark .cta-button svg {
-  color: #3730a3;
-  stroke: #3730a3;
-}
-
-.dark .cta-badge {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.dark .cta-description {
-  color: rgba(243, 244, 246, 0.95);
-}
-
-.dark .cta-feature {
-  color: rgba(243, 244, 246, 0.9);
-}
-
-/* Carousel pagination dark mode */
-.dark :deep(.ofrecemos-carousel-container .carousel__pagination-button) {
-  background: #374151;
-}
-
-.dark :deep(.ofrecemos-carousel-container .carousel__pagination-button:hover) {
-  background: #6b7280;
-}
-
-/* Background comments dark mode */
-.dark .bg-comments {
-  background-color: #1f2937 !important;
-}
-
-/* Hero overlay más visible en dark mode */
-.dark .hero-overlay {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.4) 0%, rgba(59, 130, 246, 0.4) 100%);
-}
-
-.dark .hero-gradient-text {
-  text-shadow: 0 0 30px rgba(147, 197, 253, 0.8);
+  :deep(.ofrecemos-carousel .carousel__slide) { width: calc(50% - 1rem); }
 }
 </style>

@@ -6,8 +6,10 @@ class HelpersProxy {
         return data;
     }
 
-
-    
+    async getDashboardStats() {
+        const { data } = await axios.get('/admin/dashboard/stats');
+        return data;
+    }
 }
 
 export default new HelpersProxy();

@@ -1,59 +1,52 @@
 <template>
-  <!-- Navbar -->
   <nav
-    class="bg-white dark:bg-gray-800 absolute top-0 left-0 w-full z-10 md:flex-row md:flex-nowrap md:justify-start flex items-center p-2 transition-colors duration-300"
+    class="bg-white dark:bg-gray-800 sticky top-0 z-40 w-full h-[60px]
+           flex items-center px-4 md:px-5 transition-colors duration-300
+           border-b border-gray-100 dark:border-gray-700 shadow-soft"
   >
-    <div
-      class="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4"
+    <!-- Hamburger: solo visible cuando el sidebar está colapsado -->
+    <button
+      v-if="isCollapsed"
+      type="button"
+      @click="toggleSidebar"
+      class="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-xl mr-3
+             hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
     >
-      <!-- Brand -->
-      <a
-        class="text-white text-sm uppercase lg:inline-block font-semibold"
-        href="javascript:void(0)"
-      >
-        <img
-          src="@/assets/img/icons/menu.svg"
-          alt="logo"
-          class="icon-btn"
-          @click="toggleSidebar"
-        />
-      </a>
-      <!-- User -->
-      <ul class="m-0 flex-col md:flex-row list-none items-center md:flex">
-        <!-- <dark-mode-toggle class="mr-3" /> -->
-        <user-dropdown :RTAFTO="RTAFTO" />
-      </ul>
+      <img src="@/assets/img/icons/menu.svg" alt="menu" class="w-5 h-5"/>
+    </button>
+
+    <!-- Título de página -->
+    <div class="flex-1 flex flex-col items-start justify-center min-w-0">
+      <span v-if="pageTitle" class="text-brand-gradient text-[13px] font-bold leading-tight truncate">
+        {{ pageTitle }}
+      </span>
+      <span v-if="pageSubtitle" class="text-gray-400 dark:text-gray-400 text-[10px] leading-tight truncate hidden sm:block mt-0.5">
+        {{ pageSubtitle }}
+      </span>
+    </div>
+
+    <!-- Dark mode toggle + User dropdown -->
+    <div class="flex items-center gap-1 flex-shrink-0 ml-4">
+      <dark-mode-toggle />
+      <user-dropdown :RTAFTO="RTAFTO" />
     </div>
   </nav>
-  <!-- End Navbar -->
 </template>
 
 <script>
 import UserDropdown from "@/components/Dropdowns/UserDropdown.vue";
-// import DarkModeToggle from "@/components/DarkModeToggle.vue";
+import DarkModeToggle from "@/components/DarkModeToggle.vue";
 
 export default {
-  components: {
-    UserDropdown,
-    // DarkModeToggle,
-  },
+  components: { UserDropdown, DarkModeToggle },
   props: {
-    RTAFTO: {
-      type: String,
-      default: "",
-    },
-    toggleSidebar: {
-      type: Function,
-      default: () => {},
-    },
+    RTAFTO:        { type: String,   default: "" },
+    toggleSidebar: { type: Function, default: () => {} },
+    isCollapsed:   { type: Boolean,  default: false },
+  },
+  computed: {
+    pageTitle()    { return this.$route.meta?.title    || ''; },
+    pageSubtitle() { return this.$route.meta?.subtitle || ''; },
   },
 };
 </script>
-
-<style scoped>
-.icon-btn img {
-  width: 24px;
-  height: 24px;
-  transition: transform 0.2s ease-in-out;
-}
-</style>

@@ -43,7 +43,7 @@
         </ul>
         <ul class="flex flex-col lg:flex-row list-none lg:ml-auto p-0 m-0">
           <li class="flex items-center">
-            <!-- <dark-mode-toggle class="mr-3" /> -->
+            <dark-mode-toggle />
           </li>
         </ul>
       </div>
@@ -52,12 +52,10 @@
 </template>
 <script>
 import logoJuris from "@/assets/img/logos/logo.png";
-// import DarkModeToggle from "@/components/DarkModeToggle.vue";
+import DarkModeToggle from "@/components/DarkModeToggle.vue";
 
 export default {
-  components: {
-    // DarkModeToggle,
-  },
+  components: { DarkModeToggle },
   data() {
     return {
       logoJuris,

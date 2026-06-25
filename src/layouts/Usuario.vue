@@ -1,9 +1,10 @@
 <template>
-  <div class="navbarDesign dark:bg-gray-900" :class="{ collapsed: isCollapsed }">
-    <div class="sidebar dark:bg-gray-800" :class="isCollapsed ? 'w-content-0' : 'w-content-10'">
-            <sidebar :is-collapsed="isCollapsed" :toggleSidebar="toggleSidebar" :menu="menu" :role="role"/>
+    <div class="navbarDesign dark:bg-gray-900" :class="{ collapsed: isCollapsed }">
+        <div class="sidebar dark:bg-gray-800" :class="isCollapsed ? 'w-content-0' : 'w-content-10'">
+            <sidebar :is-collapsed="isCollapsed" :toggleSidebar="toggleSidebar" :menu="menu" :role="role" />
         </div>
-    <div class="main-content transition-all duration-300 dark:bg-gray-900" :class="isCollapsed ? 'w-content-100' : 'w-content-90'">
+        <div class="main-content transition-all duration-300 dark:bg-gray-900"
+            :class="isCollapsed ? 'w-content-100' : 'w-content-90'">
             <admin-navbar :RTAFTO="RTAFTO" :toggleSidebar="toggleSidebar" />
             <div class="content-wrapper dark:bg-gray-900">
                 <router-view :RTAFTO="RTAFTO" :UPDATERTAFTO="UPDATERTAFTO" />
@@ -15,15 +16,14 @@
 <script>
 import AdminNavbar from "@/components/Navbars/AdminNavbar.vue";
 import Sidebar from "@/components/Sidebar/Sidebar.vue";
+import { useAuthStore } from '@/stores/auth.store';
 
-// * icons
-// import homeIcon from '@/assets/img/icons/home.svg';
 import busquedaIcon from '@/assets/img/icons/busqueda.svg';
 import perfilIcon from '@/assets/img/icons/perfil.svg';
 import estrellaIcon from '@/assets/img/icons/estrella.svg';
 import subscripcionIcon from '@/assets/img/icons/subscripcion.svg';
-// import reportIcon from '@/assets/img/icons/report.svg';
 import noticiasIcon from '@/assets/img/icons/noticias.svg';
+import aiIcon from '@/assets/img/icons/ai.svg';
 
 export default {
     name: "admin-layout",
@@ -34,23 +34,28 @@ export default {
     props: {
         role: {
             type: Object,
-            default: () => {}
+            default: () => { }
         }
     },
     data() {
         return {
             RTAFTO: JSON.parse(localStorage.getItem("user"))?.RTAFTO,
             isCollapsed: false,
-            menu: [
-                { name: 'Búsqueda', route: '/usuario/busqueda', icon: busquedaIcon },
-                { name: 'Perfil', route: '/usuario/settings', icon: perfilIcon },
-                // { name: 'Publicación', route: '/usuario/dashboard', icon: homeIcon },
-                { name: 'Favoritos', route: '/usuario/favoritos', icon: estrellaIcon },
-                { name: 'Investigación', route: '/usuario/investigacion', icon: noticiasIcon },
-                { name: 'Suscripción', route: '/usuario/subscripcion', icon: subscripcionIcon },
-                // { name: "Reportes", route: "/usuario/reportes", icon: reportIcon },
-            ],
         };
+    },
+    computed: {
+        menu() {
+            const auth = useAuthStore();
+            const allItems = [
+                { name: 'Búsqueda',     route: '/usuario/busqueda',     icon: busquedaIcon,     permission: 'busqueda' },
+                { name: 'Favoritos',    route: '/usuario/favoritos',    icon: estrellaIcon,     permission: 'favoritos' },
+                { name: 'Investigación',route: '/usuario/investigacion', icon: noticiasIcon,    permission: 'investigacion' },
+                { name: 'JurisGPT',    route: '/usuario/jurisgpt',     icon: aiIcon,           permission: 'jurisgpt' },
+                { name: 'Perfil',       route: '/usuario/settings',     icon: perfilIcon },
+                { name: 'Suscripción',  route: '/usuario/subscripcion', icon: subscripcionIcon },
+            ];
+            return allItems.filter(item => !item.permission || auth.puedeAccederRuta(item.permission));
+        },
     },
     methods: {
         toggleSidebar() {
@@ -68,10 +73,10 @@ export default {
         let RTAFTO = user?.RTAFTO;
         if (RTAFTO?.includes("comnull")) RTAFTO = null;
         this.RTAFTO = RTAFTO;
-        
+
         // Establecer estado inicial del sidebar según tamaño de pantalla
         this.checkScreenSize();
-        
+
         // Escuchar cambios de tamaño de ventana
         window.addEventListener('resize', this.checkScreenSize);
     },
@@ -97,10 +102,10 @@ body {
 }
 
 .content-wrapper {
-    padding-top: 60px;
     min-height: calc(100vh - 60px);
     width: 100%;
     overflow-x: hidden;
+    background-color: #f9fafb;
 }
 
 hr {
@@ -143,8 +148,7 @@ hr {
 
 @media (max-width: 767px) {
     .content-wrapper {
-        padding-top: 50px;
-        min-height: calc(100vh - 50px);
+        min-height: calc(100vh - 60px);
     }
 
     .calculator {

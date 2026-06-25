@@ -16,6 +16,16 @@ class NewUserProxy {
         const { data } = await axios.post(`/login/generateUserFind`, model);
         return data;
     }
+
+    async sendOtp(email) {
+        const { data } = await axios.post(`/login/send-otp`, { EMAIL: email });
+        return data;
+    }
+
+    async verifyOtp(email, codigo) {
+        const { data } = await axios.post(`/login/verify-otp`, { EMAIL: email, CODIGO: codigo });
+        return data;
+    }
     
 
     async validar(token) {

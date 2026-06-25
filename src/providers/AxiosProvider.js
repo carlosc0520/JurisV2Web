@@ -25,8 +25,9 @@ axios.interceptors.request.use(
   (request) => {
     // Solo agregar base URL si es una URL relativa (API call)
     if (request.url && !request.url.startsWith('http')) {
-      // request.url = "http://localhost:3000" + request.url;
-      request.url = "https://api.jurissearch.com" + request.url;
+      request.url = "http://localhost:3000" + request.url;
+      // request.url = "https://api.caroasociados.pe" + request.url;
+      // request.url = "https://api.jurissearch.com" + request.url;
     }
     
     // const token = app.$store.state.auth.token;
@@ -50,6 +51,16 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (response) => {
+    // Auto-unwrap nuevo formato de API: { STATUS, DATA, TIMESTAMP }
+    // Los endpoints viejos devuelven { STATUS, MESSAGE } (sin DATA ni TIMESTAMP)
+    if (
+      response.data &&
+      typeof response.data === 'object' &&
+      'DATA' in response.data &&
+      'TIMESTAMP' in response.data
+    ) {
+      response.data = response.data.DATA;
+    }
     return response;
   },
   async (error) => {

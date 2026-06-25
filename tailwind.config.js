@@ -1,12 +1,101 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
+    './index.html',
+    './src/**/*.{vue,js,ts,jsx,tsx}',
   ],
-  darkMode: 'class', // Habilitar modo oscuro basado en clase
+  darkMode: 'class',
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        brand: {
+          pink:       '#e71fb3',
+          'pink-50':  '#fdf0f9',
+          'pink-100': '#fce1f5',
+          'pink-200': '#f8c3ec',
+          'pink-300': '#f395db',
+          'pink-400': '#ec5ec8',
+          'pink-500': '#e71fb3',
+          'pink-600': '#c4189a',
+          'pink-700': '#a01280',
+          'pink-800': '#7d0d66',
+          'pink-900': '#59094b',
+          blue:       '#1864ff',
+          'blue-50':  '#eff4ff',
+          'blue-100': '#dce8ff',
+          'blue-200': '#b9d2ff',
+          'blue-300': '#7aaaff',
+          'blue-400': '#4d8bff',
+          'blue-500': '#1864ff',
+          'blue-600': '#0a4fd9',
+          'blue-700': '#083db5',
+          'blue-800': '#062d8a',
+          'blue-900': '#041f60',
+        },
+      },
+      backgroundImage: {
+        'brand-gradient':     'linear-gradient(90deg, #e71fb3 0%, #1864ff 100%)',
+        'brand-gradient-135': 'linear-gradient(135deg, #e71fb3 0%, #1864ff 100%)',
+        'brand-soft':         'linear-gradient(90deg, rgb(241,121,209) 0%, rgb(107,156,255) 100%)',
+        'brand-reverse':      'linear-gradient(90deg, #1864ff 0%, #e71fb3 100%)',
+      },
+      fontFamily: {
+        sans: ['Montserrat', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+      },
+      fontSize: {
+        '2xs': ['0.625rem', { lineHeight: '0.875rem' }],
+      },
+      animation: {
+        'fade-in':    'fadeIn 0.2s ease-out',
+        'fade-up':    'fadeUp 0.3s ease-out',
+        'slide-down': 'slideDown 0.2s ease-out',
+        'slide-up':   'slideUp 0.2s ease-out',
+        'scale-in':   'scaleIn 0.15s ease-out',
+        'shimmer':    'shimmer 1.6s ease-in-out infinite',
+        'ping-soft':  'ping 1.5s cubic-bezier(0,0,0.2,1) infinite',
+      },
+      keyframes: {
+        fadeIn:    { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+        fadeUp:    { '0%': { opacity: '0', transform: 'translateY(12px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+        slideDown: { '0%': { opacity: '0', transform: 'translateY(-8px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+        slideUp:   { '0%': { opacity: '0', transform: 'translateY(8px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+        scaleIn:   { '0%': { opacity: '0', transform: 'scale(0.95)' }, '100%': { opacity: '1', transform: 'scale(1)' } },
+        shimmer: {
+          '0%':   { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
+      },
+      boxShadow: {
+        'brand':    '0 4px 14px rgba(231,31,179,0.25)',
+        'brand-lg': '0 8px 30px rgba(231,31,179,0.35)',
+        'soft':     '0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05)',
+        'medium':   '0 4px 6px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.05)',
+        'large':    '0 10px 20px rgba(0,0,0,0.08), 0 4px 6px rgba(0,0,0,0.05)',
+        'modal':    '0 25px 60px rgba(0,0,0,0.20), 0 8px 20px rgba(0,0,0,0.10)',
+        'focus':    '0 0 0 3px rgba(231,31,179,0.25)',
+        'focus-blue':'0 0 0 3px rgba(24,100,255,0.25)',
+      },
+      borderRadius: {
+        '4xl': '2rem',
+      },
+      transitionTimingFunction: {
+        'spring': 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+      },
+      spacing: {
+        '4.5': '1.125rem',
+        '5.5': '1.375rem',
+        '13': '3.25rem',
+        '15': '3.75rem',
+        '18': '4.5rem',
+      },
+      zIndex: {
+        '60': '60',
+        '70': '70',
+        '80': '80',
+        '90': '90',
+        '100': '100',
+      },
+    },
   },
   plugins: [],
 }

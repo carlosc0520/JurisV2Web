@@ -25,7 +25,7 @@ class createPDFHelper {
                   {
                     image: recursos.nuevoLogoJuris,
                     width: 60,
-                    link: 'https://jurissearch.com/',
+                    link: `${process.env.VUE_APP_SITE_URL || 'https://jurissearch.com'}/`,
                     alignment: 'center',
                     margin: [0, 20, 0, 0]
                   },
@@ -83,7 +83,7 @@ class createPDFHelper {
               {
                 image: recursos.botonDescargarResolucion,
                 width: 120,
-                link: 'https://api.jurissearch.com/login/download-file?ID=' + data?.ID,
+                link: `${process.env.VUE_APP_API_URL || 'https://api.jurissearch.com'}/login/download-file?ID=` + data?.ID,
                 alignment: 'center',
                 margin: [0, 10, 0, 10]
               },
@@ -304,7 +304,7 @@ class createPDFHelper {
                 columns: [
                   { width: '*', text: ``, alignment: 'left', color: 'transparent' },
                   { width: 'auto', text: 'www.', alignment: 'center', color: 'gray' },
-                  { width: 'auto', text: 'jurissearch', alignment: 'center', color: '#e81eb2', link: 'https://jurissearch.com/' },
+                  { width: 'auto', text: 'jurissearch', alignment: 'center', color: '#e81eb2', link: `${process.env.VUE_APP_SITE_URL || 'https://jurissearch.com'}/` },
                   { width: 'auto', text: '.com', alignment: 'center', color: 'gray' },
                   { width: '*', text: `Página ${currentPage} de ${pageCount}`, alignment: 'right' },
                 ],

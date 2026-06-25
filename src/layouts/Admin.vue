@@ -7,7 +7,7 @@
 
     <!-- Contenido principal -->
     <div class="main-content transition-all duration-300 dark:bg-gray-900" :class="isCollapsed ? 'w-content-100' : 'w-content-90'">
-      <admin-navbar :RTAFTO="RTAFTO" :toggleSidebar="toggleSidebar" />
+      <admin-navbar :RTAFTO="RTAFTO" :toggleSidebar="toggleSidebar" :is-collapsed="isCollapsed" />
       <div class="content-wrapper dark:bg-gray-900">
         <router-view :RTAFTO="RTAFTO" :UPDATERTAFTO="UPDATERTAFTO" />
       </div>
@@ -27,6 +27,11 @@ import usersIcon from '@/assets/img/icons/users.svg';
 import jurisIcon from '@/assets/img/icons/juris.svg';
 import estrellaIcon from '@/assets/img/icons/estrella.svg';
 import noticiasIcon from '@/assets/img/icons/noticias.svg';
+import emailIcon from '@/assets/img/icons/email.svg';
+import aiIcon from '@/assets/img/icons/ai.svg';
+import subscripcionIcon from '@/assets/img/icons/subscripcion.svg';
+import settingsIcon from '@/assets/img/icons/settings.svg';
+import { useAuthStore } from '@/stores/auth.store';
 
 export default {
   name: "admin-layout",
@@ -39,27 +44,29 @@ export default {
       RTAFTO: "",
       isCollapsed: false,
       isVisible: true,
-      menu: [
-        { name: 'Inicio', route: '/admin/dashboard', icon: homeIcon },
-        { name: 'Búsqueda', route: '/admin/busqueda', icon: busquedaIcon },
-        { name: 'Perfil', route: '/admin/settings', icon: perfilIcon },
-        { name: 'Resoluciones', route: '/admin/entradas', icon: jurisIcon },
-        { name: 'Usuarios', route: '/admin/usuarios', icon: usersIcon },
-        { name: 'Filtros', route: '/admin/filtros', icon: filtersIcon },
-        { name: 'Mantenimiento', route: '/admin/mantenimiento', icon: mantenimientoIcon },
-        { name: "Favoritos", route: "/admin/favoritos", icon: estrellaIcon },
-        { name: "Investigación", route: "/admin/investigacion", icon: noticiasIcon },
-        // { name: "Juris GPT", route: "/admin/jurisgpt", icon: noticiasIcon },
-
-        // { name: 'Busqueda', route: '/admin/busqueda', icon: 'fas fa-search' },
-        // { name: 'Perfil', route: '/admin/settings', icon: 'fas fa-user' },
-        // { name: 'Usuarios', route: '/admin/usuarios', icon: 'fas fa-users' },
-        // { name: 'Filtros', route: '/admin/filtros', icon: 'fas fa-table' },
-        // { name: 'Mantenimiento', route: '/admin/mantenimiento', icon: 'fas fa-wrench' },
-        // { name: "Boletines", route: "/admin/boletines", icon: "fas fa-newspaper" },
-        // { name: "Reportes", route: "/admin/reportes", icon: "fas fa-chart-line" }
+      allMenu: [
+        { name: 'Inicio',        route: '/admin/dashboard',    icon: homeIcon },
+        { name: 'Búsqueda',      route: '/admin/busqueda',     icon: busquedaIcon },
+        { name: 'Perfil',        route: '/admin/settings',     icon: perfilIcon },
+        { name: 'Resoluciones',  route: '/admin/entradas',     icon: jurisIcon },
+        { name: 'Usuarios',      route: '/admin/usuarios',     icon: usersIcon },
+        { name: 'Filtros',       route: '/admin/filtros',      icon: filtersIcon },
+        { name: 'Mantenimiento', route: '/admin/mantenimiento',icon: mantenimientoIcon },
+        { name: 'Favoritos',     route: '/admin/favoritos',    icon: estrellaIcon },
+        { name: 'Investigación', route: '/admin/investigacion',icon: noticiasIcon },
+        { name: 'Correo',        route: '/admin/email-config', icon: emailIcon },
+        { name: 'Panel IA',      route: '/admin/ai-panel',     icon: aiIcon },
+        { name: 'JurisGPT',     route: '/admin/jurisgpt',     icon: jurisIcon },
+        { name: 'Suscripción',   route: '/admin/subscripcion', icon: subscripcionIcon },
+        { name: 'Permisos',      route: '/admin/permisos',     icon: settingsIcon },
       ],
     };
+  },
+
+  computed: {
+    menu() {
+      return this.allMenu;
+    },
   },
   props: {
     role: {
@@ -119,10 +126,11 @@ body {
 }
 
 .content-wrapper {
-    padding-top: 60px;
+    padding-top: 0;
     min-height: calc(100vh - 60px);
     width: 100%;
     overflow-x: hidden;
+    background-color: transparent;
 }
 
 hr {
@@ -169,8 +177,7 @@ hr {
 
 @media (max-width: 767px) {
     .content-wrapper {
-        padding-top: 50px;
-        min-height: calc(100vh - 50px);
+        min-height: calc(100vh - 60px);
     }
 
     .calculator {

@@ -105,10 +105,20 @@ class UserProxy {
         return data;
     }
 
-    async list(model, IDROLE) {
-        const { data } = await axios.get(`/admin/user/list?IDROLE=${IDROLE}`, {
-            params: model
+    async updateAvatar(file, currentRtafto) {
+        const formData = new FormData();
+        if (file) formData.append('files', file);
+        if (currentRtafto) formData.append('RTAFTO', currentRtafto);
+        const { data } = await axios.post('/admin/user/update-avatar', formData, {
+            headers: { 'Content-Type': 'multipart/form-data', Accept: 'application/json' },
         });
+        return data;
+    }
+
+    async list(model, IDROLE) {
+        const params = { ...model };
+        if (IDROLE !== undefined && IDROLE !== '') params.IDROLE = IDROLE;
+        const { data } = await axios.get('/admin/user/list', { params });
         return data;
     }
 
@@ -120,6 +130,11 @@ class UserProxy {
 
     async delete(ID) {
         const { data } = await axios.post('/admin/user/delete', { ID });
+        return data;
+    }
+
+    async renewPlan(ID) {
+        const { data } = await axios.post('/admin/user/renew-plan', { ID });
         return data;
     }
 
@@ -185,8 +200,125 @@ class UserProxy {
         return data;
     }
 
+    async updatePermisosFav(model) {
+        const { data } = await axios.post('/admin/user/update-permisos-fav', model);
+        return data;
+    }
+
+    async getDirUsers(params) {
+        const { data } = await axios.get('/admin/user/get-dir-users', { params });
+        return data;
+    }
+
+    async updatePermisosDir(model) {
+        const { data } = await axios.post('/admin/user/update-permisos-dir', model);
+        return data;
+    }
+
     async updateView() {
         const { data } = await axios.get('/admin/user/update-view');
+        return data;
+    }
+
+    // ── FAVORITOS (acciones nuevas) ──────────────────────────────
+    async toggleStarred(IDFAV) {
+        const { data } = await axios.post('/admin/user/toggle-starred', { IDFAV });
+        return data;
+    }
+
+    async updateFavorite(model) {
+        const { data } = await axios.post('/admin/user/update-favorite', model);
+        return data;
+    }
+
+    async moveKanban(IDFAV, COL) {
+        const { data } = await axios.post('/admin/user/move-kanban', { IDFAV, COL });
+        return data;
+    }
+
+    // ── CASOS ────────────────────────────────────────────────────
+    async getCasos(TERMINO) {
+        const { data } = await axios.get('/admin/user/casos', { params: { TERMINO } });
+        return data;
+    }
+
+    async addCaso(model) {
+        const { data } = await axios.post('/admin/user/add-caso', model);
+        return data;
+    }
+
+    async deleteCasoUser(ID) {
+        const { data } = await axios.post('/admin/user/delete-caso', { ID });
+        return data;
+    }
+
+    async addFavToCaso(model) {
+        const { data } = await axios.post('/admin/user/add-fav-caso', model);
+        return data;
+    }
+
+    // ── COMENTARIOS ──────────────────────────────────────────────
+    async getComentariosFav(IDFAV) {
+        const { data } = await axios.get('/admin/user/comentarios-fav', { params: { IDFAV } });
+        return data;
+    }
+
+    async addComentarioFav(model) {
+        const { data } = await axios.post('/admin/user/add-comentario-fav', model);
+        return data;
+    }
+
+    async deleteComentarioFav(ID) {
+        const { data } = await axios.post('/admin/user/delete-comentario-fav', { ID });
+        return data;
+    }
+
+    // ── LISTA DE LECTURA ─────────────────────────────────────────
+    async getLectura() {
+        const { data } = await axios.get('/admin/user/lista-lectura');
+        return data;
+    }
+
+    async addLectura(IDENTRIE) {
+        const { data } = await axios.post('/admin/user/add-lista-lectura', { IDENTRIE });
+        return data;
+    }
+
+    async removeLectura(ID) {
+        const { data } = await axios.post('/admin/user/remove-lista-lectura', { ID });
+        return data;
+    }
+
+    // ── WORKSPACES ───────────────────────────────────────────────
+    async getWorkspaces() {
+        const { data } = await axios.get('/admin/user/workspaces');
+        return data;
+    }
+
+    // ── COMPARTIDOS ──────────────────────────────────────────────
+    async compartidosConmigo() {
+        const { data } = await axios.get('/admin/user/compartidos-conmigo');
+        return data;
+    }
+
+    async responderCompartirUser(model) {
+        const { data } = await axios.post('/admin/user/responder-compartir', model);
+        return data;
+    }
+
+    // ── NOTIFICACIONES (nuevas) ──────────────────────────────────
+    async countUnread() {
+        const { data } = await axios.get('/admin/user/count-unread');
+        return data;
+    }
+
+    async markReadNotif(IDS) {
+        const { data } = await axios.post('/admin/user/mark-read', { IDS });
+        return data;
+    }
+
+    async markAllReadNotif() {
+        const { data } = await axios.post('/admin/user/mark-all-read');
         return data;
     }
 }

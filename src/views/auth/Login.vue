@@ -1,108 +1,104 @@
 <template>
-  <div class="form-login">
-    <div class="flex justify-between items-center mb-4 px-5" style="width: 100%;">
+  <div class="form-login min-h-[100dvh] flex flex-col justify-center max-sm:justify-around items-center py-5 max-sm:py-2.5 relative z-[1] dark:bg-gray-900">
+    <div class="flex justify-between items-center mb-4 px-5 w-full">
       <img src="@/assets/img/logos/logo-full.png" @click="$router.push('/')" alt="Logo" class="h-10 cursor-pointer" />
       <div class="flex items-center gap-3">
-        <!-- <button type="button" @click.stop="toggleDarkMode" class="theme-toggle-btn" title="Cambiar tema">
-          <svg v-if="isDarkMode" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-          </svg>
-          <svg v-else fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-          </svg>
-        </button> -->
-        <div class="text-sm">
-          <span class="text-gray-600 no-tener-cuenta">¿No tienes una cuenta?</span>
-          <!-- @click.prevent="$router.push('/auth/register')" -->
-          <button 
-            class="btn-registrate ml-2">Regístrate</button>
+        <div v-if="siteConfig.ALLOW_REGISTER" class="text-sm">
+          <span class="text-gray-600 dark:text-gray-300 max-sm:hidden">¿No tienes una cuenta?</span>
+          <button @click="$router.push('/auth/register')" class="ml-2 bg-gradient-to-br from-[#DF2DB2] to-[#E71FB3] text-white py-2.5 max-sm:py-2 px-5 max-sm:px-4 rounded-full border-none cursor-pointer transition-all duration-300 font-semibold text-sm max-sm:text-[13px] shadow-[0_4px_12px_rgba(231,31,179,0.25)] font-['Lato'] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(231,31,179,0.35)] dark:shadow-[0_4px_12px_rgba(231,31,179,0.5)]">
+            Regístrate
+          </button>
         </div>
       </div>
     </div>
 
-    <div class="bg-white p-8 rounded-xl shadow-modern w-5/6 form-login-with">
-      <h3 class="text-lato-700 text-center login-title">Ingresa a tu cuenta</h3>
-      <div class="social-buttons mt-4">
-        <button class="social-btn" @click="loginWithGoogle">
-          <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo" class="icon">
+    <div class="bg-white dark:bg-gray-800 dark:border dark:border-gray-700 p-8 max-sm:p-5 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.08),0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-[0_10px_40px_rgba(0,0,0,0.7)] w-[500px] max-sm:w-[90%] backdrop-blur-[10px]">
+      <h3 class="text-[28px] max-sm:text-2xl font-bold text-center text-gray-500 dark:text-gray-100 mb-6 font-['Lato']">Ingresa a tu cuenta</h3>
+
+      <div v-if="siteConfig.ALLOW_OAUTH_LOGIN" class="flex flex-col gap-3">
+        <button class="flex items-center justify-center gap-2.5 w-full px-4 py-3 border-2 border-slate-200 dark:border-gray-700 rounded-full text-sm font-semibold text-[#4a5568] dark:text-gray-200 bg-white dark:bg-gray-900 font-['Lato'] transition-all duration-300 cursor-pointer hover:border-gray-200 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(139,92,246,0.15)] dark:hover:border-gray-600 dark:hover:shadow-[0_4px_12px_rgba(139,92,246,0.4)]"
+          @click="loginWithGoogle">
+          <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo" class="w-5 h-5">
           Ingresar con Google
         </button>
-
-        <button class="social-btn" @click="loginWithLinkedin">
-          <img src="https://www.svgrepo.com/show/448234/linkedin.svg" alt="LinkedIn Logo" class="icon">
+        <button class="flex items-center justify-center gap-2.5 w-full px-4 py-3 border-2 border-slate-200 dark:border-gray-700 rounded-full text-sm font-semibold text-[#4a5568] dark:text-gray-200 bg-white dark:bg-gray-900 font-['Lato'] transition-all duration-300 cursor-pointer hover:border-gray-200 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(139,92,246,0.15)] dark:hover:border-gray-600 dark:hover:shadow-[0_4px_12px_rgba(139,92,246,0.4)]"
+          @click="loginWithLinkedin">
+          <img src="https://www.svgrepo.com/show/448234/linkedin.svg" alt="LinkedIn Logo" class="w-5 h-5">
           Ingresar con LinkedIn
         </button>
       </div>
 
-      <div class="separator">
+      <div v-if="siteConfig.ALLOW_OAUTH_LOGIN" class="separator-line flex items-center my-5 text-[13px] text-[#718096] dark:text-gray-400 font-medium font-['Lato']">
         <span>o iniciar sesión con</span>
       </div>
 
-      <form class="mt-4">
-        <div class="input-group" :class="{ error: validation.hasError('form.EMAIL') }">
-          <img src="@/assets/img/icons/email.svg" alt="Email Icon" class="input-icon">
+      <form class="flex flex-col gap-3 w-full">
+        <div class="input-group flex items-center border-2 border-slate-200 dark:border-gray-700 rounded-full px-[18px] py-3 transition-all duration-300 bg-white dark:bg-gray-900 mb-0"
+          :class="{ error: errors.EMAIL }">
+          <img src="@/assets/img/icons/email.svg" alt="Email Icon" class="w-[18px] h-[18px] mr-2 dark:brightness-0 dark:invert dark:opacity-80">
           <input type="email" placeholder="Correo electrónico" autocomplete="email" v-model="form.EMAIL"
-            @blur="sanitizeEmail" maxlength="100" class="input-field">
+            @blur="sanitizeEmail" maxlength="100"
+            class="input-field flex-1 border-none outline-none bg-transparent text-[15px] text-[#2d3748] dark:text-gray-100 font-['Lato'] font-medium">
         </div>
 
-        <div class="input-group" :class="{ error: validation.hasError('form.PASSWORD') }">
-          <img src="@/assets/img/icons/look.svg" alt="Password Icon" class="input-icon">
-          <input placeholder="Contraseña" class="input-field" id="password" :type="showPassword ? 'text' : 'password'"
-            v-model="form.PASSWORD" autocomplete="current-password" maxlength="128" @paste.prevent="handlePasswordPaste">
-          <button type="button" class="eye-icon" @click="togglePassword">
-            <img v-if="!showPassword" src="@/assets/img/icons/eye.svg" alt="Eye Open Icon" class="eye-icon">
-            <img v-else src="@/assets/img/icons/eye-look.svg" alt="Eye Close Icon" class="eye-icon">
+        <div class="input-group flex items-center border-2 border-slate-200 dark:border-gray-700 rounded-full px-[18px] py-3 transition-all duration-300 bg-white dark:bg-gray-900 mb-0"
+          :class="{ error: errors.PASSWORD }">
+          <img src="@/assets/img/icons/look.svg" alt="Password Icon" class="w-[18px] h-[18px] mr-2 dark:brightness-0 dark:invert dark:opacity-80">
+          <input :type="showPassword ? 'text' : 'password'" placeholder="Contraseña" id="password" v-model="form.PASSWORD"
+            autocomplete="current-password" maxlength="128" @paste.prevent="handlePasswordPaste"
+            class="input-field flex-1 border-none outline-none bg-transparent text-[15px] text-[#2d3748] dark:text-gray-100 font-['Lato'] font-medium">
+          <button type="button" class="ml-2 bg-transparent border-none cursor-pointer p-0 flex-shrink-0" @click="togglePassword">
+            <img v-if="!showPassword" src="@/assets/img/icons/eye.svg" alt="" class="w-[18px] h-[18px] opacity-60 transition-opacity hover:opacity-100 dark:brightness-0 dark:invert dark:opacity-70" />
+            <img v-else src="@/assets/img/icons/eye-look.svg" alt="" class="w-[18px] h-[18px] opacity-60 transition-opacity hover:opacity-100 dark:brightness-0 dark:invert dark:opacity-70" />
           </button>
         </div>
 
-        <div class="options">
-          <label class="remember-me text-lato-200">
-          </label>
-          <button type="button" class="forgot-password text-lato-200"
+        <div class="flex justify-between items-center my-2 text-sm">
+          <label class="font-['Lato'] font-light"></label>
+          <button type="button"
+            class="text-[13px] text-purple-500 dark:text-purple-400 transition-colors duration-200 font-medium bg-transparent border-none cursor-pointer font-['Lato'] hover:text-[#DF2DB2] dark:hover:text-pink-400 hover:underline"
             @click.prevent="modalRecuperarContrasena.show = true">
             ¿Olvidaste tu contraseña?
           </button>
         </div>
 
-        <button type="button" @click.prevent="signIn" :disabled="isloading" class="submit-btn mt-3 text-lato" :class="{ 'opacity-50 cursor-not-allowed': isloading }">
+        <button type="button" @click.prevent="signIn" :disabled="isloading"
+          class="submit-btn w-full bg-gradient-to-br from-[#DF2DB2] via-purple-500 to-[#185CE6] text-white text-[15px] font-bold py-[14px] rounded-full border-none cursor-pointer transition-all duration-300 shadow-[0_4px_12px_rgba(139,92,246,0.3)] dark:shadow-[0_4px_12px_rgba(139,92,246,0.6)] font-['Lato'] tracking-[0.3px] mt-3"
+          :class="{ 'opacity-50 cursor-not-allowed': isloading }">
           {{ isloading ? 'Iniciando sesión...' : 'Iniciar sesión' }}
         </button>
       </form>
 
+      <!-- Banner: email pendiente de verificación -->
+      <div v-if="emailNoVerificado" class="mt-4 rounded-xl bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-amber-800 flex items-start gap-3">
+        <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+        </svg>
+        <div>
+          <p class="font-semibold">Correo pendiente de verificación</p>
+          <p class="text-amber-700 mt-0.5">Revisa la bandeja de <strong>{{ emailNoVerificado }}</strong> y haz clic en el enlace de activación.</p>
+        </div>
+      </div>
+
       <ModalRecuperarContrasena :show="modalRecuperarContrasena.show"
         :close="() => modalRecuperarContrasena.show = false" :update="() => { }" />
-
-      <LoadingOverlay :active="isloading" :is-full-page="false" :loader="'bars'" />
     </div>
 
-    <div class="flex md:flex-row gap-2 flex-col justify-between items-center mt-4 px-5 text-sm" style="width: 100%">
+    <div class="flex md:flex-row gap-2 flex-col justify-between items-center mt-4 px-5 text-sm w-full">
       <span style="color: #727370">© {{ new Date().getFullYear() }} Todos los derechos reservados</span>
       <div class="flex gap-4">
-        <a @click.prevent="$router.push('/politicas&privacidad')"
-          class="hover:underline text-gray-600 underline cursor-pointer" style="color: #262626">Políticas de
-          Privacidad</a>
-        <a @click.prevent="$router.push('/cookies')" class="hover:underline text-gray-600 underline cursor-pointer"
-          style="color: #262626">Políticas de Cookies</a>
+        <a @click.prevent="$router.push('/politicas&privacidad')" class="hover:underline text-[#262626] underline cursor-pointer">Políticas de Privacidad</a>
+        <a @click.prevent="$router.push('/cookies')" class="hover:underline text-[#262626] underline cursor-pointer">Políticas de Cookies</a>
       </div>
     </div>
   </div>
 </template>
 
-
-
 <script>
-import github from "@/assets/img/github.svg";
-import google from "@/assets/img/google.svg";
-import logoJuris from "@/assets/img/logos/logo-completo.png";
-import LoginProxy from "../../proxies/LoginProxy";
-import registerBg2 from "@/assets/img/register_bg_2.png";
+import LoginProxy from "@/proxies/LoginProxy";
 import ModalRecuperarContrasena from "./Modales/ModalRecuperarContrasena.vue";
-import { mapGetters, mapActions } from 'vuex';
-
-// FUNCTIONS
 import { toast } from 'vue3-toastify';
-import { Validator } from 'simple-vue-validator';
-import UserProxy from "../../proxies/UserProxy";
+import UserProxy from "@/proxies/UserProxy";
 
 export default {
   components: {
@@ -111,18 +107,13 @@ export default {
   data() {
     return {
       showPassword: false,
-      github,
-      google,
-      logoJuris,
-      registerBg2,
-
       rememberMe: false,
       isloading: false,
-      currentNoticia: 0,
       loginAttempts: 0,
       maxLoginAttempts: 5,
       lastAttemptTime: null,
-
+      errors: { EMAIL: null, PASSWORD: null },
+      emailNoVerificado: null,   // email del usuario cuando CODE=EMAIL_NOT_VERIFIED
       modalRecuperarContrasena: {
         show: false,
         data: null,
@@ -130,103 +121,71 @@ export default {
       form: {
         EMAIL: '',
         PASSWORD: '',
-        IND: null,
-        BANDERA: false
       },
-      // urlApi: 'http://localhost:3000'
-      urlApi: 'https://api.jurissearch.com'
+      urlApi: process.env.VUE_APP_API_URL || 'https://api.jurissearch.com',
+      siteConfig: {
+        ALLOW_REGISTER: true,
+        ALLOW_OAUTH_LOGIN: true,
+      },
     };
   },
-  computed: {
-    ...mapGetters('theme', ['isDarkMode'])
-  },
-  validators: {
-    'form.EMAIL': function (value) {
-      return Validator.value(value)
-        .required("Campo requerido")
-        .email("Email no válido")
-        .maxLength(100, "Email demasiado largo")
-        .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Formato de email inválido");
-    },
-    'form.PASSWORD': function (value) {
-      return Validator.value(value)
-        .required("Campo requerido")
-        .minLength(6, "La contraseña debe tener al menos 6 caracteres")
-        .maxLength(128, "La contraseña es demasiado larga");
-    }
-  },
   methods: {
-    // Sanitizar email
     sanitizeEmail() {
       if (this.form.EMAIL) {
         this.form.EMAIL = this.form.EMAIL.trim().toLowerCase();
       }
     },
-
-    // Validar caracteres peligrosos
     containsDangerousChars(str) {
       const dangerousPatterns = [/<script/i, /javascript:/i, /on\w+=/i, /<iframe/i, /<object/i, /<embed/i];
       return dangerousPatterns.some(pattern => pattern.test(str));
     },
-
-    // Manejar pegado de contraseña
     handlePasswordPaste(e) {
-      // Permitir pegar pero sanitizar
       const pastedText = (e.clipboardData || window.clipboardData).getData('text');
       if (pastedText) {
         this.form.PASSWORD = pastedText.trim();
       }
     },
-
-    // Validar rate limiting
     checkRateLimit() {
       const now = Date.now();
-      
-      // Resetear intentos si pasó más de 15 minutos
       if (this.lastAttemptTime && (now - this.lastAttemptTime) > 900000) {
         this.loginAttempts = 0;
       }
-
       if (this.loginAttempts >= this.maxLoginAttempts) {
         const waitTime = Math.ceil((900000 - (now - this.lastAttemptTime)) / 60000);
         toast.error(`Demasiados intentos fallidos. Intente nuevamente en ${waitTime} minutos.`);
         return false;
       }
-
       return true;
     },
-
     async signIn() {
-      // Prevenir doble click
       if (this.isloading) return;
-
-      // Validar rate limiting
       if (!this.checkRateLimit()) return;
 
-      // Validar formulario
-      let validate = await this.$validate();
-      if (!validate) {
+      this.errors = { EMAIL: null, PASSWORD: null };
+      const emailVal = this.form.EMAIL?.trim().toLowerCase() || '';
+      const pwdVal   = this.form.PASSWORD || '';
+      if (!emailVal || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailVal)) {
+        this.errors.EMAIL = 'Email no válido';
+      }
+      if (!pwdVal || pwdVal.length < 6 || pwdVal.length > 128) {
+        this.errors.PASSWORD = 'La contraseña debe tener entre 6 y 128 caracteres';
+      }
+      if (this.errors.EMAIL || this.errors.PASSWORD) {
         toast.error('Por favor, corrija los errores del formulario');
         return;
       }
 
-      // Sanitizar inputs antes de enviar
       const emailSanitized = this.form.EMAIL?.trim().toLowerCase();
       const passwordSanitized = this.form.PASSWORD?.trim();
 
-      // Validar que no estén vacíos después de sanitizar
       if (!emailSanitized || !passwordSanitized) {
         toast.error('Credenciales inválidas');
         return;
       }
-
-      // Validar caracteres peligrosos
       if (this.containsDangerousChars(emailSanitized) || this.containsDangerousChars(passwordSanitized)) {
         toast.error('Caracteres no permitidos detectados');
         return;
       }
-
-      // Validar longitud mínima
       if (emailSanitized.length < 5 || passwordSanitized.length < 6) {
         toast.error('Credenciales inválidas');
         return;
@@ -236,240 +195,182 @@ export default {
       this.lastAttemptTime = Date.now();
 
       const loginData = {
-        ...this.form,
         EMAIL: emailSanitized,
         PASSWORD: passwordSanitized,
-        USER: emailSanitized
       };
 
       LoginProxy.login(loginData)
         .then((response) => {
           if (response?.status == 201 || response?.status == 200) {
-            // Validar respuesta del servidor
-            if (!response.data || !response.data.TOKEN) {
-              throw new Error('Respuesta inválida del servidor');
-            }
+            // Soporta respuesta directa { TOKEN } y nueva { STATUS, DATA: { accessToken } }
+            const payload = response.data?.DATA ?? response.data;
 
-            let { TOKEN, REFRESH_TOKEN, NOMBRES, EMAIL, RTAFTO } = response.data;
+            const accessToken  = payload?.accessToken  || payload?.TOKEN;
+            const refreshToken = payload?.refreshToken || payload?.REFRESH_TOKEN;
 
-            // Validar que el token tenga formato esperado
-            if (!TOKEN || TOKEN.length < 20) {
-              throw new Error('Token inválido recibido');
-            }
+            if (!accessToken  || accessToken.length  < 20) throw new Error('Respuesta inválida del servidor');
+            if (!refreshToken || refreshToken.length < 20) throw new Error('Refresh token inválido recibido');
 
-            // Validar refresh token
-            if (!REFRESH_TOKEN || REFRESH_TOKEN.length < 20) {
-              throw new Error('Refresh token inválido recibido');
-            }
+            // Extraer info del usuario desde el JWT (sin librería externa)
+            let NOMBRES = '', EMAIL = '', RTAFTO = '', jwtRole = null;
+            try {
+              const jwtPayload = JSON.parse(atob(accessToken.split('.')[1]));
+              NOMBRES = jwtPayload.NAME || jwtPayload.NOMBRES || '';
+              EMAIL   = jwtPayload.EMAIL || '';
+              RTAFTO  = jwtPayload.RTAFTO || '';
+              jwtRole = jwtPayload.role ?? jwtPayload.IDR ?? null;
+            } catch (_) { /* JWT mal formado — se ignora */ }
 
-            // Sanitizar datos antes de almacenar
             const sanitizedUser = {
               NOMBRES: this.sanitizeForStorage(NOMBRES),
-              EMAIL: this.sanitizeForStorage(EMAIL),
-              RTAFTO: this.sanitizeForStorage(RTAFTO)
+              EMAIL:   this.sanitizeForStorage(EMAIL),
+              RTAFTO:  this.sanitizeForStorage(RTAFTO),
             };
 
-            // Resetear intentos fallidos
             this.loginAttempts = 0;
-
-            // Almacenar tokens y datos de usuario
-            localStorage.setItem('accessToken', TOKEN);
-            localStorage.setItem('refreshToken', REFRESH_TOKEN);
+            this.errors = { EMAIL: null, PASSWORD: null };
+            this.emailNoVerificado = null;
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('user', JSON.stringify(sanitizedUser));
-            
             toast.success('Inicio de sesión exitoso');
-            this.$router.push('/redirect');
+            // Si viene con redirect desde landing (ej: ?redirect=/usuario/subscripcion&plan=9)
+            const redirectTo = this.$route.query.redirect;
+            const planId     = this.$route.query.plan;
+            if (redirectTo && jwtRole === 2) {
+              this.$router.push(planId ? `${redirectTo}?plan=${planId}` : redirectTo);
+            } else {
+              this.$router.push('/redirect');
+            }
           } else {
             throw new Error('Código de respuesta inesperado');
           }
         })
         .catch((err) => {
-          // Incrementar intentos fallidos
           this.loginAttempts++;
-
-          // Extraer datos del error (NestJS envía en response.data.message)
           const errorData = err?.response?.data?.message || err?.response?.data || err;
-
-          if (errorData?.OPTION == 1) {
-            this.$swal({
-              title: this.sanitizeForDisplay(errorData?.MESSAGE) || 'Confirmación requerida',
-              text: '¿Confirme si desea continuar?',
-              icon: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#3085d6",
-              cancelButtonColor: "#d33",
-              cancelButtonText: "No, cancelar",
-              confirmButtonText: "Sí, continuar",
-              dangerMode: true,
-            })
-              .then((result) => {
-                if (result.isConfirmed) {
-                  this.form.BANDERA = true;
-                  this.loginAttempts--; // No contar este como intento fallido
-                  this.signIn();
-                }
-              })
-              .catch((err) => toast.error(this.sanitizeForDisplay(err?.MESSAGE) || 'Error al iniciar sesión'));
-
-            return;
+          const code = errorData?.CODE || err?.CODE;
+          if (code === 'EMAIL_NOT_VERIFIED') {
+            this.emailNoVerificado = this.form.EMAIL;
+            toast.warning('Debes verificar tu correo antes de iniciar sesión. Revisa tu bandeja de entrada.', { autoClose: 6000 });
+          } else {
+            toast.error(this.getErrorMessage(errorData));
           }
-
-          // Obtener mensaje de error seguro
-          const errorMessage = this.getErrorMessage(errorData);
-          toast.error(errorMessage);
         })
-        .finally(() => {
-          this.isloading = false;
-        });
+        .finally(() => { this.isloading = false; });
     },
-
-    // Sanitizar datos para almacenamiento
     sanitizeForStorage(value) {
       if (!value) return '';
       return String(value).replace(/<[^>]*>/g, '').trim();
     },
-
-    // Sanitizar datos para mostrar
     sanitizeForDisplay(value) {
       if (!value) return '';
       return String(value).replace(/<script[^>]*>.*?<\/script>/gi, '').replace(/<[^>]*>/g, '').trim();
     },
-
-    // Obtener mensaje de error seguro
     getErrorMessage(err) {
       if (!err) return 'Error al iniciar sesión';
-      
-      // Extraer mensaje del error (NestJS puede anidar en message)
-      let message = err?.MESSAGE || 
-                    err?.response?.data?.message?.MESSAGE || 
-                    err?.response?.data?.MESSAGE || 
-                    err?.message || 
+      let message = err?.MESSAGE ||
+                    err?.response?.data?.message?.MESSAGE ||
+                    err?.response?.data?.MESSAGE ||
+                    err?.message ||
                     'Error al iniciar sesión';
-      
-      // Sanitizar mensaje
       message = this.sanitizeForDisplay(message);
-      
-      // Limitar longitud
-      if (message.length > 200) {
-        message = message.substring(0, 200) + '...';
-      }
-      
+      if (message.length > 200) message = message.substring(0, 200) + '...';
       return message;
     },
     async loginWithGoogle() {
-      // return 1
       window.location.href = `${this.urlApi}/auth/google`;
     },
     async loginWithLinkedin() {
-      // return 1
       window.location.href = `${this.urlApi}/auth/linkedin`;
     },
     togglePassword() {
       this.showPassword = !this.showPassword;
     },
-    ...mapActions('theme', ['toggleDarkMode']),
   },
   async mounted() {
-    this.$store.dispatch('theme/initializeTheme');
-    // Siempre limpiar el flag de logout al cargar la página de login
+    LoginProxy.siteConfig().then(cfg => { if (cfg) this.siteConfig = { ...this.siteConfig, ...cfg }; }).catch(() => {});
     localStorage.removeItem('isLoggingOut');
-    
+
     const urlParams = new URLSearchParams(window.location.search);
+
+    // Verificación de correo completada — backend redirige aquí con ?verified=true/false
+    const verified = urlParams.get('verified');
+    if (verified === 'true') {
+      toast.success('¡Correo verificado! Ya puedes iniciar sesión.', { autoClose: 5000 });
+      const planId = urlParams.get('plan');
+      // Si venía con plan, mantenerlo en la URL para que el redirect post-login lo use
+      if (planId) {
+        this.$router.replace({ path: '/auth/login', query: { redirect: '/usuario/subscripcion', plan: planId } });
+      } else {
+        this.$router.replace('/auth/login');
+      }
+      return;
+    }
+    if (verified === 'false') {
+      toast.error('El enlace de verificación es inválido o ha expirado. Por favor regístrate nuevamente.', { autoClose: 7000 });
+      this.$router.replace('/auth/login');
+      return;
+    }
     const success = urlParams.get('onsuccess');
     const logout = urlParams.get('logout');
-    
-    // Detectar si vino por sesión expirada
+
     if (logout === 'true') {
-      // Limpiar tokens y URL (ya se mostró la alerta en el interceptor)
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('user');
       this.$router.replace('/auth/login');
       return;
     }
-    
-    // Solo limpiar tokens si viene de autenticación OAuth
+
     if (success) {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('user');
     }
-    
+
     if (success) {
-      // Limpiar query params inmediatamente para evitar ciclos de recarga
       this.$router.replace('/auth/login');
-      
       const message = urlParams.get('message');
-      
+
       if (success === 'true') {
         const accessToken = urlParams.get('accessToken');
         const refreshToken = urlParams.get('refreshToken');
 
-        // Validar que el token exista y tenga formato válido
         if (!accessToken || accessToken.length < 20 || accessToken.length > 2000) {
-          this.$swal({
-            title: "Error",
-            text: "Token inválido",
-            icon: "error",
-            buttons: false,
-          });
+          this.$swal({ title: "Error", text: "Token inválido", icon: "error", buttons: false });
           return;
         }
 
-        // Validar formato JWT básico
         const jwtRegex = /^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/;
         if (!jwtRegex.test(accessToken)) {
-          this.$swal({
-            title: "Error",
-            text: "Token con formato inválido",
-            icon: "error",
-            buttons: false,
-          });
+          this.$swal({ title: "Error", text: "Token con formato inválido", icon: "error", buttons: false });
           return;
         }
-
-        // Validar refresh token si existe
         if (refreshToken && !jwtRegex.test(refreshToken)) {
-          this.$swal({
-            title: "Error",
-            text: "Refresh token con formato inválido",
-            icon: "error",
-            buttons: false,
-          });
+          this.$swal({ title: "Error", text: "Refresh token con formato inválido", icon: "error", buttons: false });
           return;
         }
 
         try {
           const response = await UserProxy.validateTokenGoogle(accessToken);
-          
+
           if (response && response.STATUS) {
             const user = urlParams.get('user');
-            
-            // Validar y parsear datos de usuario
-            let userData;
             try {
-              userData = JSON.parse(decodeURIComponent(user));
-              
-              // Sanitizar datos de usuario
+              const userData = JSON.parse(decodeURIComponent(user));
               const sanitizedUser = {
                 NOMBRES: this.sanitizeForStorage(userData.NOMBRES),
                 EMAIL: this.sanitizeForStorage(userData.EMAIL),
                 RTAFTO: this.sanitizeForStorage(userData.RTAFTO)
               };
-
-              this.$swal({
-                title: "¡Éxito!",
-                text: "Has iniciado sesión correctamente.",
-                icon: "success",
-                buttons: false,
-              }).then(() => {
-                localStorage.setItem('accessToken', accessToken);
-                if (refreshToken) {
-                  localStorage.setItem('refreshToken', refreshToken);
-                }
-                localStorage.setItem('user', JSON.stringify(sanitizedUser));
-                this.$router.push('/redirect');
-              });
+              this.$swal({ title: "¡Éxito!", text: "Has iniciado sesión correctamente.", icon: "success", buttons: false })
+                .then(() => {
+                  localStorage.setItem('accessToken', accessToken);
+                  if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
+                  localStorage.setItem('user', JSON.stringify(sanitizedUser));
+                  this.$router.push('/redirect');
+                });
             } catch (parseError) {
               throw new Error('Datos de usuario inválidos');
             }
@@ -498,464 +399,118 @@ export default {
 </script>
 
 <style scoped>
+/* ── Fondo mesh gradient neutro (legal-tech) ───────────────────────── */
 .form-login {
-  background-color: #fdf2f8;
-  background-image: url("../../assets/img/resources/bg-comments.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  min-height: 100dvh;
-  display: flex;
-  padding: 20px 0px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  background-color: #f0f4ff;
+  background-image:
+    radial-gradient(ellipse 85% 65% at 0%   0%,  rgba( 24, 92,230, .13) 0%, transparent 55%),
+    radial-gradient(ellipse 65% 80% at 100%  5%,  rgba( 99,102,241, .11) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 55% at 50% 110%,  rgba( 14,165,233, .10) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 40% at 80%  75%,  rgba( 79, 70,229, .08) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 50% at 10%  85%,  rgba( 99,102,241, .08) 0%, transparent 50%);
   position: relative;
-  z-index: 1;
+  isolation: isolate;
 }
 
-.social-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.form-login::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(circle 560px at 5%  15%, rgba( 24, 92,230, .16) 0%, transparent 70%),
+    radial-gradient(circle 440px at 95%  8%, rgba( 99,102,241, .14) 0%, transparent 70%),
+    radial-gradient(circle 400px at 50% 98%, rgba( 14,165,233, .12) 0%, transparent 70%);
+  animation: orb-drift 20s ease-in-out infinite alternate;
 }
 
-.social-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  padding: 12px 16px;
-  border: 2px solid #e2e8f0;
-  border-radius: 9999px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #4a5568;
-  background-color: white;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  font-family: Lato, sans-serif;
+.form-login::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(circle 320px at 78% 58%, rgba( 79, 70,229, .09) 0%, transparent 70%),
+    radial-gradient(circle 280px at 18% 70%, rgba( 14,165,233, .09) 0%, transparent 70%);
+  animation: orb-drift 28s ease-in-out infinite alternate-reverse;
 }
 
-.social-btn:hover {
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.05) 0%, rgba(139, 92, 246, 0.05) 50%, rgba(24, 92, 230, 0.05) 100%);
-  border-color: #E5E7EB;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+@keyframes orb-drift {
+  0%   { transform: translate(  0px,   0px) scale(1);    }
+  33%  { transform: translate( 20px, -14px) scale(1.04); }
+  66%  { transform: translate(-12px,  18px) scale(.97);  }
+  100% { transform: translate( 16px,  10px) scale(1.02); }
 }
 
-.social-btn:active {
-  transform: translateY(0);
+/* Dark mode */
+.dark .form-login {
+  background-color: #080c1a;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 0%   0%, rgba( 24, 92,230, .10) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 75% at 100%  5%, rgba( 99,102,241, .08) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 50% 105%, rgba( 14,165,233, .07) 0%, transparent 55%);
+}
+.dark .form-login::before {
+  background:
+    radial-gradient(circle 560px at 5%  15%, rgba( 24, 92,230, .12) 0%, transparent 70%),
+    radial-gradient(circle 440px at 95%  8%, rgba( 99,102,241, .10) 0%, transparent 70%),
+    radial-gradient(circle 400px at 50% 98%, rgba( 14,165,233, .08) 0%, transparent 70%);
+}
+.dark .form-login::after {
+  background:
+    radial-gradient(circle 320px at 78% 58%, rgba( 79, 70,229, .07) 0%, transparent 70%),
+    radial-gradient(circle 280px at 18% 70%, rgba( 14,165,233, .07) 0%, transparent 70%);
 }
 
-.icon {
-  width: 20px;
-  height: 20px;
-}
-
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-}
-
-.form-login-with {
-  width: 500px;
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.98);
-}
-
-.shadow-modern {
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.login-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #6B7280;
-  margin-bottom: 1.5rem;
-}
-
-@media (max-width: 768px) {
-  .form-login-with {
-    width: 90%;
-    padding: 20px;
-  }
-  
-  .login-title {
-    font-size: 24px;
-  }
-}
-
-.separator {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 20px 0;
-  font-size: 13px;
-  color: #718096;
-  font-weight: 500;
-  font-family: Lato, sans-serif;
-}
-
-.separator::before,
-.separator::after {
+/* Separador con pseudo-elementos */
+.separator-line::before,
+.separator-line::after {
   content: "";
   flex: 1;
   height: 1px;
   background: linear-gradient(90deg, transparent, #cbd5e0, transparent);
   margin: 0 12px;
 }
-
-.input-group {
-  display: flex;
-  align-items: center;
-  border: 2px solid #e2e8f0;
-  border-radius: 50px;
-  padding: 12px 18px;
-  margin-bottom: 12px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: white;
+.dark .separator-line::before,
+.dark .separator-line::after {
+  background: linear-gradient(90deg, transparent, #4a5568, transparent);
 }
 
+/* Input placeholder */
+.input-field::placeholder { color: #a0aec0; font-weight: 400; }
+.dark .input-field::placeholder { color: #6b7280; }
+
+/* Input group focus/error states (requieren :focus-within y .error) */
 .input-group:focus-within {
-  border-color: #8B5CF6;
-  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+  border-color: #6b7280;
+  box-shadow: 0 0 0 4px rgba(107, 114, 128, 0.1);
   transform: translateY(-1px);
 }
-
 .input-group.error {
   border-color: #ef4444;
   box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
 }
-
-.input-icon {
-  width: 18px;
-  height: 18px;
-  margin-right: 8px;
+.dark .input-group:focus-within {
+  border-color: #9ca3af;
+  box-shadow: 0 0 0 4px rgba(156, 163, 175, 0.2);
+}
+.dark .input-group.error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.25);
 }
 
-.input-field {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 15px;
-  color: #2d3748;
-  font-family: Lato, sans-serif;
-  font-weight: 500;
-}
-
-.input-field::placeholder {
-  color: #a0aec0;
-  font-weight: 400;
-}
-
-/* Estilo del botón de ojo */
-.eye-icon {
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-left: 8px;
-}
-
-.eye-icon img {
-  width: 18px;
-  height: 18px;
-  opacity: 0.6;
-  transition: opacity 0.2s;
-}
-
-.eye-icon:hover img {
-  opacity: 1;
-}
-
-/* Botón de enviar */
-.submit-btn {
-  width: 100%;
-  background: linear-gradient(135deg, #DF2DB2 0%, #8B5CF6 50%, #185CE6 100%);
-  color: white;
-  font-size: 15px;
-  font-weight: 700;
-  padding: 14px;
-  border-radius: 50px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-  font-family: Lato, sans-serif;
-  letter-spacing: 0.3px;
-}
-
+/* Submit button hover (no hay equivalente Tailwind para :not(:disabled)) */
 .submit-btn:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
 }
-
 .submit-btn:active:not(:disabled) {
   transform: translateY(0);
   box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
 }
-
-.submit-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 8px 0px;
-  font-size: 14px;
-}
-
-.remember-me {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  margin: 0;
-}
-
-.remember-me input {
-  accent-color: #2563eb;
-}
-
-.forgot-password {
-  font-size: 13px;
-  color: #8B5CF6;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  font-weight: 500;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: Lato, sans-serif;
-}
-
-.forgot-password:hover {
-  color: #DF2DB2;
-  text-decoration: underline;
-}
-
-
-.btn-registrate {
-  background: linear-gradient(135deg, #DF2DB2 0%, #E71FB3 100%);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 50px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-weight: 600;
-  font-size: 14px;
-  box-shadow: 0 4px 12px rgba(231, 31, 179, 0.25);
-  font-family: Lato, sans-serif;
-}
-
-.btn-registrate:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(231, 31, 179, 0.35);
-}
-
-.btn-registrate:active {
-  transform: translateY(0);
-}
-
-@media (max-width: 768px) {
-  .no-tener-cuenta {
-    display: none;
-  }
-
-  .form-login {
-    padding: 10px 10px;
-    justify-content: space-around;
-  }
-  
-  .theme-toggle-btn {
-    width: 36px;
-    height: 36px;
-  }
-  
-  .theme-toggle-btn svg {
-    width: 18px;
-    height: 18px;
-  }
-  
-  .btn-registrate {
-    padding: 8px 16px;
-    font-size: 13px;
-  }
-}
-
-#btnToggleShowPassword {
-  border: none;
-  right: 0;
-  z-index: 5;
-  top: .4rem;
-}
-
-/* Theme Toggle Button */
-.theme-toggle-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border-radius: 50%;
-  background: white;
-  border: 2px solid #e2e8f0;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: #1864FF;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.theme-toggle-btn svg {
-  width: 20px;
-  height: 20px;
-  stroke-width: 2.5;
-}
-
-.theme-toggle-btn:hover {
-  background: #f7fafc;
-  border-color: #1864FF;
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(24, 100, 255, 0.3);
-}
-</style>
-
-<style>
-/* Login dark mode - unscoped with max specificity to override scoped styles */
-html.dark .form-login.form-login {
-  background: #111827 !important;
-  background-image: none !important;
-}
-
-html.dark .form-login-with.form-login-with {
-  background: #1f2937 !important;
-  border: 1px solid #374151 !important;
-}
-
-html.dark .shadow-modern.shadow-modern {
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.5) !important;
-}
-
-html.dark .login-title.login-title {
-  color: #f3f4f6 !important;
-}
-
-html.dark .no-tener-cuenta.no-tener-cuenta {
-  color: #d1d5db !important;
-}
-
-html.dark .social-btn.social-btn {
-  background-color: #111827 !important;
-  border-color: #374151 !important;
-  color: #e5e7eb !important;
-}
-
-html.dark .social-btn.social-btn:hover {
-  background: linear-gradient(135deg, rgba(223, 45, 178, 0.15) 0%, rgba(139, 92, 246, 0.15) 50%, rgba(24, 92, 230, 0.15) 100%) !important;
-  border-color: #4a5568 !important;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4) !important;
-}
-
-html.dark .separator.separator {
-  color: #9ca3af !important;
-}
-
-html.dark .separator.separator::before,
-html.dark .separator.separator::after {
-  background: linear-gradient(90deg, transparent, #4a5568, transparent) !important;
-}
-
-html.dark .input-group.input-group {
-  background: #111827 !important;
-  border-color: #374151 !important;
-}
-
-html.dark .input-group.input-group:focus-within {
-  border-color: #8b5cf6 !important;
-  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.25) !important;
-}
-
-html.dark .input-group.input-group.error {
-  border-color: #ef4444 !important;
-  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.25) !important;
-}
-
-html.dark .input-field.input-field {
-  color: #f3f4f6 !important;
-  background: transparent !important;
-}
-
-html.dark .input-field.input-field::placeholder {
-  color: #6b7280 !important;
-}
-
-html.dark .input-icon.input-icon {
-  filter: brightness(0) invert(1) !important;
-  opacity: 0.8 !important;
-}
-
-html.dark .eye-icon img {
-  filter: brightness(0) invert(1) !important;
-  opacity: 0.7 !important;
-}
-
-html.dark .eye-icon:hover img {
-  opacity: 1 !important;
-}
-
-html.dark .submit-btn.submit-btn {
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.6) !important;
-}
-
-html.dark .submit-btn.submit-btn:hover:not(:disabled) {
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.7) !important;
-}
-
-html.dark .forgot-password.forgot-password {
-  color: #a78bfa !important;
-}
-
-html.dark .forgot-password.forgot-password:hover {
-  color: #ec4899 !important;
-}
-
-html.dark .btn-registrate.btn-registrate {
-  box-shadow: 0 4px 12px rgba(231, 31, 179, 0.5) !important;
-}
-
-html.dark .btn-registrate.btn-registrate:hover {
-  box-shadow: 0 6px 20px rgba(231, 31, 179, 0.6) !important;
-}
-
-html.dark .theme-toggle-btn.theme-toggle-btn {
-  background: #1f2937 !important;
-  border: 2px solid #6ba3ff !important;
-  color: #93c5fd !important;
-  box-shadow: 0 4px 12px rgba(107, 163, 255, 0.3) !important;
-}
-
-html.dark .theme-toggle-btn.theme-toggle-btn:hover {
-  background: #374151 !important;
-  border-color: #93c5fd !important;
-  box-shadow: 0 6px 16px rgba(147, 197, 253, 0.5) !important;
-}
-
-html.dark .remember-me label {
-  color: #d1d5db !important;
-}
-
-html.dark .form-login img[alt="Logo"] {
-  filter: brightness(1.2) contrast(1.1) !important;
+.dark .submit-btn:hover:not(:disabled) {
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.7);
 }
 </style>

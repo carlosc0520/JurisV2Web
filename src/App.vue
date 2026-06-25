@@ -1,47 +1,31 @@
 <template>
   <div id="app" :class="{ 'dark': isDarkMode }">
     <router-view />
-    <div class="floating-whatsapp" v-if="!urlBusqueda">
-      <div class="whatsapp-icon-wrapper">
-        <i class="fab fa-whatsapp"></i>
-        <span class="whatsapp-pulse"></span>
-      </div>
-      <div class="whatsapp-tooltip">
-        <span class="tooltip-text">¿Necesitas ayuda?</span>
-        <span class="tooltip-subtext">Chatea con nosotros</span>
-      </div>
-    </div>
+    <chat-widget v-if="!urlBusqueda" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import ChatWidget from '@/components/Shared/ChatWidget.vue';
 
 export default {
+  components: { ChatWidget },
   data() {
     return {
       urlBusqueda: false,
-    }
+    };
   },
   computed: {
     ...mapGetters('theme', ['isDarkMode'])
   },
   created() {
-    // Inicializar la ruta actual
     if (this.$route) {
       this.urlBusqueda = this.$route.path.includes('/admin') || this.$route.path.includes('/usuario');
     }
   },
   mounted() {
     this.$store.dispatch('theme/initializeTheme');
-  },
-  methods: {
-    openWhatsApp() {
-      const phoneNumber = '902430068';
-      const message = 'Hola, tengo una consulta.';
-      const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-      window.open(url, '_blank');
-    },
   },
   watch: {
     $route(to) {
@@ -67,131 +51,6 @@ export default {
   max-width: 100% !important;
 }
 
-.floating-whatsapp {
-  position: fixed;
-  bottom: 30px;
-  right: 10px;
-  z-index: 1000;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.floating-whatsapp:hover {
-  right: 30px;
-}
-
-.whatsapp-icon-wrapper {
-  position: relative;
-  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-  border-radius: 50%;
-  width: 64px;
-  height: 64px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: whatsapp-bounce 2s ease-in-out infinite;
-}
-
-.floating-whatsapp:hover .whatsapp-icon-wrapper {
-  transform: scale(1.1) translateY(-4px);
-  box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5);
-}
-
-.whatsapp-pulse {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: rgba(37, 211, 102, 0.6);
-  animation: whatsapp-pulse 2s ease-out infinite;
-  z-index: -1;
-}
-
-.whatsapp-tooltip {
-  background: white;
-  padding: 12px 16px;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  opacity: 0;
-  transform: translateX(20px);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: none;
-  white-space: nowrap;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  order: -1;
-}
-
-.floating-whatsapp:hover .whatsapp-tooltip {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.tooltip-text {
-  font-family: Lato, sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  color: #2d3748;
-  line-height: 1.2;
-}
-
-.tooltip-subtext {
-  font-family: Lato, sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  color: #718096;
-  line-height: 1.2;
-}
-
-@keyframes whatsapp-bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes whatsapp-pulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 0.3;
-  }
-  100% {
-    transform: scale(1.4);
-    opacity: 0;
-  }
-}
-
-@media (max-width: 768px) {
-  .floating-whatsapp {
-    bottom: 20px;
-    right: 15px;
-  }
-  
-  .floating-whatsapp:hover {
-    right: 20px;
-  }
-  
-  .whatsapp-icon-wrapper {
-    width: 56px;
-    height: 56px;
-  }
-  
-  .whatsapp-tooltip {
-    display: none;
-  }
-}
 
 .floating-arriba {
   position: fixed;
@@ -229,15 +88,6 @@ export default {
 }
 
 
-.fab {
-  color: white;
-  font-size: 32px;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.floating-whatsapp:hover .fab {
-  transform: scale(1.1) rotate(5deg);
-}
 
 :root {
   --azul-primary: #1764ffff;
@@ -254,6 +104,9 @@ a {
 
 nav a {
   color: #636363 !important;
+}
+.dark nav a {
+  color: #d1d5db !important;
 }
 
 .bg-blueGray-700 {

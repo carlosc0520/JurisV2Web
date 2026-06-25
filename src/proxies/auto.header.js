@@ -1,11 +1,3 @@
-const PARAMETROS = {
-    development: 'https://api.jurissearch.com',
-    production: 'https://api.myapp.com'
-}
-
-const ENTORNO = 'development'
-
-
 export default {
-    URL: PARAMETROS[ENTORNO]
+    URL: process.env.VUE_APP_API_URL || 'https://api.jurissearch.com'
 }

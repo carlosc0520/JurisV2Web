@@ -1,178 +1,116 @@
 <template>
-  <div class="d-grid gap-3 mt-5 grid-personalize-columns">
-    <div class="relative flex flex-col min-w-0 break-words mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
-      <div class="rounded-t bg-white mb-0 px-6 py-6">
-        <div class="text-center flex justify-between">
-          <h6 class="text-blueGray-700 text-xl font-bold">Mi Perfil</h6>
-          <button
-            class="bg-emerald-500 text-white active:bg-emerald-600 font-bold text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-            type="button"
-            @click="save"
-            :disabled="isLoading"
-            >
+  <div class="grid lg:grid-cols-[8fr_4fr] grid-cols-1 gap-4 items-start mt-5">
+    <!-- Formulario -->
+    <div class="relative flex flex-col min-w-0 break-words mb-6 shadow-lg rounded-lg bg-slate-50 dark:bg-gray-800 border-0">
+      <div class="rounded-t bg-white dark:bg-gray-900 mb-0 px-6 py-6">
+        <div class="flex justify-between items-center">
+          <h6 class="text-slate-700 dark:text-slate-200 text-xl font-bold">Mi Perfil</h6>
+          <button class="btn btn-primary btn-sm" type="button" @click="save" :disabled="isLoading">
             Guardar
           </button>
         </div>
       </div>
       <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-        <form class="row">
-          <h6 class="col-12 text-blueGray-400 text-sm mt-3 mb-6 font-bold">
-            Información Personal
-          </h6>
+        <div class="grid grid-cols-2 gap-x-4">
+          <h6 class="col-span-2 text-slate-400 text-sm mt-3 mb-6 font-bold">Información Personal</h6>
 
-          <div class="col-12 mb-3" :class="{ error: validation.hasError('modelo.NOMBRES') }">
-            <label class="block text-blueGray-600 text-xs font-bold mb-2">
-              Nombres completos <span class="text-red-500">*</span>
-            </label>
-            <input v-model="modelo.NOMBRES" type="text"
-              class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              value="lucky.jesse" />
-            <span class="message" v-if="validation.hasError('modelo.NOMBRES')">
-              {{ validation.firstError('modelo.NOMBRES') }}
-            </span>
+          <div class="col-span-2 mb-3">
+            <label class="block text-slate-600 text-xs font-bold mb-1">Nombres completos <span class="text-red-500">*</span></label>
+            <input v-model="modelo.NOMBRES" type="text" class="input-base" :class="{ 'border-red-400': validation.hasError('modelo.NOMBRES') }" />
+            <span v-if="validation.hasError('modelo.NOMBRES')" class="text-xs text-red-500 mt-1 block">{{ validation.firstError('modelo.NOMBRES') }}</span>
           </div>
 
-
-          <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.APATERNO') }">
-            <label class="block text-blueGray-600 text-xs font-bold mb-2">
-              Apellido paterno <span class="text-red-500">*</span>
-            </label>
-            <input v-model="modelo.APATERNO" type="text"
-              class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              value="jesse@example.com" />
-            <span class="message" v-if="validation.hasError('modelo.APATERNO')">
-              {{ validation.firstError('modelo.APATERNO') }}
-            </span>
+          <div class="mb-3">
+            <label class="block text-slate-600 text-xs font-bold mb-1">Apellido paterno <span class="text-red-500">*</span></label>
+            <input v-model="modelo.APATERNO" type="text" class="input-base" :class="{ 'border-red-400': validation.hasError('modelo.APATERNO') }" />
+            <span v-if="validation.hasError('modelo.APATERNO')" class="text-xs text-red-500 mt-1 block">{{ validation.firstError('modelo.APATERNO') }}</span>
           </div>
 
-          <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.AMATERNO') }">
-            <label class="block text-blueGray-600 text-xs font-bold mb-2">
-              Apellido materno <span class="text-red-500">*</span>
-            </label>
-            <input type="text" v-model="modelo.AMATERNO"
-              class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              value="Lucky" />
-            <span class="message" v-if="validation.hasError('modelo.AMATERNO')">
-              {{ validation.firstError('modelo.AMATERNO') }}
-            </span>
+          <div class="mb-3">
+            <label class="block text-slate-600 text-xs font-bold mb-1">Apellido materno <span class="text-red-500">*</span></label>
+            <input v-model="modelo.AMATERNO" type="text" class="input-base" :class="{ 'border-red-400': validation.hasError('modelo.AMATERNO') }" />
+            <span v-if="validation.hasError('modelo.AMATERNO')" class="text-xs text-red-500 mt-1 block">{{ validation.firstError('modelo.AMATERNO') }}</span>
           </div>
 
-          <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.EMAIL') }">
-            <label class="block text-blueGray-600 text-xs font-bold mb-2">
-              Correo electrónico <span class="text-red-500">*</span>
-            </label>
-            <input type="email" v-model="modelo.EMAIL"
-              class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              value="Jesse" />
-            <span class="message" v-if="validation.hasError('modelo.EMAIL')">
-              {{ validation.firstError('modelo.EMAIL') }}
-            </span>
+          <div class="mb-3">
+            <label class="block text-slate-600 text-xs font-bold mb-1">Correo electrónico <span class="text-red-500">*</span></label>
+            <input v-model="modelo.EMAIL" type="email" class="input-base" :class="{ 'border-red-400': validation.hasError('modelo.EMAIL') }" />
+            <span v-if="validation.hasError('modelo.EMAIL')" class="text-xs text-red-500 mt-1 block">{{ validation.firstError('modelo.EMAIL') }}</span>
           </div>
 
+          <hr class="col-span-2 mt-3 mb-4 border-slate-200 dark:border-gray-700" />
+          <h6 class="col-span-2 text-slate-400 text-sm mb-6 font-bold">Información de Contacto</h6>
 
-          <hr class="mt-6 border-b-1 border-blueGray-300" />
-
-          <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold">
-            Información de Contacto
-          </h6>
-
-          <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.TELEFONO') }">
-            <label class="block text-blueGray-600 text-xs font-bold mb-2">
-              Teléfono <span class="text-red-500">*</span>
-            </label>
-            <input type="text" v-model="modelo.TELEFONO"
-              class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" />
-            <span class="message" v-if="validation.hasError('modelo.TELEFONO')">
-              {{ validation.firstError('modelo.TELEFONO') }}
-            </span>
+          <div class="mb-3">
+            <label class="block text-slate-600 text-xs font-bold mb-1">Teléfono <span class="text-red-500">*</span></label>
+            <input v-model="modelo.TELEFONO" type="text" class="input-base" :class="{ 'border-red-400': validation.hasError('modelo.TELEFONO') }" />
+            <span v-if="validation.hasError('modelo.TELEFONO')" class="text-xs text-red-500 mt-1 block">{{ validation.firstError('modelo.TELEFONO') }}</span>
           </div>
 
-          <div class="col-md-6 col-12 mb-3" :class="{ error: validation.hasError('modelo.FNACIMIENTO') }">
-            <label for="BLOG3" class="form-label">Fecha Nacimiento <span class="text-danger">*</span></label>
+          <div class="mb-3">
+            <label class="block text-slate-600 text-xs font-bold mb-1">Fecha Nacimiento <span class="text-red-500">*</span></label>
             <date-picker v-model="modelo.FNACIMIENTO" :value="modelo.FNACIMIENTO" valueType="format"
               :disabledDate="time => time.getTime() > Date.now()"
-              @change="(date) => modelo.FNACIMIENTO = date"></date-picker>
-            <span class="message" v-if="validation.hasError('modelo.FNACIMIENTO')">
-              {{ validation.firstError('modelo.FNACIMIENTO') }}
-            </span>
+              @change="(date) => modelo.FNACIMIENTO = date" />
+            <span v-if="validation.hasError('modelo.FNACIMIENTO')" class="text-xs text-red-500 mt-1 block">{{ validation.firstError('modelo.FNACIMIENTO') }}</span>
           </div>
 
-          <div class="col-md-6 col-12 mb-3">
-            <label class="block text-blueGray-600 text-xs font-bold mb-2">
-              Dirección
-            </label>
-            <input type="text" v-model="modelo.DIRECCION"
-              class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" />
+          <div class="mb-3">
+            <label class="block text-slate-600 text-xs font-bold mb-1">Dirección</label>
+            <input v-model="modelo.DIRECCION" type="text" class="input-base" />
           </div>
 
-          <div class="col-md-6 col-12 mb-3">
-            <label class="block text-blueGray-600 text-xs font-bold mb-2">
-              Profesión
-            </label>
-            <input type="text" v-model="modelo.PROFESION"
-              class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              value="New York" />
+          <div class="mb-3">
+            <label class="block text-slate-600 text-xs font-bold mb-1">Profesión</label>
+            <input v-model="modelo.PROFESION" type="text" class="input-base" />
           </div>
 
-
-          <div class="col-md-6 col-12 mb-3">
-            <label class="block text-blueGray-600 text-xs font-bold mb-2">
-              Cargo
-            </label>
-            <input type="text" v-model="modelo.CARGO"
-              class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              value="United States" />
+          <div class="mb-3">
+            <label class="block text-slate-600 text-xs font-bold mb-1">Cargo</label>
+            <input v-model="modelo.CARGO" type="text" class="input-base" />
           </div>
 
-          <div class="col-md-6 col-12 mb-3">
-            <label class="block text-blueGray-600 text-xs font-bold mb-2">
-              Contraseña
-            </label>
-            <input type="password" v-model="modelo.PASSWORD"
-              class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              value="New York" />
+          <div class="mb-3">
+            <label class="block text-slate-600 text-xs font-bold mb-1">Contraseña</label>
+            <input v-model="modelo.PASSWORD" type="password" class="input-base" />
           </div>
-
-        </form>
+        </div>
       </div>
     </div>
 
-    <div class="relative flex flex-col min-w-0 break-words bg-white mb-6 shadow-xl rounded-lg">
+    <!-- Tarjeta de perfil -->
+    <div class="relative flex flex-col min-w-0 break-words bg-white dark:bg-gray-900 mb-6 shadow-xl rounded-lg">
       <div class="px-6">
-        <div class="flex justify-center">
-          <div class="avatar-container">
-            <input type="file" id="avatar-input" @change="changeAvatar" ref="avatarInput" class="avatar-input" />
-            <img :src="this.modelo.RTA" alt="imagen_usuario" class="avatar" @click="openFileInput" 
-             :onerror="team2"
-            />
+        <div class="flex justify-center pt-6">
+          <div class="relative w-[100px] h-[100px] inline-block">
+            <input type="file" id="avatar-input" @change="changeAvatar" ref="avatarInput" class="hidden" />
+            <img :src="modelo.RTA" alt="imagen_usuario"
+              class="w-full h-full rounded-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+              @click="openFileInput"
+              :onerror="team2" />
           </div>
-
         </div>
         <div class="text-center mt-4">
-          <h3 class="text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+          <h3 class="text-xl font-semibold leading-normal mb-2 text-slate-700 dark:text-slate-200">
             {{ modelo.NOMBRES }} {{ modelo.APATERNO }} {{ modelo.AMATERNO }}
           </h3>
-          <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-            <i class="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
+          <div class="text-sm leading-normal mt-0 mb-2 text-slate-400 font-bold uppercase">
+            <i class="fas fa-map-marker-alt mr-2 text-lg"></i>
             {{ modelo.DIRECCION }}
           </div>
-          <div class="mb-2 text-blueGray-600 mt-4">
-            <span class="text-blueGray-400">Usuario </span>
-            <span style="font-weight: bold;" :class="modelo.CDESTDO == 'A' ? 'text-emerald-500' : 'text-red-500'">
-              {{ modelo.CDESTDO == 'A' ? 'Activo' : 'Inactivo' }}</span>
+          <div class="mb-2 text-slate-600 dark:text-slate-400 mt-4">
+            <span class="text-slate-400">Usuario </span>
+            <span class="font-bold" :class="modelo.CDESTDO == 'A' ? 'text-emerald-500' : 'text-red-500'">
+              {{ modelo.CDESTDO == 'A' ? 'Activo' : 'Inactivo' }}
+            </span>
           </div>
         </div>
-        <div class="mt-10 py-10 border-t border-blueGray-200 text-left">
-          <div class="flex flex-wrap">
-            <div class="w-full px-4">
-              <p>Activo desde: <span class="font-semibold"> {{ formatDate(modelo.FCRCN, "DD/MM/YYYY") }}</span></p>
-              <p>Plan: <span class="font-semibold"> {{ modelo.DATOS?.DESCRIPCION }}</span></p>
-              <p>Fecha de inicio: <span class="font-semibold"> {{ formatDate(modelo.DATOS?.FINICIO, "DD/MM/YYYY") }}</span>
-              </p>
-              <p>Fecha de fin: <span class="font-semibold">{{ formatDate(modelo.DATOS?.FFIN, "DD/MM/YYYY") }}</span></p>
-            </div>
+        <div class="mt-10 py-10 border-t border-slate-200 dark:border-gray-700 text-left">
+          <div class="flex flex-col gap-1.5 px-4">
+            <p class="text-sm text-slate-600 dark:text-slate-400">Activo desde: <span class="font-semibold">{{ formatDate(modelo.FCRCN, "DD/MM/YYYY") }}</span></p>
+            <p class="text-sm text-slate-600 dark:text-slate-400">Plan: <span class="font-semibold">{{ modelo.DATOS?.DESCRIPCION }}</span></p>
+            <p class="text-sm text-slate-600 dark:text-slate-400">Fecha de inicio: <span class="font-semibold">{{ formatDate(modelo.DATOS?.FINICIO, "DD/MM/YYYY") }}</span></p>
+            <p class="text-sm text-slate-600 dark:text-slate-400">Fecha de fin: <span class="font-semibold">{{ formatDate(modelo.DATOS?.FFIN, "DD/MM/YYYY") }}</span></p>
           </div>
         </div>
       </div>
@@ -182,98 +120,59 @@
 
 <script>
 import { Validator } from 'simple-vue-validator';
-import UserProxy from "../../proxies/UserProxy";
+import UserProxy from "@/proxies/UserProxy";
 import { toast } from 'vue3-toastify';
-import moment from 'moment';  
+import moment from 'moment';
 import team2 from "@/assets/img/resources/perfil.png";
 
 export default {
   props: {
-    data: {
-      type: Object,
-      default: () => { },
-    },
-    getUser: {
-      type: Function,
-      default: () => { },
-    },
-    setLoading: {
-      type: Function,
-      default: () => { },
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
+    data: { type: Object, default: () => {} },
+    getUser: { type: Function, default: () => {} },
+    setLoading: { type: Function, default: () => {} },
+    isLoading: { type: Boolean, default: false },
   },
   data() {
     return {
       team2,
       modelo: {
-        APATERNO: null,
-        AMATERNO: null,
-        NOMBRES: null,
-        EMAIL: null,
-        TELEFONO: null,
-        FNACIMIENTO: null,
-        CDESTDO: null,
-        FCRCN: null,
-        PASSWORD: null,
-        PROFESION: null,
-        CARGO: null,
-        DIRECCION: null,
-        DATOS: null,
-        RTAFTO: null,
-        RTA: null
-      }
+        APATERNO: null, AMATERNO: null, NOMBRES: null, EMAIL: null,
+        TELEFONO: null, FNACIMIENTO: null, CDESTDO: null, FCRCN: null,
+        PASSWORD: null, PROFESION: null, CARGO: null, DIRECCION: null,
+        DATOS: null, RTAFTO: null, RTA: null,
+      },
     };
   },
   validators: {
-    'modelo.NOMBRES': function (value) {
-      return Validator.value(value).required('Campo requerido');
-    },
-    'modelo.APATERNO': function (value) {
-      return Validator.value(value).required('Campo requerido');
-    },
-    'modelo.AMATERNO': function (value) {
-      return Validator.value(value).required('Campo requerido');
-    },
-    'modelo.EMAIL': function (value) {
-      return Validator.value(value).required('Campo requerido');
-    },
-    'modelo.TELEFONO': function (value) {
-      return Validator.value(value).required('Campo requerido');
-    },
-    'modelo.FNACIMIENTO': function (value) {
-      return Validator.value(value).required('Campo requerido');
-    },
+    'modelo.NOMBRES': (value) => Validator.value(value).required('Campo requerido'),
+    'modelo.APATERNO': (value) => Validator.value(value).required('Campo requerido'),
+    'modelo.AMATERNO': (value) => Validator.value(value).required('Campo requerido'),
+    'modelo.EMAIL': (value) => Validator.value(value).required('Campo requerido'),
+    'modelo.TELEFONO': (value) => Validator.value(value).required('Campo requerido'),
+    'modelo.FNACIMIENTO': (value) => Validator.value(value).required('Campo requerido'),
   },
   methods: {
     async save(e) {
       e.preventDefault();
-      let validate = await this.$validate();
+      const validate = await this.$validate();
       if (!validate) return;
-
       this.setLoading(true);
-      let formData = new FormData();
+      const formData = new FormData();
       Object.keys(this.modelo).forEach(key => {
         if (key !== 'RTA') formData.append(key, this.modelo[key]);
       });
-
       formData.append('files', this.$refs.avatarInput.files[0]);
-
       const loadingToast = toast.loading("Espere un momento...");
       await UserProxy.editarFoce(formData)
         .then(async response => {
-          const toastMessage = response.STATUS ? "Datos actualizados con éxito" : response.MESSAGE;
+          const msg = response.STATUS ? "Datos actualizados con éxito" : response.MESSAGE;
           if (response.STATUS) {
-            toast.success(toastMessage);
+            toast.success(msg);
             this.reset();
             await this.getUser();
           } else {
-            toast.error(toastMessage);
+            toast.error(msg);
           }
-
         })
         .catch(err => toast.error(err?.MESSAGE || "Error al actualizar sus datos"))
         .finally(() => {
@@ -283,80 +182,27 @@ export default {
     },
     reset() {
       this.modelo = {
-        APATERNO: null,
-        AMATERNO: null,
-        NOMBRES: null,
-        EMAIL: null,
-        TELEFONO: null,
-        FNACIMIENTO: null,
-        CDESTDO: null,
-        FCRCN: null,
-        PASSWORD: null,
-        PROFESION: null,
-        CARGO: null,
-        DIRECCION: null,
-        DATOS: null
+        APATERNO: null, AMATERNO: null, NOMBRES: null, EMAIL: null,
+        TELEFONO: null, FNACIMIENTO: null, CDESTDO: null, FCRCN: null,
+        PASSWORD: null, PROFESION: null, CARGO: null, DIRECCION: null, DATOS: null,
       };
     },
-    formatDate(fecha, formato) {
-      return moment(fecha).format(formato);
-    },
-    openFileInput() {
-      this.$refs.avatarInput.click();
-    },
+    formatDate(fecha, formato) { return moment(fecha).format(formato); },
+    openFileInput() { this.$refs.avatarInput.click(); },
     changeAvatar(event) {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = (e) => {
-          this.modelo.RTA = e.target.result; 
-        };
+        reader.onload = (e) => { this.modelo.RTA = e.target.result; };
         reader.readAsDataURL(file);
       }
-    }
+    },
   },
   mounted() {
-    this.modelo = { ...this.data,
-      RTA: this.data.RTAFTO || this.team2,
-      RTAFTO: this.data.RTAFTO
-     };
-
-     for (let key in this.modelo) {
-       if ([null, 'null'].includes(this.modelo[key])) this.modelo[key] = '';
-     }
+    this.modelo = { ...this.data, RTA: this.data.RTAFTO || this.team2, RTAFTO: this.data.RTAFTO };
+    for (const key in this.modelo) {
+      if ([null, 'null'].includes(this.modelo[key])) this.modelo[key] = '';
+    }
   },
 };
 </script>
-
-<style>
-  .avatar-container {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    display: inline-block;
-  }
-
-  .avatar {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    cursor: pointer;
-  }
-
-  .avatar-input {
-    display: none;
-  }
-
-  @media (min-width: 992px) {
-    .grid-personalize-columns {
-        grid-template-columns: 8fr 4fr !important;
-  }
-
-  .grid-personalize-columns {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    align-items: start;
-  }
-}
-</style>

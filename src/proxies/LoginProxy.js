@@ -41,6 +41,11 @@ class LoginProxy {
         return data;
     }
     
+    async siteConfig() {
+        const { data } = await axios.get(`/login/site-config`);
+        return data;
+    }
+
     async recover(model) {
         const { data } = await axios.post(`/auth/lost-password`, model);
         return data;
