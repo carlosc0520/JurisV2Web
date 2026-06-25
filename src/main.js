@@ -3,15 +3,16 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
 
 // ── Styles ────────────────────────────────────────────────────
+// Librerías de terceros primero — Tailwind al final para que sus utilidades tengan prioridad
+import 'element-plus/dist/index.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
-import '@/assets/styles/index.css'
 import 'vue3-toastify/dist/index.css'
 import 'vue3-carousel/dist/carousel.css'
 import 'sweetalert2/dist/sweetalert2.min.css'
 import 'vue-datepicker-next/index.css'
 import 'vue-datepicker-next/locale/es'
 import 'vue3-tel-input/dist/vue3-tel-input.css'
-import 'element-plus/dist/index.css'
+import '@/assets/styles/index.css'
 
 // ── Legacy Axios (proxies existentes lo usan vía AxiosProvider) ─
 import '@/providers/AxiosProvider'
