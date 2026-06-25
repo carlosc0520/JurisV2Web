@@ -120,7 +120,42 @@ img, svg { display: block; max-width: 100%; }
    ═══════════════════════════════════════════════════════════ */
 @layer utilities {
 
-  
+  /* Gradient text: brand (pink → blue, 90deg) */
+  .text-brand-gradient {
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  /* Gradient text: soft brand */
+  .text-brand-soft {
+    background: var(--brand-soft);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  /* Gradient text: sección (pink → purple → blue, diagonal) */
+  .text-section-gradient {
+    background: linear-gradient(to bottom right, #DF2DB2, #a855f7, #185CE6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  /* Gradient text: inline (pink → blue, sin via) */
+  .text-gradient-inline {
+    background: linear-gradient(to bottom right, #DF2DB2, #185CE6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  /* Gradient text: brand + purple via */
+  .text-gradient-brand-section {
+    background: linear-gradient(to bottom right, #e71fb3, #a855f7, #1864ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
   /* Surface colors via CSS vars */
   .bg-surface          { background-color: var(--bg); }
   .bg-surface-raised   { background-color: var(--bg-raised); }
