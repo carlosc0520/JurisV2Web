@@ -398,15 +398,18 @@
                 </div>
                 <div class="result-field">
                   <span class="result-label">Tipo de Recurso:</span>
-                  <span class="result-value">{{ item.RECURSO?.length ? item.RECURSO.map(o => o.DESCP).join(', ') : '-' }}</span>
+                  <span class="result-value"
+                    v-html="item.RECURSO?.length ? highlightText(item.RECURSO.map(o => o.DESCP).join(', ')) : '-'"></span>
                 </div>
                 <div class="result-field">
                   <span class="result-label">Órgano Jurisdiccional:</span>
-                  <span class="result-value">{{ item.OJURISDICCIONAL?.length ? item.OJURISDICCIONAL.map(o => o.DESCP).join(', ') : '-' }}</span>
+                  <span class="result-value"
+                    v-html="item.OJURISDICCIONAL?.length ? highlightText(item.OJURISDICCIONAL.map(o => o.DESCP).join(', ')) : '-'"></span>
                 </div>
                 <div class="result-field" v-if="item.MAGISTRATES?.length">
                   <span class="result-label">Magistrado(s):</span>
-                  <span class="result-value">{{ item.MAGISTRATES.map(m => m.LABEL || m.DESCP || '').filter(Boolean).join(', ') }}</span>
+                  <span class="result-value"
+                    v-html="highlightText(item.MAGISTRATES.map(m => m.LABEL || m.DESCP || '').filter(Boolean).join(', '))"></span>
                 </div>
                 <div class="result-field">
                   <span class="result-label">Caso Emblemático:</span>
@@ -446,7 +449,8 @@
                 </div>
                 <div class="result-field">
                   <span class="result-label">Órgano Emisor:</span>
-                  <span class="result-value">{{ item.OEMISOR?.length ? item.OEMISOR.map(o => o.DESCP).join(', ') : '-' }}</span>
+                  <span class="result-value"
+                    v-html="item.OEMISOR?.length ? highlightText(item.OEMISOR.map(o => o.DESCP).join(', ')) : '-'"></span>
                 </div>
                 <div class="result-field">
                   <span class="result-label">Estado:</span>
@@ -838,12 +842,27 @@ export default {
                 })
                 .catch(() => callback([]));
         },
+        // Convierte una palabra/frase (con o sin tildes) en un patrón regex que
+        // matchea sin importar tildes de ningún lado: "martin" encuentra "Martín"
+        // y viceversa. Ya incluye el escape de caracteres especiales de regex.
+        accentInsensitivePattern(str) {
+            const ACCENTS = { a: 'aàáâä', e: 'eèéêë', i: 'iìíîï', o: 'oòóôö', u: 'uùúûü', n: 'nñ', c: 'cç' };
+            const stripped = str.normalize('NFD').replace(/[̀-ͯ]/g, '');
+            return stripped.split('').map(ch => {
+                const lower = ch.toLowerCase();
+                if (ACCENTS[lower]) {
+                    const variants = ACCENTS[lower];
+                    return `[${variants}${variants.toUpperCase()}]`;
+                }
+                return ch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            }).join('');
+        },
         highlightGlobal(text) {
             if (!text || !this.filter.GLOBAL) return text;
             const searchText = typeof this.filter.GLOBAL === 'object' ? this.filter.GLOBAL.value : this.filter.GLOBAL;
             if (!searchText || searchText.trim() === '') return text;
-            const escapedSearch = searchText.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            return text.replace(new RegExp(`(${escapedSearch})`, 'gi'), '<strong class="highlight-denominacion">$1</strong>');
+            const pattern = this.accentInsensitivePattern(searchText.trim());
+            return text.replace(new RegExp(`(${pattern})`, 'gi'), '<strong class="highlight-denominacion">$1</strong>');
         },
         searchDenominacionOficial(query, callback) {
             if (!query || query.length < 3) { callback([]); return; }
@@ -861,8 +880,8 @@ export default {
             if (!text || !this.filter.RTITLE) return text;
             const searchText = typeof this.filter.RTITLE === 'object' ? this.filter.RTITLE.value : this.filter.RTITLE;
             if (!searchText || searchText.trim() === '') return text;
-            const escapedSearch = searchText.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            return text.replace(new RegExp(`(${escapedSearch})`, 'gi'), '<strong class="highlight-denominacion">$1</strong>');
+            const pattern = this.accentInsensitivePattern(searchText.trim());
+            return text.replace(new RegExp(`(${pattern})`, 'gi'), '<strong class="highlight-denominacion">$1</strong>');
         },
         searchPalabrasClaves(query, callback) {
             if (!query || query.length < 3) { callback([]); return; }
@@ -890,8 +909,8 @@ export default {
             if (!text || !this.filter.KEYWORDS) return text;
             const searchText = typeof this.filter.KEYWORDS === 'object' ? this.filter.KEYWORDS.value : this.filter.KEYWORDS;
             if (!searchText || searchText.trim() === '') return text;
-            const escapedSearch = searchText.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            return text.replace(new RegExp(`(${escapedSearch})`, 'gi'), '<strong class="highlight-denominacion">$1</strong>');
+            const pattern = this.accentInsensitivePattern(searchText.trim());
+            return text.replace(new RegExp(`(${pattern})`, 'gi'), '<strong class="highlight-denominacion">$1</strong>');
         },
         handleSearch(page) {
             let filtro = { INIT: ((page - 1) <= 0 ? 0 : (page - 1)) * this.table.perPage, ROWS: this.table.perPage };
@@ -1142,8 +1161,8 @@ export default {
             if (this.isAiResult && this.aiQuery) {
                 const words = this.aiQuery.trim().split(/\s+/).filter(w => !stopWords.includes(w.toLowerCase()) && w.length > 2);
                 if (!words.length) return text;
-                const escaped = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-                regex = new RegExp(`(${escaped.join('|')})`, 'gi');
+                const patterns = words.map(w => this.accentInsensitivePattern(w));
+                regex = new RegExp(`(${patterns.join('|')})`, 'gi');
                 return text.replace(regex, '<mark class="highlight-text">$1</mark>');
             }
             // Búsqueda normal
@@ -1154,11 +1173,11 @@ export default {
             if (this.modoBusqueda === 1 || this.modoBusqueda === 2) {
                 const filteredWords = searchWords.filter(word => !stopWords.includes(word.toLowerCase()) && word.length > 0);
                 if (filteredWords.length === 0) return text;
-                const escapedWords = filteredWords.map(word => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-                regex = new RegExp(`\\b(${escapedWords.join('|')})\\b`, 'gi');
+                const patterns = filteredWords.map(word => this.accentInsensitivePattern(word));
+                regex = new RegExp(`\\b(${patterns.join('|')})\\b`, 'gi');
             } else if (this.modoBusqueda === 3) {
-                const escapedPhrase = searchText.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                regex = new RegExp(`(${escapedPhrase})`, 'gi');
+                const phrasePattern = this.accentInsensitivePattern(searchText.trim());
+                regex = new RegExp(`(${phrasePattern})`, 'gi');
             }
             return text.replace(regex, '<mark class="highlight-text">$1</mark>');
         },

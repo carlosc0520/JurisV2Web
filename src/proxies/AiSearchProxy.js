@@ -56,6 +56,14 @@ class AiSearchProxy {
     const { data } = await axios.get(`/admin/ai-search/user-monthly/${userId}`);
     return data;
   }
+
+  async getAudit({ page = 1, limit = 20, hasResults, q } = {}) {
+    const params = { page, limit };
+    if (hasResults !== undefined && hasResults !== null) params.hasResults = hasResults;
+    if (q) params.q = q;
+    const { data } = await axios.get("/admin/ai-search/audit", { params });
+    return data;
+  }
 }
 
 export default new AiSearchProxy();

@@ -38,6 +38,7 @@ import Reporte from "@/views/admin/reporte/index.vue";
 import JurisGPT from "@/views/admin/jurisgpt/index.vue";
 import EmailConfig from "@/views/admin/email-config/index.vue";
 import AiPanel from "@/views/admin/ai-panel/index.vue";
+import AiAudit from "@/views/admin/ai-audit/index.vue";
 import Permisos from "@/views/admin/permisos/index.vue";
 
 import UserProxy from "@/proxies/UserProxy";
@@ -328,6 +329,17 @@ const routes = [
         beforeEnter: ifAuthenticatedAdmin,
         component: AiPanel,
         meta: { title: 'Panel IA', subtitle: 'Control de búsqueda semántica por embeddings' },
+      },
+      {
+        path: "/admin/ai-audit",
+        beforeEnter: ifAuthenticatedAdmin,
+        component: AiAudit,
+        meta: { title: 'Auditoría IA', subtitle: 'Qué preguntan los usuarios y qué les respondió la IA' },
+        props: (route) => {
+          return {
+            role: route?.params?.role || [],
+          };
+        }
       },
       {
         path: "/admin/subscripcion",

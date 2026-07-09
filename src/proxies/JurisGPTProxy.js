@@ -25,6 +25,13 @@ class JurisGPTProxy {
         const { data } = await axios.delete(`/admin/jurisgpt/sessions/${sessionId}`);
         return data;
     }
+
+    async getAudit({ page = 1, limit = 20, hasSources } = {}) {
+        const params = { page, limit };
+        if (hasSources !== undefined && hasSources !== null) params.hasSources = hasSources;
+        const { data } = await axios.get('/admin/jurisgpt/audit', { params });
+        return data;
+    }
 }
 
 export default new JurisGPTProxy();

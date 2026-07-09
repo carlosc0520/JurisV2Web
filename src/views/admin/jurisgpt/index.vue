@@ -250,6 +250,18 @@ export default {
         const res = await JurisGPTProxy.chat(chatId, text);
         const data = res?.DATA ?? res;
 
+        // Cuota mensual de IA agotada: mostrar el aviso sin tocar sesiones
+        if (data.hasQuota === false) {
+          this.messages.push({
+            id: Date.now(),
+            rol: "assistant",
+            contenido: data.answer,
+            sources: [],
+          });
+          this.$nextTick(() => this.scrollBottom());
+          return;
+        }
+
         // Si era nueva sesión, actualizar estado con la sesión creada
         if (!chatId) {
           const newSession = { id: data.chatId, titulo: text.slice(0, 60), estado: "A" };
@@ -305,7 +317,8 @@ export default {
       const route = this.role?.IDR === 2
         ? `/usuario/busqueda?id=${entryId}`
         : `/admin/busqueda?id=${entryId}`;
-      this.$router.push(route);
+      const url = this.$router.resolve(route).href;
+      window.open(url, '_blank');
     },
 
     scrollBottom() {

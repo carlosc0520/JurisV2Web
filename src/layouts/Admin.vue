@@ -56,6 +56,7 @@ export default {
         { name: 'Investigación', route: '/admin/investigacion',icon: noticiasIcon },
         { name: 'Correo',        route: '/admin/email-config', icon: emailIcon },
         { name: 'Panel IA',      route: '/admin/ai-panel',     icon: aiIcon },
+        { name: 'Auditoría IA',  route: '/admin/ai-audit',     icon: aiIcon },
         { name: 'JurisGPT',     route: '/admin/jurisgpt',     icon: jurisIcon },
         { name: 'Suscripción',   route: '/admin/subscripcion', icon: subscripcionIcon },
         { name: 'Permisos',      route: '/admin/permisos',     icon: settingsIcon },
