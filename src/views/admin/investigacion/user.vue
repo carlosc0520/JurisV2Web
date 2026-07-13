@@ -155,7 +155,7 @@
     </div>
 
     <!-- Modal detalle -->
-    <BaseModal v-model="modal.open" size="xl" :bodyPadding="'p-0'" @close="modal.open = false">
+    <BaseModal v-model="modal.open" size="2xl" :bodyPadding="'p-0'" @close="modal.open = false">
       <template #header>
         <div class="flex-1 min-w-0">
           <span v-if="modal.item?.categoriaNombre"
@@ -169,65 +169,68 @@
       </template>
 
       <template v-if="modal.item" #default>
-        <!-- Imagen -->
-        <div v-if="modal.item.imagen" class="relative overflow-hidden h-56 bg-gray-100 dark:bg-gray-800">
-          <img :src="`${resourcesUrl}${modal.item.imagen}`"
-            :alt="modal.item.titulo" class="w-full h-full object-cover" />
-        </div>
-
-        <div class="px-6 py-5 space-y-4">
-          <!-- Meta -->
-          <div class="flex flex-wrap gap-4 text-xs text-gray-500 dark:text-gray-400 pb-4 border-b border-gray-100 dark:border-gray-800">
-            <span v-if="modal.item.fechaPublicacion" class="flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-              </svg>
-              {{ formatDate(modal.item.fechaPublicacion) }}
-            </span>
-            <span v-if="modal.item.organoNombre" class="flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-              </svg>
-              {{ modal.item.organoNombre }}
-            </span>
-            <!-- Autores en el modal -->
-            <div v-if="modal.item.autores?.length" class="flex items-center gap-2 w-full">
-              <div class="flex -space-x-2">
-                <template v-for="a in modal.item.autores" :key="a.id">
-                  <img v-if="a.fotografia" :src="a.fotografia"
-                    :title="`${a.nombres} ${a.apellidos}`.trim()"
-                    class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-800 object-cover" />
-                  <span v-else
-                    class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-800 bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-[10px] font-bold text-brand-blue">
-                    {{ a.nombres?.charAt(0) }}
-                  </span>
-                </template>
-              </div>
-              <span class="text-gray-600 dark:text-gray-300">
-                {{ modal.item.autores.map(a => `${a.nombres} ${a.apellidos}`.trim()).join(' · ') }}
-              </span>
-            </div>
+        <div class="md:flex">
+          <!-- Imagen — columna izquierda, tamaño completo -->
+          <div v-if="modal.item.imagen" class="md:w-[42%] flex-shrink-0 bg-gray-100 dark:bg-gray-800">
+            <img :src="`${resourcesUrl}${modal.item.imagen}`"
+              :alt="modal.item.titulo" class="w-full h-56 md:h-full md:max-h-[600px] object-cover" />
           </div>
 
-          <!-- Subtítulo -->
-          <p v-if="modal.item.subtitulo" class="text-gray-600 dark:text-gray-300 font-semibold text-sm leading-relaxed">
-            {{ modal.item.subtitulo }}
-          </p>
+          <!-- Detalle — columna derecha -->
+          <div class="flex-1 min-w-0 px-6 py-5 space-y-4 md:max-h-[600px] md:overflow-y-auto">
+            <!-- Meta -->
+            <div class="flex flex-wrap gap-4 text-xs text-gray-500 dark:text-gray-400 pb-4 border-b border-gray-100 dark:border-gray-800">
+              <span v-if="modal.item.fechaPublicacion" class="flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                {{ formatDate(modal.item.fechaPublicacion) }}
+              </span>
+              <span v-if="modal.item.organoNombre" class="flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                </svg>
+                {{ modal.item.organoNombre }}
+              </span>
+              <!-- Autores en el modal -->
+              <div v-if="modal.item.autores?.length" class="flex items-center gap-2 w-full">
+                <div class="flex -space-x-2">
+                  <template v-for="a in modal.item.autores" :key="a.id">
+                    <img v-if="a.fotografia" :src="a.fotografia"
+                      :title="`${a.nombres} ${a.apellidos}`.trim()"
+                      class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-800 object-cover" />
+                    <span v-else
+                      class="w-6 h-6 rounded-full border-2 border-white dark:border-gray-800 bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-[10px] font-bold text-brand-blue">
+                      {{ a.nombres?.charAt(0) }}
+                    </span>
+                  </template>
+                </div>
+                <span class="text-gray-600 dark:text-gray-300">
+                  {{ modal.item.autores.map(a => `${a.nombres} ${a.apellidos}`.trim()).join(' · ') }}
+                </span>
+              </div>
+            </div>
 
-          <!-- Descripción rich text -->
-          <div v-if="modal.item.descripcion"
-            class="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed text-sm max-h-[340px] overflow-y-auto pr-1"
-            v-html="modal.item.descripcion" />
+            <!-- Subtítulo -->
+            <p v-if="modal.item.subtitulo" class="text-gray-600 dark:text-gray-300 font-semibold text-sm leading-relaxed">
+              {{ modal.item.subtitulo }}
+            </p>
 
-          <!-- Botón documento -->
-          <div v-if="modal.item.archivo" class="pt-3 border-t border-gray-100 dark:border-gray-800">
-            <a :href="`${resourcesUrl}${modal.item.archivo}`" target="_blank"
-              class="btn btn-export btn-sm w-full justify-center">
-              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-              </svg>
-              Descargar documento
-            </a>
+            <!-- Descripción rich text -->
+            <div v-if="modal.item.descripcion"
+              class="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed text-sm"
+              v-html="modal.item.descripcion" />
+
+            <!-- Botón documento -->
+            <div v-if="modal.item.archivo" class="pt-3 border-t border-gray-100 dark:border-gray-800">
+              <a :href="`${resourcesUrl}${modal.item.archivo}`" target="_blank"
+                class="btn btn-export btn-sm w-full justify-center">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                Descargar documento
+              </a>
+            </div>
           </div>
         </div>
       </template>
