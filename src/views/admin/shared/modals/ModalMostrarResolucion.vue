@@ -92,6 +92,7 @@
                         <div v-if="datos.RESUMEN" class="mif resumen-ia-block">
                             <span class="mif-lbl">
                                 Resumen
+                                <!-- Badge "IA" oculto a pedido, dejar para mas adelante:
                                 <span class="ia-badge">
                                     <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" stroke="none">
                                         <path d="M12 2L13.4 8.26L19.5 9L13.4 9.74L12 16L10.6 9.74L4.5 9L10.6 8.26Z"/>
@@ -99,6 +100,7 @@
                                     </svg>
                                     IA
                                 </span>
+                                -->
                             </span>
                             <div class="resumen-body" @click="skipTyping">
                                 <template v-if="!resumenDone">
@@ -219,6 +221,7 @@
                         <div v-if="datos.RESUMEN" class="mif resumen-ia-block">
                             <span class="mif-lbl">
                                 Resumen
+                                <!-- Badge "IA" oculto a pedido, dejar para mas adelante:
                                 <span class="ia-badge">
                                     <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" stroke="none">
                                         <path d="M12 2L13.4 8.26L19.5 9L13.4 9.74L12 16L10.6 9.74L4.5 9L10.6 8.26Z"/>
@@ -226,6 +229,7 @@
                                     </svg>
                                     IA
                                 </span>
+                                -->
                             </span>
                             <div class="resumen-body" @click="skipTyping">
                                 <template v-if="!resumenDone">
@@ -362,7 +366,7 @@ export default {
             normasPage: 1,
             normasPerPage: 5,
             typedResumen: '',
-            resumenDone: false,
+            resumenDone: true, // efecto typewriter desactivado a pedido, ver startTypingResumen()
             typingTimer: null,
         };
     },
@@ -589,7 +593,7 @@ export default {
                     try {
                         await this.print(newVal.ENTRIEFILE);
                         await this.printResumen(newVal);
-                        this.$nextTick(() => this.startTypingResumen());
+                        // this.$nextTick(() => this.startTypingResumen()); // efecto typewriter desactivado a pedido
                     } finally {
                         this.isLoadingNavigation = false;
                     }
@@ -599,8 +603,9 @@ export default {
         },
         activeTab(val) {
             // Al cambiar a cualquier tab, reiniciar typewriter para el nuevo contexto
+            // (efecto typewriter desactivado a pedido)
             if (val === 'tab1' || val === 'tab2') {
-                this.$nextTick(() => this.startTypingResumen());
+                // this.$nextTick(() => this.startTypingResumen());
             }
         },
         show(val) {
@@ -613,14 +618,14 @@ export default {
                 this.activeTab     = 'tab1';
                 if (this.typingTimer) clearTimeout(this.typingTimer);
                 this.typedResumen  = '';
-                this.resumenDone   = false;
+                this.resumenDone   = true; // efecto typewriter desactivado a pedido
             } else {
                 this.pdfLoaded = false;
                 this.print(this.data.ENTRIEFILE);
                 this.printResumen(this.data);
                 this.datos = this.data;
-                // Iniciar typewriter al abrir el modal (tab1 es el default)
-                this.$nextTick(() => this.startTypingResumen());
+                // Iniciar typewriter al abrir el modal (tab1 es el default) — desactivado a pedido
+                // this.$nextTick(() => this.startTypingResumen());
             }
         },
     }
