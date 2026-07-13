@@ -100,10 +100,7 @@
         <!-- Accesos rápidos + Limpiar -->
         <div class="flex items-center gap-2 mt-2.5 px-1 min-h-[28px]">
           <template v-if="topSearch.length > 0">
-            <button class="flex-shrink-0 text-gray-400 hover:text-brand-blue transition-colors" @click="scrollLeft">
-              <svg width="12" height="12" viewBox="0 0 10 16" fill="none"><path d="M8 2L2 8L8 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <div class="flex-1 overflow-x-auto flex gap-1.5 scrollbar-hide" ref="scrollContainer">
+            <div class="flex-1 flex flex-wrap gap-1.5">
               <div v-for="(valor, index) in topSearch" :key="valor.ID + '-' + index"
                 class="top-search-chip-wrapper flex-shrink-0"
                 draggable="true"
@@ -123,9 +120,6 @@
                 </div>
               </div>
             </div>
-            <button class="flex-shrink-0 text-gray-400 hover:text-brand-blue transition-colors" @click="scrollRight">
-              <svg width="12" height="12" viewBox="0 0 10 16" fill="none"><path d="M2 2L8 8L2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
           </template>
         </div>
 
@@ -711,14 +705,6 @@ export default {
         },
     },
     methods: {
-        scrollLeft() {
-            const container = this.$refs.scrollContainer;
-            if (container) container.scrollBy({ left: -300, behavior: 'smooth' });
-        },
-        scrollRight() {
-            const container = this.$refs.scrollContainer;
-            if (container) container.scrollBy({ left: 300, behavior: 'smooth' });
-        },
         scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); },
         handleScroll() {
             const scrollPosition = window.scrollY;
