@@ -14,6 +14,14 @@ class MantenimientoProxy {
         return data;
     }
 
+    async downloadFile(path) {
+        const { data } = await axios.get('/admin/noticias/download-file', {
+            params: { path },
+            responseType: 'blob',
+        });
+        return data;
+    }
+
     async create(model) {
         const { data } = await axios.post(`/admin/noticias/add`, model, {
             headers: {

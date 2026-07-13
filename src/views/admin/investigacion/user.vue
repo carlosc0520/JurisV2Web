@@ -306,11 +306,8 @@ export default {
       if (!item?.archivo || this.downloadingFile) return;
       this.downloadingFile = true;
       try {
-        const url = `${this.resourcesUrl}${item.archivo}`;
-        const res = await fetch(url);
-        if (!res.ok) throw new Error('No se pudo descargar el archivo');
-        const blob = await res.blob();
-        const objectUrl = URL.createObjectURL(blob);
+        const blob = await MantenimientoProxy.downloadFile(item.archivo);
+        const objectUrl = URL.createObjectURL(new Blob([blob]));
         const ext = item.archivo.split('.').pop();
         const a = document.createElement('a');
         a.href = objectUrl;
