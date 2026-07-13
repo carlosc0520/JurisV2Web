@@ -430,6 +430,24 @@
               <input v-model="tagInput" class="tag-input" placeholder="+ Añadir etiqueta" @keyup.enter="addTag"/>
             </div>
           </div>
+
+          <!-- Descargas -->
+          <div v-if="selectedItem.ENTRIEFILE || selectedItem.ENTRIEFILERESUMEN" class="detail-field">
+            <span class="df-label">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Descargas
+            </span>
+            <div class="df-val" style="display:flex; flex-direction:column; gap:6px;">
+              <button v-if="selectedItem.ENTRIEFILE" class="detail-dir-btn" @click="downloadFavFile(selectedItem.ENTRIEFILE, selectedItem.TITULO, 'Documento')">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Descargar documento
+              </button>
+              <button v-if="selectedItem.ENTRIEFILERESUMEN" class="detail-dir-btn" @click="downloadFavFile(selectedItem.ENTRIEFILERESUMEN, selectedItem.TITULO, 'Resumen Ejecutivo')">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Descargar resumen ejecutivo
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- Tab: Notas -->
@@ -641,8 +659,8 @@ export default {
       dirSearch: '',
       panelTabs: [
         { id: 'details',     label: 'Detalles' },
-        { id: 'notas',       label: 'Notas' },
-        { id: 'comentarios', label: 'Comentarios' },
+        // { id: 'notas',       label: 'Notas' },       // oculto a pedido
+        // { id: 'comentarios', label: 'Comentarios' }, // oculto a pedido
       ],
       kanbanCols: [
         { id: 'REVISAR',     label: 'Por Revisar',    shortLabel: 'Revisar',   color: '#6B7280' },
@@ -943,6 +961,23 @@ export default {
       } finally {
         this.kanbanLoading = false;
       }
+    },
+
+    // ── Descargas ──────────────────────────────────────────────
+    async downloadFavFile(path, titulo, sufijo) {
+      await AdminEntriesProxy.downloadFile({ PATH: path || '' })
+        .then(r => {
+          const u = URL.createObjectURL(new Blob([r]));
+          const a = document.createElement('a');
+          a.href = u;
+          const ext = (path || '').split('.').pop();
+          a.setAttribute('download', `${titulo || 'documento'} - ${sufijo}.${ext}`);
+          document.body.appendChild(a);
+          a.click();
+          a.parentNode.removeChild(a);
+          URL.revokeObjectURL(u);
+        })
+        .catch(err => toast.error(err?.MESSAGE || 'Error al obtener el archivo', { toastId: 'error-download' }));
     },
 
     // ── Notes ──────────────────────────────────────────────────
