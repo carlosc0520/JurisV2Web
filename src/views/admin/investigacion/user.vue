@@ -156,18 +156,6 @@
 
     <!-- Modal detalle -->
     <BaseModal v-model="modal.open" size="2xl" :bodyPadding="'p-0'" @close="modal.open = false">
-      <template #header>
-        <div class="flex-1 min-w-0">
-          <span v-if="modal.item?.categoriaNombre"
-            class="inline-block text-brand-blue text-[10px] font-bold uppercase tracking-wide bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded-full mb-1">
-            {{ modal.item.categoriaNombre }}
-          </span>
-          <h4 class="text-[1rem] font-bold text-gray-900 dark:text-gray-100 leading-snug line-clamp-2">
-            {{ modal.item?.titulo }}
-          </h4>
-        </div>
-      </template>
-
       <template v-if="modal.item" #default>
         <div class="md:flex">
           <!-- Imagen — columna izquierda, tamaño completo -->
@@ -178,6 +166,17 @@
 
           <!-- Detalle — columna derecha -->
           <div class="flex-1 min-w-0 px-6 py-5 space-y-4 md:max-h-[600px] md:overflow-y-auto">
+            <!-- Tipo + título -->
+            <div>
+              <span v-if="modal.item.categoriaNombre"
+                class="inline-block text-brand-blue text-[10px] font-bold uppercase tracking-wide bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded-full mb-1.5">
+                {{ modal.item.categoriaNombre }}
+              </span>
+              <h4 class="text-[1.05rem] font-bold text-gray-900 dark:text-gray-100 leading-snug">
+                {{ modal.item.titulo }}
+              </h4>
+            </div>
+
             <!-- Meta -->
             <div class="flex flex-wrap gap-4 text-xs text-gray-500 dark:text-gray-400 pb-4 border-b border-gray-100 dark:border-gray-800">
               <span v-if="modal.item.fechaPublicacion" class="flex items-center gap-1.5">
@@ -223,13 +222,13 @@
 
             <!-- Botón documento -->
             <div v-if="modal.item.archivo" class="pt-3 border-t border-gray-100 dark:border-gray-800">
-              <a :href="`${resourcesUrl}${modal.item.archivo}`" target="_blank"
-                class="btn btn-export btn-sm w-full justify-center">
+              <button type="button" @click="downloadArticleFile(modal.item)" :disabled="downloadingFile"
+                class="btn btn-export btn-sm w-full justify-center disabled:opacity-60 disabled:cursor-wait">
                 <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
-                Descargar documento
-              </a>
+                {{ downloadingFile ? 'Descargando...' : 'Descargar documento' }}
+              </button>
             </div>
           </div>
         </div>
@@ -259,6 +258,7 @@ export default {
       sortOrder: 'desc',
       grid: { currentPage: 1, perPage: 20, totalRows: 0, isLoading: true },
       modal: { open: false, item: null },
+      downloadingFile: false,
     };
   },
   computed: {
@@ -302,6 +302,30 @@ export default {
     },
   },
   methods: {
+    async downloadArticleFile(item) {
+      if (!item?.archivo || this.downloadingFile) return;
+      this.downloadingFile = true;
+      try {
+        const url = `${this.resourcesUrl}${item.archivo}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('No se pudo descargar el archivo');
+        const blob = await res.blob();
+        const objectUrl = URL.createObjectURL(blob);
+        const ext = item.archivo.split('.').pop();
+        const a = document.createElement('a');
+        a.href = objectUrl;
+        a.setAttribute('download', `${item.titulo || 'documento'}.${ext}`);
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(objectUrl);
+      } catch {
+        toast.error('Error al descargar el documento', { toastId: 'error-download-noticia' });
+      } finally {
+        this.downloadingFile = false;
+      }
+    },
+
     async searchNoticias() {
       this.grid.isLoading = true;
       const params = { ROWS: 1000, INIT: 0, CESTDO: 'A' };
