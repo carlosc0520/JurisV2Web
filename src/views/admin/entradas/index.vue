@@ -163,16 +163,16 @@
             </div>
           </div> -->
 
-          <!-- Botón exportar entradas JSON -->
-          <button @click="exportEntradasJson" :disabled="exportJsonLoading"
+          <!-- Botón exportar entradas JSON (oculto a pedido) -->
+          <button v-if="false" @click="exportEntradasJson" :disabled="exportJsonLoading"
             class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-teal-600 hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-xs font-semibold transition-colors shadow-sm">
             <svg v-if="exportJsonLoading" class="animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
             <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             {{ exportJsonLoading ? 'Exportando...' : 'Exportar JSON' }}
           </button>
 
-          <!-- Botón de migración S3 → Hostinger -->
-          <button @click="openMigration"
+          <!-- Botón de migración S3 → Hostinger (oculto a pedido) -->
+          <button v-if="false" @click="openMigration"
             class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-violet-600 hover:bg-violet-700 text-white text-xs font-semibold transition-colors shadow-sm">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
