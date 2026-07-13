@@ -117,7 +117,7 @@ export default {
             this.noticias = response.map((item) => ({
               ...item,
               FCRCN: new Date(item.FCRCN).toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" }),
-              IMAGEN: item.IMAGEN ? `${process.env.VUE_APP_SITE_URL || 'https://jurissearch.com'}${item.IMAGEN}` : null,
+              IMAGEN: item.IMAGEN ? `${process.env.VUE_APP_RESOURCES_URL || 'https://resources.jurissearch.com'}${item.IMAGEN}` : null,
             }));
             this.grid.totalRows = response[0]?.TOTALROWS || 0;
           } else {

@@ -91,6 +91,13 @@ const ifAuthenticatedAdmin = async (to, from, next) => {
                         (response.DATA?.ROLE === "ADMIN" || response.DATA?.ROLE === "SUPERADMIN");
         if (response?.STATUS && isAdmin) {
           to.params.role = response.DATA;
+          if (to.meta?.permission) {
+            const perms = response.DATA?.PERM ?? [];
+            if (!perms.includes(to.meta.permission)) {
+              next("/admin/dashboard");
+              return;
+            }
+          }
           next();
         } else {
           next("/auth/login");
@@ -306,7 +313,7 @@ const routes = [
         path: "/admin/jurisgpt",
         beforeEnter: ifAuthenticatedAdmin,
         component: JurisGPT,
-        meta: { title: 'JurisGPT', subtitle: 'Consulta inteligente sobre jurisprudencia' },
+        meta: { title: 'JurisGPT', subtitle: 'Consulta inteligente sobre jurisprudencia', permission: 'jurisgpt' },
         props: (route) => {
           return {
             role: route?.params?.role || [],
@@ -317,7 +324,7 @@ const routes = [
         path: "/admin/email-config",
         beforeEnter: ifAuthenticatedAdmin,
         component: EmailConfig,
-        meta: { title: 'Configuración de Correo', subtitle: 'Gestiona los parámetros SMTP y los eventos de correo del sistema' },
+        meta: { title: 'Configuración de Correo', subtitle: 'Gestiona los parámetros SMTP y los eventos de correo del sistema', permission: 'email.config' },
         props: (route) => {
           return {
             role: route?.params?.role || [],
@@ -328,13 +335,13 @@ const routes = [
         path: "/admin/ai-panel",
         beforeEnter: ifAuthenticatedAdmin,
         component: AiPanel,
-        meta: { title: 'Panel IA', subtitle: 'Control de búsqueda semántica por embeddings' },
+        meta: { title: 'Panel IA', subtitle: 'Control de búsqueda semántica por embeddings', permission: 'ai.panel' },
       },
       {
         path: "/admin/ai-audit",
         beforeEnter: ifAuthenticatedAdmin,
         component: AiAudit,
-        meta: { title: 'Auditoría IA', subtitle: 'Qué preguntan los usuarios y qué les respondió la IA' },
+        meta: { title: 'Auditoría IA', subtitle: 'Qué preguntan los usuarios y qué les respondió la IA', permission: 'ai.audit' },
         props: (route) => {
           return {
             role: route?.params?.role || [],
@@ -352,7 +359,7 @@ const routes = [
         path: "/admin/permisos",
         beforeEnter: ifAuthenticatedAdmin,
         component: Permisos,
-        meta: { title: 'Permisos', subtitle: 'Control de acceso a módulos por plan y usuario' },
+        meta: { title: 'Permisos', subtitle: 'Control de acceso a módulos por plan y usuario', permission: 'permisos' },
       }
     ],
   },

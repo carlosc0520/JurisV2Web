@@ -89,6 +89,12 @@ import ModalRecursoAgregar from "./modals/ModalRecursoAgregar.vue";
 import MantenimientoProxy from '@/proxies/MantenimientoProxy';
 import filterProxy from '@/proxies/FilterProxy';
 
+const RESOURCES_URL = process.env.VUE_APP_RESOURCES_URL || 'https://resources.jurissearch.com';
+
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+
 export default {
   components: {
     DataTable,
@@ -110,7 +116,13 @@ export default {
       fieldsNoticias: [
         { key: 'RN', label: '#', class: 'w-10 text-gray-400 text-xs' },
         { key: 'DTIPO', label: 'Tipo', width: '15%' },
-        { key: 'TITULO', label: 'Título', width: '30%' },
+        { key: 'TITULO', label: 'Título', width: '30%', html: true, formatter: (_v, _k, item) => {
+            const src = item.IMAGEN ? `${RESOURCES_URL}${item.IMAGEN}` : null;
+            const thumb = src
+              ? `<a href="${src}" target="_blank" title="Ver imagen completa" style="flex-shrink:0"><img src="${src}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:8px;cursor:zoom-in" onerror="this.parentElement.style.display='none'"/></a>`
+              : `<div style="flex-shrink:0;width:40px;height:40px;border-radius:8px;background:var(--bg-sunken,#f1f5f9);display:flex;align-items:center;justify-content:center;color:#cbd5e1;font-size:10px">—</div>`;
+            return `<div style="display:flex;align-items:center;gap:10px">${thumb}<span>${escapeHtml(item.TITULO)}</span></div>`;
+          } },
         { key: 'FCRCN', label: 'Fecha de Creación', sortable: true, class: 'text-center' },
         { key: 'CDESTDO', label: 'Estado', sortable: true, class: 'text-center w-130' },
       ],

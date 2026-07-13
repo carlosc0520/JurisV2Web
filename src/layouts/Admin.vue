@@ -54,19 +54,20 @@ export default {
         { name: 'Mantenimiento', route: '/admin/mantenimiento',icon: mantenimientoIcon },
         { name: 'Favoritos',     route: '/admin/favoritos',    icon: estrellaIcon },
         { name: 'Investigación', route: '/admin/investigacion',icon: noticiasIcon },
-        { name: 'Correo',        route: '/admin/email-config', icon: emailIcon },
-        { name: 'Panel IA',      route: '/admin/ai-panel',     icon: aiIcon },
-        { name: 'Auditoría IA',  route: '/admin/ai-audit',     icon: aiIcon },
-        { name: 'JurisGPT',     route: '/admin/jurisgpt',     icon: jurisIcon },
+        { name: 'Correo',        route: '/admin/email-config', icon: emailIcon,  permission: 'email.config' },
+        { name: 'Panel IA',      route: '/admin/ai-panel',     icon: aiIcon,      permission: 'ai.panel' },
+        { name: 'Auditoría IA',  route: '/admin/ai-audit',     icon: aiIcon,      permission: 'ai.audit' },
+        { name: 'JurisGPT',     route: '/admin/jurisgpt',     icon: jurisIcon,    permission: 'jurisgpt' },
         { name: 'Suscripción',   route: '/admin/subscripcion', icon: subscripcionIcon },
-        { name: 'Permisos',      route: '/admin/permisos',     icon: settingsIcon },
+        { name: 'Permisos',      route: '/admin/permisos',     icon: settingsIcon, permission: 'permisos' },
       ],
     };
   },
 
   computed: {
     menu() {
-      return this.allMenu;
+      const perms = this.role?.PERM ?? [];
+      return this.allMenu.filter(item => !item.permission || perms.includes(item.permission));
     },
   },
   props: {

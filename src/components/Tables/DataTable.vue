@@ -159,18 +159,15 @@
                     <!-- Edit -->
                     <button v-if="actions.edit" :title="actions.edit.label || 'Editar'"
                       @click="actions.edit.action(item)" class="action-btn group">
-                      <span
-                        class="absolute inset-0 rounded-[8px] bg-gradient-to-br from-purple-500 to-brand-blue opacity-0 group-hover:opacity-100 transition-opacity" />
                       <img src="@/assets/img/icons/edit.svg" alt="edit"
-                        class="relative z-10 w-4 h-4 brightness-0 dark:invert group-hover:brightness-0 group-hover:invert" />
+                        class="relative z-10 w-4 h-4 brightness-0 dark:invert transition-transform duration-200 group-hover:scale-125" />
                     </button>
 
                     <!-- Renew plan (solo si el plan expiró) -->
                     <button v-if="actions.renew && isPlanExpired(item)"
                       :title="actions.renew.label || 'Renovar plan'"
                       @click="actions.renew.action(item)" class="action-btn group">
-                      <span class="absolute inset-0 rounded-[8px] bg-gradient-to-br from-emerald-500 to-teal-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <svg class="relative z-10 w-4 h-4 text-slate-500 group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <svg class="relative z-10 w-4 h-4 text-slate-500 transition-transform duration-200 group-hover:scale-125" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
                         <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
                       </svg>
@@ -181,29 +178,23 @@
                       v-if="actions.delete && deleteRole && (item?.PROP === undefined || item.PROP === 1)"
                       :title="actions.delete.label || 'Eliminar'" @click="actions.delete.action(item)"
                       class="action-btn group">
-                      <span
-                        class="absolute inset-0 rounded-[8px] bg-gradient-to-br from-red-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity" />
                       <img src="@/assets/img/icons/delete.svg" alt="delete"
-                        class="relative z-10 w-4 h-4 brightness-0 dark:invert group-hover:brightness-0 group-hover:invert" />
+                        class="relative z-10 w-4 h-4 brightness-0 dark:invert transition-transform duration-200 group-hover:scale-125" />
                     </button>
 
                     <!-- Shared -->
                     <button v-if="actions.shared && (item?.PROP === undefined || item.PROP === 1)"
                       :title="actions.shared.label || 'Compartir'" @click="actions.shared.action(item)"
                       class="action-btn group">
-                      <span
-                        class="absolute inset-0 rounded-[8px] bg-gradient-to-br from-brand-pink to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                       <img src="@/assets/img/icons/shared.svg" alt="compartir"
-                        class="relative z-10 w-4 h-4 brightness-0 dark:invert group-hover:brightness-0 group-hover:invert" />
+                        class="relative z-10 w-4 h-4 brightness-0 dark:invert transition-transform duration-200 group-hover:scale-125" />
                     </button>
 
                     <!-- Users -->
                     <button v-if="actions.users" :title="actions.users.label || 'Usuarios'"
                       @click="actions.users.action(item)" class="action-btn group">
-                      <span
-                        class="absolute inset-0 rounded-[8px] bg-gradient-to-br from-brand-pink to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                       <img src="@/assets/img/icons/usersshared.svg" alt="usuarios"
-                        class="relative z-10 w-4 h-4 brightness-0 dark:invert group-hover:brightness-0 group-hover:invert" />
+                        class="relative z-10 w-4 h-4 brightness-0 dark:invert transition-transform duration-200 group-hover:scale-125" />
                     </button>
 
                     <!-- Update Shared -->
@@ -211,29 +202,23 @@
                       v-if="actions.updateShared && (item?.PROP === undefined || item.PROP === 1)"
                       :title="actions.updateShared.label || 'Actualizar'" @click="actions.updateShared.action(item)"
                       class="action-btn group">
-                      <span
-                        class="absolute inset-0 rounded-[8px] bg-gradient-to-br from-brand-pink to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                       <img src="@/assets/img/icons/settings.svg" alt="actualizar"
-                        class="relative z-10 w-4 h-4 brightness-0 dark:invert group-hover:brightness-0 group-hover:invert" />
+                        class="relative z-10 w-4 h-4 brightness-0 dark:invert transition-transform duration-200 group-hover:scale-125" />
                     </button>
 
                     <!-- View -->
                     <button v-if="actions.view" :title="actions.view.label || 'Ver'"
                       @click="actions.view.action(item)" class="action-btn group">
-                      <span
-                        class="absolute inset-0 rounded-[8px] bg-gradient-to-br from-emerald-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity" />
                       <img src="@/assets/img/icons/eyeView.svg" alt="ver"
-                        class="relative z-10 w-4 h-4 brightness-0 dark:invert group-hover:brightness-0 group-hover:invert" />
+                        class="relative z-10 w-4 h-4 brightness-0 dark:invert transition-transform duration-200 group-hover:scale-125" />
                     </button>
 
                     <!-- Download simple -->
                     <button v-if="actions.download && !actions.download.dropdown"
                       :title="actions.download.label || 'Descargar'" @click="actions.download.action(item)"
                       class="action-btn group">
-                      <span
-                        class="absolute inset-0 rounded-[8px] bg-gradient-to-br from-emerald-500 to-teal-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                       <img src="@/assets/img/icons/download.svg" alt="descargar"
-                        class="relative z-10 w-4 h-4 brightness-0 dark:invert group-hover:brightness-0 group-hover:invert" />
+                        class="relative z-10 w-4 h-4 brightness-0 dark:invert transition-transform duration-200 group-hover:scale-125" />
                     </button>
 
                     <!-- Download dropdown -->
@@ -242,14 +227,12 @@
                         :disabled="actions.download.loadingId === item.ID"
                         @click.stop="actions.download.loadingId !== item.ID && (activeDropdown = activeDropdown === rowKey(item, idx) ? null : rowKey(item, idx))"
                         class="action-btn group disabled:cursor-wait">
-                        <span
-                          class="absolute inset-0 rounded-[8px] bg-gradient-to-br from-emerald-500 to-teal-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                         <svg v-if="actions.download.loadingId === item.ID" class="animate-spin relative z-10 w-4 h-4 text-emerald-600" viewBox="0 0 24 24" fill="none">
                           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
                           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 22 6.477 22 12h-4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
                         </svg>
                         <img v-else src="@/assets/img/icons/download.svg" alt="descargar"
-                          class="relative z-10 w-4 h-4 brightness-0 dark:invert group-hover:brightness-0 group-hover:invert" />
+                          class="relative z-10 w-4 h-4 brightness-0 dark:invert transition-transform duration-200 group-hover:scale-125" />
                       </button>
                       <div v-if="activeDropdown === rowKey(item, idx)"
                         class="absolute right-0 z-50 mt-1 w-44 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-slate-200 dark:border-gray-700 py-1">

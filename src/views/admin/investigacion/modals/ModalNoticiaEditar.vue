@@ -40,7 +40,7 @@
           <input type="file" ref="fileInput" accept="image/*" @change="handleFile" hidden />
         </div>
         <div v-if="modelo.IMAGEN && !file" class="mt-1">
-          <a :href="(process.env.VUE_APP_SITE_URL || 'https://jurissearch.com') + modelo.IMAGEN" target="_blank"
+          <a :href="resourcesUrl + modelo.IMAGEN" target="_blank"
              class="inline-flex items-center gap-1.5 text-[0.8rem] text-indigo-500 no-underline font-medium py-1 px-2.5 border border-indigo-200 rounded-md bg-indigo-50 transition-all hover:bg-indigo-100">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -111,7 +111,7 @@
           <input type="file" ref="pdfInput" accept="application/pdf" @change="handlePdf" hidden />
         </div>
         <div v-if="modelo.ARCHIVO && !pdfFile" class="mt-2">
-          <a :href="(process.env.VUE_APP_SITE_URL || 'https://jurissearch.com') + modelo.ARCHIVO" target="_blank"
+          <a :href="resourcesUrl + modelo.ARCHIVO" target="_blank"
              class="inline-flex items-center gap-1.5 text-[0.8rem] text-indigo-500 no-underline font-medium py-1 px-2.5 border border-indigo-200 rounded-md bg-indigo-50 transition-all hover:bg-indigo-100">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -164,6 +164,14 @@ export default {
         IDAUTORES: [], ORGANO: null, FCHPUB: null, FCHCONSULTA: null, ARCHIVO: null,
       },
     };
+  },
+  computed: {
+    // process.env no es un global permitido dentro del <template> del compilador
+    // de Vue 3 (rompe con "Cannot read properties of undefined (reading 'env')"),
+    // por eso se resuelve aquí y se usa como computed en el template.
+    resourcesUrl() {
+      return process.env.VUE_APP_RESOURCES_URL || 'https://resources.jurissearch.com';
+    },
   },
   validators: {
     'modelo.TIPO':    v => Validator.value(v).required('Campo requerido'),
@@ -268,7 +276,7 @@ export default {
           FCHCONSULTA: (this.data.FCHCONSULTA ?? this.data.fchConsulta ?? this.data.fechaConsulta) ? (this.data.FCHCONSULTA ?? this.data.fchConsulta ?? this.data.fechaConsulta).substring(0, 10) : null,
           ARCHIVO:     this.data.ARCHIVO     ?? this.data.archivo     ?? null,
         };
-        this.preview = this.modelo.IMAGEN ? (`${process.env.VUE_APP_SITE_URL || 'https://jurissearch.com'}/` + this.modelo.IMAGEN) : null;
+        this.preview = this.modelo.IMAGEN ? (`${this.resourcesUrl}/` + this.modelo.IMAGEN) : null;
         this.file = null; this.pdfFile = null; this.pdfFileName = null;
         this.$nextTick(() => { if (this.$refs.fileInput) this.$refs.fileInput.value = null; });
       }

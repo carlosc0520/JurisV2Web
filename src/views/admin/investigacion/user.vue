@@ -62,7 +62,7 @@
           <!-- Imagen -->
           <div class="relative overflow-hidden h-44 bg-gray-100 dark:bg-gray-800 flex-shrink-0">
             <img v-if="noticia.imagen"
-              :src="`${process.env.VUE_APP_SITE_URL || 'https://jurissearch.com'}${noticia.imagen}`"
+              :src="`${resourcesUrl}${noticia.imagen}`"
               :alt="noticia.titulo"
               class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
             <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-100 to-blue-50 dark:from-gray-800 dark:to-gray-700">
@@ -171,7 +171,7 @@
       <template v-if="modal.item" #default>
         <!-- Imagen -->
         <div v-if="modal.item.imagen" class="relative overflow-hidden h-56 bg-gray-100 dark:bg-gray-800">
-          <img :src="`${process.env.VUE_APP_SITE_URL || 'https://jurissearch.com'}${modal.item.imagen}`"
+          <img :src="`${resourcesUrl}${modal.item.imagen}`"
             :alt="modal.item.titulo" class="w-full h-full object-cover" />
         </div>
 
@@ -221,7 +221,7 @@
 
           <!-- Botón documento -->
           <div v-if="modal.item.archivo" class="pt-3 border-t border-gray-100 dark:border-gray-800">
-            <a :href="`${process.env.VUE_APP_SITE_URL || 'https://jurissearch.com'}${modal.item.archivo}`" target="_blank"
+            <a :href="`${resourcesUrl}${modal.item.archivo}`" target="_blank"
               class="btn btn-export btn-sm w-full justify-center">
               <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -259,6 +259,12 @@ export default {
     };
   },
   computed: {
+    // process.env no es un global permitido dentro del <template> del compilador
+    // de Vue 3 (rompe con "Cannot read properties of undefined (reading 'env')"),
+    // por eso se resuelve aquí y se usa como computed en el template.
+    resourcesUrl() {
+      return process.env.VUE_APP_RESOURCES_URL || 'https://resources.jurissearch.com';
+    },
     sortedNoticias() {
       if (!this.dataNoticia?.length) return [];
       return [...this.dataNoticia].sort((a, b) => {

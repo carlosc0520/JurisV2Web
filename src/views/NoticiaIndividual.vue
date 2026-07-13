@@ -96,7 +96,7 @@ export default {
               ...noticiaFind,
               FCRCN: new Date(noticiaFind.FCRCN).toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" }),
               AUTORES: JSON.parse(noticiaFind.AUTORES),
-              IMAGEN: noticiaFind.IMAGEN ? `${process.env.VUE_APP_SITE_URL || 'https://jurissearch.com'}${noticiaFind.IMAGEN}` : null,
+              IMAGEN: noticiaFind.IMAGEN ? `${process.env.VUE_APP_RESOURCES_URL || 'https://resources.jurissearch.com'}${noticiaFind.IMAGEN}` : null,
             };
 
             this.noticia.AUTORES = this.noticia.AUTORES.map((autor) => {
@@ -111,7 +111,7 @@ export default {
                   else if (red.includes("whatsapp")) iconUrl = this.urls.whatsapp;
                   return { red, icon: iconUrl };
                 }),
-                IMAGEN: autor.RUTA ? `${process.env.VUE_APP_SITE_URL || 'https://jurissearch.com'}${autor.RUTA}` : null,
+                IMAGEN: autor.RUTA ? `${process.env.VUE_APP_RESOURCES_URL || 'https://resources.jurissearch.com'}${autor.RUTA}` : null,
               };
               autorFind.REDES = autorFind.REDES.filter((red) => red.red !== "");
               return autorFind;
