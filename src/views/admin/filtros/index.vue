@@ -198,7 +198,7 @@ export default {
       ID = this.IDFILTER || ID;
       this.grid.isLoading = true;
       const nivel = Number(this.active) === 5 ? 6 : Number(this.active) === 6 ? 7 : Number(this.active);
-      await FilterProxy.list({ ROWS: perPage, INIT: (currentPage-1)*perPage, NIVEL: nivel, DESC: this.filter?.NOMBRES||null, CESTDO: this.filter?.CDESTDO||null, ID: ID||null }, this.filter.OPTION, 2)
+      await FilterProxy.list({ ROWS: perPage, INIT: (currentPage-1)*perPage, NIVEL: nivel, DESC: this.filter?.NOMBRES||null, ID: ID||null }, this.filter.OPTION, this.filter?.CDESTDO||null)
         .then(r => {
           const payload = r?.DATA ?? r;
           const rows = Array.isArray(payload) ? payload : (payload?.data ?? []);
