@@ -45,7 +45,7 @@
           </div>
 
           <div class="flex flex-col gap-2">
-            <!-- Opción WhatsApp -->
+            <!-- Opción WhatsApp — deshabilitada a pedido, dejar para mas adelante:
             <button @click="goWhatsApp"
                     class="group flex items-center gap-3 w-full px-4 py-3 rounded-xl border text-left transition-all duration-200
                            bg-[#25D366]/[0.06] hover:bg-[#25D366]/[0.12] border-[#25D366]/25 hover:border-[#25D366]/50">
@@ -62,6 +62,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
               </svg>
             </button>
+            -->
 
             <!-- Opción Mensaje -->
             <button @click="step = 'form'"

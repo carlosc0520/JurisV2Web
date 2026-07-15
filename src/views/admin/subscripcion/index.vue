@@ -294,7 +294,7 @@
               <p class="text-xs text-gray-400 leading-relaxed">Pago vía billetera digital o transferencia bancaria coordinando con un asesor.</p>
             </div>
 
-            <!-- Asesor -->
+            <!-- Asesor — deshabilitado a pedido, dejar para mas adelante:
             <a href="https://wa.me/51949345646?text=Hola%2C%20estoy%20interesado%20en%20adquirir%20un%20plan%20para%20JurisSearch.%20%C2%BFPodr%C3%ADas%20brindarme%20m%C3%A1s%20informaci%C3%B3n%2C%20por%20favor%3F"
               target="_blank"
               class="card p-4 flex items-center gap-3 hover:border-green-200 dark:hover:border-green-700 hover:shadow-md transition-all">
@@ -307,6 +307,7 @@
                 <polyline points="9 18 15 12 9 6"/>
               </svg>
             </a>
+            -->
 
           </div>
 
