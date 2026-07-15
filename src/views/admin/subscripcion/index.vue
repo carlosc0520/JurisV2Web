@@ -294,10 +294,8 @@
               <p class="text-xs text-gray-400 leading-relaxed">Pago vía billetera digital o transferencia bancaria coordinando con un asesor.</p>
             </div>
 
-            <!-- Asesor — deshabilitado a pedido, dejar para mas adelante:
-            <a href="https://wa.me/51949345646?text=Hola%2C%20estoy%20interesado%20en%20adquirir%20un%20plan%20para%20JurisSearch.%20%C2%BFPodr%C3%ADas%20brindarme%20m%C3%A1s%20informaci%C3%B3n%2C%20por%20favor%3F"
-              target="_blank"
-              class="card p-4 flex items-center gap-3 hover:border-green-200 dark:hover:border-green-700 hover:shadow-md transition-all">
+            <!-- Asesor — visible pero sin acción a pedido (no debe llevar a ningún número) -->
+            <div class="card p-4 flex items-center gap-3 cursor-default">
               <img src="@/assets/img/pagos/asesor.png" alt="asesor" class="w-11 h-11 rounded-full object-cover shrink-0"/>
               <div>
                 <p class="text-sm font-semibold text-gray-800 dark:text-gray-200">Hablar con un asesor</p>
@@ -306,8 +304,7 @@
               <svg class="ml-auto text-gray-300 shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="9 18 15 12 9 6"/>
               </svg>
-            </a>
-            -->
+            </div>
 
           </div>
 
