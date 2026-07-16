@@ -173,6 +173,16 @@ class UserProxy {
         const { data } = await axios.post('/admin/user/delete-contact', { ID });
         return data;
     }
+
+    async getPendingContactos() {
+        const { data } = await axios.get('/admin/user/get-pending-contacts');
+        return data;
+    }
+
+    async acceptContacto(ID) {
+        const { data } = await axios.post('/admin/user/accept-contact', { ID });
+        return data;
+    }
    
     async deleteNotificaciones(IDS) {
         const { data } = await axios.post('/admin/user/delete-notificaciones', { IDS });

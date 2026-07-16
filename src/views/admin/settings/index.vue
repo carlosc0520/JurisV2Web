@@ -244,6 +244,51 @@
       <!-- ── Tab: Contactos ── -->
       <div v-if="active === 'contactos'" class="animate-fade-up flex flex-col gap-4">
 
+        <!-- Solicitudes pendientes -->
+        <div v-if="contacto.pendientes.length" class="bg-white dark:bg-gray-900 rounded-2xl shadow-soft border border-gray-100 dark:border-gray-700 px-5 py-4">
+          <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3">
+            Solicitudes de contacto pendientes
+          </h3>
+          <div class="flex flex-col divide-y divide-gray-100 dark:divide-gray-700">
+            <div
+              v-for="item in contacto.pendientes"
+              :key="item.ID"
+              class="flex items-center gap-3 py-3"
+            >
+              <img
+                v-if="item.RTAFTO"
+                :src="item.RTAFTO"
+                class="w-9 h-9 rounded-full object-cover flex-shrink-0"
+              />
+              <div v-else class="w-9 h-9 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-600 dark:text-indigo-300 text-sm font-semibold flex-shrink-0">
+                {{ (item.NOMBRES || '?').charAt(0).toUpperCase() }}
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-800 dark:text-gray-100 truncate">
+                  {{ item.NOMBRES }} {{ item.APELLIDOS }}
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ item.EMAIL }}</p>
+              </div>
+              <div class="flex items-center gap-2 flex-shrink-0">
+                <button
+                  type="button"
+                  class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition-colors"
+                  @click="aceptarSolicitud(item)"
+                >
+                  Aceptar
+                </button>
+                <button
+                  type="button"
+                  class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 transition-colors"
+                  @click="rechazarSolicitud(item)"
+                >
+                  Rechazar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Toolbar: buscador + botón nuevo -->
         <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-soft border border-gray-100 dark:border-gray-700 px-5 py-4 flex items-center gap-3">
           <search-bar
@@ -373,7 +418,7 @@ export default {
             key: 'RTAFTO', label: 'Contacto', html: true,
             formatter: (v, k, item) => {
               const src = (v && v !== 'null') ? v : team2;
-              const dot = item.CDESTDO === 'A' ? 'bg-emerald-400' : 'bg-red-400';
+              const dot = item.ESTADO === 'A' ? 'bg-emerald-400' : 'bg-amber-400';
               return `<div class="flex items-center gap-3">
                 <div class="relative flex-shrink-0">
                   <img src="${src}" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${team2}'"
@@ -401,11 +446,18 @@ export default {
               </div>`;
             },
           },
-          { key: 'CDESTDO', label: 'Estado', class: 'text-center' },
+          {
+            key: 'ESTADO', label: 'Estado', html: true, class: 'text-center',
+            formatter: (v) => v === 'A'
+              ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Aceptado</span>`
+              : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Pendiente</span>`,
+          },
         ],
         actions: {
           delete: { label: 'Eliminar', action: null },
         },
+        pendientes: [],
+        loadingPendientes: false,
       },
     };
   },
@@ -641,13 +693,54 @@ export default {
         .catch(err => toast.error(err?.MESSAGE || 'Error al eliminar contacto'))
         .finally(() => this.isLoading = false);
     },
+    searchPendientes() {
+      this.contacto.loadingPendientes = true;
+      UserProxy.getPendingContactos()
+        .then(data => { this.contacto.pendientes = Array.isArray(data) ? data : []; })
+        .catch(err => { this.contacto.pendientes = []; toast.error(err?.MESSAGE || 'Error al cargar solicitudes pendientes'); })
+        .finally(() => this.contacto.loadingPendientes = false);
+    },
+    async aceptarSolicitud(item) {
+      const r = await this.$swal({ title: 'Aceptar solicitud', text: `¿Aceptar a ${item.NOMBRES} ${item.APELLIDOS} como contacto?`,
+        icon: 'question', showCancelButton: true, confirmButtonColor: '#e71fb3', cancelButtonColor: '#6b7280',
+        cancelButtonText: 'Cancelar', confirmButtonText: 'Sí, aceptar' });
+      if (!r.isConfirmed) return;
+      this.isLoading = true;
+      await UserProxy.acceptContacto(item.ID)
+        .then(res => {
+          if (res.STATUS) { toast.success('Contacto aceptado'); this.searchPendientes(); this.searchContacto(); }
+          else            { toast.error(res.MESSAGE); }
+        })
+        .catch(err => toast.error(err?.MESSAGE || 'Error al aceptar la solicitud'))
+        .finally(() => this.isLoading = false);
+    },
+    async rechazarSolicitud(item) {
+      const r = await this.$swal({ title: 'Rechazar solicitud', text: `¿Rechazar la solicitud de ${item.NOMBRES} ${item.APELLIDOS}?`,
+        icon: 'warning', showCancelButton: true, confirmButtonColor: '#e71fb3', cancelButtonColor: '#6b7280',
+        cancelButtonText: 'Cancelar', confirmButtonText: 'Sí, rechazar' });
+      if (!r.isConfirmed) return;
+      this.isLoading = true;
+      await UserProxy.deleteContacto(item.ID)
+        .then(res => {
+          if (res.STATUS) { toast.success('Solicitud rechazada'); this.searchPendientes(); }
+          else            { toast.error(res.MESSAGE); }
+        })
+        .catch(err => toast.error(err?.MESSAGE || 'Error al rechazar la solicitud'))
+        .finally(() => this.isLoading = false);
+    },
   },
   watch: {
-    active(v) { if (v === 'contactos') this.searchContacto(); },
+    active(v) { if (v === 'contactos') { this.searchContacto(); this.searchPendientes(); } },
   },
   mounted() {
     this.contacto.actions.delete.action = (item) => this.deleteContacto(item);
     this.getUser();
+
+    if (this.$route.query.tab === 'contactos') {
+      this.active = 'contactos';
+      this.searchContacto();
+      this.searchPendientes();
+    }
   },
 };
 </script>
