@@ -469,6 +469,25 @@
                   <span class="result-value result-value--link"
                     v-html="item.TPONRMA?.length ? highlightText(item.TPONRMA.map(o => o.DESCP).join(', ')) : '-'"></span>
                 </div>
+                <div v-if="parseJIDSVIN(item).length" class="result-field result-field--full normas-vin">
+                  <span class="result-label">Normas Vinculadas:</span>
+                  <ul class="normas-vin-list">
+                    <li v-for="norma in normasVinPaged(item, index)" :key="norma.ID">
+                      <a href="#" @click.prevent="navigateToNorma(norma)">{{ norma.TITLE }}</a>
+                    </li>
+                  </ul>
+                  <div v-if="normasVinTotalPages(item) > 1" class="normas-vin-pagination">
+                    <button class="pag-btn" :disabled="(normasVinPage[index] || 1) === 1"
+                      @click="setNormasVinPage(index, (normasVinPage[index] || 1) - 1)">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <span class="normas-vin-page-label">{{ normasVinPage[index] || 1 }} / {{ normasVinTotalPages(item) }}</span>
+                    <button class="pag-btn" :disabled="(normasVinPage[index] || 1) === normasVinTotalPages(item)"
+                      @click="setNormasVinPage(index, (normasVinPage[index] || 1) + 1)">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                  </div>
+                </div>
               </div>
 
             </div>
@@ -656,6 +675,7 @@ export default {
             },
             showCard: false,
             expandedSintesis: {},
+            normasVinPage: {},
             showHelpButton: true,
             items: [],
             Search,
@@ -729,6 +749,32 @@ export default {
         toggleCard() { this.showCard = !this.showCard; },
         toggleSintesis(index) {
             this.expandedSintesis = { ...this.expandedSintesis, [index]: !this.expandedSintesis[index] };
+        },
+        parseJIDSVIN(item) {
+            if (!item.JIDSVIN) return [];
+            try {
+                const parsed = JSON.parse(item.JIDSVIN);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (e) {
+                return [];
+            }
+        },
+        normasVinPaged(item, index) {
+            const perPage = 5;
+            const page = this.normasVinPage[index] || 1;
+            const start = (page - 1) * perPage;
+            return this.parseJIDSVIN(item).slice(start, start + perPage);
+        },
+        normasVinTotalPages(item) {
+            return Math.max(1, Math.ceil(this.parseJIDSVIN(item).length / 5));
+        },
+        setNormasVinPage(index, page) {
+            this.normasVinPage = { ...this.normasVinPage, [index]: page };
+        },
+        navigateToNorma(norma) {
+            const basePath = this.$route.path.includes('/admin/') ? '/admin/busqueda' : '/usuario/busqueda';
+            const route = this.$router.resolve({ path: basePath, query: { id: norma.ID, search: norma.TITLE } });
+            window.open(route.href, '_blank');
         },
         handleCheckChange(data, checked, filterKey, refName) {
             this.$nextTick(() => {
@@ -849,6 +895,11 @@ export default {
             const ACCENTS = { a: 'aàáâä', e: 'eèéêë', i: 'iìíîï', o: 'oòóôö', u: 'uùúûü', n: 'nñ', c: 'cç' };
             const stripped = str.normalize('NFD').replace(/[̀-ͯ]/g, '');
             return stripped.split('').map(ch => {
+                // "N°" (grado, U+00B0) y "Nº" (ordinal, U+00BA) se usan
+                // indistintamente para "número" pero son caracteres distintos:
+                // se tratan como equivalentes para que el resaltado funcione
+                // sin importar cuál haya escrito el usuario o cuál esté guardado.
+                if (ch === '°' || ch === 'º') return '[°º]';
                 const lower = ch.toLowerCase();
                 if (ACCENTS[lower]) {
                     const variants = ACCENTS[lower];
@@ -1559,8 +1610,8 @@ export default {
   animation: card-in .25s ease both;
 }
 .result-card:hover {
-  box-shadow: 0 6px 24px rgba(139,92,246,.14);
-  border-color: rgba(139,92,246,.35);
+  box-shadow: 0 6px 24px rgba(156,163,175,.18);
+  border-color: rgba(156,163,175,.6);
   transform: translateY(-1px);
 }
 .dark .result-card { background: #1a2035; border-color: #2d3748; }
@@ -1636,6 +1687,26 @@ export default {
   font-style: italic;
 }
 .dark .result-sintesis { color: #9CA3AF; }
+
+.normas-vin-list {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.normas-vin-list li { font-size: .6875rem; }
+.normas-vin-list a { color: #185CE6; text-decoration: none; }
+.normas-vin-list a:hover { text-decoration: underline; }
+.normas-vin-pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+.normas-vin-page-label { font-size: .625rem; color: #6B7280; }
+.dark .normas-vin-page-label { color: #9CA3AF; }
 
 @media (max-width: 640px) {
   .result-grid { grid-template-columns: 1fr; }

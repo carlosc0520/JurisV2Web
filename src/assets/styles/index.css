@@ -113,6 +113,20 @@ body {
   box-shadow: var(--focus-ring);
 }
 
+/* ─── Focus global de formularios: siempre gris, nunca fucsia ───
+   Anula cualquier color de foco puntual escrito por componente
+   (ej. focus:border-purple-400, focus:ring-fuchsia-500). Selectores
+   más específicos como .input-error (validación) siguen ganando
+   por tener mayor especificidad (clase) que estos selectores de
+   elemento. */
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #9ca3af !important; /* gray-400 */
+  box-shadow: 0 0 0 2px rgba(156, 163, 175, 0.25) !important; /* gray-400/25 */
+  outline: none !important;
+}
+
 /* ─── Images ─────────────────────────────────────────────── */
 img, svg { display: block; max-width: 100%; }
 
