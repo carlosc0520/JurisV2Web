@@ -98,6 +98,10 @@
                   <circle cx="12" cy="12" r="10"/>
                   <polyline points="9 12 13 16 13 8"/>
                 </template>
+                <template v-else-if="notificacion.TIPO == 4">
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </template>
                 <template v-else>
                   <circle cx="12" cy="12" r="10"/>
                   <line x1="12" y1="16" x2="12" y2="12"/>
@@ -116,15 +120,15 @@
                   </svg>
                   {{ notificacion.FECHA }}
                 </span>
-                <div v-if="notificacion.TIPO == 1 && notificacion.ESTADO == 0" class="flex gap-1.5">
+                <div v-if="notificacion.TIPO == 1 && notificacion.CONTACTO_PENDIENTE" class="flex gap-1.5">
                   <button class="flex items-center justify-center w-[26px] h-[26px] border-0 rounded-[5px] cursor-pointer transition-all bg-emerald-500 text-white hover:bg-emerald-600 active:scale-95"
-                    @click="updateContacto(notificacion)" title="Aceptar">
+                    @click="aceptarSolicitudContacto(notificacion)" title="Aceptar">
                     <svg class="w-[13px] h-[13px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <polyline points="20 6 9 17 4 12"/>
                     </svg>
                   </button>
                   <button class="flex items-center justify-center w-[26px] h-[26px] border-0 rounded-[5px] cursor-pointer transition-all bg-red-500 text-white hover:bg-red-600 active:scale-95"
-                    @click="deleteContacto(notificacion)" title="Eliminar">
+                    @click="rechazarSolicitudContacto(notificacion)" title="Rechazar">
                     <svg class="w-[13px] h-[13px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
                     </svg>
@@ -133,6 +137,14 @@
                 <div v-else-if="notificacion.TIPO == 2" class="flex gap-1.5">
                   <button class="flex items-center justify-center w-[26px] h-[26px] border-0 rounded-[5px] cursor-pointer transition-all bg-emerald-500 text-white hover:bg-emerald-600 active:scale-95"
                     @click="goToNotification(notificacion)" title="Ir a detalle">
+                    <svg class="w-[13px] h-[13px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="7 17 17 7"/><polyline points="7 7 17 7 17 17"/>
+                    </svg>
+                  </button>
+                </div>
+                <div v-else-if="notificacion.TIPO == 4" class="flex gap-1.5">
+                  <button class="flex items-center justify-center w-[26px] h-[26px] border-0 rounded-[5px] cursor-pointer transition-all bg-emerald-500 text-white hover:bg-emerald-600 active:scale-95"
+                    @click="goToFavorito(notificacion)" title="Ver documento">
                     <svg class="w-[13px] h-[13px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <polyline points="7 17 17 7"/><polyline points="7 7 17 7 17 17"/>
                     </svg>
@@ -245,6 +257,18 @@ export default {
       this.closeSidebarNotificaciones();
       this.$router.push(dest);
     },
+    goToFavorito(notificacion) {
+      const src = notificacion.URL_ACCION || '';
+      const match = src.match(/paramsId=(\d+)/);
+      const paramsId = match ? match[1] : null;
+
+      const isUsuario = this.$route?.path?.startsWith('/usuario');
+      const base = isUsuario ? '/usuario/favoritos' : '/admin/favoritos';
+      const dest = paramsId ? `${base}?paramsId=${paramsId}` : base;
+
+      this.closeSidebarNotificaciones();
+      this.$router.push(dest);
+    },
     toggleDropdown(event) {
       event.preventDefault();
       if (this.dropdownPopoverShow) {
@@ -316,31 +340,29 @@ export default {
         })
         .catch((err) => { console.error("Error al obtener notificaciones:", err); this.notificaciones = []; });
     },
-    async deleteContacto(item) {
+    async rechazarSolicitudContacto(item) {
       await UserProxy.deleteContacto(item.ID)
         .then((response) => {
-          const msg = response.STATUS ? "Notificación eliminada." : response.MESSAGE;
           if (response.STATUS) {
-            this.notificaciones = this.notificaciones.filter(n => n.RN !== item.RN);
-            this.totalNotificaciones = this.notificaciones.length;
-            toast.success(msg);
-          } else toast.error(msg);
-        })
-        .catch(() => toast.error("Error al eliminar la notificación."));
-    },
-    async updateContacto(item) {
-      await UserProxy.updateContacto({ ID: item.ID, ESTADO: true })
-        .then((response) => {
-          const msg = response.STATUS ? "Contacto agregado correctamente." : response.MESSAGE;
-          if (response.STATUS) {
-            toast.success(msg);
+            toast.success("Solicitud rechazada.");
             this.notificaciones = this.notificaciones.map(n =>
-              n.ID === item.ID ? { ...n, ESTADO: 1 } : n
+              n.IDNT === item.IDNT ? { ...n, CONTACTO_PENDIENTE: false } : n
             );
-            this.totalNotificaciones = this.notificaciones.filter(n => n.ESTADO === 0).length;
-          } else toast.error(msg);
+          } else toast.error(response.MESSAGE);
         })
-        .catch(() => toast.error("Error al actualizar la notificación."));
+        .catch(() => toast.error("Error al rechazar la solicitud."));
+    },
+    async aceptarSolicitudContacto(item) {
+      await UserProxy.acceptContacto(item.ID)
+        .then((response) => {
+          if (response.STATUS) {
+            toast.success("Contacto aceptado.");
+            this.notificaciones = this.notificaciones.map(n =>
+              n.IDNT === item.IDNT ? { ...n, CONTACTO_PENDIENTE: false } : n
+            );
+          } else toast.error(response.MESSAGE);
+        })
+        .catch(() => toast.error("Error al aceptar la solicitud."));
     },
     async deleteNotificacionDirecto(id) {
       try {
