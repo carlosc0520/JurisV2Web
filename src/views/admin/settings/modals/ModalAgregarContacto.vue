@@ -10,7 +10,7 @@
         <!-- Header -->
         <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
           <h3 class="text-sm font-semibold text-gray-800 dark:text-gray-100 m-0 flex items-center gap-2">
-            <svg class="w-4 h-4 text-purple-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg class="w-4 h-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
               <circle cx="9" cy="7" r="4"/>
               <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
@@ -42,8 +42,8 @@
               style="padding-left:2rem"
               class="w-full h-10 pr-4 text-sm rounded-xl border border-slate-200 dark:border-gray-600
                      bg-white dark:bg-gray-800 text-slate-700 dark:text-gray-200
-                     placeholder-slate-400 focus:outline-none focus:border-purple-400
-                     focus:ring-2 focus:ring-purple-400/15 transition-colors"
+                     placeholder-slate-400 focus:outline-none focus:border-gray-500
+                     focus:ring-2 focus:ring-gray-400/25 transition-colors"
             />
             <button v-if="query" @click="query = ''; results = []"
               class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">
@@ -128,8 +128,14 @@ export default {
   },
 
   computed: {
+    currentUserEmail() {
+      const u = JSON.parse(localStorage.getItem('user')) || {};
+      return (u.EMAIL || '').toLowerCase();
+    },
     filteredResults() {
-      return this.results.filter(r => !this.existingIds.includes(r.ID));
+      return this.results.filter(r =>
+        (r.EMAIL || '').toLowerCase() !== this.currentUserEmail && !this.existingIds.includes(r.ID)
+      );
     },
   },
 

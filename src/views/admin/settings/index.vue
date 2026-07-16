@@ -314,8 +314,17 @@
     <!-- Modal agregar contacto -->
     <modal-agregar-contacto
       v-model="showModalAgregar"
-      :existing-ids="contacto.datos.map(d => d.IDRECEPT)"
+      :existing-ids="contactosExcluidos"
       @added="searchContacto()"
+    />
+
+    <!-- Modal eliminar contacto -->
+    <ModalEliminar
+      message="¿Está seguro de eliminar este contacto?"
+      buttonOk="Sí, eliminar"
+      :action="deleteContacto"
+      :openDelete="modalEliminarContacto.show"
+      :closeHandler="() => modalEliminarContacto.show = false"
     />
 
     <!-- ── Cropper overlay ── -->
@@ -354,6 +363,7 @@ import DataTable from "@/components/Tables/DataTable.vue";
 import SearchBar from "@/components/Common/SearchBar.vue";
 import NewButton from "@/components/Common/NewButton.vue";
 import ModalAgregarContacto from "./modals/ModalAgregarContacto.vue";
+import ModalEliminar from "../shared/ModalEliminar.vue";
 
 export default {
   components: {
@@ -362,6 +372,7 @@ export default {
     SearchBar,
     NewButton,
     ModalAgregarContacto,
+    ModalEliminar,
   },
   data() {
     return {
@@ -374,6 +385,7 @@ export default {
       isLoading: true,
       visualizar: false,
       showModalAgregar: false,
+      modalEliminarContacto: { show: false, data: null },
       active: 'informacionPersonal',
       tabs: [
         { id: 'informacionPersonal', label: 'Información Personal' },
@@ -428,6 +440,7 @@ export default {
                 <div class="min-w-0">
                   <p class="font-semibold text-gray-800 dark:text-gray-100 m-0 leading-tight">${item.DESCP || ''}</p>
                   <span class="text-xs text-gray-400">${(item.EMAIL||'').toLowerCase()}</span>
+                  <span class="block text-[10px] text-gray-400 italic">${item.ROL === 'RECEPTOR' ? 'Te agregó' : 'Agregado'}</span>
                 </div>
               </div>`;
             },
@@ -464,6 +477,14 @@ export default {
   props: {
     UPDATERTAFTO: { type: Function, default: () => {} },
     RTAFTO:       { type: String,   default: null      },
+  },
+  computed: {
+    contactosExcluidos() {
+      return [
+        ...this.contacto.datos.map(d => d.IDRECEPT),
+        ...this.contacto.pendientes.map(p => p.IDEMISOR),
+      ];
+    },
   },
   methods: {
     validate() {
@@ -679,19 +700,17 @@ export default {
         .catch(err => toast.error(err?.MESSAGE || 'Error al agregar contacto'))
         .finally(() => this.isLoading = false);
     },
-    async deleteContacto(item) {
-      const r = await this.$swal({ title: 'Eliminar contacto', text: `¿Eliminar a ${item.NOMBRES} ${item.APELLIDOS}?`,
-        icon: 'warning', showCancelButton: true, confirmButtonColor: '#e71fb3', cancelButtonColor: '#6b7280',
-        cancelButtonText: 'Cancelar', confirmButtonText: 'Sí, eliminar' });
-      if (!r.isConfirmed) return;
-      this.isLoading = true;
-      await UserProxy.deleteContacto(item.ID)
+    async deleteContacto() {
+      if (!this.modalEliminarContacto.data?.ID) return;
+      await UserProxy.deleteContacto(this.modalEliminarContacto.data.ID)
         .then(res => {
-          if (res.STATUS) { toast.success('Contacto eliminado'); this.contacto.search = null; this.contacto.data = null; this.searchContacto(); }
-          else            { toast.error(res.MESSAGE); }
+          if (res.STATUS) {
+            toast.success('Contacto eliminado');
+            this.contacto.search = null; this.contacto.data = null; this.searchContacto();
+            this.modalEliminarContacto.show = false;
+          } else toast.error(res.MESSAGE);
         })
-        .catch(err => toast.error(err?.MESSAGE || 'Error al eliminar contacto'))
-        .finally(() => this.isLoading = false);
+        .catch(err => toast.error(err?.MESSAGE || 'Error al eliminar contacto'));
     },
     searchPendientes() {
       this.contacto.loadingPendientes = true;
@@ -733,7 +752,10 @@ export default {
     active(v) { if (v === 'contactos') { this.searchContacto(); this.searchPendientes(); } },
   },
   mounted() {
-    this.contacto.actions.delete.action = (item) => this.deleteContacto(item);
+    this.contacto.actions.delete.action = (item) => {
+      this.modalEliminarContacto.data = item;
+      this.modalEliminarContacto.show = true;
+    };
     this.getUser();
 
     if (this.$route.query.tab === 'contactos') {
