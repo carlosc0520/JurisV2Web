@@ -175,6 +175,9 @@
               <h4 class="text-[1.05rem] font-bold text-gray-900 dark:text-gray-100 leading-snug">
                 {{ modal.item.titulo }}
               </h4>
+              <p v-if="modal.item.subtitulo" class="text-gray-600 dark:text-gray-300 font-semibold text-sm leading-relaxed mt-1.5">
+                {{ modal.item.subtitulo }}
+              </p>
             </div>
 
             <!-- Meta -->
@@ -209,11 +212,6 @@
                 </span>
               </div>
             </div>
-
-            <!-- Subtítulo -->
-            <p v-if="modal.item.subtitulo" class="text-gray-600 dark:text-gray-300 font-semibold text-sm leading-relaxed">
-              {{ modal.item.subtitulo }}
-            </p>
 
             <!-- Descripción rich text -->
             <div v-if="modal.item.descripcion"

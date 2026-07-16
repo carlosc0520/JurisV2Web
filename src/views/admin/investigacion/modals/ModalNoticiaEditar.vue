@@ -23,9 +23,7 @@
         <BaseInput
           v-model="modelo.SUBTITULO"
           label="Subtítulo"
-          placeholder="Ingrese el subtítulo"
-          required
-          :error="validation.firstError('modelo.SUBTITULO')"
+          placeholder="Ingrese el subtítulo (opcional)"
         />
       </div>
 
@@ -148,7 +146,7 @@ export default {
   data() {
     return {
       isView: {
-        SUBTITULOS:      [8, 10, "8", "10"],
+        SUBTITULOS:      [6, 8, 10, "6", "8", "10"],
         FECHAS_PUB:      [6, 8, 10, 11, "6", "8", "10", "11"],
         FECHAS_CONSULTA: [9, "9"],
         ORGANOS:         [8, "8"],
@@ -177,10 +175,6 @@ export default {
     'modelo.TIPO':    v => Validator.value(v).required('Campo requerido'),
     'modelo.TITULO':  v => Validator.value(v).required('Campo requerido'),
     'modelo.IDAUTORES': v => Validator.value(v).required('Campo requerido'),
-    'modelo.SUBTITULO': function (v) {
-      if (this.isView.SUBTITULOS.includes(this.modelo.TIPO))
-        return Validator.value(v).required('Campo requerido');
-    },
     'modelo.ORGANO': function (v) {
       if (this.isView.ORGANOS.includes(this.modelo.TIPO))
         return Validator.value(v).required('Campo requerido');
