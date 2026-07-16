@@ -57,6 +57,7 @@ import ExportButton   from '@/components/Common/ExportButton.vue'
 import CancelButton   from '@/components/Common/CancelButton.vue'
 import AppTreeSelect    from '@/components/Common/AppTreeSelect.vue'
 import AppAutocomplete from '@/components/Common/AppAutocomplete.vue'
+import AvatarInitials  from '@/components/Common/AvatarInitials.vue'
 
 // ── Legacy Vuex store (páginas existentes que aún usan $store) ─
 import store from './store/index'
@@ -118,6 +119,7 @@ app.component('ExportButton', ExportButton)
 app.component('CancelButton', CancelButton)
 app.component('AppTreeSelect',    AppTreeSelect)
 app.component('AppAutocomplete', AppAutocomplete)
+app.component('AvatarInitials',  AvatarInitials)
 
 // Directives globales
 app.directive('can', vCan)

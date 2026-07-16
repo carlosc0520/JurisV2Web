@@ -1,6 +1,20 @@
 <template>
     <BaseModal v-model="show" title="Compartir documento" size="lg" persistent @close="show = false">
-        <div class="flex flex-col gap-4">
+
+        <!-- Tabs -->
+        <div class="flex gap-1 mb-4 p-1 rounded-xl" style="background:var(--bg-raised)">
+            <button v-for="t in tabs" :key="t.id"
+                class="flex-1 py-2 px-3 rounded-lg text-sm font-semibold transition-all"
+                :style="activeTab === t.id
+                    ? 'background:#fff;color:var(--color-primary);box-shadow:0 1px 4px rgba(0,0,0,.08)'
+                    : 'background:transparent;color:var(--text-muted)'"
+                @click="activeTab = t.id">
+                {{ t.label }}
+            </button>
+        </div>
+
+        <!-- TAB: Compartir (agregar contactos) -->
+        <div v-if="activeTab === 'add'" class="flex flex-col gap-4">
             <!-- Search -->
             <div class="flex flex-wrap gap-2 items-center">
                 <search-bar
@@ -37,8 +51,7 @@
                         @change="onSelectedContactos(contacto, $event.target.checked)"
                         class="rounded flex-shrink-0" style="cursor:pointer;"/>
                     <!-- avatar -->
-                    <img :src="contacto.RTAFTO || 'https://placehold.co/40x40'"
-                        class="w-10 h-10 rounded-full object-cover flex-shrink-0" alt="">
+                    <avatar-initials :src="contacto.RTAFTO" :name="contacto.NOMBRES + ' ' + contacto.APELLIDOS" :size="40"/>
                     <!-- info -->
                     <div class="flex flex-col flex-1 min-w-0">
                         <span class="text-sm font-semibold" style="color:var(--text)">
@@ -64,9 +77,57 @@
             </div>
         </div>
 
+        <!-- TAB: Con acceso (gestionar) -->
+        <div v-else class="flex flex-col gap-3">
+            <div class="flex gap-2">
+                <search-bar class="flex-1" placeholder="Buscar por nombre o email..." @search="q => { searchManage = q; filterManage(); }"/>
+                <search-button @click="filterManage()"/>
+            </div>
+            <div class="flex flex-col gap-2" style="max-height:320px;overflow-y:auto;">
+                <div v-if="loadingManage" class="py-8 flex flex-col items-center gap-2" style="color:var(--text-muted)">
+                    <svg class="animate-spin" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12a9 9 0 11-6.219-8.56" stroke-linecap="round"/>
+                    </svg>
+                    <span class="text-sm">Cargando...</span>
+                </div>
+                <div v-else-if="filteredManage.length === 0" class="py-8 text-center text-sm" style="color:var(--text-muted)">
+                    Nadie tiene acceso a este documento aún
+                </div>
+                <div v-else v-for="(u, i) in filteredManage" :key="i"
+                    class="flex items-center justify-between p-3 rounded-xl border"
+                    style="border-color:var(--border);background:var(--bg-raised)">
+                    <div class="flex items-center gap-3 flex-1 min-w-0">
+                        <avatar-initials :src="u.RTAFTO" :name="u.NOMBRES + ' ' + u.APELLIDOS" :size="36"/>
+                        <div class="flex flex-col min-w-0">
+                            <span class="text-sm font-semibold truncate" style="color:var(--text)">{{ u.NOMBRES + ' ' + u.APELLIDOS }}</span>
+                            <span class="text-xs truncate" style="color:var(--text-muted)">{{ u.EMAIL }}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                        <app-select v-model="u.ISPERM" style="min-width:96px;">
+                            <option value="1">Lector</option>
+                            <option value="2">Editor</option>
+                        </app-select>
+                        <button @click="removeAcceso(u)" title="Quitar acceso"
+                            class="flex items-center justify-center rounded-lg"
+                            style="width:30px;height:30px;background:#FEE2E2;color:#DC2626;border:none;cursor:pointer;flex-shrink:0;"
+                            onmouseover="this.style.background='#FECACA'" onmouseout="this.style.background='#FEE2E2'">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <template #footer>
             <CancelButton @click="show = false"/>
-            <SaveButton @click="submit($event)"/>
+            <!-- Tab Compartir -->
+            <SaveButton v-if="activeTab === 'add'" @click="submit($event)"/>
+            <!-- Tab Con acceso -->
+            <SaveButton v-else-if="filteredManage.length > 0" label="Guardar cambios"
+                @click="submitManage" :loading="savingManage"/>
         </template>
     </BaseModal>
 </template>
@@ -80,9 +141,21 @@ export default {
     data() {
         return {
             show: false,
+            activeTab: 'add',
+            tabs: [
+                { id: 'add',    label: 'Compartir'  },
+                { id: 'manage', label: 'Con acceso' },
+            ],
+            // Tab Compartir
             SEARCH: "",
             contactos: [],
             contactosSelected: [],   // [{ ...contacto, ISPERM: 1|2 }]
+            // Tab Con acceso
+            searchManage: "",
+            usersManage: [],
+            filteredManage: [],
+            loadingManage: false,
+            savingManage: false,
         }
     },
     props: {
@@ -100,6 +173,7 @@ export default {
         }
     },
     methods: {
+        // ── Tab Compartir ──────────────────────────────────────────
         async getContactos() {
             await UserProxy.getContactos({ ESTADO: true, INIT: 0, ROWS: 10, DESC: this.SEARCH, IDFAV: this.data.ID })
                 .then((response) => {
@@ -149,10 +223,12 @@ export default {
                 ENTRADAS: entradas,
                 DESTINATARIOS: destinatarios,
             })
-                .then((response) => {
+                .then(async (response) => {
                     if (response.STATUS) {
-                        this.show = false;
                         toast.success("Documentos compartidos correctamente");
+                        this.contactosSelected = [];
+                        await this.loadManage();
+                        this.activeTab = 'manage';
                     } else {
                         toast.error(response.MESSAGE);
                     }
@@ -160,6 +236,65 @@ export default {
                 .catch(() => {
                     toast.error("Error al compartir los documentos");
                 });
+        },
+
+        // ── Tab Con acceso ─────────────────────────────────────────
+        async loadManage() {
+            if (!this.data?.ID) return;
+            this.loadingManage = true;
+            try {
+                const res = await UserProxy.getContactosSelecteds({ IDFAV: this.data.ID });
+                this.usersManage = res.map(u => ({ ...u, ISPERM: u.ISPERM?.toString() || '1' }));
+                this.filteredManage = [...this.usersManage];
+            } catch {
+                toast.error('Error al cargar usuarios');
+            } finally {
+                this.loadingManage = false;
+            }
+        },
+        filterManage() {
+            const q = this.searchManage.toLowerCase().trim();
+            if (!q) { this.filteredManage = [...this.usersManage]; return; }
+            this.filteredManage = this.usersManage.filter(u => {
+                const name = `${u.NOMBRES} ${u.APELLIDOS}`.toLowerCase();
+                return name.includes(q) || (u.EMAIL || '').toLowerCase().includes(q);
+            });
+        },
+        async removeAcceso(u) {
+            try {
+                const res = await UserProxy.updatePermisosFav({
+                    IDFAV: this.data.ID,
+                    UPDATES: [{ IDUSERD: u.ID, ISPERM: 3 }],
+                });
+                if (res.STATUS) {
+                    this.usersManage = this.usersManage.filter(x => x.ID !== u.ID);
+                    this.filteredManage = this.filteredManage.filter(x => x.ID !== u.ID);
+                    // Recargar lista de contactos disponibles
+                    await this.getContactos();
+                    toast.success('Acceso removido');
+                } else {
+                    toast.error(res.MESSAGE);
+                }
+            } catch {
+                toast.error('Error al remover acceso');
+            }
+        },
+        async submitManage() {
+            this.savingManage = true;
+            try {
+                const updates = this.usersManage.map(u => ({ IDUSERD: u.ID, ISPERM: +u.ISPERM }));
+                const res = await UserProxy.updatePermisosFav({ IDFAV: this.data.ID, UPDATES: updates });
+                if (res.STATUS) {
+                    this.show = false;
+                    toast.success('Permisos actualizados');
+                } else {
+                    toast.error(res.MESSAGE);
+                }
+            } catch {
+                toast.error('Error al actualizar permisos');
+            } finally {
+                this.savingManage = false;
+            }
         },
     },
     watch: {
@@ -169,12 +304,21 @@ export default {
         show(val) {
             if (!val) {
                 this.toggleModal();
+                this.activeTab = 'add';
                 this.SEARCH = "";
                 this.contactos = [];
                 this.contactosSelected = [];
+                this.searchManage = "";
+                this.usersManage = [];
+                this.filteredManage = [];
             } else {
                 this.getContactos();
+                this.loadManage();
             }
+        },
+        activeTab(val) {
+            if (val === 'add' && !this.contactos.length) this.getContactos();
+            if (val === 'manage' && !this.usersManage.length) this.loadManage();
         },
     },
 }

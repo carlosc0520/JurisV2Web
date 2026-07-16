@@ -51,7 +51,7 @@
                     style="border-color:var(--border)"
                     @click="toggleContact(c)">
                     <input type="checkbox" :checked="c.CHECKED" @click.stop @change="toggleContact(c)" class="rounded flex-shrink-0"/>
-                    <img :src="c.RTAFTO || 'https://placehold.co/40x40'" class="w-9 h-9 rounded-full object-cover flex-shrink-0" alt="">
+                    <avatar-initials :src="c.RTAFTO" :name="c.NOMBRES + ' ' + c.APELLIDOS" :size="36"/>
                     <div class="flex flex-col flex-1 min-w-0">
                         <span class="text-sm font-semibold truncate" style="color:var(--text)">{{ c.NOMBRES + ' ' + c.APELLIDOS }}</span>
                         <span class="text-xs truncate" style="color:var(--text-muted)">{{ c.EMAIL }}</span>
@@ -87,7 +87,7 @@
                     class="flex items-center justify-between p-3 rounded-xl border"
                     style="border-color:var(--border);background:var(--bg-raised)">
                     <div class="flex items-center gap-3 flex-1 min-w-0">
-                        <img :src="u.RTAFTO || 'https://placehold.co/40x40'" class="w-9 h-9 rounded-full object-cover flex-shrink-0" alt="">
+                        <avatar-initials :src="u.RTAFTO" :name="u.NOMBRES + ' ' + u.APELLIDOS" :size="36"/>
                         <div class="flex flex-col min-w-0">
                             <span class="text-sm font-semibold truncate" style="color:var(--text)">{{ u.NOMBRES + ' ' + u.APELLIDOS }}</span>
                             <span class="text-xs truncate" style="color:var(--text-muted)">{{ u.EMAIL }}</span>

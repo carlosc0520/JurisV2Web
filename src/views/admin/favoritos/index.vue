@@ -38,7 +38,13 @@
                 <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
               </svg>
               <span class="folder-label">{{ dir.DSCRPCN }}</span>
-              <button class="folder-more-btn" @click.stop="dirContextMenu(dir, $event)" title="Opciones">
+              <span v-if="dir.PROP === 0" class="folder-shared-badge" :title="`Compartida por ${dir.PROPIETARIO || 'otro usuario'}`">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+                </svg>
+              </span>
+              <button v-if="dir.PROP !== 0" class="folder-more-btn" @click.stop="dirContextMenu(dir, $event)" title="Opciones">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
               </button>
             </div>
@@ -563,7 +569,6 @@
               v-model="updateModalDirSearch"
               placeholder="Buscar carpeta..."
               @focus="showDirDropdown = true"
-              @input="filterUpdateDirs"
               @blur="() => setTimeout(() => showDirDropdown = false, 150)"
             />
             <div v-if="showDirDropdown && updateModalFilteredDirs.length"
@@ -731,7 +736,6 @@ export default {
       showUpdateModal: false,
       updateModalItem: null,
       updateModalAllDirs: [],
-      updateModalFilteredDirs: [],
       updateModalSelectedDir: null,
       updateModalDirSearch: '',
       updateModalTitleAlt: '',
@@ -787,6 +791,11 @@ export default {
         };
       });
     },
+    updateModalFilteredDirs() {
+      const q = (this.updateModalDirSearch || '').toLowerCase().trim();
+      if (!q) return this.updateModalAllDirs;
+      return this.updateModalAllDirs.filter(d => d.DSCRPCN?.toLowerCase().includes(q));
+    },
     totalPages() {
       return Math.ceil(this.pagination.total / this.pagination.perPage);
     },
@@ -815,7 +824,7 @@ export default {
       this.filter.shared = mode === 'shared' ? 'C' : 'T';
       this.pagination.page = 1;
       this.selectedItem = null;
-      this.loadDocuments();
+      return this.loadDocuments();
     },
 
     selectDirectorio(dir) {
@@ -1208,20 +1217,11 @@ export default {
       const cur = dirs.find(d => d.ID == item.IDDIRECTORIO);
       this.updateModalItem = item;
       this.updateModalAllDirs = dirs;
-      this.updateModalFilteredDirs = dirs;
       this.updateModalSelectedDir = item.IDDIRECTORIO || null;
       this.updateModalDirSearch = cur ? cur.DSCRPCN : '';
       this.updateModalTitleAlt = item.TITLEALT || '';
       this.showDirDropdown = false;
       this.showUpdateModal = true;
-    },
-
-    filterUpdateDirs() {
-      const q = (this.updateModalDirSearch || '').toLowerCase();
-      this.updateModalFilteredDirs = this.updateModalAllDirs.filter(d =>
-        d.DSCRPCN?.toLowerCase().includes(q)
-      );
-      this.showDirDropdown = true;
     },
 
     selectUpdateDir(d) {
@@ -1231,6 +1231,11 @@ export default {
     },
 
     async submitUpdate() {
+      const q = (this.updateModalDirSearch || '').trim();
+      if (q && !this.updateModalSelectedDir) {
+        toast.error('Selecciona una carpeta de la lista, o deja el campo vacío para "Sin carpeta"');
+        return;
+      }
       this.updatingDoc = true;
       try {
         await UserProxy.saveAddDirectory({
@@ -1302,10 +1307,27 @@ export default {
     openModal(val) {
       if (!val) this.loadingViewId = null;
     },
+    updateModalDirSearch(val) {
+      // Si el texto ya no coincide con la carpeta seleccionada, se invalida
+      // la seleccion para no guardar una carpeta distinta a la que se ve.
+      if (!this.updateModalSelectedDir) return;
+      const selected = this.updateModalAllDirs.find(d => d.ID === this.updateModalSelectedDir);
+      if (!selected || selected.DSCRPCN !== val) {
+        this.updateModalSelectedDir = null;
+      }
+    },
   },
 
   mounted() {
-    this.loadDocuments();
+    const paramsId = this.$route.query.paramsId;
+    if (paramsId) {
+      this.setNav('shared').then(() => {
+        const doc = this.documents.find(d => String(d.ID) === String(paramsId));
+        if (doc) this.openViewModal(doc);
+      });
+    } else {
+      this.loadDocuments();
+    }
     this.loadDirectorios();
     this.loadCasos();
   },
@@ -1445,6 +1467,12 @@ export default {
 .folder-item.active .folder-icon-svg { color: #185CE6; }
 
 .folder-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.folder-shared-badge {
+  width: 16px; height: 16px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: #9333ea; cursor: help;
+}
 
 .folder-more-btn {
   width: 18px; height: 18px; border: none; background: none;
