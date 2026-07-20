@@ -302,7 +302,7 @@ const routes = [
         path: "/admin/investigacion",
         beforeEnter: ifAuthenticatedAdmin,
         component: Noticias,
-        meta: { title: 'Investigación', subtitle: 'Gestión de noticias, autores, categorías y recursos' },
+        meta: { title: 'Investigación', subtitle: 'Gestión de investigaciones, autores, categorías y recursos' },
         props: (route) => {
           return {
             role: route?.params?.role || [],

@@ -56,7 +56,12 @@
         <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Documentos</p>
       </div>
 
-      <div class="flex flex-col gap-1.5">
+      <label class="flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-gray-400 cursor-pointer w-fit">
+        <input type="checkbox" v-model="modelo.REQUIERE_ENLACE_EXTERNO" class="rounded"/>
+        No se puede adjuntar el documento (remitir a fuente oficial)
+      </label>
+
+      <div v-if="!modelo.REQUIERE_ENLACE_EXTERNO" class="flex flex-col gap-1.5">
         <label class="text-xs font-semibold text-slate-600 dark:text-gray-400">Documento Principal <span class="text-red-500">*</span></label>
         <input class="custom-input" :class="{ error: validation.hasError('modelo.ENTRIEFILE') }" type="file" accept=".pdf"
           @change="modelo.ENTRIEFILE = $event.target.files[0]">
@@ -83,6 +88,26 @@
             {{ extractTokens.toLocaleString() }} tokens usados
           </span>
         </div>
+      </div>
+
+      <div v-else class="flex flex-col gap-1.5">
+        <label class="text-xs font-semibold text-slate-600 dark:text-gray-400">Enlace a fuente oficial <span class="text-red-500">*</span></label>
+        <BaseInput
+          v-model="modelo.ENLACE_OFICIAL"
+          placeholder="https://..."
+          :error="validation.hasError('modelo.ENLACE_OFICIAL') ? validation.firstError('modelo.ENLACE_OFICIAL') : undefined">
+          <template v-if="modelo.ENLACE_OFICIAL" #append>
+            <button type="button" title="Abrir enlace" tabindex="-1"
+              class="pointer-events-auto text-slate-400 hover:text-brand-blue transition-colors"
+              @click="openEnlaceOficial">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+            </button>
+          </template>
+        </BaseInput>
       </div>
 
       <div class="flex flex-col gap-1.5">
@@ -122,6 +147,14 @@
       <BaseRichInput label="Fundamentos jurídicos relevantes" required v-model="modelo.RESUMEN"
         :error="validation.hasError('modelo.RESUMEN') ? validation.firstError('modelo.RESUMEN') : undefined"/>
 
+      <div class="flex flex-col gap-1.5">
+        <label class="flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-gray-400 cursor-pointer w-fit">
+          <input type="checkbox" v-model="modelo.MOSTRAR_DISCLAIMER" class="rounded"/>
+          Mostrar disclaimer en el resumen ejecutivo
+        </label>
+        <BaseRichInput v-if="modelo.MOSTRAR_DISCLAIMER" label="Texto del disclaimer" v-model="modelo.DISCLAIMER_TEXTO"/>
+      </div>
+
       <div class="flex gap-2 pt-2 border-t border-slate-200 dark:border-gray-700">
         <button type="button" class="btn btn-sm text-xs" @click="localStorageSave">Guardar borrador</button>
         <button type="button" class="btn btn-sm text-xs" @click="UpdateLocaleStorage">Cargar borrador</button>
@@ -140,6 +173,8 @@ import { Validator } from 'simple-vue-validator';
 import { toast } from 'vue3-toastify';
 import adminEntriesProxy from "@/proxies/AdminEntriesProxy.js";
 import AiSearchProxy from "@/proxies/AiSearchProxy.js";
+
+const DEFAULT_DISCLAIMER = 'Resumen elaborado por Juris Search, basado en la resolución judicial del Centro de Documentación Judicial (CENDOJ), de fecha [dd/mm/aaaa]. La última actualización del documento es de fecha [dd/mm/aaaa]';
 
 export default {
   props: {
@@ -167,6 +202,8 @@ export default {
         SHORTSUMMARY: null, RESUMEN: null,
         RECURSO: [], DELITO: [], MATERIA: [],
         JURISDICCION: [], JURISDICCIONV: [], IDSVIN: [],
+        MOSTRAR_DISCLAIMER: false, DISCLAIMER_TEXTO: DEFAULT_DISCLAIMER,
+        REQUIERE_ENLACE_EXTERNO: false, ENLACE_OFICIAL: null,
       },
     };
   },
@@ -177,7 +214,13 @@ export default {
     'modelo.OJURISDICCIONAL':v => Validator.value(v).required("Campo requerido").regex(/[^[]/, "Campo requerido"),
     'modelo.JURISDICCION':   v => Validator.value(v).required("Campo requerido").regex(/[^[]/, "Campo requerido"),
     'modelo.MAGISTRATES':    v => Validator.value(v).required("Campo requerido").regex(/[^[]/, "Campo requerido"),
-    'modelo.ENTRIEFILE':     v => Validator.value(v).required("Campo requerido"),
+    'modelo.ENTRIEFILE': function (v) {
+      if (!this.modelo.REQUIERE_ENLACE_EXTERNO) return Validator.value(v).required("Campo requerido");
+    },
+    'modelo.ENLACE_OFICIAL': function (v) {
+      if (this.modelo.REQUIERE_ENLACE_EXTERNO)
+        return Validator.value(v).required("Campo requerido").regex(/^https?:\/\/[^\s]+\.[^\s]+/i, "Ingrese un enlace válido (https://...)");
+    },
     'modelo.KEYWORDS':       v => Validator.value(v).required("Campo requerido").regex(/[^[]/, "Campo requerido"),
     'modelo.TEMA':           v => Validator.value(v).required("Campo requerido"),
     'modelo.SUBTEMA':        v => Validator.value(v).required("Campo requerido"),
@@ -251,6 +294,10 @@ export default {
     },
 
     handleClose() { this.close(); },
+    openEnlaceOficial() {
+      if (!this.modelo.ENLACE_OFICIAL) return;
+      window.open(this.modelo.ENLACE_OFICIAL, '_blank', 'noopener');
+    },
     localStorageSave() { localStorage.setItem("commonEntrie", JSON.stringify(this.modelo)); },
     UpdateLocaleStorage() {
       const data = JSON.parse(localStorage.getItem("commonEntrie"));
@@ -262,8 +309,8 @@ export default {
       if (!validate) return;
 
       const formData = new FormData();
-      formData.append("files", this.modelo.ENTRIEFILE);
-      formData.append("files", this.modelo.ENTRIEFILERESUMEN);
+      if (this.modelo.ENTRIEFILE) formData.append("files", this.modelo.ENTRIEFILE);
+      if (this.modelo.ENTRIEFILERESUMEN) formData.append("files", this.modelo.ENTRIEFILERESUMEN);
       formData.append("TITLE", this.modelo.TITLE);
       formData.append("RTITLE", this.modelo.RTITLE);
       formData.append("ISBINDING", this.modelo.ISBINDING);
@@ -286,6 +333,10 @@ export default {
       formData.append("JURISDICCION", this.modelo.JURISDICCION.join(","));
       formData.append("JURISDICCIONV", this.modelo.JURISDICCIONV.join(","));
       formData.append("IDSVIN", Array.isArray(this.modelo.IDSVIN) ? this.modelo.IDSVIN.join(",") : "");
+      formData.append("MOSTRAR_DISCLAIMER", this.modelo.MOSTRAR_DISCLAIMER);
+      formData.append("DISCLAIMER_TEXTO", this.modelo.MOSTRAR_DISCLAIMER ? (this.modelo.DISCLAIMER_TEXTO || '') : '');
+      formData.append("REQUIERE_ENLACE_EXTERNO", this.modelo.REQUIERE_ENLACE_EXTERNO);
+      formData.append("ENLACE_OFICIAL", this.modelo.REQUIERE_ENLACE_EXTERNO ? (this.modelo.ENLACE_OFICIAL || '') : '');
 
       this.loadingSubmit = true;
       const loadingToast = toast.loading("Espere un momento...");
@@ -312,6 +363,8 @@ export default {
         SHORTSUMMARY: null, RESUMEN: null,
         RECURSO: [], DELITO: [], MATERIA: [],
         JURISDICCION: [], JURISDICCIONV: [], IDSVIN: [],
+        MOSTRAR_DISCLAIMER: false, DISCLAIMER_TEXTO: DEFAULT_DISCLAIMER,
+        REQUIERE_ENLACE_EXTERNO: false, ENLACE_OFICIAL: null,
       };
       document.querySelectorAll("input[type='file']").forEach(i => i.value = "");
       this.searchQueryNormas = '';

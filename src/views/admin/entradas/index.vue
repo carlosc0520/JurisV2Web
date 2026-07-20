@@ -769,7 +769,9 @@ export default {
             KEYWORDS: r.KEYWORDS?.replace(/\s*,/g,', '), TEMA: r.TEMA, SUBTEMA: r.SUBTEMA,
             SHORTSUMMARY: r.SHORTSUMMARY, RESUMEN: r.RESUMEN, NENTRIEFILERESUMEN: null, NENTRIEFILE: null,
             DELITO: clean('DELITO'), RECURSO: clean('RECURSO'), MATERIA: clean('MATERIA'),
-            JURISDICCION: clean('JURISDICCION'), FRESOLUTIONSTRING: r.FRESOLUTIONSTRING };
+            JURISDICCION: clean('JURISDICCION'), FRESOLUTIONSTRING: r.FRESOLUTIONSTRING,
+            MOSTRAR_DISCLAIMER: r.MOSTRAR_DISCLAIMER, DISCLAIMER_TEXTO: r.DISCLAIMER_TEXTO,
+            REQUIERE_ENLACE_EXTERNO: r.REQUIERE_ENLACE_EXTERNO, ENLACE_OFICIAL: r.ENLACE_OFICIAL };
         })
         .catch(err => { data = {}; toast.error(err?.MESSAGE||'Error al obtener los datos', { toastId: 'error-entries' }); });
       return data;
@@ -795,7 +797,9 @@ export default {
           TPONRMA: parseArr(r?.TPONRMA), NMRCN: r.NMRCN, OEMISOR: parseArr(r?.OEMISOR),
           MATERIA: parseArr(r.MATERIA), JURISDICCION: parseArr(r?.JURISDICCION),
           JURISDICCIONV: parseArr(r?.JURISDICCIONV),
-          SITUACION: r.SITUACION, JIDSVIN: r.JIDSVIN, IDSVIN: r.IDSVIN
+          SITUACION: r.SITUACION, JIDSVIN: r.JIDSVIN, IDSVIN: r.IDSVIN,
+          MOSTRAR_DISCLAIMER: !!r.MOSTRAR_DISCLAIMER, DISCLAIMER_TEXTO: r.DISCLAIMER_TEXTO,
+          REQUIERE_ENLACE_EXTERNO: !!r.REQUIERE_ENLACE_EXTERNO, ENLACE_OFICIAL: r.ENLACE_OFICIAL,
         };
       } catch (err) {
         toast.error(err?.MESSAGE || 'Error al obtener los datos', { toastId: 'error-entries' });

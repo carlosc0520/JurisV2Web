@@ -78,15 +78,23 @@ class createPDFHelper {
             layout: 'noBorders'
           },
           {
-            width: 'auto',
-            stack: [
+            columns: [
+              { width: '*', text: '' },
               {
-                image: recursos.botonDescargarResolucion,
-                width: 120,
-                link: `${process.env.VUE_APP_API_URL || 'https://api.jurissearch.com'}/login/download-file?ID=` + data?.ID,
-                alignment: 'center',
-                margin: [0, 10, 0, 10]
+                width: 'auto',
+                stack: [
+                  data?.REQUIERE_ENLACE_EXTERNO && data?.ENLACE_OFICIAL
+                    ? this.consultarResolucionButton(data.ENLACE_OFICIAL)
+                    : {
+                        image: recursos.botonDescargarResolucion,
+                        width: 120,
+                        link: `${process.env.VUE_APP_API_URL || 'https://api.jurissearch.com'}/login/download-file?ID=` + data?.ID,
+                        alignment: 'center',
+                        margin: [0, 10, 0, 10]
+                      },
+                ],
               },
+              { width: '*', text: '' },
             ],
           },
           {
@@ -273,8 +281,8 @@ class createPDFHelper {
                 ],
               ],
             },
-          }
-
+          },
+          ...(data?.MOSTRAR_DISCLAIMER && data?.DISCLAIMER_TEXTO ? [this.disclaimerBlock(data.DISCLAIMER_TEXTO)] : []),
         ],
         styles: {
           FontFace: 'Calibri',
@@ -359,6 +367,57 @@ class createPDFHelper {
       console.log(error)
       toast.error(error?.MESSAGE || 'Error al obtener el archivo', { toastId: 'error-export' });
     }
+  }
+
+  // Advertencia/disclaimer justo despues de la tabla de contenido. Sin
+  // borde/cursiva/comillas, 80% de ancho centrado (columnas 10%-80%-10%).
+  // unbreakable evita que pdfMake lo corte entre dos paginas: si no entra
+  // en el espacio restante de la pagina actual, lo mueve entero a la
+  // siguiente.
+  disclaimerBlock(texto) {
+    let clean = this.decodeHtmlEntities(texto);
+    if (Array.isArray(clean)) clean = clean.join(' ');
+    return {
+      columns: [
+        { width: '10%', text: '' },
+        {
+          width: '80%',
+          text: [
+            { text: 'Advertencia: ', bold: true },
+            { text: clean },
+          ],
+          fontSize: 9,
+          alignment: 'justify',
+        },
+        { width: '10%', text: '' },
+      ],
+      margin: [0, 15, 0, 0],
+      unbreakable: true,
+    };
+  }
+
+  // Botón "Consultar Resolución" para entradas con REQUIERE_ENLACE_EXTERNO:
+  // no hay archivo que descargar, así que en vez de la imagen de
+  // botonDescargarResolucion se dibuja un botón sólido que enlaza a la
+  // fuente oficial (ENLACE_OFICIAL).
+  consultarResolucionButton(enlace) {
+    const w = 160;
+    const h = 26;
+    return {
+      stack: [
+        { canvas: [{ type: 'rect', x: 0, y: 0, w, h, r: h / 2, color: '#FF8AD8' }] },
+        {
+          text: 'CONSULTAR RESOLUCIÓN',
+          bold: true,
+          color: '#fff',
+          fontSize: 9,
+          alignment: 'center',
+          relativePosition: { x: 0, y: -(h / 2 + 6) },
+        },
+      ],
+      link: enlace,
+      margin: [0, 10, 0, 10],
+    };
   }
 
   renderContent(content, fontSize, margin) {

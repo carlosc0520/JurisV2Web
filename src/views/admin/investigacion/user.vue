@@ -3,6 +3,7 @@
 
     <PageHeader title="Investigación" subtitle="Descubre las últimas actualizaciones, análisis y noticias del mundo jurídico" />
 
+    <template v-if="activePanel === 'explorar'">
     <div class="max-w-6xl mx-auto px-4 pt-2">
 
       <!-- Filtros -->
@@ -23,6 +24,10 @@
           </app-select>
           <button v-if="filter.NOMBRES || filter.TIPO" @click="resetFilters" class="btn btn-secondary btn-sm">
             Limpiar filtros
+          </button>
+          <button class="btn btn-secondary btn-sm inline-flex items-center gap-1.5" @click="activePanel = 'miespacio'">
+            <span>Ir a Mi espacio</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </div>
       </SectionCard>
@@ -75,6 +80,16 @@
               class="absolute top-3 left-3 bg-white/95 dark:bg-gray-900/90 text-brand-blue text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full shadow-sm border border-blue-100 dark:border-blue-900">
               {{ noticia.categoriaNombre }}
             </span>
+            <!-- Guardar en mi espacio -->
+            <button type="button"
+              class="absolute bottom-3 right-3 bg-white/95 dark:bg-gray-900/90 p-1.5 rounded-full shadow-sm transition-colors"
+              :class="savedIds.has(noticia.id) ? 'text-brand-pink' : 'text-gray-400 hover:text-brand-blue'"
+              :title="savedIds.has(noticia.id) ? 'Quitar de mi espacio' : 'Guardar en mi espacio'"
+              @click.stop="toggleSave(noticia)">
+              <svg width="14" height="14" viewBox="0 0 24 24" :fill="savedIds.has(noticia.id) ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2">
+                <path d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"/>
+              </svg>
+            </button>
             <!-- Indicador de documento -->
             <span v-if="noticia.archivo"
               class="absolute top-3 right-3 bg-white/95 dark:bg-gray-900/90 text-gray-500 dark:text-gray-400 p-1.5 rounded-full shadow-sm">
@@ -153,6 +168,8 @@
       </div>
 
     </div>
+    </template>
+    <MiEspacioPanel v-else @open-noticia="openNoticiaById" @volver="activePanel = 'explorar'" />
 
     <!-- Modal detalle -->
     <BaseModal v-model="modal.open" size="2xl" :bodyPadding="'p-0'" @close="modal.open = false">
@@ -239,24 +256,29 @@
 <script>
 import { toast } from 'vue3-toastify';
 import MantenimientoProxy from '@/proxies/MantenimientoProxy';
+import NoticiaEspacioProxy from '@/proxies/NoticiaEspacioProxy';
 import PageHeader from '@/components/ui/PageHeader.vue';
 import BaseModal from '@/components/ui/BaseModal.vue';
 import SectionCard from '@/components/ui/SectionCard.vue';
 import SearchBar from '@/components/Common/SearchBar.vue';
 import AppSelect from '@/components/Common/AppSelect.vue';
+import MiEspacioPanel from './MiEspacioPanel.vue';
 
 export default {
   name: 'InvestigacionUser',
-  components: { PageHeader, BaseModal, SectionCard, SearchBar, AppSelect },
+  components: { PageHeader, BaseModal, SectionCard, SearchBar, AppSelect, MiEspacioPanel },
   data() {
     return {
+      activePanel: 'explorar', // 'explorar' | 'miespacio'
       dataNoticia: [],
       categorias: [],
       filter: { NOMBRES: null, TIPO: null },
       sortOrder: 'desc',
-      grid: { currentPage: 1, perPage: 20, totalRows: 0, isLoading: true },
+      grid: { currentPage: 1, perPage: 18, totalRows: 0, isLoading: true },
       modal: { open: false, item: null },
       downloadingFile: false,
+      savedIds: new Set(),
+      savedIdMap: {},
     };
   },
   computed: {
@@ -382,10 +404,60 @@ export default {
       el.innerHTML = html;
       return (el.textContent || el.innerText || '').trim();
     },
+
+    async loadSavedIds() {
+      try {
+        const res = await NoticiaEspacioProxy.list({ ROL: 'mios', ROWS: 1000, INIT: 0 });
+        const items = Array.isArray(res) ? res : [];
+        this.savedIds = new Set(items.map(i => i.IDNOTICIA));
+        this.savedIdMap = Object.fromEntries(items.map(i => [i.IDNOTICIA, i.ID]));
+      } catch { /* silencioso */ }
+    },
+    async toggleSave(noticia) {
+      const id = noticia.id ?? noticia.ID;
+      try {
+        if (this.savedIds.has(id)) {
+          const savedId = this.savedIdMap[id];
+          if (!savedId) return;
+          await NoticiaEspacioProxy.unsave(savedId);
+          this.savedIds.delete(id);
+          delete this.savedIdMap[id];
+          toast.success('Quitado de tu espacio');
+        } else {
+          const res = await NoticiaEspacioProxy.save(id);
+          if (res?.STATUS === false && !res?.ID) { toast.error(res.MESSAGE || 'Error al guardar'); return; }
+          this.savedIds.add(id);
+          if (res?.ID) this.savedIdMap[id] = res.ID;
+          toast.success('Guardado en tu espacio');
+        }
+      } catch {
+        toast.error('Error al actualizar tu espacio');
+      }
+    },
+    async openNoticiaById(idNoticia) {
+      const existing = this.dataNoticia.find(n => Number(n.id ?? n.ID) === Number(idNoticia));
+      if (existing) { this.openModal(existing); return; }
+      try {
+        const r = await MantenimientoProxy.list({ ID: idNoticia, ROWS: 1, INIT: 0 });
+        const payload = r?.DATA ?? r;
+        const items = Array.isArray(payload) ? payload : (payload?.data ?? []);
+        if (items[0]) this.openModal(items[0]);
+        else toast.error('El artículo ya no está disponible');
+      } catch {
+        toast.error('Error al abrir el artículo');
+      }
+    },
+  },
+  watch: {
+    activePanel(val) {
+      if (val === 'explorar') this.loadSavedIds();
+    },
   },
   mounted() {
     this.loadCategorias();
+    this.loadSavedIds();
     this.searchNoticias().then(() => {
+      if (this.$route.query.panel === 'miespacio') { this.activePanel = 'miespacio'; return; }
       const id = Number(this.$route.query.paramsId || 0);
       if (id) {
         const item = this.dataNoticia.find(n => Number(n.id ?? n.ID) === id);
