@@ -5,7 +5,7 @@
         </div>
         <div class="main-content transition-all duration-300 dark:bg-gray-900"
             :class="isCollapsed ? 'w-content-100' : 'w-content-90'">
-            <admin-navbar :RTAFTO="RTAFTO" :toggleSidebar="toggleSidebar" />
+            <admin-navbar :RTAFTO="RTAFTO" :toggleSidebar="toggleSidebar" :is-collapsed="isCollapsed" />
             <div class="content-wrapper dark:bg-gray-900">
                 <router-view :RTAFTO="RTAFTO" :UPDATERTAFTO="UPDATERTAFTO" />
             </div>
