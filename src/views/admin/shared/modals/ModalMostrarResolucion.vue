@@ -130,7 +130,10 @@
                             <button v-if="puedeAcceder('favoritos') && datos.IDFAV > 0 && isFav" @click="deleteFavorite(datos)" class="maction-btn maction-fav--active">
                                 <span>★</span> Quitar de favoritos
                             </button>
-                            <button v-if="puedeAcceder('busqueda.descargar')" @click="descargarResolucion(1)" class="maction-btn maction-download">
+                            <button v-if="puedeAcceder('busqueda.descargar') && datos.REQUIERE_ENLACE_EXTERNO" @click="abrirEnlaceOficial" class="maction-btn maction-download">
+                                Consultar Resolución
+                            </button>
+                            <button v-else-if="puedeAcceder('busqueda.descargar')" @click="descargarResolucion(1)" class="maction-btn maction-download">
                                 <img src="@/assets/img/icons/download.svg" alt="" style="width:16px;height:16px;filter:brightness(0)invert(1);">
                                 Descargar Resolución
                             </button>
@@ -172,7 +175,10 @@
                             <button v-if="puedeAcceder('favoritos') && datos.IDFAV > 0" @click="deleteFavorite(datos)" class="maction-btn maction-fav--active">
                                 <span>★</span> Quitar de favoritos
                             </button>
-                            <button v-if="puedeAcceder('busqueda.descargar')" @click="descargarResolucion(1)" class="maction-btn maction-download">
+                            <button v-if="puedeAcceder('busqueda.descargar') && datos.REQUIERE_ENLACE_EXTERNO" @click="abrirEnlaceOficial" class="maction-btn maction-download">
+                                Consultar Resolución
+                            </button>
+                            <button v-else-if="puedeAcceder('busqueda.descargar')" @click="descargarResolucion(1)" class="maction-btn maction-download">
                                 <img src="@/assets/img/icons/download.svg" alt="" style="width:16px;height:16px;filter:brightness(0)invert(1);">
                                 Descargar Resolución
                             </button>
@@ -181,7 +187,27 @@
 
                     <!-- Columna PDF -->
                     <div class="modal-pdf-col">
-                        <div v-if="!pdfUrl || isLoadingNavigation" class="pdf-load-area">
+                        <div v-if="datos.REQUIERE_ENLACE_EXTERNO && datos.ENLACE_OFICIAL && !isLoadingNavigation" class="pdf-load-area">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:#9CA3AF;margin-bottom:10px;">
+                                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+                                <polyline points="15 3 21 3 21 9"/>
+                                <line x1="10" y1="14" x2="21" y2="3"/>
+                            </svg>
+                            <p>Este documento no se aloja en la plataforma.<br>Consulte la resolución en la fuente oficial.</p>
+                            <button type="button" class="maction-btn maction-download" style="margin-top:8px;"
+                                @click="abrirEnlaceOficial">
+                                Consultar Resolución
+                            </button>
+                        </div>
+                        <div v-else-if="pdfLoadError && !isLoadingNavigation" class="pdf-load-area">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:#EF4444;margin-bottom:10px;">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                            <p>No se pudo descargar el documento.<br>Es posible que ya no esté disponible.</p>
+                        </div>
+                        <div v-else-if="!pdfUrl || isLoadingNavigation" class="pdf-load-area">
                             <div class="pdf-spinner"></div>
                             <p>{{ isLoadingNavigation ? 'Cargando siguiente documento...' : 'Cargando documento...' }}</p>
                         </div>
@@ -350,6 +376,7 @@ export default {
         return {
             show: false,
             pdfLoaded: false,
+            pdfLoadError: false,
             activeTab: ref("tab1"),
             pdfUrl: '',
             pdfUrlResumen: '',
@@ -420,6 +447,14 @@ export default {
             }
         },
         async print(path) {
+            // Entradas con REQUIERE_ENLACE_EXTERNO no tienen documento propio
+            // (se remite a la fuente oficial) — no hay nada que descargar.
+            this.pdfLoadError = false;
+            if (!path) {
+                this.pdfUrl = '';
+                this.pdfLoaded = true;
+                return;
+            }
             await AdminEntriesProxy.downloadFile({
                 PATH: path
             })
@@ -428,7 +463,10 @@ export default {
                     this.pdfUrl = url;
                 })
                 .catch(() => {
-                    toast.error("Ocurrió un error al descargar el archivo", { toastId: "error" });
+                    // El documento existe en el registro pero ya no esta disponible
+                    // en el almacenamiento (borrado/movido) — se muestra dentro del
+                    // contenedor en vez de un toast, para no interrumpir al usuario.
+                    this.pdfLoadError = true;
                 })
                 .finally(() => {
                     this.pdfLoaded = true;
@@ -443,6 +481,10 @@ export default {
         },
         puedeAcceder(clave) {
             return useAuthStore().puedeAcceder(clave);
+        },
+        abrirEnlaceOficial() {
+            if (!this.datos?.ENLACE_OFICIAL) return;
+            window.open(this.datos.ENLACE_OFICIAL, '_blank', 'noopener');
         },
         descargarResolucion(tipo) {
             if (!this.puedeAcceder('busqueda.descargar')) {
@@ -614,6 +656,7 @@ export default {
                 this.pdfUrl        = '';
                 this.pdfUrlResumen = '';
                 this.pdfLoaded     = false;
+                this.pdfLoadError  = false;
                 this.datos         = {};
                 this.activeTab     = 'tab1';
                 if (this.typingTimer) clearTimeout(this.typingTimer);
