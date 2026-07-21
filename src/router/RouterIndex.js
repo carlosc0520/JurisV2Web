@@ -17,6 +17,7 @@ import Contacto from "@/views/Contacto.vue";
 import Question from "@/views/Question.vue";
 import Politicas from "@/views/Politicas.vue";
 import Cookies from "@/views/Cookies.vue";
+import PoliticaIA from "@/views/PoliticaIA.vue";
 
 // * ADMIN — feature folders
 import Dashboard from "@/views/admin/dashboard/index.vue";
@@ -490,6 +491,10 @@ const routes = [
   {
     path: "/cookies",
     component: Cookies,
+  },
+  {
+    path: "/politica-ia",
+    component: PoliticaIA,
   },
   {
     path: "/publicaciones",

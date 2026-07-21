@@ -70,20 +70,35 @@
             <span v-if="activeFiltersCount > 0" class="filter-badge">{{ activeFiltersCount }}</span>
           </button>
 
-          <!-- Botón IA -->
-          <button v-can="'busqueda.ia'" type="button"
-            :class="['search-bar-ia-btn', isAiResult ? 'search-bar-ia-btn--active' : '']"
-            @click="searchAI()"
-            :disabled="isLoading || (aiQuota && !aiQuota.hasQuota)"
-            :title="(!aiQuota || aiQuota.hasQuota) ? 'Buscar con IA (expande tu consulta automáticamente)' : `Cuota agotada. Se renueva el ${aiQuota && aiQuota.renewsOn}`">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-              <path d="M12 2L13.4 8.26L19.5 9L13.4 9.74L12 16L10.6 9.74L4.5 9L10.6 8.26Z"/>
-              <path d="M5 3L5.6 5.4L8 6L5.6 6.6L5 9L4.4 6.6L2 6L4.4 5.4Z"/>
-              <path d="M19 14L19.5 16L21.5 16.5L19.5 17L19 19L18.5 17L16.5 16.5L18.5 16Z"/>
-            </svg>
-            <span class="search-bar-ia-label">IA</span>
-            <span v-if="aiQuota && !aiQuota.isUnlimited" class="search-bar-ia-quota">{{ aiQuota.remaining }}</span>
-          </button>
+          <!-- Toggle Buscar con IA -->
+          <div v-can="'busqueda.ia'" class="search-bar-ia-toggle-wrap"
+            @mouseenter="showAiInfo = true" @mouseleave="showAiInfo = false">
+            <button type="button"
+              :class="['search-bar-ia-toggle', useAI ? 'search-bar-ia-toggle--on' : '']"
+              :disabled="aiQuota && !aiQuota.hasQuota"
+              @click="useAI = !useAI">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="ia-toggle-icon">
+                <path d="M12 2L13.4 8.26L19.5 9L13.4 9.74L12 16L10.6 9.74L4.5 9L10.6 8.26Z"/>
+                <path d="M5 3L5.6 5.4L8 6L5.6 6.6L5 9L4.4 6.6L2 6L4.4 5.4Z"/>
+                <path d="M19 14L19.5 16L21.5 16.5L19.5 17L19 19L18.5 17L16.5 16.5L18.5 16Z"/>
+              </svg>
+              <span class="ia-toggle-label">Buscar con IA</span>
+              <span class="ia-toggle-switch"><span class="ia-toggle-knob"></span></span>
+            </button>
+
+            <transition name="fade-scale">
+              <div v-if="showAiInfo" class="ia-tooltip">
+                <p>Este buscador utiliza Inteligencia Artificial para optimizar y priorizar los resultados de búsqueda jurisprudencial según la consulta ingresada.</p>
+                <p>La IA no elabora resúmenes ni adopta decisiones: solo ordena resultados.</p>
+                <p>Para más información, consulta nuestra
+                  <a href="/politica-ia" target="_blank" rel="noopener" class="ia-tooltip-link">Política de Inteligencia Artificial</a>.
+                </p>
+                <p v-if="aiQuota && !aiQuota.isUnlimited">
+                  Usted cuenta con {{ aiQuota.remaining }}/{{ aiQuota.limit }} búsquedas mensuales.
+                </p>
+              </div>
+            </transition>
+          </div>
 
           <!-- Buscar button integrado -->
           <button v-if="canBuscar" type="button" class="search-bar-submit" @click="doSearch"
@@ -692,6 +707,8 @@ export default {
             isAiResult: false,
             aiQuery: '',
             aiSuggestion: null,
+            useAI: false,
+            showAiInfo: false,
         };
     },
     components: { ModalMostrarResolucion, AppTreeSelect, AppAutocomplete, BaseSelect, SaveButton, CancelButton },
@@ -1284,6 +1301,10 @@ export default {
                 toast.warn('No tienes acceso a la búsqueda en tu plan actual');
                 return;
             }
+            if (this.useAI) {
+                this.searchAI();
+                return;
+            }
             this.searchGlobalOnly();
         },
         async loadQuota() {
@@ -1297,6 +1318,7 @@ export default {
         },
         applyAiSuggestion(suggestion) {
             this.filter.GLOBAL = suggestion;
+            this.useAI = true;
             this.searchAI();
         },
         async searchAI(busquedaId = null) {
@@ -1778,46 +1800,47 @@ export default {
 .fade-slide-down-enter-active, .fade-slide-down-leave-active { transition: all .25s; }
 .fade-slide-down-enter-from, .fade-slide-down-leave-to { opacity: 0; transform: translateY(-10px); }
 
-/* ── AI Search Button ─────────────────────────────────── */
-.search-bar-ia-btn {
-  display: inline-flex; align-items: center; gap: 4px;
-  padding: 0 10px; height: 34px; border-radius: 8px;
-  border: 1.5px solid #a855f7; background: transparent;
-  color: #a855f7; font-size: 12px; font-weight: 600;
-  cursor: pointer; transition: all .2s; flex-shrink: 0;
-  white-space: nowrap;
+/* ── AI Search Toggle ─────────────────────────────────── */
+.search-bar-ia-toggle-wrap { position: relative; flex-shrink: 0; }
+.search-bar-ia-toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 0 6px 0 10px; height: 34px; border-radius: 999px;
+  border: 1.5px solid #d8b4fe; background: #fff;
+  color: #7c3aed; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all .2s; white-space: nowrap;
 }
-.search-bar-ia-btn:hover:not(:disabled) {
-  background: #f3e8ff; border-color: #9333ea; color: #9333ea;
+.search-bar-ia-toggle:hover:not(:disabled) { border-color: #a855f7; }
+.search-bar-ia-toggle:disabled { opacity: .45; cursor: not-allowed; }
+.ia-toggle-icon { color: #a855f7; flex-shrink: 0; }
+.ia-toggle-label { font-size: 12px; font-weight: 600; }
+.ia-toggle-switch {
+  position: relative; width: 32px; height: 18px; border-radius: 999px;
+  background: #e5e7eb; transition: background .2s; flex-shrink: 0;
 }
-.search-bar-ia-btn:disabled { opacity: .45; cursor: not-allowed; }
-.search-bar-ia-btn--active {
-  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
-  border-color: #7c3aed; color: #fff;
-  box-shadow: 0 2px 8px rgba(124,58,237,.35);
+.ia-toggle-knob {
+  position: absolute; top: 2px; left: 2px; width: 14px; height: 14px;
+  border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.25);
+  transition: transform .2s;
 }
-.search-bar-ia-btn--active:hover:not(:disabled) {
-  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
-  border-color: #6d28d9;
+.search-bar-ia-toggle--on .ia-toggle-switch { background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%); }
+.search-bar-ia-toggle--on .ia-toggle-knob { transform: translateX(14px); }
+.dark .search-bar-ia-toggle { background: #1f2937; border-color: #7c3aed; color: #c084fc; }
+.dark .ia-toggle-switch { background: #374151; }
+
+.ia-tooltip {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 20;
+  width: 280px; padding: 12px 14px; border-radius: 12px;
+  background: #fff; border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
 }
-.dark .search-bar-ia-btn { border-color: #a855f7; color: #c084fc; }
-/* .dark .search-bar-ia-btn:hover:not(:disabled) {
-  background: #3b0764; border-color: #c084fc; color: #e9d5ff;
-} */
-.dark .search-bar-ia-btn--active {
-  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
-  border-color: #6d28d9; color: #fff;
+.ia-tooltip p {
+  margin: 0 0 8px; font-size: 12px; line-height: 1.5; color: #4b5563;
 }
-.search-bar-ia-label { font-size: 11px; font-weight: 700; letter-spacing: .04em; }
-.search-bar-ia-quota {
-  background: rgba(168,85,247,.15); color: #9333ea;
-  border-radius: 10px; padding: 0 5px; font-size: 10px; font-weight: 700;
-  min-width: 16px; height: 16px; line-height: 16px;
-  display: inline-flex; align-items: center; justify-content: center;
-}
-.search-bar-ia-btn--active .search-bar-ia-quota {
-  background: rgba(255,255,255,.25); color: #fff;
-}
+.ia-tooltip p:last-child { margin-bottom: 0; }
+.ia-tooltip-link { color: #7c3aed; font-weight: 600; text-decoration: underline; cursor: pointer; }
+.dark .ia-tooltip { background: #1f2937; border-color: #374151; }
+.dark .ia-tooltip p { color: #d1d5db; }
+.dark .ia-tooltip-link { color: #c084fc; }
 
 /* ── AI Results Banner ───────────────────────────────── */
 .ai-search-banner {

@@ -112,6 +112,7 @@ export default {
         { to: "/questions", label: "Preguntas Frecuentes" },
         { to: "/politicas&privacidad", label: "Políticas de Privacidad" },
         { to: "/cookies", label: "Políticas de Cookies" },
+        { to: "/politica-ia", label: "Política de Inteligencia Artificial" },
       ],
     };
   },
