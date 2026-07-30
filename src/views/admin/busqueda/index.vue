@@ -376,7 +376,7 @@
             </div>
 
             <!-- Result Card -->
-            <div v-for="(item, index) in resultados" :key="index"
+            <div v-for="(item, index) in displayedResultados" :key="index"
               class="result-card group"
               :style="{ animationDelay: `${index * 40}ms` }">
 
@@ -726,6 +726,14 @@ export default {
         totalPages() {
             return Math.max(1, Math.ceil(this.table.totalRows / this.table.perPage));
         },
+        // El buscador con IA devuelve todos los resultados en una sola
+        // respuesta (sin paginar en el backend) — la "página" se recorta acá
+        // mismo, en memoria. El buscador normal ya viene paginado del servidor.
+        displayedResultados() {
+            if (!this.isAiResult) return this.resultados;
+            const start = (this.table.currentPage - 1) * this.table.perPage;
+            return this.resultados.slice(start, start + this.table.perPage);
+        },
         activeFiltersCount() {
             const f = this.filter;
             const arrays = [f.DELITO, f.RECURSO, f.OJURISDICCIONAL, f.MAGISTRATES, f.JVINCULANTE,
@@ -981,6 +989,15 @@ export default {
             return text.replace(new RegExp(`(${pattern})`, 'gi'), '<strong class="highlight-denominacion">$1</strong>');
         },
         handleSearch(page) {
+            // Los resultados de IA llegan completos en una sola respuesta (el
+            // backend no pagina) — "cambiar de página" solo debe re-recortar lo
+            // que ya está en memoria, nunca volver a golpear el buscador normal
+            // (eso era lo que mostraba "No se encuentran resultados" en la
+            // página 2 al usar el buscador con IA).
+            if (this.isAiResult) {
+                this.table.currentPage = page;
+                return;
+            }
             let filtro = { INIT: ((page - 1) <= 0 ? 0 : (page - 1)) * this.table.perPage, ROWS: this.table.perPage };
             this.search(filtro);
         },
@@ -1411,6 +1428,16 @@ export default {
                 SUBTEMA: entity.SUBTEMA || null,
                 FLGDOC: entity.FLGDOC,
                 FLGSTORAGE: entity.FLGSTORAGE || null,
+                // Antes faltaban estos dos campos: sin ENTRIEFILE el modal de
+                // resolución no tenía qué documento cargar (buscador con IA no
+                // mostraba/descargaba PDF), y sin RESUMEN faltaba el campo
+                // "Fundamentos jurídicos" en la previsualización.
+                ENTRIEFILE: entity.ENTRIEFILE || null,
+                RESUMEN: entity.RESUMEN || null,
+                MOSTRAR_DISCLAIMER: entity.MOSTRAR_DISCLAIMER,
+                DISCLAIMER_TEXTO: entity.DISCLAIMER_TEXTO,
+                REQUIERE_ENLACE_EXTERNO: entity.REQUIERE_ENLACE_EXTERNO,
+                ENLACE_OFICIAL: entity.ENLACE_OFICIAL,
                 TOTALROWS: 0,
                 ISAI: true,
             };

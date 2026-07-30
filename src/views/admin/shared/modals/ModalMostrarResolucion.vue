@@ -377,6 +377,7 @@ export default {
             show: false,
             pdfLoaded: false,
             pdfLoadError: false,
+            pdfRequestToken: 0,
             activeTab: ref("tab1"),
             pdfUrl: '',
             pdfUrlResumen: '',
@@ -450,6 +451,13 @@ export default {
             // Entradas con REQUIERE_ENLACE_EXTERNO no tienen documento propio
             // (se remite a la fuente oficial) — no hay nada que descargar.
             this.pdfLoadError = false;
+            // Token de request: si el usuario navega rápido entre resultados,
+            // dos descargas pueden quedar en vuelo a la vez y la que resuelva
+            // último "ganaba" y pisaba this.pdfUrl sin importar si correspondía
+            // al documento seleccionado actualmente (bug reportado: "siempre
+            // descarga el mismo PDF"). Solo se aplica la respuesta si sigue
+            // siendo la más reciente al momento de resolver.
+            const myToken = ++this.pdfRequestToken;
             if (!path) {
                 this.pdfUrl = '';
                 this.pdfLoaded = true;
@@ -459,17 +467,19 @@ export default {
                 PATH: path
             })
                 .then(async (response) => {
+                    if (myToken !== this.pdfRequestToken) return;
                     const url = window.URL.createObjectURL(new Blob([response], { type: 'application/pdf' }));
                     this.pdfUrl = url;
                 })
                 .catch(() => {
+                    if (myToken !== this.pdfRequestToken) return;
                     // El documento existe en el registro pero ya no esta disponible
                     // en el almacenamiento (borrado/movido) — se muestra dentro del
                     // contenedor en vez de un toast, para no interrumpir al usuario.
                     this.pdfLoadError = true;
                 })
                 .finally(() => {
-                    this.pdfLoaded = true;
+                    if (myToken === this.pdfRequestToken) this.pdfLoaded = true;
                 });
         },
         async printResumen(item) {
