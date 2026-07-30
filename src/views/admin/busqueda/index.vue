@@ -322,6 +322,16 @@
           </div>
         </transition>
 
+        <!-- Consulta fuera del ambito de especializacion (IA) -->
+        <transition name="fade">
+          <div v-if="isAiResult && aiOutOfDomainMessage && resultados.length === 0" class="ai-outofdomain-bar">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span>{{ aiOutOfDomainMessage }}</span>
+          </div>
+        </transition>
+
         <transition name="fade">
           <div v-if="resultados.length > 0">
             <!-- Banner IA -->
@@ -707,6 +717,7 @@ export default {
             isAiResult: false,
             aiQuery: '',
             aiSuggestion: null,
+            aiOutOfDomainMessage: null,
             useAI: false,
             showAiInfo: false,
         };
@@ -1352,6 +1363,7 @@ export default {
             this.isLoading = true;
             this.isAiResult = false;
             this.aiSuggestion = null;
+            this.aiOutOfDomainMessage = null;
             this.aiExpandedTerms = [];
             this.hasSearched = true;
             this.isCollapsed2 = true;
@@ -1376,6 +1388,7 @@ export default {
                 this.aiQuota = response.quota || this.aiQuota;
                 this.isAiResult = true;
                 this.aiSuggestion = response.total === 0 ? (response.suggestion || null) : null;
+                this.aiOutOfDomainMessage = response.outOfDomain ? (response.message || null) : null;
                 if (response.total > 0) this.listTopSearch();
             } catch (err) {
                 console.error('[AI-FRONT] Error en searchAI:', err);
@@ -1887,6 +1900,18 @@ export default {
 .dark .ai-suggestion-bar {
   background: #1c1507; border-color: #92400e;
 }
+.ai-outofdomain-bar {
+  display: flex; align-items: center; gap: 6px;
+  width: 100%; max-width: 56rem;
+  margin: 0 auto 12px; padding: 6px 12px;
+  background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 10px;
+  color: #6d28d9; font-size: 12.5px; line-height: 1.4;
+}
+.ai-outofdomain-bar svg { color: #8b5cf6; }
+.dark .ai-outofdomain-bar {
+  background: #2e1065; border-color: #5b21b6; color: #ddd6fe;
+}
+.dark .ai-outofdomain-bar svg { color: #a78bfa; }
 .ai-suggestion-link {
   color: #7c3aed; font-weight: 600; text-decoration: underline;
   cursor: pointer; background: none; border: none; padding: 0;
