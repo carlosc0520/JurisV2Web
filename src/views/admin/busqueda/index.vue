@@ -1372,8 +1372,8 @@ export default {
                     query: String(rawQuery).trim(),
                     ...(busquedaId ? { busquedaId } : {}),
                     filters: {
-                        type: this.typeSaarch,
-                        ...(this.filter.AMBITO?.length ? { ambit: this.filter.AMBITO[0] } : {}),
+                        type: String(this.typeSaarch),
+                        ...(this.filter.AMBITO?.length ? { ambit: String(this.filter.AMBITO[0]) } : {}),
                     },
                 });
                 if (response.hasQuota === false) {
