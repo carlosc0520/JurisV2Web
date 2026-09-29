@@ -189,7 +189,7 @@ class createPDFHelper {
                     margin: [10, 2, 10, 8],
                   },
                   {
-                    text: returnBase64 ? data?.AMBIT?.[0]?.LABEL : data?.AMBIT,
+                    text: returnBase64 ? data?.AMBIT?.map(a => a.DESCP || a.LABEL).filter(Boolean).join(', ') : data?.AMBIT,
                     fontSize,
                     margin: [10, 2, 10, 8],
                   },
@@ -216,7 +216,7 @@ class createPDFHelper {
                     margin: [10, 2, 10, 8],
                   },
                   {
-                    text: returnBase64 ? data?.JURISDICCION?.[0]?.LABEL : data?.JURISDICCION || '-',
+                    text: returnBase64 ? (data?.JURISDICCION?.map(j => j.DESCP || j.LABEL).filter(Boolean).join(', ') || '-') : (data?.JURISDICCION || '-'),
                     fontSize,
                     margin: [10, 2, 10, 8],
                   },
@@ -229,7 +229,7 @@ class createPDFHelper {
                     margin: [10, 2, 10, 8],
                   },
                   {
-                    text: returnBase64 ? data?.OJURISDICCIONAL?.[0]?.DESCP : data.OJURISDICCIONAL,
+                    text: returnBase64 ? data?.OJURISDICCIONAL?.map(o => o.DESCP || o.LABEL).filter(Boolean).join(', ') : data.OJURISDICCIONAL,
                     fontSize,
                     margin: [10, 2, 10, 8],
                   },
@@ -242,7 +242,7 @@ class createPDFHelper {
                     margin: [10, 2, 10, 8],
                   },
                   {
-                    text: returnBase64 ? data?.MAGISTRATES?.[0]?.LABEL : data.MAGISTRATES,
+                    text: returnBase64 ? data?.MAGISTRATES?.map(m => m.LABEL || m.DESCP).filter(Boolean).join(', ') : data.MAGISTRATES,
                     fontSize,
                     margin: [10, 2, 10, 8],
                   },

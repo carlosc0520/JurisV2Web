@@ -1013,9 +1013,19 @@ export default {
             this.search(filtro);
         },
         async clearTopSearch(index, objetItem) {
-            this.topSearch.splice(index, 1);
-            await AdminEntriesProxy.clearTopSearch(objetItem.ID)
-                .catch(() => { this.topSearch.splice(index, 0, objetItem); });
+            // Antes se quitaba del arreglo local de inmediato (optimista) y
+            // solo se revertia si la peticion fallaba — si el usuario
+            // refrescaba la pagina justo despues de hacer clic, el navegador
+            // podia cancelar la peticion en curso antes de llegar al servidor,
+            // dejando el borrado sin aplicar (el acceso directo "reaparecia").
+            // Ahora se espera la confirmacion del servidor antes de actualizar
+            // la vista, reduciendo esa ventana de carrera.
+            try {
+                await AdminEntriesProxy.clearTopSearch(objetItem.ID);
+                this.topSearch.splice(index, 1);
+            } catch (error) {
+                // sin cambios locales que revertir: nunca se quito del arreglo
+            }
         },
         async listTopSearch() {
             await AdminEntriesProxy.listTopSearch(this.typeSaarch)
@@ -1179,6 +1189,18 @@ export default {
             if (!val) return [];
             try { return JSON.parse(val) || []; } catch { return []; }
         },
+        parseMagistrates(val) {
+            // El backend devuelve JSON si e.MAGISTRATES ya lo era, o si no,
+            // un string "Apellidos, Nombres | Apellidos2, Nombres2" (ver
+            // magistratesJson en entries.service.ts). safeJson() por si solo
+            // fallaba en el segundo caso y ocultaba el campo en la tarjeta.
+            if (!val) return [];
+            try {
+                const parsed = JSON.parse(val);
+                if (Array.isArray(parsed)) return parsed;
+            } catch (_) { /* no es JSON */ }
+            return val.split('|').map(s => ({ LABEL: s.trim() })).filter(o => o.LABEL);
+        },
         mapResultItem(item) {
             const ss = item?.SHORTSUMMARY && item.SHORTSUMMARY !== '' ? item.SHORTSUMMARY : null;
             return {
@@ -1190,7 +1212,7 @@ export default {
                 OJURISDICCIONAL: this.safeJson(item.OJURISDICCIONAL),
                 AMBIT: this.safeJson(item.AMBIT),
                 JURISDICCION: this.safeJson(item.JURISDICCION),
-                MAGISTRATES: this.safeJson(item.MAGISTRATES),
+                MAGISTRATES: this.parseMagistrates(item.MAGISTRATES),
                 FRESOLUTION: item.FRESOLUTION ? item.FRESOLUTION.split('T')[0] : null,
                 TEMA: item?.TEMA || null,
                 SUBTEMA: item?.SUBTEMA || null,
@@ -1430,6 +1452,10 @@ export default {
                 })(),
                 KEYWORDS: entity.KEYWORDS || null,
                 CASO: entity.CASO,
+                // Sin esto, los resultados de normativa via IA no mostraban
+                // "Número" ni "Estado" (el backend ya los traia en el SQL).
+                NMRCN: entity.NMRCN || null,
+                SITUACION: entity.SITUACION || null,
                 FRESOLUTION: entity.FRESOLUTION ? String(entity.FRESOLUTION).split('T')[0] : null,
                 ISOPEN: 0,
                 IDFAV: entity.IDFAV || 0,
