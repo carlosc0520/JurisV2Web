@@ -311,6 +311,40 @@ const routes = [
         }
       },
       {
+        path: "/admin/publicaciones",
+        beforeEnter: ifAuthenticatedAdmin,
+        component: () => import("@/views/admin/publicaciones/index.vue"),
+        meta: { title: 'Publicaciones', subtitle: 'Gestión del blog y sus categorías' },
+        props: (route) => {
+          return {
+            role: route?.params?.role || [],
+          };
+        }
+      },
+      {
+        path: "/admin/publicaciones/nuevo",
+        beforeEnter: ifAuthenticatedAdmin,
+        component: () => import("@/views/admin/publicaciones/Editor.vue"),
+        meta: { title: 'Nueva publicación', subtitle: 'Redacta un nuevo artículo' },
+        props: (route) => {
+          return {
+            role: route?.params?.role || [],
+          };
+        }
+      },
+      {
+        path: "/admin/publicaciones/:id/editar",
+        beforeEnter: ifAuthenticatedAdmin,
+        component: () => import("@/views/admin/publicaciones/Editor.vue"),
+        meta: { title: 'Editar publicación', subtitle: 'Edita un artículo existente' },
+        props: (route) => {
+          return {
+            role: route?.params?.role || [],
+            id: route?.params?.id,
+          };
+        }
+      },
+      {
         path: "/admin/jurisgpt",
         beforeEnter: ifAuthenticatedAdmin,
         component: JurisGPT,
@@ -497,8 +531,18 @@ const routes = [
     component: PoliticaIA,
   },
   {
+    // Blog nuevo o feed de Instagram según la bandera BLOG_PUBLICACIONES (o ?preview=true)
     path: "/publicaciones",
-    component: () => import("@/views/Publicaciones.vue"),
+    component: () => import("@/views/PublicacionesEntrada.vue"),
+  },
+  {
+    // Vista previa de un borrador: la misma página pública del artículo
+    path: "/publicaciones/previa/:token",
+    component: () => import("@/views/PublicacionDetalle.vue"),
+  },
+  {
+    path: "/publicaciones/:slug",
+    component: () => import("@/views/PublicacionDetalle.vue"),
   },
 
     {

@@ -27,6 +27,7 @@ import usersIcon from '@/assets/img/icons/users.svg';
 import jurisIcon from '@/assets/img/icons/juris.svg';
 import estrellaIcon from '@/assets/img/icons/estrella.svg';
 import noticiasIcon from '@/assets/img/icons/noticias.svg';
+import publicacionesIcon from '@/assets/img/icons/documentos.svg';
 import emailIcon from '@/assets/img/icons/email.svg';
 import aiIcon from '@/assets/img/icons/ai.svg';
 import subscripcionIcon from '@/assets/img/icons/subscripcion.svg';
@@ -54,6 +55,7 @@ export default {
         { name: 'Mantenimiento', route: '/admin/mantenimiento',icon: mantenimientoIcon },
         { name: 'Favoritos',     route: '/admin/favoritos',    icon: estrellaIcon },
         { name: 'Investigación', route: '/admin/investigacion',icon: noticiasIcon },
+        { name: 'Publicaciones', route: '/admin/publicaciones',icon: publicacionesIcon },
         { name: 'Correo',        route: '/admin/email-config', icon: emailIcon,  permission: 'email.config' },
         { name: 'Panel IA',      route: '/admin/ai-panel',     icon: aiIcon,      permission: 'ai.panel' },
         { name: 'Auditoría IA',  route: '/admin/ai-audit',     icon: aiIcon,      permission: 'ai.audit' },

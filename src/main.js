@@ -30,6 +30,7 @@ import VueSweetalert2 from 'vue-sweetalert2'
 import VueTelInput  from 'vue3-tel-input'
 import DatePicker   from 'vue-datepicker-next'
 import SimpleVueValidation from 'simple-vue-validator'
+import { MotionPlugin } from '@vueuse/motion'
 
 // ── UI Components ─────────────────────────────────────────────
 import AppLoader      from '@/components/ui/AppLoader.vue'
@@ -72,6 +73,26 @@ import { vCan } from '@/directives/can'
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  // Sin esto, al abrir otra página se conservaba el scroll de la anterior
+  // (el detalle de una publicación aparecía a la mitad).
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) return savedPosition;                       // atrás / adelante
+    if (to.hash) {
+      // Ancla (#seccion): al llegar desde otra página, la sección puede tardar
+      // en renderizarse; se espera hasta ~2 s a que exista antes de desplazar.
+      return new Promise((resolve) => {
+        const inicio = Date.now();
+        const intentar = () => {
+          if (document.querySelector(to.hash)) resolve({ el: to.hash, behavior: 'smooth', top: 80 });
+          else if (Date.now() - inicio > 2000) resolve({ top: 0 });
+          else setTimeout(intentar, 80);
+        };
+        intentar();
+      });
+    }
+    if (to.path === from.path) return false;                       // solo cambian query/filtros
+    return { top: 0 };
+  },
 })
 
 const pinia = createPinia()
@@ -92,6 +113,7 @@ app.use(ElementPlus)
 app.use(VueSweetalert2)
 app.use(VueTelInput)
 app.use(SimpleVueValidation)
+app.use(MotionPlugin)
 
 // Componentes globales
 app.component('date-picker',   DatePicker)

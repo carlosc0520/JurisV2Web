@@ -204,7 +204,10 @@ export default {
     setNavbarOpen() { this.navbarOpen = !this.navbarOpen; },
     scrollToSection(seccion = "conoce-proposito") {
       const section = document.querySelector("#" + seccion);
+      // La sección solo existe en Inicio: desde otra página se navega a "/#seccion"
+      // (el scrollBehavior del router hace el desplazamiento cuando ya existe).
       if (section) section.scrollIntoView({ behavior: "smooth" });
+      else this.$router.push({ path: "/", hash: "#" + seccion });
       this.navbarOpen = false;
     },
     closeBanner() {
