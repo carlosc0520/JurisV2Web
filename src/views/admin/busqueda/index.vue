@@ -332,6 +332,47 @@
           </div>
         </transition>
 
+        <!-- Sin resultados pertinentes (IA) -->
+        <transition name="fade">
+          <div v-if="isAiResult && aiEmptyMessage && resultados.length === 0 && !aiSuggestion && !aiOutOfDomainMessage" class="ai-outofdomain-bar">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span>{{ aiEmptyMessage }}</span>
+          </div>
+        </transition>
+
+        <!-- Artículos de código citados en la consulta (texto oficial SPIJ) -->
+        <transition name="fade">
+          <div v-if="isAiResult && (aiArticulos.length || aiArticulosNoDisponibles.length)" class="ai-articulos">
+            <div v-for="art in aiArticulos" :key="art.CODIGO + art.NUMERO" class="ai-articulo">
+              <div class="flex items-start gap-2">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ai-articulo-icon">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+                <div class="min-w-0 flex-1">
+                  <p class="ai-articulo-titulo">
+                    Artículo {{ art.NUMERO }} del {{ art.CODIGO_NOMBRE }}<template v-if="art.SUMILLA"> — {{ art.SUMILLA }}</template>
+                    <span v-if="art.ESTADO === 'derogado'" class="ai-articulo-estado">Derogado</span>
+                  </p>
+                  <p v-if="art.ASUMIDO" class="ai-articulo-fuente mb-1">Tu consulta no indica el código: se asumió el Código Penal.</p>
+                  <p :class="['ai-articulo-texto', articuloExpandido[art.CODIGO + art.NUMERO] ? '' : 'line-clamp-3']">{{ art.TEXTO }}</p>
+                  <div class="flex items-center gap-3 mt-1">
+                    <button v-if="art.TEXTO && art.TEXTO.length > 260" class="ai-articulo-toggle"
+                      @click="articuloExpandido[art.CODIGO + art.NUMERO] = !articuloExpandido[art.CODIGO + art.NUMERO]">
+                      {{ articuloExpandido[art.CODIGO + art.NUMERO] ? 'Ver menos' : 'Ver texto completo' }}
+                    </button>
+                    <span class="ai-articulo-fuente">Texto vigente según SPIJ. Verifica modificaciones recientes en la fuente oficial.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p v-if="aiArticulosNoDisponibles.length" class="ai-articulo-fuente px-1">
+              Aún no tenemos el texto oficial de: {{ aiArticulosNoDisponibles.join(', ') }}. La búsqueda se hizo igual, sin interpretar el artículo.
+            </p>
+          </div>
+        </transition>
+
         <transition name="fade">
           <div v-if="resultados.length > 0">
             <!-- Banner IA -->
@@ -718,6 +759,10 @@ export default {
             aiQuery: '',
             aiSuggestion: null,
             aiOutOfDomainMessage: null,
+            aiEmptyMessage: null,
+            aiArticulos: [],
+            aiArticulosNoDisponibles: [],
+            articuloExpandido: {},
             useAI: false,
             showAiInfo: false,
         };
@@ -1386,6 +1431,10 @@ export default {
             this.isAiResult = false;
             this.aiSuggestion = null;
             this.aiOutOfDomainMessage = null;
+            this.aiEmptyMessage = null;
+            this.aiArticulos = [];
+            this.aiArticulosNoDisponibles = [];
+            this.articuloExpandido = {};
             this.aiExpandedTerms = [];
             this.hasSearched = true;
             this.isCollapsed2 = true;
@@ -1411,6 +1460,9 @@ export default {
                 this.isAiResult = true;
                 this.aiSuggestion = response.total === 0 ? (response.suggestion || null) : null;
                 this.aiOutOfDomainMessage = response.outOfDomain ? (response.message || null) : null;
+                this.aiEmptyMessage = !response.outOfDomain && response.total === 0 ? (response.message || null) : null;
+                this.aiArticulos = response.ARTICULOS || [];
+                this.aiArticulosNoDisponibles = response.ARTICULOS_NO_DISPONIBLES || [];
                 if (response.total > 0) this.listTopSearch();
             } catch (err) {
                 console.error('[AI-FRONT] Error en searchAI:', err);
@@ -1938,6 +1990,31 @@ export default {
   background: #2e1065; border-color: #5b21b6; color: #ddd6fe;
 }
 .dark .ai-outofdomain-bar svg { color: #a78bfa; }
+.ai-articulos {
+  width: 100%; max-width: 56rem; margin: 0 auto 12px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.ai-articulo {
+  padding: 10px 12px; border-radius: 10px;
+  background: #ffffff; border: 1px solid #e5e7eb; border-left: 3px solid #7c3aed;
+}
+.dark .ai-articulo { background: #1f2937; border-color: #374151; border-left-color: #a78bfa; }
+.ai-articulo-icon { color: #7c3aed; flex-shrink: 0; margin-top: 2px; }
+.dark .ai-articulo-icon { color: #a78bfa; }
+.ai-articulo-titulo { font-size: 13px; font-weight: 600; color: #1f2937; margin: 0 0 4px; }
+.dark .ai-articulo-titulo { color: #f3f4f6; }
+.ai-articulo-estado {
+  display: inline-block; margin-left: 6px; padding: 0 6px; border-radius: 6px;
+  font-size: 10.5px; font-weight: 600; background: #fee2e2; color: #b91c1c;
+}
+.ai-articulo-texto { font-size: 12.5px; line-height: 1.5; color: #4b5563; margin: 0; white-space: pre-line; }
+.dark .ai-articulo-texto { color: #d1d5db; }
+.ai-articulo-toggle {
+  background: none; border: none; padding: 0; cursor: pointer;
+  font-size: 12px; font-weight: 600; color: #7c3aed;
+}
+.dark .ai-articulo-toggle { color: #c4b5fd; }
+.ai-articulo-fuente { font-size: 11px; color: #9ca3af; margin: 0; }
 .ai-suggestion-link {
   color: #7c3aed; font-weight: 600; text-decoration: underline;
   cursor: pointer; background: none; border: none; padding: 0;
