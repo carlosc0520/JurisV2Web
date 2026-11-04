@@ -356,6 +356,7 @@
                     <span v-if="art.ESTADO === 'derogado'" class="ai-articulo-estado">Derogado</span>
                   </p>
                   <p v-if="art.ASUMIDO" class="ai-articulo-fuente mb-1">Tu consulta no indica el código: se asumió el Código Penal.</p>
+                  <p v-if="art.SOLO_NUMERO" class="ai-articulo-fuente mb-1">Tu consulta solo indica un número: se muestra como artículo. Para precisar, escribe por ejemplo "artículo {{ art.NUMERO }} del {{ art.CODIGO_NOMBRE }}".</p>
                   <p :class="['ai-articulo-texto', articuloExpandido[art.CODIGO + art.NUMERO] ? '' : 'line-clamp-3']">{{ art.TEXTO }}</p>
                   <div class="flex items-center gap-3 mt-1">
                     <button v-if="art.TEXTO && art.TEXTO.length > 260" class="ai-articulo-toggle"
