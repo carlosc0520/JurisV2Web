@@ -362,6 +362,17 @@ export default {
       });
       if (isConfirmed) this.submit('borrador');
     },
+    // Las rutas de nuevo y de edición comparten este componente: Vue lo reutiliza y no vuelve a
+    // correr mounted, así que el borrador recién creado se adopta aquí. Sin su id, cada guardado
+    // creaba otro registro.
+    async adoptarBorradorCreado(id) {
+      this.modelo.id = id;
+      await this.$router.replace(`/admin/publicaciones/${id}/editar`);
+      await this.$nextTick();
+      window.addEventListener('pagehide', this.liberarAlCerrar);
+      // Sin bloqueo se puede seguir guardando: un fallo aquí no debe parecer un error al guardar.
+      await this.tomarBloqueo(false).catch(() => {});
+    },
     // modo: 'borrador' (solo exige título, no publica), 'publicar' o 'guardar' (conserva el estado)
     async submit(modo = 'guardar') {
       if (modo === 'borrador') {
@@ -379,7 +390,7 @@ export default {
       formData.append('MODO', modo);
 
       await PublicacionesProxy.save(formData)
-        .then(r => {
+        .then(async r => {
           const result = r?.DATA ?? r;
           if (result.STATUS) {
             if (modo !== 'borrador') {
@@ -390,7 +401,7 @@ export default {
             // Borrador: se sigue editando; si era nuevo, se pasa a la URL de edición del borrador creado
             toast.success('Borrador guardado');
             this.modelo.estado = 'B';
-            if (!this.modelo.id && result.ID) this.$router.replace(`/admin/publicaciones/${result.ID}/editar`);
+            if (!this.modelo.id && result.ID) await this.adoptarBorradorCreado(result.ID);
             else this.historialKey++;
           } else {
             toast.error(result.MESSAGE || 'Error al guardar la publicación', { autoClose: result.BLOQUEADO ? 6000 : 3500 });
