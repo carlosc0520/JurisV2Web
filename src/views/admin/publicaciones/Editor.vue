@@ -45,26 +45,65 @@
             </div>
             <CategoriaSelect v-model="modelo.idCategoria" :categorias="categorias" label="Categoría" required
               :error="validation.firstError('modelo.idCategoria')" />
+            <div>
+              <span class="block text-sm font-medium mb-1.5 text-content">Etiquetas</span>
+              <p v-if="!modelo.idCategoria" class="etq-ayuda">Elige una categoría para ver sus etiquetas.</p>
+              <p v-else-if="!etiquetasDisponibles.length" class="etq-ayuda">
+                Esta categoría no tiene etiquetas. Se crean al editar la categoría, en «Categorías y etiquetas».
+              </p>
+              <div v-else class="etq-opciones" role="group" aria-label="Etiquetas del artículo">
+                <button v-for="e in etiquetasDisponibles" :key="e" type="button"
+                  :class="['etq-opcion', { 'etq-opcion--activa': modelo.etiquetas.includes(e) }]"
+                  :aria-pressed="modelo.etiquetas.includes(e)" @click="alternarEtiqueta(e)">{{ e }}</button>
+              </div>
+            </div>
             <BaseInput v-model="modelo.autor" label="Autor" placeholder="Equipo editorial Juris Search" />
 
             <div class="flex items-center gap-2.5">
               <input type="checkbox" v-model="modelo.destacado" id="destacado" class="w-4 h-4 rounded cursor-pointer" />
               <label for="destacado" class="text-sm font-medium cursor-pointer" style="color:var(--text)">Destacado</label>
-              <span class="text-[11px]" style="color:var(--text-muted)">· reemplaza al destacado actual</span>
+              <span class="text-[11px]" style="color:var(--text-muted)">· reemplaza al destacado de su categoría</span>
             </div>
 
+            <!-- Dos imágenes: cada una con la proporción en que se muestra, para que no se recorte ni pixele -->
             <div class="flex flex-col gap-1.5">
               <label class="text-sm font-medium" style="color:var(--text)">
-                Imagen de portada <span class="text-brand-pink ml-0.5">*</span>
+                Portada del artículo <span class="text-brand-pink ml-0.5">*</span>
               </label>
               <div class="dropzone-pub" @dragover.prevent @drop.prevent="handleDrop" @click="triggerFileSelect">
                 <p v-if="!preview" class="text-xs m-0" style="color:var(--text-muted)">Arrastra o haz clic para seleccionar</p>
-                <img v-if="preview" :src="preview" class="w-full max-h-40 object-cover rounded-lg" />
+                <img v-if="preview" :src="preview" class="w-full aspect-[5/2] object-cover rounded-lg" />
                 <input type="file" ref="fileInput" accept="image/*" @change="handleFile" hidden />
               </div>
-              <button type="button" class="elegir-biblioteca-btn" @click="bibliotecaAbierta = true">
+              <p class="img-ayuda">
+                Se muestra arriba del artículo. Ideal: <strong>1600 × 640 px</strong> (5:2), JPG o WebP de menos de 500 KB.
+                Deja lo importante al centro: en el celular se recortan los lados.
+              </p>
+              <button type="button" class="elegir-biblioteca-btn" @click="abrirBiblioteca('portada')">
                 O elegir de la biblioteca de medios
               </button>
+            </div>
+
+            <div class="flex flex-col gap-1.5">
+              <label class="text-sm font-medium" style="color:var(--text)">Imagen del listado</label>
+              <div class="dropzone-pub" @dragover.prevent @drop.prevent="handleDropListado" @click="$refs.fileListadoInput.click()">
+                <p v-if="!previewListado" class="text-xs m-0 text-center" style="color:var(--text-muted)">
+                  Arrastra o haz clic para seleccionar<br />
+                  <span class="text-[11px]">Si no subes una, se usa la portada</span>
+                </p>
+                <img v-if="previewListado" :src="previewListado" class="w-full aspect-[2/1] object-cover rounded-lg" />
+                <input type="file" ref="fileListadoInput" accept="image/*" @change="handleFileListado" hidden />
+              </div>
+              <p class="img-ayuda">
+                Tarjetas del blog, destacado y artículos relacionados. Ideal: <strong>1200 × 600 px</strong> (2:1),
+                JPG o WebP de menos de 300 KB.
+              </p>
+              <div class="flex items-center gap-3">
+                <button type="button" class="elegir-biblioteca-btn" @click="abrirBiblioteca('listado')">
+                  O elegir de la biblioteca de medios
+                </button>
+                <button v-if="previewListado" type="button" class="quitar-imagen-btn" @click="quitarImagenListado">Quitar</button>
+              </div>
             </div>
           </div>
         </SectionCard>
@@ -104,7 +143,7 @@
             </button>
           </div>
           <div class="flex gap-3">
-            <CancelButton @click="$router.push('/admin/publicaciones')" :disabled="loadingSubmit" />
+            <CancelButton @click="$router.push('/admin/blog')" :disabled="loadingSubmit" />
             <template v-if="esBorrador">
               <button type="button" class="btn-borrador" :disabled="loadingSubmit" @click="submit('borrador')">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
@@ -128,7 +167,7 @@
       </div>
     </div>
 
-    <MediaLibraryModal v-model:show="bibliotecaAbierta" tipo-filtro="imagen" @select="onImagenPortadaElegida" />
+    <MediaLibraryModal v-model:show="bibliotecaAbierta" tipo-filtro="imagen" @select="onImagenElegida" />
   </section>
 </template>
 
@@ -172,14 +211,21 @@ export default {
       historialKey: 0,
       ESTADOS: { nuevo: 'Nuevo', B: 'Borrador', A: 'Publicado', I: 'Inactivo' },
       categorias: [],
+      etiquetasDisponibles: [],
       preview: null,
       file: null,
       imagenActual: null,
+      // Imagen del listado (opcional): archivo nuevo o ruta de una ya subida
+      previewListado: null,
+      fileListado: null,
+      imagenListadoActual: null,
       bibliotecaAbierta: false,
+      bibliotecaDestino: 'portada',
       modelo: {
         id: null, titulo: '', subtitulo: '', resumen: '',
-        idCategoria: null, autor: '', destacado: false, palabraClave: '',
-        documento: { ...DOC_VACIO }, estado: null,
+        // Un artículo nuevo arranca en la categoría que se veía en el listado
+        idCategoria: Number(this.$route?.query?.categoria) || null, autor: '', destacado: false, palabraClave: '',
+        documento: { ...DOC_VACIO }, estado: null, etiquetas: [],
       },
     };
   },
@@ -199,6 +245,24 @@ export default {
       const payload = r?.DATA ?? r;
       this.categorias = payload?.data ?? [];
     },
+    // Las etiquetas que se ofrecen son las activas de la categoría elegida
+    async cargarEtiquetasDisponibles() {
+      const id = this.modelo.idCategoria;
+      if (!id) { this.etiquetasDisponibles = []; return; }
+      try {
+        const r = await PublicacionesProxy.listEtiquetas({ idCategoria: id });
+        if (id !== this.modelo.idCategoria) return; // cambió mientras cargaba
+        this.etiquetasDisponibles = (r?.DATA ?? r ?? []).filter(e => e.estado === 'A').map(e => e.nombre);
+        // Al cambiar de categoría se sueltan las etiquetas de la anterior
+        this.modelo.etiquetas = (this.modelo.etiquetas || []).filter(n => this.etiquetasDisponibles.includes(n));
+      } catch { this.etiquetasDisponibles = []; }
+    },
+    alternarEtiqueta(nombre) {
+      const lista = this.modelo.etiquetas || [];
+      if (lista.includes(nombre)) this.modelo.etiquetas = lista.filter(n => n !== nombre);
+      else if (lista.length >= 10) toast.info('Máximo 10 etiquetas por artículo', { toastId: 'max-etiquetas' });
+      else this.modelo.etiquetas = [...lista, nombre];
+    },
     async cargarPublicacion() {
       const r = await PublicacionesProxy.findOne(this.id);
       const data = r?.DATA ?? r;
@@ -211,9 +275,12 @@ export default {
         autor: data.autor || '', destacado: !!data.destacado,
         palabraClave: data.palabraClave || '', documento,
         estado: data.estado || 'A',
+        etiquetas: (data.etiquetas || []).map(e => e.nombre),
       };
       this.imagenActual = data.imagen || null;
       if (data.imagen) this.preview = urlDeMedia(data.imagen);
+      this.imagenListadoActual = data.imagenListado || null;
+      this.previewListado = data.imagenListado ? urlDeMedia(data.imagenListado) : null;
     },
     triggerFileSelect() { this.$refs.fileInput.click(); },
     handleFile(event) {
@@ -224,10 +291,33 @@ export default {
       const file = event.dataTransfer.files[0];
       if (file?.type.startsWith('image/')) { this.preview = URL.createObjectURL(file); this.file = file; this.imagenActual = null; }
     },
-    onImagenPortadaElegida(media) {
+    abrirBiblioteca(destino) {
+      this.bibliotecaDestino = destino;
+      this.bibliotecaAbierta = true;
+    },
+    onImagenElegida(media) {
+      if (this.bibliotecaDestino === 'listado') {
+        this.previewListado = media.url;
+        this.imagenListadoActual = media.ruta || media.url;
+        this.fileListado = null;
+        return;
+      }
       this.preview = media.url;
       this.imagenActual = media.ruta || media.url;
       this.file = null;
+    },
+    usarArchivoListado(file) {
+      if (!file?.type.startsWith('image/')) return;
+      this.previewListado = URL.createObjectURL(file);
+      this.fileListado = file;
+      this.imagenListadoActual = null;
+    },
+    handleFileListado(event) { this.usarArchivoListado(event.target.files[0]); event.target.value = ''; },
+    handleDropListado(event) { this.usarArchivoListado(event.dataTransfer.files[0]); },
+    quitarImagenListado() {
+      this.previewListado = null;
+      this.fileListado = null;
+      this.imagenListadoActual = null;
     },
     // ── Bloqueo de edición ─────────────────────────────────────
     async tomarBloqueo(forzar = false) {
@@ -299,7 +389,7 @@ export default {
     salir() {
       clearInterval(this.latidoTimer);
       this.latidoTimer = null;
-      this.$router.push('/admin/publicaciones');
+      this.$router.push('/admin/blog');
     },
 
     // ── Vista previa: enlace temporal a la página pública real ──
@@ -314,8 +404,12 @@ export default {
       formData.append('PALABRA_CLAVE', this.modelo.palabraClave || '');
       formData.append('DESTACADO', this.modelo.destacado ? 'true' : 'false');
       formData.append('DOCUMENTO', JSON.stringify(this.modelo.documento));
+      formData.append('ETIQUETAS', JSON.stringify(this.modelo.etiquetas || []));
       if (this.imagenActual) formData.append('IMAGEN', this.imagenActual);
       if (this.file) formData.append('imagen', this.file);
+      // Vacío = sin imagen del listado (el blog usa la portada)
+      if (this.fileListado) formData.append('imagenListado', this.fileListado);
+      else formData.append('IMAGEN_LISTADO', this.imagenListadoActual || '');
       return formData;
     },
     async abrirVistaPrevia() {
@@ -329,7 +423,7 @@ export default {
         const res = r?.DATA ?? r;
         if (!res?.STATUS) throw new Error(res?.MESSAGE);
         this.previaToken = res.TOKEN;
-        this.previaUrl = `${window.location.origin}/publicaciones/previa/${res.TOKEN}`;
+        this.previaUrl = `${window.location.origin}/blog/previa/${res.TOKEN}`;
         if (ventana) ventana.location.href = this.previaUrl;
         else window.open(this.previaUrl, '_blank');
       } catch (e) {
@@ -367,7 +461,7 @@ export default {
     // creaba otro registro.
     async adoptarBorradorCreado(id) {
       this.modelo.id = id;
-      await this.$router.replace(`/admin/publicaciones/${id}/editar`);
+      await this.$router.replace(`/admin/blog/${id}/editar`);
       await this.$nextTick();
       window.addEventListener('pagehide', this.liberarAlCerrar);
       // Sin bloqueo se puede seguir guardando: un fallo aquí no debe parecer un error al guardar.
@@ -395,7 +489,7 @@ export default {
           if (result.STATUS) {
             if (modo !== 'borrador') {
               toast.success(modo === 'publicar' ? 'Artículo publicado' : 'Cambios guardados');
-              this.$router.push('/admin/publicaciones');
+              this.$router.push('/admin/blog');
               return;
             }
             // Borrador: se sigue editando; si era nuevo, se pasa a la URL de edición del borrador creado
@@ -411,6 +505,9 @@ export default {
         .finally(() => { toast.remove(loading); this.loadingSubmit = false; });
     },
   },
+  watch: {
+    'modelo.idCategoria'() { this.cargarEtiquetasDisponibles(); },
+  },
   beforeUnmount() {
     window.removeEventListener('pagehide', this.liberarAlCerrar);
     this.liberarBloqueo();
@@ -419,6 +516,7 @@ export default {
     this.loadingInicial = true;
     try {
       await this.cargarCategorias();
+      this.cargarEtiquetasDisponibles();
       if (this.isEdit) {
         await this.cargarPublicacion();
         window.addEventListener('pagehide', this.liberarAlCerrar);
@@ -434,12 +532,39 @@ export default {
 </script>
 
 <style scoped>
+.etq-ayuda { margin: 0; font-size: 12px; color: var(--text-muted); }
+.etq-opciones { display: flex; flex-wrap: wrap; gap: 6px; }
+.etq-opcion {
+  padding: 4px 11px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.etq-opcion--activa { border-color: rgba(24, 100, 255, 0.35); background: rgba(24, 100, 255, 0.08); color: #1864ff; }
+.dark .etq-opcion--activa { border-color: rgba(129, 140, 248, 0.4); background: rgba(99, 102, 241, 0.18); color: #c7d2fe; }
 .dropzone-pub {
   @apply border-2 border-dashed rounded-xl p-4 cursor-pointer flex items-center justify-center transition-colors duration-200;
   border-color: var(--border);
   min-height: 90px;
 }
 .dropzone-pub:hover { border-color: var(--brand-blue, #1864ff); }
+.img-ayuda { margin: 0; font-size: 11px; line-height: 1.45; color: var(--text-muted); }
+.img-ayuda strong { color: var(--text); font-weight: 700; }
+.quitar-imagen-btn {
+  margin-top: 4px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: #dc2626;
+  cursor: pointer;
+}
+.quitar-imagen-btn:hover { text-decoration: underline; }
 .elegir-biblioteca-btn {
   @apply text-xs font-semibold mt-1 self-start;
   color: var(--brand-blue, #1864ff);

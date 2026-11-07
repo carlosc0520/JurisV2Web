@@ -7,6 +7,13 @@
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
+  # SEO (requiere PHP en el hosting): los artículos y categorías del blog se entregan
+  # con su título, descripción e imagen ya en el HTML (blog.php), y el sitemap se sirve
+  # desde este dominio (sitemap.php, que lo pide a la API).
+  RewriteRule ^blog/categoria/([a-z0-9-]+)/?$ blog.php?categoria=$1 [L,QSA]
+  RewriteRule ^blog/([a-z0-9-]+)/?$ blog.php?slug=$1 [L,QSA]
+  RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
   # Redirigir todo a index.html (Vue Router)
   RewriteRule ^ index.html [L]
 </IfModule>

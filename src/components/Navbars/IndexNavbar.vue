@@ -55,11 +55,31 @@
               Conócenos
             </a>
           </li>
-          <li>
-            <router-link to="/publicaciones"
-              :class="['nav-link', route.path.startsWith('/publicaciones') ? 'nav-link--active' : '']">
-              Publicaciones
-            </router-link>
+          <!-- Blog: al pasar el mouse muestra sus categorías -->
+          <li class="nav-blog" @mouseenter="abrirBlog" @mouseleave="cerrarBlog" @focusin="abrirBlog"
+            @focusout="alSalirFocoBlog" @keydown.esc="menuBlog = false">
+            <button type="button" aria-haspopup="true" :aria-expanded="menuBlog && categoriasBlog.length > 0"
+              :class="['nav-link', route.path.startsWith('/blog') ? 'nav-link--active' : '']" @click="abrirBlog">
+              Blog
+              <svg v-if="categoriasBlog.length" :class="['nav-caret', menuBlog ? 'nav-caret--abierto' : '']" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <transition name="menu-blog">
+              <div v-if="categoriasBlog.length" v-show="menuBlog" class="menu-blog" role="menu">
+                <div :class="['menu-blog-panel', categoriasBlog.length > 8 ? 'menu-blog-panel--doble' : '']">
+                  <div class="menu-blog-lista">
+                    <router-link v-for="c in categoriasBlog" :key="c.slug" :to="`/blog/categoria/${c.slug}`" role="menuitem"
+                      :class="['menu-blog-item', categoriaBlogActiva(c.slug) ? 'menu-blog-item--activo' : '']"
+                      @click="menuBlog = false">
+                      <span class="menu-blog-icono" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+                      </span>
+                      <span class="menu-blog-nombre">{{ c.nombre }}</span>
+                    </router-link>
+                  </div>
+                </div>
+              </div>
+            </transition>
           </li>
           <li>
             <router-link to="/contacto"
@@ -135,17 +155,28 @@
               </a>
             </li>
             <li>
-              <router-link to="/publicaciones" @click="navbarOpen = false"
-                :class="['flex items-center gap-3 px-4 py-3.5 text-[0.95rem] font-semibold no-underline rounded-xl transition-all',
-                  route.path === '/publicaciones'
+              <button type="button" :aria-expanded="blogMovilAbierto" @click="blogMovilAbierto = !blogMovilAbierto"
+                :class="['w-full flex items-center gap-3 px-4 py-3.5 text-[0.95rem] font-semibold rounded-xl transition-all text-left',
+                  route.path.startsWith('/blog')
                     ? 'bg-gradient-to-br from-brand-pink to-brand-blue text-white shadow-[0_4px_12px_rgba(231,31,179,0.3)]'
-                    : 'text-slate-700 dark:text-slate-200 hover:bg-brand-blue/[0.07] hover:text-brand-blue hover:translate-x-1']">
+                    : 'text-slate-700 dark:text-slate-200 hover:bg-brand-blue/[0.07] hover:text-brand-blue']">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
                   <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
                 </svg>
-                Publicaciones
-              </router-link>
+                Blog
+                <svg class="w-4 h-4 ml-auto transition-transform" :class="{ 'rotate-180': blogMovilAbierto }" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <ul v-if="blogMovilAbierto && categoriasBlog.length" class="list-none m-0 p-0 pl-11 pr-2 pb-1">
+                <li v-for="c in categoriasBlog" :key="c.slug">
+                  <router-link :to="`/blog/categoria/${c.slug}`" @click="navbarOpen = false"
+                    :class="['block px-3 py-2 text-sm font-semibold no-underline rounded-lg transition-colors',
+                      categoriaBlogActiva(c.slug) ? 'text-brand-pink' : 'text-slate-600 dark:text-slate-300 hover:text-brand-blue hover:bg-brand-blue/[0.07]']">
+                    {{ c.nombre }}
+                  </router-link>
+                </li>
+              </ul>
             </li>
             <li>
               <router-link to="/contacto" @click="navbarOpen = false"
@@ -181,6 +212,11 @@
 import logoJuris from "@/assets/img/resources/logo-jurissearch.png";
 import { useRoute } from "vue-router";
 import DarkModeToggle from "@/components/DarkModeToggle.vue";
+import PublicacionesProxy from "@/proxies/PublicacionesProxy";
+import { slugDe } from "@/utils/slug";
+
+// La barra se monta en cada página pública: las categorías del blog se piden una sola vez.
+let categoriasBlogCache = null;
 
 export default {
   components: { DarkModeToggle },
@@ -196,12 +232,47 @@ export default {
       lastScrollPosition: 0,
       isNavbarVisible: true,
       isScrolled: false,
+      menuBlog: false,
+      blogMovilAbierto: false,
+      categoriasBlog: [],
+      cierreBlog: null,
     };
   },
-  mounted() { window.addEventListener('scroll', this.handleScroll); },
-  beforeUnmount() { window.removeEventListener('scroll', this.handleScroll); },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+    this.cargarCategoriasBlog();
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+    clearTimeout(this.cierreBlog);
+  },
+  watch: {
+    'route.fullPath'() { this.menuBlog = false; },
+  },
   methods: {
     setNavbarOpen() { this.navbarOpen = !this.navbarOpen; },
+    async cargarCategoriasBlog() {
+      try {
+        if (!categoriasBlogCache) {
+          categoriasBlogCache = PublicacionesProxy.categoriasPublicas().then(r =>
+            (r?.DATA ?? r ?? [])
+              .map(c => ({ nombre: c.descripcion ?? c.DESCRIPCION, slug: slugDe(c.descripcion ?? c.DESCRIPCION) }))
+              .filter(c => c.slug));
+        }
+        this.categoriasBlog = await categoriasBlogCache;
+      } catch {
+        categoriasBlogCache = null; // se reintenta en la próxima página
+        this.categoriasBlog = [];
+      }
+    },
+    abrirBlog() { clearTimeout(this.cierreBlog); this.menuBlog = true; },
+    // Pequeña espera al salir: cruzar del enlace al panel no lo cierra
+    cerrarBlog() {
+      clearTimeout(this.cierreBlog);
+      this.cierreBlog = setTimeout(() => { this.menuBlog = false; }, 150);
+    },
+    alSalirFocoBlog(e) { if (!e.currentTarget.contains(e.relatedTarget)) this.cerrarBlog(); },
+    categoriaBlogActiva(slug) { return this.route.path === `/blog/categoria/${slug}`; },
     scrollToSection(seccion = "conoce-proposito") {
       const section = document.querySelector("#" + seccion);
       // La sección solo existe en Inicio: desde otra página se navega a "/#seccion"
@@ -324,4 +395,70 @@ export default {
 .mobile-menu-enter-from > div:last-child, .mobile-menu-leave-to > div:last-child {
   transform: translateX(100%);
 }
+
+/* ── Menú de categorías del blog ───────────────────────── */
+.nav-blog { position: relative; }
+.nav-caret { width: 14px; height: 14px; margin-left: 4px; transition: transform 0.2s ease; }
+.nav-caret--abierto { transform: rotate(180deg); }
+.menu-blog {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 12px; /* puente: el mouse cruza al panel sin cerrarlo */
+  z-index: 60;
+}
+.menu-blog-panel {
+  position: relative;
+  width: 280px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-card);
+  box-shadow: 0 18px 40px -12px rgba(15, 23, 42, 0.2), 0 2px 6px rgba(15, 23, 42, 0.05);
+}
+.menu-blog-panel--doble { width: 520px; }
+/* Pestaña que apunta a "Blog" */
+.menu-blog-panel::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translateX(-50%) rotate(45deg);
+  background: var(--bg-card);
+  border-left: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+}
+.menu-blog-lista { display: grid; grid-template-columns: 1fr; }
+.menu-blog-panel--doble .menu-blog-lista { grid-template-columns: 1fr 1fr; }
+.menu-blog-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
+}
+.menu-blog-icono {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: #e71fb3;
+  background: rgba(231, 31, 179, 0.08);
+}
+.menu-blog-icono svg { width: 14px; height: 14px; }
+.menu-blog-nombre { flex: 1; min-width: 0; }
+/* La categoría que se está viendo */
+.menu-blog-item--activo { color: #e71fb3; }
+.menu-blog-enter-active, .menu-blog-leave-active { transition: opacity 0.15s ease, transform 0.15s ease; }
+.menu-blog-enter-from, .menu-blog-leave-to { opacity: 0; transform: translate(-50%, 6px); }
 </style>

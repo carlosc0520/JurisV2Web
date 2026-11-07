@@ -1,5 +1,5 @@
 <template>
-  <BaseModal v-model="isShow" :title="isEdit ? 'Editar categoría' : 'Nueva categoría'" size="sm" persistent @close="handleClose">
+  <BaseModal v-model="isShow" :title="isEdit ? 'Editar categoría' : 'Nueva categoría'" size="lg" persistent @close="handleClose">
     <form @submit.prevent="submit" class="flex flex-col gap-4">
       <BaseInput
         v-model="modelo.descripcion"
@@ -8,6 +8,14 @@
         required
         :error="validation.firstError('modelo.descripcion')"
       />
+      <div>
+        <p v-if="cargandoEtiquetas" class="m-0 text-sm" style="color:var(--text-muted)">Cargando etiquetas…</p>
+        <EtiquetasInput v-else v-model="modelo.etiquetas" :maximo="30" />
+        <p class="m-0 mt-1.5 text-[11px] leading-snug" style="color:var(--text-muted)">
+          Son los filtros de esta categoría en el blog y las que se pueden elegir en sus artículos.
+          Si quitas una que ya usan artículos, se oculta en lugar de borrarse.
+        </p>
+      </div>
     </form>
     <template #footer>
       <CancelButton @click="handleClose" :disabled="loadingSubmit" />
@@ -20,9 +28,11 @@
 import { Validator } from 'simple-vue-validator';
 import { toast } from 'vue3-toastify';
 import PublicacionesProxy from '@/proxies/PublicacionesProxy';
+import EtiquetasInput from '@/components/Publicaciones/EtiquetasInput.vue';
 
 export default {
   name: 'ModalPublicacionCategoria',
+  components: { EtiquetasInput },
   props: {
     show:   { type: Boolean,  default: false },
     data:   { type: Object,   default: null },
@@ -33,7 +43,10 @@ export default {
     return {
       isShow: false,
       loadingSubmit: false,
-      modelo: { id: null, descripcion: '' },
+      modelo: { id: null, descripcion: '', etiquetas: [] },
+      cargandoEtiquetas: false,
+      // Las etiquetas solo se envían si se llegaron a cargar (si no, se borrarían las actuales)
+      etiquetasListas: true,
     };
   },
   computed: {
@@ -46,12 +59,13 @@ export default {
     handleClose() { this.isShow = false; this.close(); },
     async submit() {
       const valid = await this.$validate();
-      if (!valid) return;
+      if (!valid || this.cargandoEtiquetas) return;
 
       this.loadingSubmit = true;
       const loading = toast.loading('Espere un momento...');
 
-      await PublicacionesProxy.saveCategoria(this.modelo)
+      const { etiquetas, ...categoria } = this.modelo;
+      await PublicacionesProxy.saveCategoria(this.etiquetasListas ? { ...categoria, etiquetas } : categoria)
         .then(r => {
           const result = r?.DATA ?? r;
           if (result.STATUS) {
@@ -66,15 +80,31 @@ export default {
     },
     reset() {
       this.modelo = this.data
-        ? { id: this.data.ID ?? this.data.id, descripcion: this.data.descripcion ?? this.data.DESCRIPCION ?? '' }
-        : { id: null, descripcion: '' };
+        ? { id: this.data.ID ?? this.data.id, descripcion: this.data.descripcion ?? this.data.DESCRIPCION ?? '', etiquetas: [] }
+        : { id: null, descripcion: '', etiquetas: [] };
       this.validation?.reset();
+    },
+    async cargarEtiquetas() {
+      const id = this.modelo.id;
+      this.etiquetasListas = !id;
+      if (!id) return;
+      this.cargandoEtiquetas = true;
+      try {
+        const r = await PublicacionesProxy.listEtiquetas({ idCategoria: id });
+        if (id !== this.modelo.id) return;
+        this.modelo.etiquetas = (r?.DATA ?? r ?? []).filter(e => e.estado === 'A').map(e => e.nombre);
+        this.etiquetasListas = true;
+      } catch {
+        toast.error('No se pudieron cargar las etiquetas de la categoría', { toastId: 'error-etiquetas-cat' });
+      } finally {
+        this.cargandoEtiquetas = false;
+      }
     },
   },
   watch: {
     show(val) {
       this.isShow = val;
-      if (val) this.reset();
+      if (val) { this.reset(); this.cargarEtiquetas(); }
       else setTimeout(() => this.reset(), 200);
     },
   },

@@ -1,0 +1,12 @@
+# Juris Search: el blog y las páginas públicas se indexan; la aplicación privada no.
+User-agent: *
+Disallow: /admin
+Disallow: /usuario
+Disallow: /auth
+Disallow: /redirect
+Disallow: /landing
+Disallow: /profile
+Disallow: /blog/previa/
+
+# Lo genera la API; sitemap.php lo entrega en este dominio
+Sitemap: https://jurissearch.com/sitemap.xml

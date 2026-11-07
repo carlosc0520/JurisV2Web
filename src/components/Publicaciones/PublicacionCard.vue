@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="`/publicaciones/${publicacion.slug}`"
+  <router-link :to="`/blog/${publicacion.slug}`"
     class="pub-card group flex flex-col h-full overflow-hidden no-underline">
     <div :class="['relative w-full overflow-hidden', compacta ? 'h-[100px]' : 'h-[150px]']">
       <img v-if="imagenUrl" :src="imagenUrl" :alt="publicacion.titulo" loading="lazy"
@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     imagenUrl() {
-      return urlDeMedia(this.publicacion.imagen);
+      return urlDeMedia(this.publicacion.imagenListado || this.publicacion.imagen);
     },
     categoriaLabel() {
       const cat = this.categorias.find(c => Number(c.id ?? c.ID) === Number(this.publicacion.idCategoria));

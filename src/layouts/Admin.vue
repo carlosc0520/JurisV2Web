@@ -55,7 +55,7 @@ export default {
         { name: 'Mantenimiento', route: '/admin/mantenimiento',icon: mantenimientoIcon },
         { name: 'Favoritos',     route: '/admin/favoritos',    icon: estrellaIcon },
         { name: 'Investigación', route: '/admin/investigacion',icon: noticiasIcon },
-        { name: 'Publicaciones', route: '/admin/publicaciones',icon: publicacionesIcon },
+        { name: 'Blog', route: '/admin/blog',icon: publicacionesIcon },
         { name: 'Correo',        route: '/admin/email-config', icon: emailIcon,  permission: 'email.config' },
         { name: 'Panel IA',      route: '/admin/ai-panel',     icon: aiIcon,      permission: 'ai.panel' },
         { name: 'Auditoría IA',  route: '/admin/ai-audit',     icon: aiIcon,      permission: 'ai.audit' },

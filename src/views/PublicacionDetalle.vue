@@ -39,15 +39,15 @@
       <div v-else-if="!publicacion" class="max-w-xl mx-auto text-center py-24 px-4">
         <h1 class="text-xl font-bold mb-2" style="color:var(--text)">{{ $route.params.token ? 'Esta vista previa ya no está disponible' : 'No encontramos esta publicación' }}</h1>
         <p class="text-sm mb-5" style="color:var(--text-muted)">{{ $route.params.token ? 'Los enlaces de vista previa expiran a las 24 horas. Genera uno nuevo desde el editor.' : 'Puede que haya sido retirada o el enlace esté mal escrito.' }}</p>
-        <router-link to="/publicaciones" class="text-sm font-semibold text-brand-blue">Ver todas las publicaciones →</router-link>
+        <router-link to="/blog" class="text-sm font-semibold text-brand-blue">Ir al blog →</router-link>
       </div>
 
       <div v-else class="max-w-[1240px] mx-auto px-4 sm:px-6 py-6">
 
         <Breadcrumb :items="[
           { label: 'Inicio', to: '/' },
-          { label: 'Publicaciones', to: '/publicaciones' },
-          { label: categoriaLabel },
+          { label: 'Blog' },
+          { label: categoriaLabel, to: rutaCategoria },
         ]" />
 
         <div class="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-6 mt-4">
@@ -58,6 +58,10 @@
               <span class="detalle-categoria">{{ categoriaLabel }}</span>
               <h1 class="text-2xl sm:text-[2.1rem] leading-tight font-extrabold mt-3 mb-2" style="color:var(--text)">{{ publicacion.titulo }}</h1>
               <p v-if="publicacion.subtitulo" class="text-base sm:text-lg m-0" style="color:var(--text-muted)">{{ publicacion.subtitulo }}</p>
+              <div v-if="publicacion.etiquetas && publicacion.etiquetas.length" class="flex flex-wrap gap-2 mt-3">
+                <router-link v-for="e in publicacion.etiquetas" :key="e.slug" :to="{ path: rutaCategoria, query: { etiquetas: e.slug } }"
+                  class="detalle-etiqueta no-underline">{{ e.nombre }}</router-link>
+              </div>
 
               <div class="flex flex-wrap items-center justify-between gap-3 mt-5">
                 <span class="text-sm" style="color:var(--text-muted)">
@@ -66,7 +70,6 @@
                 <div class="flex items-center gap-2">
                   <span class="text-sm mr-1" style="color:var(--text-muted)">Compartir:</span>
                   <a :href="shareLinkedIn" target="_blank" rel="noreferrer" class="share-btn" aria-label="Compartir en LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg></a>
-                  <a :href="shareX" target="_blank" rel="noreferrer" class="share-btn" aria-label="Compartir en X"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
                   <a :href="shareFacebook" target="_blank" rel="noreferrer" class="share-btn" aria-label="Compartir en Facebook"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 10-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0022 12z"/></svg></a>
                   <button type="button" class="share-btn" aria-label="Copiar enlace" @click="copiarEnlace"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.07 0l2.83-2.83a5 5 0 00-7.07-7.07l-1.17 1.17"/><path d="M14 11a5 5 0 00-7.07 0L4.1 13.83a5 5 0 007.07 7.07l1.17-1.17"/></svg></button>
                 </div>
@@ -117,8 +120,8 @@
         <div v-if="publicacion.relacionadas?.length" class="mt-12 pt-8" style="border-top:1px solid var(--border)">
           <div class="flex items-center justify-between gap-3 mb-4">
             <h2 class="text-xl font-bold m-0" style="color:var(--text)">Sigue explorando</h2>
-            <router-link to="/publicaciones" class="ver-todas group no-underline">
-              Ver todas las publicaciones
+            <router-link :to="rutaCategoria" class="ver-todas group no-underline">
+              Ver más en {{ categoriaLabel }}
               <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </router-link>
           </div>
@@ -135,6 +138,7 @@
 
 <script>
 import Navbar from "@/components/Navbars/IndexNavbar.vue";
+import { slugDe } from "@/utils/slug";
 import FooterComponent from "@/components/Footers/Footer.vue";
 import Breadcrumb from "@/components/Publicaciones/Breadcrumb.vue";
 import BlockRenderer from "@/components/Publicaciones/BlockRenderer.vue";
@@ -142,6 +146,7 @@ import PublicacionCard from "@/components/Publicaciones/PublicacionCard.vue";
 import PublicacionesProxy from "@/proxies/PublicacionesProxy";
 import { headingsOf } from "@/components/Publicaciones/tiptap/renderPublicHtml";
 import { urlDeMedia } from "@/utils/mediaUrl";
+import { defineSeo, migasJsonLd, organizacionJsonLd, SITE_URL } from "@/composables/useSeo";
 import { toast } from 'vue3-toastify';
 
 export default {
@@ -158,6 +163,11 @@ export default {
   },
   computed: {
     imagenUrl() { return urlDeMedia(this.publicacion?.imagen); },
+    // El blog se recorre por categorías: sin la del artículo se va al blog (abre la primera)
+    rutaCategoria() {
+      const cat = this.categorias.find(c => Number(c.id ?? c.ID) === Number(this.publicacion?.idCategoria));
+      return cat ? `/blog/categoria/${slugDe(cat.descripcion ?? cat.DESCRIPCION)}` : '/blog';
+    },
     categoriaLabel() {
       const cat = this.categorias.find(c => Number(c.id ?? c.ID) === Number(this.publicacion?.idCategoria));
       return cat ? (cat.descripcion ?? cat.DESCRIPCION) : 'Juris Search';
@@ -172,7 +182,6 @@ export default {
     },
     shareUrl() { return typeof window !== 'undefined' ? window.location.href : ''; },
     shareLinkedIn() { return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(this.shareUrl)}`; },
-    shareX() { return `https://twitter.com/intent/tweet?url=${encodeURIComponent(this.shareUrl)}&text=${encodeURIComponent(this.publicacion?.titulo || '')}`; },
     shareFacebook() { return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.shareUrl)}`; },
   },
   methods: {
@@ -187,22 +196,66 @@ export default {
         ]);
         this.categorias = rCat?.DATA ?? rCat ?? [];
         this.publicacion = rPub?.DATA ?? rPub ?? null;
-        this.marcarNoIndexar(!!this.$route.params.token);
       } catch {
         this.publicacion = null;
       } finally {
+        this.aplicarSeo();
         this.loading = false;
         this.$nextTick(() => this.setupObserver());
       }
     },
-    // Las vistas previas no deben aparecer en buscadores
-    marcarNoIndexar(activo) {
-      let meta = document.querySelector('meta[name="robots"][data-previa]');
-      if (activo && !meta) {
-        meta = document.createElement('meta');
-        meta.name = 'robots'; meta.content = 'noindex, nofollow'; meta.setAttribute('data-previa', '');
-        document.head.appendChild(meta);
-      } else if (!activo && meta) meta.remove();
+    // Título, descripción, imagen para compartir y datos estructurados del artículo.
+    // Las vistas previas y los no encontrados no se indexan.
+    aplicarSeo() {
+      const p = this.publicacion;
+      if (!p) { defineSeo({ title: 'Artículo no encontrado', noindex: true }); return; }
+      const previa = !!this.$route.params.token;
+      const url = `${SITE_URL}/blog/${p.slug}`;
+      const imagen = urlDeMedia(p.imagenListado || p.imagen) || undefined;
+      const iso = f => { const d = f ? new Date(f) : null; return d && !isNaN(d) ? d.toISOString() : undefined; };
+      const tags = (p.etiquetas || []).map(e => e.nombre);
+      const categoriaUrl = this.rutaCategoria !== '/blog' ? `${SITE_URL}${this.rutaCategoria}` : undefined;
+      const autor = p.autor
+        ? { '@type': /equipo|juris ?search/i.test(p.autor) ? 'Organization' : 'Person', name: p.autor }
+        : { '@id': `${SITE_URL}/#organizacion` };
+      defineSeo({
+        title: p.titulo,
+        description: p.resumen || p.subtitulo,
+        image: imagen,
+        url,
+        type: 'article',
+        noindex: previa,
+        publishedAt: iso(p.fechaPublicacion),
+        modifiedAt: iso(p.fechaEdicion),
+        author: p.autor,
+        section: this.categoriaLabel,
+        tags,
+        jsonLd: {
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'BlogPosting',
+              headline: p.titulo,
+              description: p.resumen || undefined,
+              image: imagen ? [imagen] : undefined,
+              datePublished: iso(p.fechaPublicacion),
+              dateModified: iso(p.fechaEdicion) || iso(p.fechaPublicacion),
+              author: autor,
+              publisher: { '@id': `${SITE_URL}/#organizacion` },
+              mainEntityOfPage: url,
+              articleSection: this.categoriaLabel || undefined,
+              keywords: tags.length ? tags.join(', ') : undefined,
+              inLanguage: 'es-PE',
+            },
+            organizacionJsonLd(),
+            migasJsonLd([
+              { nombre: 'Inicio', url: `${SITE_URL}/` },
+              { nombre: this.categoriaLabel || 'Blog', url: categoriaUrl },
+              { nombre: p.titulo },
+            ]),
+          ],
+        },
+      });
     },
     irASeccion(id) {
       const el = document.getElementById(id);
@@ -232,7 +285,6 @@ export default {
   },
   beforeUnmount() {
     if (this.observer) this.observer.disconnect();
-    this.marcarNoIndexar(false);
   },
   async mounted() {
     await this.cargar();
@@ -253,6 +305,19 @@ export default {
   box-shadow: 0 10px 28px rgba(15, 23, 42, 0.28);
 }
 .previa-punto { width: 8px; height: 8px; border-radius: 9999px; background: #f59e0b; box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3); }
+.detalle-etiqueta {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1864ff;
+  background: rgba(24, 100, 255, 0.07);
+  transition: background 0.15s;
+}
+.detalle-etiqueta:hover { background: rgba(24, 100, 255, 0.14); }
+.dark .detalle-etiqueta { color: #c7d2fe; background: rgba(99, 102, 241, 0.18); }
 .share-btn {
   @apply w-8 h-8 rounded-full flex items-center justify-center transition-all;
   background: var(--bg-card);
@@ -292,7 +357,7 @@ export default {
   box-shadow: 0 8px 20px rgba(110, 60, 230, 0.25);
 }
 
-/* "Ver todas las publicaciones" */
+/* "Ver todos los artículos" */
 .ver-todas {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 7px 16px; border-radius: 9999px;

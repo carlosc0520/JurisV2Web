@@ -84,6 +84,21 @@ class PublicacionesProxy {
         return data;
     }
 
+    async listEtiquetas(model) {
+        const { data } = await axios.get(`/admin/publicaciones/etiquetas/list`, { params: model });
+        return data;
+    }
+
+    async renombrarEtiqueta(id, nombre) {
+        const { data } = await axios.post(`/admin/publicaciones/etiquetas/renombrar/${id}`, { NOMBRE: nombre });
+        return data;
+    }
+
+    async toggleEtiqueta(id) {
+        const { data } = await axios.post(`/admin/publicaciones/etiquetas/toggle/${id}`);
+        return data;
+    }
+
     // * PÚBLICO
     async listPublicas(model) {
         const { data } = await axios.get(`/publicaciones`, { params: model });
@@ -95,8 +110,14 @@ class PublicacionesProxy {
         return data;
     }
 
-    async destacada() {
-        const { data } = await axios.get(`/publicaciones/destacada`);
+    async destacada(model) {
+        const { data } = await axios.get(`/publicaciones/destacada`, { params: model });
+        return data;
+    }
+
+    // Etiquetas con artículos publicados (de una categoría, si se indica)
+    async etiquetasPublicas(model) {
+        const { data } = await axios.get(`/publicaciones/etiquetas`, { params: model });
         return data;
     }
 

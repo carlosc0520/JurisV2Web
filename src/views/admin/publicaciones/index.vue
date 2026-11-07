@@ -1,7 +1,7 @@
 <template>
   <section class="min-h-screen pb-10" style="background:var(--bg-sunken)">
 
-    <PageHeader title="Publicaciones" subtitle="Gestión del blog y sus categorías">
+    <PageHeader title="Blog" subtitle="Gestión de artículos, categorías y etiquetas">
       <template #icon>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
@@ -19,7 +19,10 @@
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
             Artículos
           </button>
-          <span v-if="active == 'categorias'" class="text-sm font-bold" style="color:var(--text)">Categorías</span>
+          <span v-if="active == 'categorias'" class="text-sm font-bold" style="color:var(--text)">Categorías y etiquetas</span>
+          <app-select v-if="active == 'articulos'" v-model="filter.IDCATEGORIA" aria-label="Categoría" @change="cambiarCategoria">
+            <option v-for="c in categoriasLista" :key="c.id" :value="c.id">{{ c.nombre }}{{ c.activa ? '' : ' (inactiva)' }}</option>
+          </app-select>
           <search-bar :key="active" class="flex-1 min-w-[240px]"
             :placeholder="active == 'articulos' ? 'Buscar por título...' : 'Buscar por descripción...'"
             @search="q => { filter.DESC = q || null; triggerSearch(); }"
@@ -32,8 +35,8 @@
           </app-select>
           <search-button @click="triggerSearch" />
           <new-button :label="active == 'articulos' ? 'Crear' : 'Nueva categoría'" @click="onCrear" />
-          <button v-if="active == 'articulos'" type="button" class="btn-ajustes" title="Gestionar categorías"
-            aria-label="Gestionar categorías" @click="active = 'categorias'">
+          <button v-if="active == 'articulos'" type="button" class="btn-ajustes" title="Gestionar categorías y etiquetas"
+            aria-label="Gestionar categorías y etiquetas" @click="active = 'categorias'">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
           </button>
         </div>
@@ -77,7 +80,7 @@
             <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
           </div>
           <h3 class="m-0 text-base font-bold" style="color:var(--text)">No hay artículos para mostrar</h3>
-          <p class="m-0 text-sm" style="color:var(--text-muted)">Prueba con otro término o estado, o crea un artículo nuevo.</p>
+          <p class="m-0 text-sm" style="color:var(--text-muted)">Prueba con otro término, estado o categoría, o crea un artículo nuevo.</p>
           <button type="button" class="btn-primario mt-2" @click="onCrear">+ Crear artículo</button>
         </div>
 
@@ -205,6 +208,7 @@
       </div>
 
       <data-table v-if="active == 'categorias'" :search="searchCategorias" :fields="fieldsCategorias" :items="dataCategorias" :grid="grid" :actions="actionsCategorias"/>
+      <EtiquetasAdmin v-if="active == 'categorias'" :key="versionEtiquetas" :busqueda="filter.DESC || ''" />
     </div>
 
     <!-- Historial de cambios de un artículo -->
@@ -217,7 +221,7 @@
     <!-- Modal categoría (crear/editar) -->
     <ModalPublicacionCategoria :show="modalCategoria.show" :data="modalCategoria.data"
       :close="() => modalCategoria.show = false"
-      :update="() => searchCategorias(grid.currentPage, grid.perPage)"/>
+      :update="() => { searchCategorias(grid.currentPage, grid.perPage); versionEtiquetas++; }"/>
 
     <ModalEliminar message="¿Está seguro de cambiar el estado de este registro?" buttonOk="Sí, cambiar"
       :action="toggleArticulo" :openDelete="modalEliminarArticulo.show"
@@ -233,18 +237,25 @@ import DataTable from "@/components/Tables/DataTable.vue";
 import { toast } from 'vue3-toastify';
 import ModalEliminar from "../shared/ModalEliminar.vue";
 import ModalPublicacionCategoria from "./modals/ModalPublicacionCategoria.vue";
+import EtiquetasAdmin from "./EtiquetasAdmin.vue";
 import HistorialPublicacion from "@/components/Publicaciones/HistorialPublicacion.vue";
 import PublicacionesProxy from "@/proxies/PublicacionesProxy";
 import moment from 'moment';
 import { urlDeMedia } from '@/utils/mediaUrl';
 
 const VISTA_KEY = 'admin-publicaciones-vista';
+// Categoría elegida en el listado: se recuerda al volver del editor (solo en esta pestaña)
+const CATEGORIA_KEY = 'admin-blog-categoria';
+function leerCategoria() {
+  try { return Number(sessionStorage.getItem(CATEGORIA_KEY)) || null; } catch { return null; }
+}
+
 function leerVista() {
   try { return localStorage.getItem(VISTA_KEY) === 'grid' ? 'grid' : 'lista'; } catch { return 'lista'; }
 }
 
 export default {
-  components: { DataTable, ModalEliminar, ModalPublicacionCategoria, HistorialPublicacion },
+  components: { DataTable, ModalEliminar, ModalPublicacionCategoria, EtiquetasAdmin, HistorialPublicacion },
   data() {
     return {
       active: 'articulos',
@@ -277,7 +288,9 @@ export default {
       modalCategoria:        { show: false, data: null },
       modalEliminarArticulo:  { show: false, data: null },
       modalEliminarCategoria: { show: false, data: null },
-      filter: { DESC: null, CDESTDO: '' },
+      filter: { DESC: null, CDESTDO: '', IDCATEGORIA: leerCategoria() },
+      categoriasLista: [],
+      versionEtiquetas: 0,
       vista: leerVista(),
       historial: { show: false, id: null, titulo: '' },
       duplicando: null,
@@ -301,14 +314,14 @@ export default {
     },
     estadoLabel(e) { return { A: 'Publicado', B: 'Borrador' }[e] || 'Inactivo'; },
     estadoClase(e) { return { A: 'activo', B: 'borrador' }[e] || 'inactivo'; },
-    // Solo hay un destacado: al marcar uno, el anterior pierde la estrella (se recarga la página actual)
+    // Un destacado por categoría: al marcar uno, el anterior de su categoría pierde la estrella (se recarga la página actual)
     async alternarDestacado(a) {
       this.destacando = a.ID;
       try {
         const r = await PublicacionesProxy.destacar(a.ID, !a.destacado);
         const res = r?.DATA ?? r;
         if (!res?.STATUS) throw new Error(res?.MESSAGE);
-        if (res.MESSAGE) toast.success(a.destacado ? 'Se quitó el destacado' : 'Ahora es el artículo destacado', { toastId: 'destacado' });
+        if (res.MESSAGE) toast.success(a.destacado ? 'Se quitó el destacado' : 'Ahora es el destacado de su categoría', { toastId: 'destacado' });
         await this.searchArticulos(this.grid.currentPage, this.grid.perPage);
       } catch (e) {
         toast.error(e?.message || 'No se pudo cambiar el destacado');
@@ -323,7 +336,7 @@ export default {
         const res = r?.DATA ?? r;
         if (!res?.STATUS) throw new Error(res?.MESSAGE);
         toast.success('Artículo duplicado como borrador');
-        this.$router.push(`/admin/publicaciones/${res.ID}/editar`);
+        this.$router.push(`/admin/blog/${res.ID}/editar`);
       } catch (e) {
         toast.error(e?.message || 'No se pudo duplicar el artículo');
       } finally {
@@ -351,6 +364,10 @@ export default {
       const payload = r?.DATA ?? r;
       const rows = payload?.data ?? [];
       this.categoriasMap = new Map(rows.map(c => [Number(c.id ?? c.ID), c.descripcion ?? c.DESCRIPCION]));
+      // Mismo orden que el blog público (alfabético); las inactivas al final
+      this.categoriasLista = rows
+        .map(c => ({ id: Number(c.id ?? c.ID), nombre: c.descripcion ?? c.DESCRIPCION, activa: (c.estado ?? c.CDESTDO) === 'A' }))
+        .sort((a, b) => (b.activa - a.activa) || a.nombre.localeCompare(b.nombre, 'es'));
       return this.categoriasMap;
     },
     async searchArticulos(currentPage, perPage) {
@@ -358,13 +375,17 @@ export default {
       this.grid.currentPage = currentPage;
       this.grid.perPage = perPage;
       const categoriasMap = await this.loadCategoriasMap();
+      // Siempre se ve una categoría: por defecto la primera (o la recordada, si aún existe)
+      if (!this.categoriasLista.some(c => c.id === Number(this.filter.IDCATEGORIA))) {
+        this.filter.IDCATEGORIA = this.categoriasLista[0]?.id ?? null;
+      }
       // Quién está editando cada artículo (si falla, la lista se muestra igual)
       const editando = new Map();
       try {
         const rb = await PublicacionesProxy.bloqueos();
         (rb?.DATA ?? rb ?? []).forEach(b => editando.set(Number(b.id), b.nombre));
       } catch { /* sin datos de bloqueo */ }
-      await PublicacionesProxy.list({ ROWS: perPage, INIT: (currentPage-1)*perPage, DESC: this.filter?.DESC||null, CESTDO: this.filter?.CDESTDO||null })
+      await PublicacionesProxy.list({ ROWS: perPage, INIT: (currentPage-1)*perPage, DESC: this.filter?.DESC||null, CESTDO: this.filter?.CDESTDO||null, IDCATEGORIA: this.filter?.IDCATEGORIA||null })
         .then(r => {
           const payload = r?.DATA ?? r;
           const rows = payload?.data ?? [];
@@ -374,7 +395,7 @@ export default {
             RN: i + 1 + (currentPage - 1) * perPage,
             ID: u.id ?? u.ID,
             TITULO: u.titulo || '—',
-            IMAGEN_URL: urlDeMedia(u.imagen),
+            IMAGEN_URL: urlDeMedia(u.imagenListado || u.imagen),
             EDITANDO: editando.get(Number(u.id ?? u.ID)) || null,
             CATEGORIA_C: categoriasMap.get(Number(u.idCategoria)) || 'Sin categoría',
             DESTACADO_C: u.destacado ? '⭐ Sí' : '—',
@@ -406,11 +427,16 @@ export default {
         .catch(err => { this.dataCategorias = []; toast.error(err?.MESSAGE||'Error al cargar las categorías', { toastId: 'error-categorias' }); })
         .finally(() => this.grid.isLoading = false);
     },
+    cambiarCategoria() {
+      try { sessionStorage.setItem(CATEGORIA_KEY, String(this.filter.IDCATEGORIA || '')); } catch { /* sin almacenamiento */ }
+      this.triggerSearch();
+    },
     onCrear() {
-      if (this.active == 'articulos') this.$router.push('/admin/publicaciones/nuevo');
+      // El artículo nuevo nace en la categoría que se está viendo
+      if (this.active == 'articulos') this.$router.push({ path: '/admin/blog/nuevo', query: this.filter.IDCATEGORIA ? { categoria: this.filter.IDCATEGORIA } : {} });
       else { this.modalCategoria.data = null; this.modalCategoria.show = true; }
     },
-    editArticulo(data) { this.$router.push(`/admin/publicaciones/${data.ID}/editar`); },
+    editArticulo(data) { this.$router.push(`/admin/blog/${data.ID}/editar`); },
     async toggleArticulo() {
       const id = this.modalEliminarArticulo.data?.ID;
       if (!id) return toast.warning('No se encontró el ID', { toastId: 'warning-toggle' });
@@ -448,7 +474,7 @@ export default {
   },
   watch: {
     active(v) {
-      this.filter = { DESC: null, CDESTDO: '' };
+      this.filter = { DESC: null, CDESTDO: '', IDCATEGORIA: this.filter.IDCATEGORIA };
       this.grid = { ...this.grid, perPage: v == 'articulos' ? 12 : 10, currentPage: 1 };
       if (v == 'articulos') this.searchArticulos(1, this.grid.perPage);
       else this.searchCategorias(1, this.grid.perPage);

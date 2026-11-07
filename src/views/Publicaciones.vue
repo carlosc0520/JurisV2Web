@@ -11,17 +11,17 @@
         <div class="hero-orb hero-orb-3"></div>
 
         <div class="max-w-[1140px] mx-auto px-4 sm:px-6 pt-6 pb-6 relative z-10">
-          <Breadcrumb :items="[{ label: 'Inicio', to: '/' }, { label: 'Publicaciones' }]" />
+          <Breadcrumb :items="migas" />
 
           <div class="mt-4">
             <span class="etiqueta-blog" v-motion :initial="{ opacity: 0, y: 10 }" :enter="{ opacity: 1, y: 0, transition: { duration: 350 } }">Blog Juris Search</span>
             <h1 class="text-2xl sm:text-[2rem] leading-tight font-extrabold mt-3 mb-1.5" style="color:var(--text)"
               v-motion :initial="{ opacity: 0, y: 16 }" :enter="{ opacity: 1, y: 0, transition: { duration: 400, delay: 80 } }">
-              El derecho, bajo una mirada crítica.
+              {{ categoriaActual ? categoriaActual.nombre : 'El derecho, bajo una mirada crítica.' }}
             </h1>
             <p class="text-[0.95rem] max-w-2xl m-0" style="color:var(--text-muted)"
               v-motion :initial="{ opacity: 0, y: 16 }" :enter="{ opacity: 1, y: 0, transition: { duration: 400, delay: 150 } }">
-              Jurisprudencia, actualidad y análisis para profundizar tu criterio jurídico.
+              {{ categoriaActual ? 'Artículos y análisis de esta categoría.' : 'Jurisprudencia, actualidad y análisis para profundizar tu criterio jurídico.' }}
             </p>
           </div>
 
@@ -35,29 +35,28 @@
               class="search-input" @keyup.enter="buscar" />
           </div>
 
-          <!-- Categorías -->
-          <!-- Máximo 2 filas; si no entran, se desplazan con las flechas -->
-          <div class="flex items-center gap-2 mt-3"
+          <!-- Etiquetas: máximo 2 filas; si no entran, se desplazan con las flechas -->
+          <div v-if="etiquetas.length" class="flex items-center gap-2 mt-3"
             v-motion :initial="{ opacity: 0, y: 14 }" :enter="{ opacity: 1, y: 0, transition: { duration: 400, delay: 280 } }">
             <button v-show="pillsDesborde" type="button" class="pills-flecha" :disabled="!pillsIzq"
-              aria-label="Ver categorías anteriores" @click="moverPills(-1)">
+              aria-label="Ver etiquetas anteriores" @click="moverPills(-1)">
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
             </button>
             <div ref="pillsScroll" @scroll="actualizarFlechas"
               :class="['pills-scroll flex-1 min-w-0', pillsIzq ? 'fade-izq' : '', pillsDer ? 'fade-der' : '']">
               <div ref="pillsInner" class="flex flex-wrap gap-3">
-                <button type="button" @click="seleccionarCategoria(null)"
+                <button type="button" @click="limpiarEtiquetas"
                   v-motion :hovered="{ scale: 1.06 }" :tapped="{ scale: 0.96 }"
-                  :class="['pill-btn', !categoriaActiva ? 'pill-btn-active' : '']">Todas</button>
-                <button v-for="c in categorias" :key="c.id ?? c.ID" type="button" @click="seleccionarCategoria(c.id ?? c.ID)"
-                  v-motion :hovered="{ scale: 1.06 }" :tapped="{ scale: 0.96 }"
-                  :class="['pill-btn whitespace-nowrap', categoriaActiva === Number(c.id ?? c.ID) ? 'pill-btn-active' : '']">
-                  {{ c.descripcion ?? c.DESCRIPCION }}
+                  :class="['pill-btn', !etiquetasActivas.length ? 'pill-btn-active' : '']">Todas</button>
+                <button v-for="e in etiquetas" :key="e.slug" type="button" @click="alternarEtiqueta(e.slug)"
+                  v-motion :hovered="{ scale: 1.06 }" :tapped="{ scale: 0.96 }" :aria-pressed="etiquetasActivas.includes(e.slug)"
+                  :class="['pill-btn whitespace-nowrap', etiquetasActivas.includes(e.slug) ? 'pill-btn-active' : '']">
+                  {{ e.nombre }}
                 </button>
               </div>
             </div>
             <button v-show="pillsDesborde" type="button" class="pills-flecha" :disabled="!pillsDer"
-              aria-label="Ver más categorías" @click="moverPills(1)">
+              aria-label="Ver más etiquetas" @click="moverPills(1)">
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
           </div>
@@ -67,7 +66,7 @@
       <div class="max-w-[1140px] mx-auto px-4 sm:px-6 pb-10">
 
         <!-- Esqueleto del destacado mientras carga (misma forma: imagen + texto) -->
-        <div v-if="loading && !destacada && paginaActual === 1 && !busquedaActiva" class="mt-6 grid md:grid-cols-[5fr_6fr] rounded-2xl overflow-hidden"
+        <div v-if="loading && !destacada && paginaActual === 1 && !filtrando" class="mt-6 grid md:grid-cols-[5fr_6fr] rounded-2xl overflow-hidden"
           style="border:1px solid var(--border)" aria-hidden="true">
           <div class="sk h-[180px] md:h-[220px] rounded-none" />
           <div class="p-5 sm:p-6 flex flex-col justify-center gap-3">
@@ -82,12 +81,12 @@
         </div>
 
         <!-- Destacado -->
-        <div v-else-if="destacada && paginaActual === 1 && !busquedaActiva" class="mt-6"
+        <div v-else-if="destacada && paginaActual === 1 && !filtrando" class="mt-6"
           v-motion :initial="{ opacity: 0, y: 20 }" :enter="{ opacity: 1, y: 0, transition: { duration: 500, delay: 100 } }">
-          <router-link :to="`/publicaciones/${destacada.slug}`"
+          <router-link :to="`/blog/${destacada.slug}`"
             class="group grid md:grid-cols-[5fr_6fr] gap-0 rounded-2xl overflow-hidden no-underline card-hover">
             <div class="relative h-[180px] md:h-full md:min-h-[220px] overflow-hidden">
-              <img v-if="destacada.imagen" :src="imagenUrl(destacada.imagen)" :alt="destacada.titulo"
+              <img v-if="destacada.imagenListado || destacada.imagen" :src="imagenUrl(destacada.imagenListado || destacada.imagen)" :alt="destacada.titulo"
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div v-else class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, rgba(231,31,179,0.15), rgba(24,100,255,0.15));">
                 <svg class="w-14 h-14 text-brand-blue/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -119,7 +118,7 @@
         <!-- Listado -->
         <div class="relative z-30 flex items-center justify-between gap-3 mt-8 mb-4"
           v-motion :initial="{ opacity: 0, y: 10 }" :visible-once="{ opacity: 1, y: 0, transition: { duration: 350 } }">
-          <h2 class="text-lg sm:text-xl font-bold m-0" style="color:var(--text)">Últimas publicaciones</h2>
+          <h2 class="text-lg sm:text-xl font-bold m-0" style="color:var(--text)">Últimos artículos</h2>
 
           <div class="orden-wrap" v-click-outside="() => (ordenAbierto = false)">
             <button type="button" class="orden-btn" :aria-expanded="ordenAbierto" aria-haspopup="listbox"
@@ -143,7 +142,7 @@
         </div>
 
         <!-- Esqueleto de tarjetas mientras carga (mismo alto que las reales) -->
-        <div v-if="loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" aria-busy="true" aria-label="Cargando publicaciones">
+        <div v-if="loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" aria-busy="true" aria-label="Cargando artículos">
           <div v-for="n in 8" :key="n" class="overflow-hidden" style="border:1px solid var(--border); background:var(--bg-card); border-radius:18px">
             <div class="sk h-[150px] rounded-none" />
             <div class="p-4 flex flex-col gap-2">
@@ -161,7 +160,7 @@
         </div>
 
         <div v-else-if="!publicaciones.length" class="text-center py-16" style="color:var(--text-muted)">
-          Todavía no hay publicaciones en esta categoría.
+          {{ mensajeVacio }}
         </div>
 
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -216,6 +215,8 @@ import Breadcrumb from "@/components/Publicaciones/Breadcrumb.vue";
 import PublicacionCard from "@/components/Publicaciones/PublicacionCard.vue";
 import PublicacionesProxy from "@/proxies/PublicacionesProxy";
 import { urlDeMedia } from "@/utils/mediaUrl";
+import { slugDe } from "@/utils/slug";
+import { defineSeo, migasJsonLd, SITE_URL } from "@/composables/useSeo";
 
 const PER_PAGE = 12;
 
@@ -231,6 +232,8 @@ export default {
       busqueda: '',
       busquedaActiva: false,
       categoriaActiva: null,
+      etiquetas: [],
+      etiquetasActivas: [],
       paginaActual: 1,
       totalRegistros: 0,
       debounceTimer: null,
@@ -259,6 +262,25 @@ export default {
   },
   computed: {
     ordenActualLabel() { return this.ORDENES.find(o => o.valor === this.orden)?.label ?? 'Más recientes'; },
+    // Categoría de la dirección (/blog/categoria/derecho-penal), elegida desde el menú
+    categoriaActual() {
+      const slug = this.$route.params.categoria;
+      if (!slug) return null;
+      const c = this.categorias.find(x => slugDe(x.descripcion ?? x.DESCRIPCION) === slug);
+      return c ? { id: Number(c.id ?? c.ID), nombre: c.descripcion ?? c.DESCRIPCION, slug } : null;
+    },
+    // Al buscar o filtrar por etiquetas no se muestra el destacado arriba (podría no cumplirlo)
+    filtrando() { return this.busquedaActiva || this.etiquetasActivas.length > 0; },
+    migas() {
+      const inicio = { label: 'Inicio', to: '/' };
+      return this.categoriaActual
+        ? [inicio, { label: 'Blog' }, { label: this.categoriaActual.nombre }]
+        : [inicio, { label: 'Blog' }];
+    },
+    mensajeVacio() {
+      if (this.busquedaActiva || this.etiquetasActivas.length) return 'No hay artículos que coincidan con estos filtros.';
+      return this.categoriaActual ? 'Todavía no hay artículos en esta categoría.' : 'Todavía no hay artículos publicados.';
+    },
     totalPaginas() { return Math.max(1, Math.ceil(this.totalRegistros / PER_PAGE)); },
     numerosPagina() {
       const total = this.totalPaginas, curr = this.paginaActual;
@@ -280,7 +302,7 @@ export default {
       this.categorias = r?.DATA ?? r ?? [];
     },
     async cargarDestacada() {
-      const r = await PublicacionesProxy.destacada();
+      const r = await PublicacionesProxy.destacada({ idCategoria: this.categoriaActiva || undefined });
       this.destacada = r?.DATA ?? r ?? null;
     },
     async cargarPublicaciones() {
@@ -291,9 +313,10 @@ export default {
           INIT: (this.paginaActual - 1) * PER_PAGE,
           DESC: this.busqueda || undefined,
           idCategoria: this.categoriaActiva || undefined,
+          etiquetas: this.etiquetasActivas.length ? this.etiquetasActivas.join(',') : undefined,
           orden: this.orden,
-          // El destacado ya se muestra arriba: no se repite en la lista (salvo al buscar, que lo oculta arriba)
-          excluir: !this.busquedaActiva && this.destacada ? this.destacada.id : undefined,
+          // El destacado ya se muestra arriba: no se repite en la lista (salvo al filtrar, que lo oculta arriba)
+          excluir: !this.filtrando && this.destacada ? this.destacada.id : undefined,
         });
         const payload = r?.DATA ?? r;
         this.publicaciones = payload?.data ?? [];
@@ -331,11 +354,59 @@ export default {
       const el = this.$refs.pillsScroll;
       el?.scrollBy({ left: dir * el.clientWidth * 0.7, behavior: 'smooth' });
     },
-    seleccionarCategoria(id) {
-      this.categoriaActiva = id ? Number(id) : null;
-      this.paginaActual = 1;
-      this.cargarPublicaciones();
+    async cargarEtiquetas() {
+      try {
+        const r = await PublicacionesProxy.etiquetasPublicas({ idCategoria: this.categoriaActiva || undefined });
+        this.etiquetas = r?.DATA ?? r ?? [];
+      } catch {
+        this.etiquetas = [];
+      }
+      this.$nextTick(this.ajustarPills);
     },
+    // La URL canónica es la de la categoría sin filtros (?etiquetas=... no crea páginas aparte)
+    aplicarSeo() {
+      const cat = this.categoriaActual;
+      if (!cat) return;
+      const url = `${SITE_URL}/blog/categoria/${cat.slug}`;
+      defineSeo({
+        title: `${cat.nombre} · Blog`,
+        description: `Artículos y análisis de ${cat.nombre} en el blog de Juris Search.`,
+        url,
+        jsonLd: {
+          '@context': 'https://schema.org',
+          '@graph': [
+            { '@type': 'CollectionPage', name: cat.nombre, url, inLanguage: 'es-PE' },
+            migasJsonLd([{ nombre: 'Inicio', url: `${SITE_URL}/` }, { nombre: cat.nombre }]),
+          ],
+        },
+      });
+    },
+    // Categoría y etiquetas viven en la dirección, para que el filtro se pueda compartir.
+    // El blog no tiene página general: sin categoría (/blog, enlaces viejos o una que no
+    // existe) se abre la primera. Devuelve false si redirigió.
+    aplicarRuta() {
+      if (!this.categoriaActual && this.categorias.length) {
+        const primera = this.categorias[0];
+        this.$router.replace({ path: `/blog/categoria/${slugDe(primera.descripcion ?? primera.DESCRIPCION)}`, query: this.$route.query });
+        return false;
+      }
+      this.categoriaActiva = this.categoriaActual?.id ?? null;
+      const q = this.$route.query.etiquetas;
+      this.etiquetasActivas = q ? String(q).split(',').map(s => s.trim()).filter(Boolean) : [];
+      return true;
+    },
+    cambiarEtiquetas(lista) {
+      const query = { ...this.$route.query };
+      if (lista.length) query.etiquetas = lista.join(',');
+      else delete query.etiquetas;
+      this.$router.replace({ query });
+    },
+    alternarEtiqueta(slug) {
+      this.cambiarEtiquetas(this.etiquetasActivas.includes(slug)
+        ? this.etiquetasActivas.filter(s => s !== slug)
+        : [...this.etiquetasActivas, slug]);
+    },
+    limpiarEtiquetas() { this.cambiarEtiquetas([]); },
     cambiarOrden(valor) {
       this.ordenAbierto = false;
       if (this.orden === valor) return;
@@ -356,6 +427,17 @@ export default {
     },
   },
   watch: {
+    // Cambio de categoría (menú) o de etiquetas: la vista se reutiliza, no se vuelve a montar
+    async '$route'(to, from) {
+      if (!this.aplicarRuta()) return;
+      if (to.path !== from.path) this.aplicarSeo();
+      this.paginaActual = 1;
+      if (to.path !== from.path) {
+        await this.cargarEtiquetas();
+        await this.cargarDestacada().catch(() => { this.destacada = null; });
+      }
+      this.cargarPublicaciones();
+    },
     busqueda() {
       clearTimeout(this.debounceTimer);
       this.debounceTimer = setTimeout(() => this.buscar(), 400);
@@ -364,9 +446,11 @@ export default {
   async mounted() {
     // Las categorías van primero (es una lista corta y rápida) para que las
     // tarjetas nunca pinten antes de tener el nombre de categoría listo.
-    await this.cargarCategorias();
-    this.$nextTick(this.ajustarPills);
     window.addEventListener('resize', this.ajustarPills);
+    await this.cargarCategorias();
+    if (!this.aplicarRuta()) return;
+    this.aplicarSeo();
+    await this.cargarEtiquetas();
     // El destacado va primero: la lista necesita saber cuál excluir
     await this.cargarDestacada().catch(() => { this.destacada = null; });
     await this.cargarPublicaciones();

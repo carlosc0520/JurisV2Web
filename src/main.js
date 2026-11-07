@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import { seoDeRuta } from '@/composables/useSeo'
 import { createPinia } from 'pinia'
 
 // ── Styles ────────────────────────────────────────────────────
@@ -94,6 +95,9 @@ const router = createRouter({
     return { top: 0 };
   },
 })
+
+// SEO de cada página (título, descripción, robots...). El blog arma el suyo con sus datos.
+router.afterEach((to) => { if (!to.meta?.seoPropio) seoDeRuta(to) })
 
 const pinia = createPinia()
 const app   = createApp(App)

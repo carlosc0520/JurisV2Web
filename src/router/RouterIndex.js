@@ -311,10 +311,10 @@ const routes = [
         }
       },
       {
-        path: "/admin/publicaciones",
+        path: "/admin/blog",
         beforeEnter: ifAuthenticatedAdmin,
         component: () => import("@/views/admin/publicaciones/index.vue"),
-        meta: { title: 'Publicaciones', subtitle: 'Gestión del blog y sus categorías' },
+        meta: { title: 'Blog', subtitle: 'Gestión de artículos, categorías y etiquetas' },
         props: (route) => {
           return {
             role: route?.params?.role || [],
@@ -322,7 +322,7 @@ const routes = [
         }
       },
       {
-        path: "/admin/publicaciones/nuevo",
+        path: "/admin/blog/nuevo",
         beforeEnter: ifAuthenticatedAdmin,
         component: () => import("@/views/admin/publicaciones/Editor.vue"),
         meta: { title: 'Nueva publicación', subtitle: 'Redacta un nuevo artículo' },
@@ -333,7 +333,7 @@ const routes = [
         }
       },
       {
-        path: "/admin/publicaciones/:id/editar",
+        path: "/admin/blog/:id/editar",
         beforeEnter: ifAuthenticatedAdmin,
         component: () => import("@/views/admin/publicaciones/Editor.vue"),
         meta: { title: 'Editar publicación', subtitle: 'Edita un artículo existente' },
@@ -532,18 +532,35 @@ const routes = [
   },
   {
     // Blog nuevo o feed de Instagram según la bandera BLOG_PUBLICACIONES (o ?preview=true)
-    path: "/publicaciones",
+    path: "/blog",
     component: () => import("@/views/PublicacionesEntrada.vue"),
+    meta: { seoPropio: true },
+  },
+  {
+    // Categoría elegida en el menú del blog: misma página, filtrada
+    path: "/blog/categoria/:categoria",
+    component: () => import("@/views/PublicacionesEntrada.vue"),
+    meta: { seoPropio: true },
   },
   {
     // Vista previa de un borrador: la misma página pública del artículo
-    path: "/publicaciones/previa/:token",
+    path: "/blog/previa/:token",
     component: () => import("@/views/PublicacionDetalle.vue"),
+    meta: { seoPropio: true },
   },
   {
-    path: "/publicaciones/:slug",
+    path: "/blog/:slug",
     component: () => import("@/views/PublicacionDetalle.vue"),
+    meta: { seoPropio: true },
   },
+  // Direcciones anteriores: los enlaces ya compartidos siguen funcionando.
+  { path: "/publicaciones", redirect: to => ({ path: "/blog", query: to.query }) },
+  // Admin: las direcciones anteriores llevan a las nuevas (pasan por el mismo control de acceso)
+  { path: "/admin/publicaciones", redirect: to => ({ path: "/admin/blog", query: to.query }) },
+  { path: "/admin/publicaciones/nuevo", redirect: to => ({ path: "/admin/blog/nuevo", query: to.query }) },
+  { path: "/admin/publicaciones/:id/editar", redirect: to => ({ path: `/admin/blog/${to.params.id}/editar`, query: to.query }) },
+  { path: "/publicaciones/previa/:token", redirect: to => ({ path: `/blog/previa/${to.params.token}`, query: to.query }) },
+  { path: "/publicaciones/:slug", redirect: to => ({ path: `/blog/${to.params.slug}`, query: to.query }) },
 
     {
       path: "/noticias/:title/newsletter/:id",
