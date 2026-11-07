@@ -28,6 +28,8 @@
 
 <script setup>
 import { computed, useAttrs } from 'vue'
+import { ElTreeSelect } from 'element-plus'
+import 'element-plus/es/components/tree-select/style/css'
 
 const props = defineProps({
   modelValue: { default: null },

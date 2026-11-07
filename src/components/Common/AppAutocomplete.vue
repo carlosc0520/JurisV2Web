@@ -32,6 +32,8 @@
 </template>
 
 <script setup>
+import { ElAutocomplete } from 'element-plus'
+import 'element-plus/es/components/autocomplete/style/css'
 defineProps({
   modelValue: { default: '' },
   label:      { type: String },

@@ -76,7 +76,6 @@
 import DataTable from "@/components/Tables/DataTable.vue";
 import { toast } from 'vue3-toastify';
 import defaultAvatar from '@/assets/img/resources/perfil.png';
-import * as XLSX from 'xlsx-js-style';
 import ModalEliminar from "../shared/ModalEliminar.vue";
 import ModalUsuarioInsertar from "./modals/ModalUsuarioInsertar.vue";
 import ModalUsuarioEditar from "./modals/ModalUsuarioEditar.vue";
@@ -262,6 +261,8 @@ export default {
             ? new Date(item.FCRCN || item.fechaCreacion).toLocaleDateString('es-PE') : '',
           'Estado': (item.CDESTDO || item.estado) === 'A' ? 'Activo' : 'Inactivo',
         }));
+        // La librería de Excel (~0.9 MB) se descarga solo al exportar
+        const XLSX = await import(/* webpackChunkName: "xlsx" */ 'xlsx-js-style');
         const wb = XLSX.utils.book_new();
         const ws = XLSX.utils.json_to_sheet(excelData);
         ws['!cols'] = [6, 20, 20, 25, 35, 15, 30, 18, 18, 12].map(w => ({ wch: w }));

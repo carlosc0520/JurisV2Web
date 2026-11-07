@@ -27,7 +27,8 @@
             class="flex-1 search-input" @keydown.enter="doSearch" @select="handleGlobalSelect">
             <template #default="{ item }">
               <div v-if="item.isEmpty" class="empty-message"><em>No se encontraron coincidencias</em></div>
-              <div v-else class="flex items-center gap-2" v-html="highlightGlobal(item.value)"></div>
+              <!-- Sin flex: separaba la parte resaltada del resto de la palabra ("Resoluc ión") -->
+              <div v-else class="truncate" v-html="highlightGlobal(item.value)"></div>
             </template>
           </el-autocomplete>
 
@@ -686,6 +687,8 @@
 
 <script>
 import { Search } from '@element-plus/icons-vue'
+import { ElAutocomplete } from 'element-plus'
+import 'element-plus/es/components/autocomplete/style/css'
 import { toast } from 'vue3-toastify';
 import { useAuthStore } from '@/stores/auth.store';
 import MagistradoProxy from "@/proxies/Magistrados.Proxy.js";
@@ -768,7 +771,7 @@ export default {
             showAiInfo: false,
         };
     },
-    components: { ModalMostrarResolucion, AppTreeSelect, AppAutocomplete, BaseSelect, SaveButton, CancelButton },
+    components: { ModalMostrarResolucion, AppTreeSelect, AppAutocomplete, BaseSelect, SaveButton, CancelButton, ElAutocomplete },
     props: { role: { type: Object, default: () => { } } },
     computed: {
         canBuscar() { return useAuthStore().puedeAcceder('busqueda'); },

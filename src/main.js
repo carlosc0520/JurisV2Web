@@ -1,18 +1,16 @@
-import { createApp } from 'vue'
+import { createApp, defineAsyncComponent } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { seoDeRuta } from '@/composables/useSeo'
 import { createPinia } from 'pinia'
 
 // ── Styles ────────────────────────────────────────────────────
 // Librerías de terceros primero — Tailwind al final para que sus utilidades tengan prioridad
-import 'element-plus/dist/index.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import 'vue3-toastify/dist/index.css'
 import 'vue3-carousel/dist/carousel.css'
 import 'sweetalert2/dist/sweetalert2.min.css'
 import 'vue-datepicker-next/index.css'
 import 'vue-datepicker-next/locale/es'
-import 'vue3-tel-input/dist/vue3-tel-input.css'
 import '@/assets/styles/index.css'
 
 // ── Legacy Axios (proxies existentes lo usan vía AxiosProvider) ─
@@ -26,9 +24,7 @@ import routes from './router/RouterIndex'
 
 // ── Third-party plugins ───────────────────────────────────────
 import Vue3Toastify from 'vue3-toastify'
-import ElementPlus  from 'element-plus'
 import VueSweetalert2 from 'vue-sweetalert2'
-import VueTelInput  from 'vue3-tel-input'
 import DatePicker   from 'vue-datepicker-next'
 import SimpleVueValidation from 'simple-vue-validator'
 import { MotionPlugin } from '@vueuse/motion'
@@ -37,7 +33,6 @@ import { MotionPlugin } from '@vueuse/motion'
 import AppLoader      from '@/components/ui/AppLoader.vue'
 import BaseButton     from '@/components/ui/BaseButton.vue'
 import BaseInput      from '@/components/ui/BaseInput.vue'
-import BaseRichInput  from '@/components/ui/BaseRichInput.vue'
 import BaseModal      from '@/components/ui/BaseModal.vue'
 import BaseDatePicker from '@/components/ui/BaseDatePicker.vue'
 import BaseSelect     from '@/components/ui/BaseSelect.vue'
@@ -57,8 +52,6 @@ import DeleteButton   from '@/components/Common/DeleteButton.vue'
 import SaveButton     from '@/components/Common/SaveButton.vue'
 import ExportButton   from '@/components/Common/ExportButton.vue'
 import CancelButton   from '@/components/Common/CancelButton.vue'
-import AppTreeSelect    from '@/components/Common/AppTreeSelect.vue'
-import AppAutocomplete from '@/components/Common/AppAutocomplete.vue'
 import AvatarInitials  from '@/components/Common/AvatarInitials.vue'
 
 // ── Legacy Vuex store (páginas existentes que aún usan $store) ─
@@ -113,9 +106,7 @@ app.use(Vue3Toastify, {
   position:  'top-right',
   theme:     'auto',
 })
-app.use(ElementPlus)
 app.use(VueSweetalert2)
-app.use(VueTelInput)
 app.use(SimpleVueValidation)
 app.use(MotionPlugin)
 
@@ -126,7 +117,8 @@ app.component('SectionCard',   SectionCard)
 app.component('AppLoader',      AppLoader)
 app.component('BaseButton',     BaseButton)
 app.component('BaseInput',      BaseInput)
-app.component('BaseRichInput',  BaseRichInput)
+// Globales pesados (editor de texto, Element Plus): se descargan la primera vez que se usan
+app.component('BaseRichInput',  defineAsyncComponent(() => import('@/components/ui/BaseRichInput.vue')))
 app.component('BaseModal',      BaseModal)
 app.component('BaseDatePicker', BaseDatePicker)
 app.component('BaseSelect',     BaseSelect)
@@ -143,8 +135,8 @@ app.component('DeleteButton', DeleteButton)
 app.component('SaveButton',   SaveButton)
 app.component('ExportButton', ExportButton)
 app.component('CancelButton', CancelButton)
-app.component('AppTreeSelect',    AppTreeSelect)
-app.component('AppAutocomplete', AppAutocomplete)
+app.component('AppTreeSelect',    defineAsyncComponent(() => import('@/components/Common/AppTreeSelect.vue')))
+app.component('AppAutocomplete', defineAsyncComponent(() => import('@/components/Common/AppAutocomplete.vue')))
 app.component('AvatarInitials',  AvatarInitials)
 
 // Directives globales

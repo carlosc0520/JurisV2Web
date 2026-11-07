@@ -229,6 +229,8 @@
 
 <script>
 import newUserProxy from "@/proxies/NewUserProxy";
+import { VueTelInput } from 'vue3-tel-input';
+import 'vue3-tel-input/dist/vue3-tel-input.css';
 import LoginProxy  from "@/proxies/LoginProxy";
 import { toast } from 'vue3-toastify';
 import { Validator } from 'simple-vue-validator';
@@ -237,7 +239,7 @@ import CancelButton from '@/components/Common/CancelButton.vue';
 import SaveButton   from '@/components/Common/SaveButton.vue';
 
 export default {
-  components: { BaseInput, CancelButton, SaveButton },
+  components: { BaseInput, CancelButton, SaveButton, VueTelInput },
   data() {
     return {
       paseForm: 1,

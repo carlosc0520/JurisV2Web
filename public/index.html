@@ -39,8 +39,10 @@
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="es_PE" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="icon" href="<%= BASE_URL %>logo.ico">
-  <link rel="shortcut icon" href="<%= BASE_URL %>logo.ico">
+  <!-- Íconos cuadrados (Google exige 1:1 y múltiplos de 48 px; logo.ico era 256x205) -->
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico" sizes="16x16 32x32 48x48">
+  <link rel="icon" type="image/png" sizes="192x192" href="<%= BASE_URL %>icon-192.png">
+  <link rel="apple-touch-icon" href="<%= BASE_URL %>apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link

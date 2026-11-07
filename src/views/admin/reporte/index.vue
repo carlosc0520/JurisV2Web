@@ -59,6 +59,8 @@
 
 <script>
 import CardLineChartMagistrados from "@/components/Cards/CardLineChartMagistrados.vue";
+import { ElTreeSelect } from 'element-plus';
+import 'element-plus/es/components/tree-select/style/css';
 import helpersProxy from "@/proxies/helpersProxy";
 import { toast } from 'vue3-toastify';
 import MagistradoProxy from "@/proxies/Magistrados.Proxy";
@@ -67,7 +69,7 @@ import UserProxy from "@/proxies/UserProxy";
 
 export default {
     name: "reporte-page",
-    components: { CardLineChartMagistrados },
+    components: { CardLineChartMagistrados, ElTreeSelect },
     props: {
         isUser: { type: Boolean, default: () => false },
     },

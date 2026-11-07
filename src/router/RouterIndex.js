@@ -1,46 +1,48 @@
 // layouts
 
-import Admin from "@/layouts/Admin.vue";
-import Usuario from "@/layouts/Usuario.vue";
-import Auth from "@/layouts/Auth.vue";
+// Cada pantalla se descarga al abrirla (antes iban todas en la carga inicial).
+// Solo la página de inicio va incluida, para que abra lo más rápido posible.
+const Admin = () => import("@/layouts/Admin.vue");
+const Usuario = () => import("@/layouts/Usuario.vue");
+const Auth = () => import("@/layouts/Auth.vue");
 
 // views for Auth layout
-import Login from "@/views/auth/Login.vue";
-import Recovery from "@/views/auth/Recovery.vue";
-import Register from "@/views/auth/Register.vue";
+const Login = () => import("@/views/auth/Login.vue");
+const Recovery = () => import("@/views/auth/Recovery.vue");
+const Register = () => import("@/views/auth/Register.vue");
 
 // views without layouts
-import Landing from "@/views/Landing.vue";
-import Profile from "@/views/Profile.vue";
+const Landing = () => import("@/views/Landing.vue");
+const Profile = () => import("@/views/Profile.vue");
 import Index from "@/views/Index.vue";
-import Contacto from "@/views/Contacto.vue";
-import Question from "@/views/Question.vue";
-import Politicas from "@/views/Politicas.vue";
-import Cookies from "@/views/Cookies.vue";
-import PoliticaIA from "@/views/PoliticaIA.vue";
+const Contacto = () => import("@/views/Contacto.vue");
+const Question = () => import("@/views/Question.vue");
+const Politicas = () => import("@/views/Politicas.vue");
+const Cookies = () => import("@/views/Cookies.vue");
+const PoliticaIA = () => import("@/views/PoliticaIA.vue");
 
 // * ADMIN — feature folders
-import Dashboard from "@/views/admin/dashboard/index.vue";
-import DashboardUser from "@/views/admin/dashboard/user.vue";
-import Settings from "@/views/admin/settings/index.vue";
-import Entradas from "@/views/admin/entradas/index.vue";
-import Usuarios from "@/views/admin/usuarios/index.vue";
-import Mantenimiento from "@/views/admin/mantenimiento/index.vue";
-import Filtros from "@/views/admin/filtros/index.vue";
-import Noticias from "@/views/admin/investigacion/admin.vue";
+const Dashboard = () => import("@/views/admin/dashboard/index.vue");
+const DashboardUser = () => import("@/views/admin/dashboard/user.vue");
+const Settings = () => import("@/views/admin/settings/index.vue");
+const Entradas = () => import("@/views/admin/entradas/index.vue");
+const Usuarios = () => import("@/views/admin/usuarios/index.vue");
+const Mantenimiento = () => import("@/views/admin/mantenimiento/index.vue");
+const Filtros = () => import("@/views/admin/filtros/index.vue");
+const Noticias = () => import("@/views/admin/investigacion/admin.vue");
 
 // * Still in flat structure (CSS migration pending)
-import Busqueda from "@/views/admin/busqueda/index.vue";
-import Favorites from "@/views/admin/favoritos/index.vue";
-import Investigacion from "@/views/admin/investigacion/user.vue";
-import Boletines from "@/views/admin/boletines/index.vue";
-import Subscripcion from "@/views/admin/subscripcion/index.vue";
-import Reporte from "@/views/admin/reporte/index.vue";
-import JurisGPT from "@/views/admin/jurisgpt/index.vue";
-import EmailConfig from "@/views/admin/email-config/index.vue";
-import AiPanel from "@/views/admin/ai-panel/index.vue";
-import AiAudit from "@/views/admin/ai-audit/index.vue";
-import Permisos from "@/views/admin/permisos/index.vue";
+const Busqueda = () => import("@/views/admin/busqueda/index.vue");
+const Favorites = () => import("@/views/admin/favoritos/index.vue");
+const Investigacion = () => import("@/views/admin/investigacion/user.vue");
+const Boletines = () => import("@/views/admin/boletines/index.vue");
+const Subscripcion = () => import("@/views/admin/subscripcion/index.vue");
+const Reporte = () => import("@/views/admin/reporte/index.vue");
+const JurisGPT = () => import("@/views/admin/jurisgpt/index.vue");
+const EmailConfig = () => import("@/views/admin/email-config/index.vue");
+const AiPanel = () => import("@/views/admin/ai-panel/index.vue");
+const AiAudit = () => import("@/views/admin/ai-audit/index.vue");
+const Permisos = () => import("@/views/admin/permisos/index.vue");
 
 import UserProxy from "@/proxies/UserProxy";
 

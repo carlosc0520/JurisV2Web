@@ -1,9 +1,6 @@
 import { toast } from 'vue3-toastify';
-import pdfMake from 'pdfmake/build/pdfmake';
+import { cargarPdfMake } from '@/utils/cargarPdfMake';
 import recursos from "../../views/admin/recursos.js";
-import timesNewRoman from "../../assets/times.js";
-import timesNewRomanBold from "../../assets/timesBold.js";
-import timesNewRomanItalics from "../../assets/timesItalics.js";
 
 class createPDFHelper {
   async generate(data, returnBase64 = false) {
@@ -331,27 +328,8 @@ class createPDFHelper {
         pageMargins: [40, 100, 40, 90],
       }
 
-      // pdfMake.vfs = await pdfFonts.pdfMake.vfs;
-      pdfMake.vfs = {
-        "TimesNewRoman.ttf": timesNewRoman,
-        "Roboto-Medium.ttf": timesNewRomanBold,
-        "Roboto-Regular.ttf": timesNewRoman,
-        "Roboto-Italics.ttf": timesNewRomanItalics,
-      };
-      pdfMake.fonts = {
-        TimesNewRoman: {
-          normal: "TimesNewRoman.ttf",
-          bold: "TimesNewRoman.ttf",
-          italics: "TimesNewRoman.ttf",
-          bolditalics: "TimesNewRoman.ttf",
-        },
-        Roboto: {
-          normal: "Roboto-Regular.ttf",
-          bold: "Roboto-Medium.ttf",
-          italics: "Roboto-Italics.ttf",
-        }
-      };
-
+      // pdfmake y las fuentes se descargan recién aquí (ver utils/cargarPdfMake)
+      const pdfMake = await cargarPdfMake();
       let pdfDocGenerator = pdfMake.createPdf(documentoPDF);
       if (returnBase64) {
         return await new Promise((resolve) => {

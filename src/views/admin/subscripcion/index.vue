@@ -401,26 +401,9 @@ import BaseInput from "@/components/ui/BaseInput.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
 import SectionCard from "@/components/ui/SectionCard.vue";
 import PageHeader from "@/components/ui/PageHeader.vue";
-import pdfMake from 'pdfmake/build/pdfmake';
-import timesNewRoman from "@/assets/times.js";
-import timesNewRomanBold from "@/assets/timesBold.js";
-import timesNewRomanItalics from "@/assets/timesItalics.js";
+import { cargarPdfMake } from '@/utils/cargarPdfMake';
 import recursos from "@/views/admin/recursos.js";
 
-pdfMake.vfs = {
-    'TimesNewRoman.ttf': timesNewRoman,
-    'Roboto-Medium.ttf': timesNewRomanBold,
-    'Roboto-Regular.ttf': timesNewRoman,
-    'Roboto-Italics.ttf': timesNewRomanItalics,
-};
-pdfMake.fonts = {
-    Roboto: {
-        normal: 'Roboto-Regular.ttf',
-        bold: 'Roboto-Medium.ttf',
-        italics: 'Roboto-Italics.ttf',
-        bolditalics: 'Roboto-Medium.ttf',
-    },
-};
 import moment from 'moment';
 
 export default {
@@ -784,7 +767,7 @@ export default {
             return map[tipo] || tipo || '-';
         },
 
-        generateInvoice(item) {
+        async generateInvoice(item) {
             const loadId = toast.loading('Generando factura...', { timeout: false, closeOnClick: false });
             try {
                 const fecha = item.fcrcn ? moment(item.fcrcn).format('DD/MM/YYYY, h:mm a') : '-';
@@ -996,6 +979,7 @@ export default {
                     },
                 };
 
+                const pdfMake = await cargarPdfMake();
                 pdfMake.createPdf(docDefinition).download(`factura-jurissearch-${nro}.pdf`, () => {
                     toast.remove(loadId);
                 });

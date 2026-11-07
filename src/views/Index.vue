@@ -386,7 +386,8 @@
         </div>
       </div>
 
-      <ModalCrearUsuario :show="modalCrearUsuario.show" :close="() => modalCrearUsuario.show = false" :update="() => { }" />
+      <!-- Se descarga solo si se abre: trae Bootstrap y el campo de teléfono, que pesan -->
+      <ModalCrearUsuario v-if="modalCrearUsuario.show" :show="modalCrearUsuario.show" :close="() => modalCrearUsuario.show = false" :update="() => { }" />
     </section>
 
     <!-- PREGUNTAS SECTION -->
@@ -501,9 +502,8 @@ import screen from "@/assets/img/resources/imagen_portada.png";
 import LoginProxy from "@/proxies/LoginProxy";
 import SettingsProxy from "@/proxies/SettingsProxy.js";
 import MantenimientoProxy from "@/proxies/MantenimientoProxy.js";
-import ModalCrearUsuario from "./Modales/ModalCrearUsuario.vue";
 import Question from "./Question.vue";
-import { ref } from "vue";
+import { ref, defineAsyncComponent } from "vue";
 
 export default {
   setup() {
@@ -686,7 +686,7 @@ export default {
   components: {
     IndexNavbar,
     FooterComponent,
-    ModalCrearUsuario,
+    ModalCrearUsuario: defineAsyncComponent(() => import("./Modales/ModalCrearUsuario.vue")),
     Carousel,
     CarouselNavigation,
     Slide,

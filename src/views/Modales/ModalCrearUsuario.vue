@@ -222,6 +222,8 @@
 
 <script>
 import { BModal } from 'bootstrap-vue-next';
+import { VueTelInput } from 'vue3-tel-input';
+import 'vue3-tel-input/dist/vue3-tel-input.css';
 import { Validator } from 'simple-vue-validator';
 import { toast } from 'vue3-toastify';
 
@@ -230,7 +232,8 @@ import newUserProxy from "@/proxies/NewUserProxy";
 
 export default {
     components: {
-        BModal
+        BModal,
+        VueTelInput,
     },
     props: {
         show: {
@@ -383,6 +386,10 @@ export default {
                 }
             });
         }
+    },
+    // Si se monta ya abierto (se carga recién al abrirlo), el watch de show no se dispara
+    mounted() {
+        if (this.show) this.isShow = true;
     },
     watch: {
         show: {
