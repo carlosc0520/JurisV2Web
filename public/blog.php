@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 // Variables de entorno solo para pruebas locales; en el hosting rigen estos valores.
 define('SITIO', rtrim(getenv('JURIS_SITIO') ?: 'https://jurissearch.com', '/'));
-define('API', rtrim(getenv('JURIS_API') ?: 'https://api.jurissearch.com', '/'));
+define('API', rtrim(getenv('JURIS_API') ?: 'https://apiv2.jurissearch.com', '/'));
 const RECURSOS = 'https://resources.jurissearch.com';
 const MARCA = 'Juris Search';
 const DESCRIPCION = 'Plataforma especializada de búsqueda jurídica del Perú. Jurisprudencia, doctrina y legislación actualizada.';

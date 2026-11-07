@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-$api = rtrim(getenv('JURIS_API') ?: 'https://api.jurissearch.com', '/');
+$api = rtrim(getenv('JURIS_API') ?: 'https://apiv2.jurissearch.com', '/');
 $ctx = stream_context_create(['http' => ['timeout' => 8, 'ignore_errors' => true]]);
 $xml = @file_get_contents($api . '/sitemap.xml', false, $ctx);
 
@@ -15,6 +15,8 @@ if ($xml === false || strpos($xml, '<urlset') === false) {
     header('Retry-After: 3600');
     exit;
 }
+// Una sola versión del dominio (la de las URL canónicas), aunque la API use la de www
+$xml = str_replace('https://www.jurissearch.com', 'https://jurissearch.com', $xml);
 header('Content-Type: application/xml; charset=utf-8');
 header('Cache-Control: public, max-age=3600');
 echo $xml;
