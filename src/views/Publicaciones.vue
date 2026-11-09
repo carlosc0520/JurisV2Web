@@ -21,7 +21,7 @@
             </h1>
             <p class="text-[0.95rem] max-w-2xl m-0" style="color:var(--text-muted)"
               v-motion :initial="{ opacity: 0, y: 16 }" :enter="{ opacity: 1, y: 0, transition: { duration: 400, delay: 150 } }">
-              {{ categoriaActual ? 'Artículos y análisis de esta categoría.' : 'Jurisprudencia, actualidad y análisis para profundizar tu criterio jurídico.' }}
+              {{ categoriaActual ? (categoriaActual.resumen || 'Artículos y análisis de esta categoría.') : 'Jurisprudencia, actualidad y análisis para profundizar tu criterio jurídico.' }}
             </p>
           </div>
 
@@ -267,7 +267,7 @@ export default {
       const slug = this.$route.params.categoria;
       if (!slug) return null;
       const c = this.categorias.find(x => slugDe(x.descripcion ?? x.DESCRIPCION) === slug);
-      return c ? { id: Number(c.id ?? c.ID), nombre: c.descripcion ?? c.DESCRIPCION, slug } : null;
+      return c ? { id: Number(c.id ?? c.ID), nombre: c.descripcion ?? c.DESCRIPCION, resumen: c.resumen || null, slug } : null;
     },
     // Al buscar o filtrar por etiquetas no se muestra el destacado arriba (podría no cumplirlo)
     filtrando() { return this.busquedaActiva || this.etiquetasActivas.length > 0; },
@@ -370,7 +370,7 @@ export default {
       const url = `${SITE_URL}/blog/categoria/${cat.slug}`;
       defineSeo({
         title: `${cat.nombre} · Blog`,
-        description: `Artículos y análisis de ${cat.nombre} en el blog de Juris Search.`,
+        description: cat.resumen || `Artículos y análisis de ${cat.nombre} en el blog de Juris Search.`,
         url,
         jsonLd: {
           '@context': 'https://schema.org',

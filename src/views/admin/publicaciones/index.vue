@@ -13,7 +13,7 @@
     <div class="max-w-7xl mx-auto px-4 pt-4 flex flex-col gap-4">
 
       <!-- Filtros -->
-      <SectionCard>
+      <SectionCard v-if="active != 'estadisticas'">
         <div class="flex flex-wrap items-center gap-3">
           <button v-if="active == 'categorias'" type="button" class="btn-volver" @click="active = 'articulos'">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
@@ -35,6 +35,10 @@
           </app-select>
           <search-button @click="triggerSearch" />
           <new-button :label="active == 'articulos' ? 'Crear' : 'Nueva categoría'" @click="onCrear" />
+          <button v-if="active == 'articulos'" type="button" class="btn-ajustes btn-estadisticas" title="Estadísticas del blog"
+            aria-label="Estadísticas del blog" @click="active = 'estadisticas'">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
+          </button>
           <button v-if="active == 'articulos'" type="button" class="btn-ajustes" title="Gestionar categorías y etiquetas"
             aria-label="Gestionar categorías y etiquetas" @click="active = 'categorias'">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
@@ -106,6 +110,7 @@
               <div class="art-meta">
                 <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>{{ a.FCHPUB_C }}</span>
                 <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>{{ a.TIEMPOLECTURA_C }}</span>
+                <span title="Visitas de los últimos 30 días"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>{{ a.VISITAS_C }}</span>
                 <span class="hidden md:inline-flex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>{{ a.autor || 'Equipo editorial' }}</span>
               </div>
             </div>
@@ -162,6 +167,7 @@
               <div class="art-meta mt-auto">
                 <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>{{ a.FCHPUB_C }}</span>
                 <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>{{ a.TIEMPOLECTURA_C }}</span>
+                <span title="Visitas de los últimos 30 días"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>{{ a.VISITAS_C }}</span>
               </div>
             </div>
             <div class="flex items-center justify-end gap-1.5 px-4 py-3" style="border-top:1px solid var(--border)">
@@ -209,6 +215,7 @@
 
       <data-table v-if="active == 'categorias'" :search="searchCategorias" :fields="fieldsCategorias" :items="dataCategorias" :grid="grid" :actions="actionsCategorias"/>
       <EtiquetasAdmin v-if="active == 'categorias'" :key="versionEtiquetas" :busqueda="filter.DESC || ''" />
+      <EstadisticasBlog v-if="active == 'estadisticas'" :categorias="categoriasLista.filter(c => c.activa)" @volver="active = 'articulos'" />
     </div>
 
     <!-- Historial de cambios de un artículo -->
@@ -238,6 +245,7 @@ import { toast } from 'vue3-toastify';
 import ModalEliminar from "../shared/ModalEliminar.vue";
 import ModalPublicacionCategoria from "./modals/ModalPublicacionCategoria.vue";
 import EtiquetasAdmin from "./EtiquetasAdmin.vue";
+import EstadisticasBlog from "./EstadisticasBlog.vue";
 import HistorialPublicacion from "@/components/Publicaciones/HistorialPublicacion.vue";
 import PublicacionesProxy from "@/proxies/PublicacionesProxy";
 import moment from 'moment';
@@ -255,7 +263,7 @@ function leerVista() {
 }
 
 export default {
-  components: { DataTable, ModalEliminar, ModalPublicacionCategoria, EtiquetasAdmin, HistorialPublicacion },
+  components: { DataTable, ModalEliminar, ModalPublicacionCategoria, EtiquetasAdmin, EstadisticasBlog, HistorialPublicacion },
   data() {
     return {
       active: 'articulos',
@@ -400,6 +408,7 @@ export default {
             CATEGORIA_C: categoriasMap.get(Number(u.idCategoria)) || 'Sin categoría',
             DESTACADO_C: u.destacado ? '⭐ Sí' : '—',
             TIEMPOLECTURA_C: `${u.tiempoLectura || 1} min de lectura`,
+            VISITAS_C: `${new Intl.NumberFormat('es-PE').format(u.visitas30 || 0)} ${u.visitas30 === 1 ? 'visita' : 'visitas'} · 30 días`,
             FCHPUB_C: u.fechaPublicacion ? this.fmtFecha(u.fechaPublicacion) : 'Sin fecha',
             CDESTDO: u.estado || u.CDESTDO || 'I',
           }));
@@ -477,7 +486,8 @@ export default {
       this.filter = { DESC: null, CDESTDO: '', IDCATEGORIA: this.filter.IDCATEGORIA };
       this.grid = { ...this.grid, perPage: v == 'articulos' ? 12 : 10, currentPage: 1 };
       if (v == 'articulos') this.searchArticulos(1, this.grid.perPage);
-      else this.searchCategorias(1, this.grid.perPage);
+      else if (v == 'categorias') this.searchCategorias(1, this.grid.perPage);
+      // 'estadisticas': el panel carga sus propios datos
     },
   },
 };
@@ -564,6 +574,8 @@ export default {
 }
 .btn-ajustes:hover { color: #6d3fe0; border-color: rgba(124, 92, 255, 0.45); }
 .btn-ajustes:hover svg { transform: rotate(60deg); }
+.btn-estadisticas:hover { color: #1864ff; border-color: rgba(24, 100, 255, 0.4); }
+.btn-estadisticas:hover svg { transform: none; }
 .btn-ajustes svg { transition: transform 0.4s; }
 .btn-volver {
   display: inline-flex; align-items: center; gap: 4px; padding: 8px 12px 8px 8px; border-radius: 10px;

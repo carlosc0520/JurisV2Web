@@ -59,7 +59,7 @@
           <li class="nav-blog" @mouseenter="abrirBlog" @mouseleave="cerrarBlog" @focusin="abrirBlog"
             @focusout="alSalirFocoBlog" @keydown.esc="menuBlog = false">
             <button type="button" aria-haspopup="true" :aria-expanded="menuBlog && categoriasBlog.length > 0"
-              :class="['nav-link', route.path.startsWith('/blog') ? 'nav-link--active' : '']" @click="abrirBlog">
+              :class="['nav-link', route.path.startsWith('/blog') ? 'nav-link--active' : '']" @click="clicBlog">
               Blog
               <svg v-if="categoriasBlog.length" :class="['nav-caret', menuBlog ? 'nav-caret--abierto' : '']" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
@@ -155,7 +155,7 @@
               </a>
             </li>
             <li>
-              <button type="button" :aria-expanded="blogMovilAbierto" @click="blogMovilAbierto = !blogMovilAbierto"
+              <button type="button" :aria-expanded="blogMovilAbierto" @click="clicBlogMovil"
                 :class="['w-full flex items-center gap-3 px-4 py-3.5 text-[0.95rem] font-semibold rounded-xl transition-all text-left',
                   route.path.startsWith('/blog')
                     ? 'bg-gradient-to-br from-brand-pink to-brand-blue text-white shadow-[0_4px_12px_rgba(231,31,179,0.3)]'
@@ -266,6 +266,15 @@ export default {
       }
     },
     abrirBlog() { clearTimeout(this.cierreBlog); this.menuBlog = true; },
+    // Sin categorías no hay menú que desplegar: "Blog" lleva directo a la página del blog
+    clicBlog() {
+      if (this.categoriasBlog.length) this.abrirBlog();
+      else this.$router.push('/blog');
+    },
+    clicBlogMovil() {
+      if (this.categoriasBlog.length) this.blogMovilAbierto = !this.blogMovilAbierto;
+      else { this.navbarOpen = false; this.$router.push('/blog'); }
+    },
     // Pequeña espera al salir: cruzar del enlace al panel no lo cierra
     cerrarBlog() {
       clearTimeout(this.cierreBlog);

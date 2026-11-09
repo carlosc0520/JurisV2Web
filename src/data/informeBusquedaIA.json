@@ -1,0 +1,1244 @@
+{
+ "errores": [
+  {
+   "id": "1.1",
+   "informe": "Informe 1",
+   "consulta": "¿En qué supuestos procede la prueba anticipada?",
+   "antes": "2 de 25 resultados relacionados",
+   "ahora": "3 resultados: 3 contienen lo buscado y el auditor considera pertinentes 3.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "1.2",
+   "informe": "Informe 1",
+   "consulta": "jurisprudencia sobre responsabilidad penal de las personas jurídicas del 2020 al 2026",
+   "antes": "0 resultados relacionados",
+   "ahora": "8 resultados: 3 contienen lo buscado y el auditor considera pertinentes 8.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "1.3",
+   "informe": "Informe 1",
+   "consulta": "buena fe cualificada en el proceso de extinción de dominio",
+   "antes": "No antepuso coincidencia total; mezcló coincidencias parciales",
+   "ahora": "18 resultados: 18 contienen lo buscado y el auditor considera pertinentes 17.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "1.4",
+   "informe": "Informe 1",
+   "consulta": "¿Cuáles son los presupuestos para que se aplique la prisión preventiva?",
+   "antes": "Mismo problema de orden",
+   "ahora": "17 resultados: 17 contienen lo buscado y el auditor considera pertinentes 15.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "1.5",
+   "informe": "Informe 1",
+   "consulta": "asosiasion ilisita para delinquir",
+   "antes": "Solo corrigió el fragmento \"delinquir\", no \"asociación ilícita\" completo",
+   "ahora": "15 resultados: 15 contienen lo buscado y el auditor considera pertinentes 13.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "1.6",
+   "informe": "Informe 1",
+   "consulta": "peligrocida ovjetiva",
+   "antes": "Solo corrigió \"peligro\", resultados poco relacionados",
+   "ahora": "3 resultados: 1 contienen lo buscado y el auditor considera pertinentes 2.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "1.7",
+   "informe": "Informe 1",
+   "consulta": "Sigla \"UIF\"",
+   "antes": "No siempre reconocida",
+   "ahora": "13 resultados: 13 contienen lo buscado y el auditor considera pertinentes 13.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "1.8",
+   "informe": "Informe 1",
+   "consulta": "Sigla \"EIA\"",
+   "antes": "No siempre reconocida",
+   "ahora": "Sin resultados (el 03/11 devolvía 1). · Reconoce la sigla. Ninguna resolución de la base menciona el impacto ambiental: sin resultados por falta de contenido",
+   "fecha": "07/11"
+  },
+  {
+   "id": "1.9",
+   "informe": "Informe 1",
+   "consulta": "Casación N.° 3734-2024/Nacional",
+   "antes": "Con coincidencia temática directa, no se mostró",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "1.10",
+   "informe": "Informe 1",
+   "consulta": "Recurso de Apelación N.° 30-2025/Junín",
+   "antes": "No se mostró pese a coincidencia directa",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "1.11",
+   "informe": "Informe 1",
+   "consulta": "Sentencia de Nulidad N.° 000604-2021/Lima",
+   "antes": "No se mostró pese a coincidencia directa",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "1.12",
+   "informe": "Informe 1",
+   "consulta": "¿Cuánto es la imposición del IGV?",
+   "antes": "Fuera de dominio no detectado",
+   "ahora": "La rechaza como consulta fuera del ámbito penal.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "1.13",
+   "informe": "Informe 1",
+   "consulta": "Explícame qué es el cambio climático en palabras simples",
+   "antes": "Fuera de dominio no detectado",
+   "ahora": "La rechaza como consulta fuera del ámbito penal.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.1",
+   "informe": "Informe 2",
+   "consulta": "jurisprudencia sobre criminal compliance en el sistema procesal penal peruano del 2018 al 2023",
+   "antes": "0 de 27 relacionados",
+   "ahora": "1 resultado: 1 contienen lo buscado y el auditor considera pertinentes 1.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.2",
+   "informe": "Informe 2",
+   "consulta": "delitos económicos",
+   "antes": "0 de 12 relacionados",
+   "ahora": "38 resultados: 36 contienen lo buscado y el auditor considera pertinentes 32.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.3",
+   "informe": "Informe 2",
+   "consulta": "delitos contra la administración pública",
+   "antes": "40 resultados, ninguno de la clasificación correcta",
+   "ahora": "39 resultados: 37 contienen lo buscado y el auditor considera pertinentes 37.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.4",
+   "informe": "Informe 2",
+   "consulta": "\"tráfico de influencias y homicidio\" (multi-tema)",
+   "antes": "Solo reconoció uno de los dos elementos",
+   "ahora": "29 resultados: 29 contienen lo buscado y el auditor considera pertinentes 26.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.5",
+   "informe": "Informe 2",
+   "consulta": "Reducción de la pena por confesion sinsera en delitos de colución",
+   "antes": "Solo reconoció un elemento de la consulta combinada",
+   "ahora": "3 resultados: 3 contienen lo buscado y el auditor considera pertinentes 3. · Muestra lo que trata la confesión sincera. No hay ninguna resolución con confesión sincera en colusión (ver PDF del caso)",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.6",
+   "informe": "Informe 2",
+   "consulta": "Comisión por omisión",
+   "antes": "Única coincidencia exacta apareció en 2.° lugar, no 1.°",
+   "ahora": "5 resultados: 5 contienen lo buscado y el auditor considera pertinentes 5.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.7",
+   "informe": "Informe 2",
+   "consulta": "Expediente exacto \"N.° 00462-2017-7-1826-JR-PE-02\"",
+   "antes": "40 resultados en vez de 1",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "2.8",
+   "informe": "Informe 2",
+   "consulta": "SENTENCIA DE VISTA N.° - 2018-3SPA - EXP. 00790-2016-95-0401-JR-PE-04",
+   "antes": "18-40 resultados sin priorizar la exacta",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "2.9",
+   "informe": "Informe 2",
+   "consulta": "malbersasión de fondos",
+   "antes": "Solo reconoció \"fondos\", ignoró \"malversación\"",
+   "ahora": "1 resultado: 0 contienen lo buscado y el auditor considera pertinentes 1.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.10",
+   "informe": "Informe 2",
+   "consulta": "pekulado por apropiasion",
+   "antes": "Solo reconoció \"peculado\"",
+   "ahora": "22 resultados: 17 contienen lo buscado y el auditor considera pertinentes 20.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.11",
+   "informe": "Informe 2",
+   "consulta": "Sigla \"RPPJ\"",
+   "antes": "Reconocida parcial un día, rechazada otro día (inconsistencia)",
+   "ahora": "6 resultados: 4 contienen lo buscado y el auditor considera pertinentes 6.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.12",
+   "informe": "Informe 2",
+   "consulta": "Sigla \"DEPINCRI\"",
+   "antes": "2 resultados sin relación",
+   "ahora": "Sin resultados (el 03/11 devolvía 6).",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.13",
+   "informe": "Informe 2",
+   "consulta": "Sentencia 1129/2026, EXP. N.° 01742-2026-PHC/TC - Lambayeque",
+   "antes": "No mostrada pese a coincidencia directa",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "2.14",
+   "informe": "Informe 2",
+   "consulta": "CASACIÓN N.° 2788-2022/UCAYALI",
+   "antes": "No mostrada",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "2.15",
+   "informe": "Informe 2",
+   "consulta": "ACUERDO PLENARIO N.° 02-2019/CJ-116",
+   "antes": "No mostrada",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "2.16",
+   "informe": "Informe 2",
+   "consulta": "\"R.N. N.° 449-2009/Lima\" (caso Magaly Medina)",
+   "antes": "No mostrada",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "2.17",
+   "informe": "Informe 2",
+   "consulta": "criterios del plazo razonable",
+   "antes": "25 resultados (tope fijo)",
+   "ahora": "23 resultados: 21 contienen lo buscado y el auditor considera pertinentes 20.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.18",
+   "informe": "Informe 2",
+   "consulta": "Motivación",
+   "antes": "25 resultados (tope fijo)",
+   "ahora": "38 resultados: 34 contienen lo buscado y el auditor considera pertinentes 35.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.19",
+   "informe": "Informe 2",
+   "consulta": "impedimento de salida del país",
+   "antes": "40 resultados (tope fijo)",
+   "ahora": "7 resultados: 7 contienen lo buscado y el auditor considera pertinentes 7.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.20",
+   "informe": "Informe 2",
+   "consulta": "jurisprudencia sobre vigilancia electrónica del año 2019 al 2026",
+   "antes": "40 resultados, ninguno pertinente",
+   "ahora": "4 resultados: 4 contienen lo buscado y el auditor considera pertinentes 1.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.21",
+   "informe": "Informe 2",
+   "consulta": "Define qué es una CTS",
+   "antes": "Fuera de dominio no detectado, 25 resultados",
+   "ahora": "La rechaza como consulta fuera del ámbito penal.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.22",
+   "informe": "Informe 2",
+   "consulta": "¿Cómo se prepara un ceviche peruano?",
+   "antes": "Fuera de dominio no detectado",
+   "ahora": "La rechaza como consulta fuera del ámbito penal.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.23",
+   "informe": "Informe 2",
+   "consulta": "RPPJ",
+   "antes": "Rechazo indebido por fuera de ámbito",
+   "ahora": "12 resultados, 12 pertinentes según el auditor",
+   "fecha": null
+  },
+  {
+   "id": "2.24",
+   "informe": "Informe 2",
+   "consulta": "¿Qué ha resuelto la CIDH sobre garantías procesales en el Perú?",
+   "antes": "Rechazo indebido",
+   "ahora": "34 resultados: 29 contienen lo buscado y el auditor considera pertinentes 33.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "2.25",
+   "informe": "Informe 2",
+   "consulta": "Probabilidad prevalente",
+   "antes": "Rechazo indebido",
+   "ahora": "8 resultados: 7 contienen lo buscado y el auditor considera pertinentes 8.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "3.1",
+   "informe": "Informe 3",
+   "consulta": "Fallos sobre delitos ambientales en el año 2025",
+   "antes": "0 de 40 relacionados",
+   "ahora": "3 resultados: 1 contienen lo buscado y el auditor considera pertinentes 3.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "3.2",
+   "informe": "Informe 3",
+   "consulta": "Delitos contra el patrimonio y la libertad",
+   "antes": "0 resultados, sin mensaje de fuera de ámbito",
+   "ahora": "7 resultados: 6 contienen lo buscado y el auditor considera pertinentes 2.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "3.3",
+   "informe": "Informe 3",
+   "consulta": "Delito culposo",
+   "antes": "Intercaló resultados de \"delito doloso\" (figura opuesta)",
+   "ahora": "8 resultados: 2 contienen lo buscado y el auditor considera pertinentes 6.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "3.4",
+   "informe": "Informe 3",
+   "consulta": "Artículos del NCPP",
+   "antes": "Asoció genéricamente a la palabra \"artículo\" en vez del artículo específico",
+   "ahora": "40 resultados: 0 contienen lo buscado y el auditor considera pertinentes 40.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "3.5",
+   "informe": "Informe 3",
+   "consulta": "SENTENCIA DE NULIDAD N.° 001839-2023",
+   "antes": "Exacta en 1.° lugar, pero completó 40 con coincidencias por palabra suelta",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "3.6",
+   "informe": "Informe 3",
+   "consulta": "SENTENCIA CASACIÓN N.° 1205-2024/PASCO",
+   "antes": "Mismo patrón, completó 8 con coincidencias sueltas",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "3.7",
+   "informe": "Informe 3",
+   "consulta": "RECURSO APELACIÓN N.° 1-2025/SUPREMA",
+   "antes": "Ninguno de los 40 coincidió; el buscador general sí la encontraba",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "3.8",
+   "informe": "Informe 3",
+   "consulta": "koecho",
+   "antes": "0 resultados, no asoció con \"cohecho\"",
+   "ahora": "24 resultados: 24 contienen lo buscado y el auditor considera pertinentes 23.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "3.9",
+   "informe": "Informe 3",
+   "consulta": "apelasiones",
+   "antes": "Mezcló casaciones y apelaciones",
+   "ahora": "15 resultados: 14 contienen lo buscado y el auditor considera pertinentes 14.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "3.10",
+   "informe": "Informe 3",
+   "consulta": "Sigla \"CSNJPE\"",
+   "antes": "No reconocida, 40 resultados genéricos",
+   "ahora": "15 resultados: 0 contienen lo buscado y el auditor considera pertinentes 9.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "3.11",
+   "informe": "Informe 3",
+   "consulta": "Fallos del PJ",
+   "antes": "No vinculó con precisión",
+   "ahora": "15 resultados: 3 contienen lo buscado y el auditor considera pertinentes 11.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "3.12",
+   "informe": "Informe 3",
+   "consulta": "Cazos emvlematicos",
+   "antes": "Rechazo indebido por fuera de ámbito (typo severo)",
+   "ahora": "15 resultados: 0 contienen lo buscado y el auditor considera pertinentes 10.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "3.13",
+   "informe": "Informe 3",
+   "consulta": "Dame 27 casaciones sobre colusión",
+   "antes": "Ignoró la cantidad pedida (27), devolvió 40 incluyendo un caso de homicidio",
+   "ahora": "27 resultados: 27 contienen lo buscado y el auditor considera pertinentes 27.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "3.14",
+   "informe": "Informe 3",
+   "consulta": "Casos correctos: \"Caro & Asociados\", \"Entrenamiento de IA\", \"Acceso a la información pública\", \"Procesos laborales\", \"Procedimiento administrativo sancionador\"",
+   "antes": "—",
+   "ahora": "Rechazados correctamente por fuera de ámbito",
+   "fecha": null
+  },
+  {
+   "id": "3.15",
+   "informe": "Informe 3",
+   "consulta": "Patrón general",
+   "antes": "18 de 40 pruebas (45%) arrojaron exactamente 40 resultados",
+   "ahora": "40 resultados solo en 28 de 481 consultas; 87-89 % de resultados pertinentes. Sigue el límite en preguntas específicas (ver Revisión total)",
+   "fecha": null
+  },
+  {
+   "id": "4.1",
+   "informe": "Informe 4",
+   "consulta": "la información privilegiada",
+   "antes": "29 resultados; solo las 2 primeras contenían \"información\", ninguna \"privilegiada\"",
+   "ahora": "2 resultados: 1 contienen lo buscado y el auditor considera pertinentes 2.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "4.2",
+   "informe": "Informe 4",
+   "consulta": "art. 195 del CP",
+   "antes": "40 resultados, ninguno sobre receptación agravada",
+   "ahora": "1 resultado: 0 contienen lo buscado y el auditor considera pertinentes 1.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "4.3",
+   "informe": "Informe 4",
+   "consulta": "Elemento normativo del delito de lavado de activos",
+   "antes": "40 resultados, el último era de patrocinio ilegal",
+   "ahora": "37 resultados: 37 contienen lo buscado y el auditor considera pertinentes 27.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "4.4",
+   "informe": "Informe 4",
+   "consulta": "¿Es posible continuar con un proceso de extinción de dominio si no hay condena firme?",
+   "antes": "Agregó resultados ajenos al requisito \"condena firme\"",
+   "ahora": "32 resultados: 32 contienen lo buscado y el auditor considera pertinentes 17.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "4.5",
+   "informe": "Informe 4",
+   "consulta": "jurisprudencia sobre el artículo 306 del Código Penal del 2020 al 2026",
+   "antes": "0 de 40 cumplió ambos filtros; omitió Casación N.° 3564-2022/Arequipa que sí los cumplía",
+   "ahora": "Devuelve el documento pedido como único resultado. · ; la tarjeta del artículo depende de cargar la 2.ª parte del Código Penal",
+   "fecha": "03/11"
+  },
+  {
+   "id": "4.6",
+   "informe": "Informe 4",
+   "consulta": "jurisprudencia sobre el delito de lavado de activos del año 2025",
+   "antes": "0 de 40 cumplió ambos filtros; omitió Resolución N.° 34/Expediente 00028-2017",
+   "ahora": "8 resultados: 8 contienen lo buscado y el auditor considera pertinentes 6.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "4.7",
+   "informe": "Informe 4",
+   "consulta": "esclución de las pruevas ilisitaz",
+   "antes": "Solo 1 de 40 vinculada a \"exclusión\", relevantes desde posición 10",
+   "ahora": "8 resultados: 8 contienen lo buscado y el auditor considera pertinentes 7.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "4.8",
+   "informe": "Informe 4",
+   "consulta": "Resolución S.B.S. N.° 369-2018",
+   "antes": "Mostró la norma, pero sin los campos \"Estado\" ni \"Número\"",
+   "ahora": "Verificado 03/11: la ficha trae el número y la situación de la norma",
+   "fecha": null
+  },
+  {
+   "id": "4.9",
+   "informe": "Informe 4",
+   "consulta": "el principio de nu bes en adem",
+   "antes": "No asoció con \"ne bis in idem\"; 33 resultados solo por \"principio\", omitiendo 5 que sí tenían la expresión en palabras clave",
+   "ahora": "7 resultados: 7 contienen lo buscado y el auditor considera pertinentes 7.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "4.10",
+   "informe": "Informe 4",
+   "consulta": "prinsipio akusatorio",
+   "antes": "Solo 7 de 40 relacionados con \"principio acusatorio\"",
+   "ahora": "10 resultados: 10 contienen lo buscado y el auditor considera pertinentes 10.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "4.11",
+   "informe": "Informe 4",
+   "consulta": "Régimen penal de la PJ",
+   "antes": "No reconoció \"PJ\" = persona jurídica, asoció solo con \"Penal\"",
+   "ahora": "13 resultados: 9 contienen lo buscado y el auditor considera pertinentes 13.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "4.12",
+   "informe": "Informe 4",
+   "consulta": "el rol del organismo ANA en los delitos ambientales",
+   "antes": "Reconoció la sigla, pero solo 1 de 2 resultados finales relevante",
+   "ahora": "11 resultados: 6 contienen lo buscado y el auditor considera pertinentes 7.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "4.13",
+   "informe": "Informe 4",
+   "consulta": "técnica del distinguishing",
+   "antes": "Rechazo indebido por fuera de ámbito",
+   "ahora": "1 resultado: 1 contienen lo buscado y el auditor considera pertinentes 1.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "4.14",
+   "informe": "Informe 4",
+   "consulta": "Número aislado \"30424\" (Ley N.° 30424)",
+   "antes": "Rechazo indebido por fuera de ámbito",
+   "ahora": "1 resultado: 0 contienen lo buscado y el auditor considera pertinentes 1.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "4.15",
+   "informe": "Informe 4",
+   "consulta": "Número aislado \"30077\" (Ley N.° 30077)",
+   "antes": "Rechazo indebido por fuera de ámbito",
+   "ahora": "1 resultado: 0 contienen lo buscado y el auditor considera pertinentes 1.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "4.16",
+   "informe": "Informe 4",
+   "consulta": "busca jurisprudencia sobre las flores amarillas",
+   "antes": "—",
+   "ahora": "La rechaza como consulta fuera del ámbito penal.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "4.17",
+   "informe": "Informe 4",
+   "consulta": "Patrón general",
+   "antes": "9 de 24 pruebas (37.5%) arrojaron exactamente 40 resultados",
+   "ahora": "40 resultados solo en 28 de 481 consultas; 87-89 % de resultados pertinentes. Sigue el límite en preguntas específicas (ver Revisión total)",
+   "fecha": null
+  },
+  {
+   "id": "4.18",
+   "informe": "Informe 4",
+   "consulta": "Resoluciones del año 2018 sobre delitos económicos",
+   "antes": "Parte del patrón de 40 resultados fijos, sin detalle adicional",
+   "ahora": "4 resultados: 4 contienen lo buscado y el auditor considera pertinentes 4.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.1",
+   "informe": "Informe 5",
+   "consulta": "proceso inmediato",
+   "antes": "30 resultados, solo 10 primeros pertinentes",
+   "ahora": "9 resultados: 9 contienen lo buscado y el auditor considera pertinentes 9.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.2",
+   "informe": "Informe 5",
+   "consulta": "incorporación de la PJ al proceso penal",
+   "antes": "40 resultados, solo 10 primeros pertinentes",
+   "ahora": "3 resultados: 3 contienen lo buscado y el auditor considera pertinentes 3.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.3",
+   "informe": "Informe 5",
+   "consulta": "resoluciones de levantamiento del secreto bancario del año 2025",
+   "antes": "40 resultados, solo 3 pertinentes",
+   "ahora": "2 resultados: 2 contienen lo buscado y el auditor considera pertinentes 2.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.4",
+   "informe": "Informe 5",
+   "consulta": "arts. 302 - 309 del CPP",
+   "antes": "0 de 40 pertinentes; además omitió 2 resoluciones sobre embargo",
+   "ahora": "2 resultados: 2 contienen lo buscado y el auditor considera pertinentes 2.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.5",
+   "informe": "Informe 5",
+   "consulta": "jurisprudencia de delitos cometidos por funcionarios públicos del año 2025",
+   "antes": "0 de 40 pertinentes; año funcionó, tema no",
+   "ahora": "37 resultados: 35 contienen lo buscado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "5.6",
+   "informe": "Informe 5",
+   "consulta": "Contaminación ambiental",
+   "antes": "6 de 12 pertinentes",
+   "ahora": "4 resultados: 4 contienen lo buscado y el auditor considera pertinentes 3.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.7",
+   "informe": "Informe 5",
+   "consulta": "la víctima",
+   "antes": "1 de 5 pertinentes",
+   "ahora": "40 resultados: 34 contienen lo buscado y el auditor considera pertinentes 35.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.8",
+   "informe": "Informe 5",
+   "consulta": "Art. 387",
+   "antes": "5 de 40 pertinentes (peculado)",
+   "ahora": "8 resultados: 0 contienen lo buscado y el auditor considera pertinentes 7. · ; la tarjeta del artículo depende de cargar la 2.ª parte del Código Penal",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.9",
+   "informe": "Informe 5",
+   "consulta": "¿Cuáles son los elementos de la responsabilidad civil?",
+   "antes": "0 resultados pese a existir 4 resoluciones cargadas",
+   "ahora": "16 resultados: 14 contienen lo buscado y el auditor considera pertinentes 14.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.10",
+   "informe": "Informe 5",
+   "consulta": "Acuerdos plenarios del 2009 al 2015",
+   "antes": "Mostró 4 de 8 existentes",
+   "ahora": "9 resultados: 9 contienen lo buscado y el auditor considera pertinentes 9.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.11",
+   "informe": "Informe 5",
+   "consulta": "conducta neutral",
+   "antes": "Omitió 3 resoluciones específicas (Casación 526-2022, Casación 2452-2023, R.N. 1073-2019)",
+   "ahora": "Devuelve el documento pedido entre 4 resultados.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "5.12",
+   "informe": "Informe 5",
+   "consulta": "\"Art. 387\" (orden)",
+   "antes": "Los 5 pertinentes aparecieron repartidos, no al inicio",
+   "ahora": "8 resultados, 7 pertinentes según el auditor; sin la 2.ª parte del CP solo se muestran las que citan ese número",
+   "fecha": null
+  },
+  {
+   "id": "5.13",
+   "informe": "Informe 5",
+   "consulta": "\"delito contra los voskues o formasionez voskosaz\" (orden)",
+   "antes": "2.° resultado pertinente recién en el puesto 4",
+   "ahora": "3 resultados: 3 contienen lo buscado y el auditor considera pertinentes 1.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.14",
+   "informe": "Informe 5",
+   "consulta": "Kódigo prosesal",
+   "antes": "Reconoció el término, pero última página trajo resultados no correspondientes",
+   "ahora": "40 resultados: 40 contienen lo buscado y el auditor considera pertinentes 40.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.15",
+   "informe": "Informe 5",
+   "consulta": "corupsion de funsionarios",
+   "antes": "Solo 1 sentencia pese a existir más disponibles",
+   "ahora": "40 resultados: 33 contienen lo buscado y el auditor considera pertinentes 35.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.16",
+   "informe": "Informe 5",
+   "consulta": "voskues",
+   "antes": "2 de 7 pertinentes",
+   "ahora": "3 resultados: 1 contienen lo buscado y el auditor considera pertinentes 1.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.17",
+   "informe": "Informe 5",
+   "consulta": "\"PJ\" (sigla)",
+   "antes": "Detectada correctamente, pero con problema de pertinencia (ver 5.2)",
+   "ahora": "La interpreta como Poder Judicial y trae 15 resoluciones generales. Es ambigua: JURIS debe indicar qué significado priorizar",
+   "fecha": null
+  },
+  {
+   "id": "5.18",
+   "informe": "Informe 5",
+   "consulta": "actividad petrolera",
+   "antes": "—",
+   "ahora": "La rechaza como consulta fuera del ámbito penal.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.19",
+   "informe": "Informe 5",
+   "consulta": "funciones del secretario arbitral",
+   "antes": "—",
+   "ahora": "La rechaza como consulta fuera del ámbito penal.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.20",
+   "informe": "Informe 5",
+   "consulta": "¿Cuál es el concepto de conducta neutral?",
+   "antes": "Rechazada indebidamente por fuera de ámbito",
+   "ahora": "5 resultados: 4 contienen lo buscado y el auditor considera pertinentes 5.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.21",
+   "informe": "Informe 5",
+   "consulta": "…el delito que cometo si no le brindo regalos a mi pareja",
+   "antes": "No fue rechazada, debía estarlo",
+   "ahora": "La rechaza como consulta fuera del ámbito penal.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "5.22",
+   "informe": "Informe 5",
+   "consulta": "Patrón general",
+   "antes": "8 de 40 pruebas (20%) arrojaron exactamente 40 resultados, todas con resultados no pertinentes",
+   "ahora": "40 resultados solo en 28 de 481 consultas; 87-89 % de resultados pertinentes. Sigue el límite en preguntas específicas (ver Revisión total)",
+   "fecha": null
+  },
+  {
+   "id": "5.23",
+   "informe": "Informe 5",
+   "consulta": "Identificadores específicos (5 pruebas)",
+   "antes": "—",
+   "ahora": "Sin incidencias en ninguna",
+   "fecha": null
+  },
+  {
+   "id": "5.24",
+   "informe": "Informe 5",
+   "consulta": "Filtro por año",
+   "antes": "—",
+   "ahora": "Aplicado correctamente en todas las pruebas temporales",
+   "fecha": null
+  },
+  {
+   "id": "D.0a",
+   "informe": "Reportes de uso",
+   "consulta": "\"regulación de actuación de policía en investigación penal\" (29.09, caso PNP)",
+   "antes": "3 resultados, 2 de 3 útiles (D.Leg. 1605, Ley 32130, Ley 32181)",
+   "ahora": "3 resultados: 1 contienen lo buscado y el auditor considera pertinentes 3.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "D.0b",
+   "informe": "Reportes de uso",
+   "consulta": "\"fumus delicti commissi\" (02.10, caso embargo)",
+   "antes": "3 resultados relevantes, incluyendo caso Pedro Castillo Terrones",
+   "ahora": "2 resultados: 0 contienen lo buscado y el auditor considera pertinentes 2.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "D.0c",
+   "informe": "Reportes de uso",
+   "consulta": "fumus delicti commissi en embargo",
+   "antes": "1 resultado relevante",
+   "ahora": "Sin errores",
+   "fecha": null
+  },
+  {
+   "id": "D.0d",
+   "informe": "Reportes de uso",
+   "consulta": "presupuestos de medida cautelar real",
+   "antes": "40 resultados (4 páginas); con filtro de Corte Suprema encontró 2 útiles",
+   "ahora": "3 resultados: 2 contienen lo buscado y el auditor considera pertinentes 3.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.1",
+   "informe": "Informe 6",
+   "consulta": "la querella y su admisión",
+   "antes": "Solo 1 de 40 resultados pertinente",
+   "ahora": "6 resultados: 6 contienen lo buscado y el auditor considera pertinentes 2.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.2",
+   "informe": "Informe 6",
+   "consulta": "proseso por kolavorasión eficas",
+   "antes": "5 de 40 pertinentes, ubicados en páginas 3-4 (no ordenado por relevancia)",
+   "ahora": "16 resultados: 15 contienen lo buscado y el auditor considera pertinentes 15.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.3",
+   "informe": "Informe 6",
+   "consulta": "auto de enjuiciamiento",
+   "antes": "4 de 16 pertinentes, en desorden",
+   "ahora": "6 resultados: 5 contienen lo buscado y el auditor considera pertinentes 4.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.4",
+   "informe": "Informe 6",
+   "consulta": "inasistencia de alguna de las partes en la audiencia",
+   "antes": "1 de 12 pertinente; omitió Apelación N.° 43-2024/Cajamarca",
+   "ahora": "Devuelve el documento pedido entre 5 resultados.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "6.5",
+   "informe": "Informe 6",
+   "consulta": "Defraudación tributaria",
+   "antes": "3 de 11 pertinentes, resultados de otros delitos (estelionato, defraudación de rentas de aduanas)",
+   "ahora": "5 resultados: 5 contienen lo buscado y el auditor considera pertinentes 4.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.6",
+   "informe": "Informe 6",
+   "consulta": "¿Cuáles son los elementos típicos del delito tributario?",
+   "antes": "2 de 13 sin relación",
+   "ahora": "4 resultados: 4 contienen lo buscado y el auditor considera pertinentes 3.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.7",
+   "informe": "Informe 6",
+   "consulta": "¿Cómo se evalúa la prueba pericial?",
+   "antes": "2 de 13 sin relación",
+   "ahora": "20 resultados: 16 contienen lo buscado y el auditor considera pertinentes 13.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.8",
+   "informe": "Informe 6",
+   "consulta": "caso la cantuta",
+   "antes": "0 de 6 resultados era el caso buscado; no mostró la resolución cargada",
+   "ahora": "1 resultado: 1 contienen lo buscado y el auditor considera pertinentes 1.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.9",
+   "informe": "Informe 6",
+   "consulta": "SMV",
+   "antes": "Rechazada por fuera de ámbito, pese a existir resoluciones",
+   "ahora": "7 resultados: 1 contienen lo buscado y el auditor considera pertinentes 7.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.10",
+   "informe": "Informe 6",
+   "consulta": "SUNAT",
+   "antes": "0 resultados (buscador manual muestra 7)",
+   "ahora": "10 resultados: 10 contienen lo buscado y el auditor considera pertinentes 8.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.11",
+   "informe": "Informe 6",
+   "consulta": "Tribunal",
+   "antes": "Ninguna resolución del Tribunal Constitucional",
+   "ahora": "15 resultados: 0 contienen lo buscado y el auditor considera pertinentes 15.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.12",
+   "informe": "Informe 6",
+   "consulta": "Decreto",
+   "antes": "0 resultados",
+   "ahora": "15 resultados: 0 contienen lo buscado y el auditor considera pertinentes 15.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.13",
+   "informe": "Informe 6",
+   "consulta": "decreto 1301",
+   "antes": "0 resultados (debía mostrar el Decreto Legislativo N.° 1301)",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "6.14",
+   "informe": "Informe 6",
+   "consulta": "Leyes del congreso desde el 2020 hasta el 2026",
+   "antes": "0 resultados",
+   "ahora": "40 resultados: 0 contienen lo buscado y el auditor considera pertinentes 40.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.15",
+   "informe": "Informe 6",
+   "consulta": "pedro kastiyo",
+   "antes": "0 resultados, ni con el nombre correcto",
+   "ahora": "15 resultados: 15 contienen lo buscado y el auditor considera pertinentes 14.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.16",
+   "informe": "Informe 6",
+   "consulta": "Normativa sobre criminalidad organizada desde el año 2016",
+   "antes": "Reconoció el año, resultados inexactos",
+   "ahora": "20 resultados: 15 contienen lo buscado y el auditor considera pertinentes 18.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.17",
+   "informe": "Informe 6",
+   "consulta": "32684",
+   "antes": "—",
+   "ahora": "1 resultado: 0 contienen lo buscado y el auditor considera pertinentes 1.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.18",
+   "informe": "Informe 6",
+   "consulta": "kriterios de imputasion",
+   "antes": "Reconoció \"imputación\" pero no \"criterios\"",
+   "ahora": "20 resultados: 13 contienen lo buscado y el auditor considera pertinentes 20.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.19",
+   "informe": "Informe 6",
+   "consulta": "komplianse",
+   "antes": "1 de 5 resultados no asociado a \"compliance\"",
+   "ahora": "3 resultados: 3 contienen lo buscado y el auditor considera pertinentes 2.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.20",
+   "informe": "Informe 6",
+   "consulta": "exp. 03019-2011 del TC",
+   "antes": "—",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "6.21",
+   "informe": "Informe 6",
+   "consulta": "R.N",
+   "antes": "Mayormente casaciones, no recursos de nulidad",
+   "ahora": "15 resultados: 15 contienen lo buscado y el auditor considera pertinentes 15.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.22",
+   "informe": "Informe 6",
+   "consulta": "1106",
+   "antes": "—",
+   "ahora": "1 resultado: 0 contienen lo buscado y el auditor considera pertinentes 1.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.23",
+   "informe": "Informe 6",
+   "consulta": "Jurisprudencia sobre libros",
+   "antes": "—",
+   "ahora": "La rechaza como consulta fuera del ámbito penal.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.24",
+   "informe": "Informe 6",
+   "consulta": "artículos de investigación sobre derecho procesal penal",
+   "antes": "40 resultados, debía rechazarse por fuera de ámbito",
+   "ahora": "La rechaza como consulta fuera del ámbito penal.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.25",
+   "informe": "Informe 6",
+   "consulta": "Derecho",
+   "antes": "Rechazada por fuera de ámbito; informe no indica si era lo esperado",
+   "ahora": "Hoy se rechaza por demasiado general: el equipo de JURIS debe confirmar el criterio",
+   "fecha": null
+  },
+  {
+   "id": "6.26",
+   "informe": "Informe 6",
+   "consulta": "Resoluciones de julio a diciembre 2024",
+   "antes": "Rechazada por fuera de ámbito; informe no indica si era lo esperado",
+   "ahora": "15 resultados: 0 contienen lo buscado y el auditor considera pertinentes 15.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.27",
+   "informe": "Informe 6",
+   "consulta": "Actividad criminal previa",
+   "antes": "—",
+   "ahora": "11 resultados: 8 contienen lo buscado y el auditor considera pertinentes 11.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.28",
+   "informe": "Informe 6",
+   "consulta": "¿Puedes darme resoluciones sobre patrocinio ilegal?",
+   "antes": "—",
+   "ahora": "6 resultados: 6 contienen lo buscado y el auditor considera pertinentes 6.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "6.29",
+   "informe": "Informe 6",
+   "consulta": "Patrón general",
+   "antes": "3 de 32 pruebas (9.4%) arrojaron exactamente 40 resultados, todas con resultados no pertinentes",
+   "ahora": "40 resultados solo en 28 de 481 consultas; 87-89 % de resultados pertinentes. Sigue el límite en preguntas específicas (ver Revisión total)",
+   "fecha": null
+  },
+  {
+   "id": "7.1",
+   "informe": "Informe 7",
+   "consulta": "Nulidad parcial",
+   "antes": "40 de 40 resultados, ninguno vinculado, pese a existir EXP. N.° 2494-2002-HC/TC",
+   "ahora": "Devuelve el documento pedido entre 9 resultados.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "7.2",
+   "informe": "Informe 7",
+   "consulta": "requisitos del auto de enjuiciamiento",
+   "antes": "2 de 20 pertinentes, no ordenados al inicio",
+   "ahora": "3 resultados: 3 contienen lo buscado y el auditor considera pertinentes 3.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "7.3",
+   "informe": "Informe 7",
+   "consulta": "Requerimiento acusatorio",
+   "antes": "4 de 40 pertinentes",
+   "ahora": "14 resultados: 13 contienen lo buscado y el auditor considera pertinentes 14.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "7.4",
+   "informe": "Informe 7",
+   "consulta": "control de plazo de las diligencias preliminares",
+   "antes": "7 de 40 pertinentes",
+   "ahora": "17 resultados: 15 contienen lo buscado y el auditor considera pertinentes 17.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "7.5",
+   "informe": "Informe 7",
+   "consulta": "el estraneus…",
+   "antes": "Resoluciones pertinentes no aparecen al inicio",
+   "ahora": "11 resultados: 11 contienen lo buscado y el auditor considera pertinentes 9.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "7.6",
+   "informe": "Informe 7",
+   "consulta": "jurisprudencia de la corte suprema sobre derecho penal económico",
+   "antes": "Trajo resultados del Tribunal Constitucional y de la Corte Superior",
+   "ahora": "40 resultados: 38 contienen lo buscado y el auditor considera pertinentes 35.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "7.7",
+   "informe": "Informe 7",
+   "consulta": "Resoluciones del 2026",
+   "antes": "Rechazada por fuera de ámbito, pese a existir resoluciones de ese año",
+   "ahora": "15 resultados: 0 contienen lo buscado y el auditor considera pertinentes 12.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "7.8",
+   "informe": "Informe 7",
+   "consulta": "brindame jurisprudencia sobre AP",
+   "antes": "0 resultados, debía asociar la sigla con Acuerdos Plenarios",
+   "ahora": "15 resultados: 15 contienen lo buscado y el auditor considera pertinentes 15.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "7.9",
+   "informe": "Informe 7",
+   "consulta": "negociación incompatible del 2025 al 2026",
+   "antes": "Solo 1 de 40 resultados cumplía los criterios",
+   "ahora": "3 resultados: 3 contienen lo buscado y el auditor considera pertinentes 3.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "7.10",
+   "informe": "Informe 7",
+   "consulta": "04278-2011",
+   "antes": "—",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "7.11",
+   "informe": "Informe 7",
+   "consulta": "queja 1071-2023",
+   "antes": "—",
+   "ahora": "Devuelve el documento pedido como único resultado.",
+   "fecha": "03/11"
+  },
+  {
+   "id": "7.12",
+   "informe": "Informe 7",
+   "consulta": "EdD",
+   "antes": "—",
+   "ahora": "40 resultados: 40 contienen lo buscado y el auditor considera pertinentes 40.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "7.13",
+   "informe": "Informe 7",
+   "consulta": "Patrón general",
+   "antes": "10 de 24 pruebas (41.7%) arrojaron exactamente 40 resultados; en 8 hubo resultados no pertinentes",
+   "ahora": "40 resultados solo en 28 de 481 consultas; 87-89 % de resultados pertinentes. Sigue el límite en preguntas específicas (ver Revisión total)",
+   "fecha": null
+  },
+  {
+   "id": "C.1",
+   "informe": "Correo",
+   "consulta": "Glosario de 60+ siglas jurídicas",
+   "antes": "Se pidió incorporar la lista completa",
+   "ahora": "Glosario cargado desde la lista oficial; se agregaron DEA y PCM, que no estaban",
+   "fecha": null
+  },
+  {
+   "id": "C.2",
+   "informe": "Correo",
+   "consulta": "¿Conectar la IA a Google?",
+   "antes": "Pregunta de viabilidad",
+   "ahora": "Recomendación: no — riesgo de alucinación con fuente no controlada",
+   "fecha": null
+  },
+  {
+   "id": "C.3",
+   "informe": "Correo",
+   "consulta": "¿Conectar la IA al SPIJ?",
+   "antes": "Pregunta de viabilidad",
+   "ahora": "Recomendación: no — ni la SPIJ oficial ni el clon \"SPIJ IDx\" tienen vía confiable de integración",
+   "fecha": null
+  },
+  {
+   "id": "C.4",
+   "informe": "Correo",
+   "consulta": "\"Defraudación tributaria\" (repetido del Informe 6)",
+   "antes": "11 resultados, solo 3 pertinentes",
+   "ahora": "5 resultados, 4 pertinentes según el auditor",
+   "fecha": null
+  },
+  {
+   "id": "C.5",
+   "informe": "Correo",
+   "consulta": "\"Caso La Cantuta\" (repetido del Informe 6)",
+   "antes": "No encontraba el caso",
+   "ahora": "Confirmado el 03/11: ver 6.8",
+   "fecha": null
+  },
+  {
+   "id": "D.1",
+   "informe": "Reportes de uso",
+   "consulta": "\"incorporación de actor civil en el proceso penal\" (miércoles 14.10)",
+   "antes": "Primer resultado fue el mensaje \"Se alcanzó el límite de OpenAI, consulta con el administrador\" — no pudo usar la IA",
+   "ahora": "7 resultados: 7 contienen lo buscado y el auditor considera pertinentes 7.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "D.2",
+   "informe": "Reportes de uso",
+   "consulta": "\"artículo 349 del Código Procesal Penal\" y luego \"349\" sola (viernes 16.10)",
+   "antes": "Sin resultados",
+   "ahora": "9 resultados: 8 contienen lo buscado y el auditor considera pertinentes 8.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "D.3",
+   "informe": "Reportes de uso",
+   "consulta": "\"formalidades requerimiento acusatorio\" (mismo día, tras cambiar la consulta)",
+   "antes": "Todos los resultados fueron útiles",
+   "ahora": "12 resultados: 9 contienen lo buscado y el auditor considera pertinentes 10.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "S.1",
+   "informe": "Diapositivas",
+   "consulta": "Tabla referencial de artículos (\"Art. 387\", \"arts. 302-309 del CPP\")",
+   "antes": "Sin interpretación normativa fiable, riesgo de alucinación",
+   "ahora": "Se pidió que el buscador sepa qué dice cada artículo cuando se busca por su número. Ya está completo: el Código Procesal Penal y el Código Penal del artículo 1 al 452 (1226 artículos). La segunda parte del Código Penal, que no venía en el archivo recibido, se tomó directamente del SPIJ (acceso libre, 09/11/2026), comprobando que fuera la versión vigente. Al citar un artículo, el buscador usa su texto oficial y lo muestra en pantalla. Ya no hace falta que JURIS envíe nada.",
+   "fecha": null
+  },
+  {
+   "id": "S.2",
+   "informe": "Diapositivas",
+   "consulta": "CP y CPP remitidos nuevamente — ¿se indexó?",
+   "antes": "Confirmar indexación y versión normativa usada",
+   "ahora": "Sí: se incorporó todo lo que venía en los archivos reenviados (Código Procesal Penal completo y Código Penal hasta el artículo 200-A) y la parte que faltaba del Código Penal (artículos 201 al 452) se completó directamente desde el SPIJ el 09/11/2026. Ambos códigos están completos.",
+   "fecha": null
+  },
+  {
+   "id": "S.3",
+   "informe": "Diapositivas",
+   "consulta": "Propuesta SPIJ IDx (spij-idx.com)",
+   "antes": "¿Viable como fuente oficial actualizable?",
+   "ahora": "No viable — no oficial, prohíbe uso comercial, no permite conectarse automáticamente, un año de antigüedad",
+   "fecha": null
+  },
+  {
+   "id": "S.4",
+   "informe": "Diapositivas",
+   "consulta": "Listado de siglas del Área Legal — ¿se incorporó/indexó?",
+   "antes": "—",
+   "ahora": "Ver C.1",
+   "fecha": null
+  },
+  {
+   "id": "S.5",
+   "informe": "Diapositivas",
+   "consulta": "Jurisprudencia de delitos cometidos por funcionarios públicos del año 2025",
+   "antes": "El filtro de año funciona (AND obligatorio), pero el tema no delimita de forma consistente — se completa hasta 40 con resoluciones ajenas",
+   "ahora": "36 resultados: 32 contienen lo buscado y el auditor considera pertinentes 34.",
+   "fecha": "07/11"
+  },
+  {
+   "id": "S.6",
+   "informe": "Diapositivas",
+   "consulta": "\"corupsion de funsionarios\" (hallazgo en vivo, no en diapositiva)",
+   "antes": "IA da 1 resultado; búsqueda manual da 4 con la frase en palabras clave",
+   "ahora": "40 resultados: 39 contienen lo buscado y el auditor considera pertinentes 35.",
+   "fecha": "07/11"
+  }
+ ]
+}

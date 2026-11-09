@@ -3,11 +3,20 @@
     <form @submit.prevent="submit" class="flex flex-col gap-4">
       <BaseInput
         v-model="modelo.descripcion"
-        label="Descripción"
+        label="Nombre"
         placeholder="Ej. El criterio y sus límites"
         required
         :error="validation.firstError('modelo.descripcion')"
       />
+      <div>
+        <label for="cat-resumen" class="block text-sm font-medium mb-1.5" style="color:var(--text)">Descripción</label>
+        <textarea id="cat-resumen" v-model="modelo.resumen" rows="3" maxlength="300" class="input-base cat-resumen"
+          placeholder="Ej. Análisis de los alcances y límites del criterio judicial en la jurisprudencia peruana." />
+        <p class="cat-resumen-pie">
+          <span>Se muestra bajo el título de la categoría y es la descripción que ve Google. Ideal: 120 a 160 caracteres.</span>
+          <span :class="{ 'cat-resumen-largo': largoResumen > 160 }">{{ largoResumen }}/300</span>
+        </p>
+      </div>
       <div>
         <p v-if="cargandoEtiquetas" class="m-0 text-sm" style="color:var(--text-muted)">Cargando etiquetas…</p>
         <EtiquetasInput v-else v-model="modelo.etiquetas" :maximo="30" />
@@ -43,7 +52,7 @@ export default {
     return {
       isShow: false,
       loadingSubmit: false,
-      modelo: { id: null, descripcion: '', etiquetas: [] },
+      modelo: { id: null, descripcion: '', resumen: '', etiquetas: [] },
       cargandoEtiquetas: false,
       // Las etiquetas solo se envían si se llegaron a cargar (si no, se borrarían las actuales)
       etiquetasListas: true,
@@ -51,6 +60,7 @@ export default {
   },
   computed: {
     isEdit() { return !!this.modelo.id; },
+    largoResumen() { return (this.modelo.resumen || '').length; },
   },
   validators: {
     'modelo.descripcion': v => Validator.value(v).required('Campo requerido'),
@@ -80,8 +90,8 @@ export default {
     },
     reset() {
       this.modelo = this.data
-        ? { id: this.data.ID ?? this.data.id, descripcion: this.data.descripcion ?? this.data.DESCRIPCION ?? '', etiquetas: [] }
-        : { id: null, descripcion: '', etiquetas: [] };
+        ? { id: this.data.ID ?? this.data.id, descripcion: this.data.descripcion ?? this.data.DESCRIPCION ?? '', resumen: this.data.resumen || '', etiquetas: [] }
+        : { id: null, descripcion: '', resumen: '', etiquetas: [] };
       this.validation?.reset();
     },
     async cargarEtiquetas() {
@@ -111,3 +121,16 @@ export default {
 };
 </script>
 <style scoped src="@/assets/styles/modal-styles.css"></style>
+<style scoped>
+.cat-resumen { width: 100%; min-height: 76px; resize: vertical; line-height: 1.45; }
+.cat-resumen-pie {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 6px 0 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+.cat-resumen-largo { color: #d97706; font-weight: 700; }
+</style>

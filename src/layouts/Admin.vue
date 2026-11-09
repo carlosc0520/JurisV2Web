@@ -59,6 +59,7 @@ export default {
         { name: 'Correo',        route: '/admin/email-config', icon: emailIcon,  permission: 'email.config' },
         { name: 'Panel IA',      route: '/admin/ai-panel',     icon: aiIcon,      permission: 'ai.panel' },
         { name: 'Auditoría IA',  route: '/admin/ai-audit',     icon: aiIcon,      permission: 'ai.audit' },
+        { name: 'Errores IA',    route: '/admin/informe-ia',   icon: aiIcon },
         { name: 'JurisGPT',     route: '/admin/jurisgpt',     icon: jurisIcon,    permission: 'jurisgpt' },
         { name: 'Suscripción',   route: '/admin/subscripcion', icon: subscripcionIcon },
         { name: 'Permisos',      route: '/admin/permisos',     icon: settingsIcon, permission: 'permisos' },

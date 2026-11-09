@@ -143,16 +143,17 @@ if ($slugCategoria !== '') {
     foreach ($cats as $c) if (slugDe($c['descripcion'] ?? $c['DESCRIPCION'] ?? '') === $slugCategoria) { $cat = $c; break; }
     if (!$cat) { entregar($index, ['titulo' => 'Categoría no encontrada', 'noindex' => true], 404); exit; }
     $nombre = $cat['descripcion'] ?? $cat['DESCRIPCION'];
+    $resumen = trim((string) ($cat['resumen'] ?? '')) ?: 'Artículos y análisis de ' . $nombre . ' en el blog de ' . MARCA . '.';
     $url = SITIO . '/blog/categoria/' . $slugCategoria;
     entregar($index, [
         'titulo' => $nombre . ' · Blog',
-        'descripcion' => 'Artículos y análisis de ' . $nombre . ' en el blog de ' . MARCA . '.',
+        'descripcion' => $resumen,
         'url' => $url,
         'jsonLd' => ['@context' => 'https://schema.org', '@graph' => [
             ['@type' => 'CollectionPage', 'name' => $nombre, 'url' => $url, 'inLanguage' => 'es-PE'],
             migas([['Inicio', SITIO . '/'], [$nombre]]),
         ]],
-        'noscript' => '<h1>' . e($nombre) . '</h1><p>Artículos y análisis de ' . e($nombre) . '.</p>',
+        'noscript' => '<h1>' . e($nombre) . '</h1><p>' . e($resumen) . '</p>',
     ]);
     exit;
 }

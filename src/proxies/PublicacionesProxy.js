@@ -132,6 +132,17 @@ class PublicacionesProxy {
         return data;
     }
 
+    // Estadísticas: lectura de un artículo (web pública) y panel del admin
+    async registrarVisita(slug, model) {
+        const { data } = await axios.post(`/publicaciones/${slug}/visita`, model);
+        return data;
+    }
+
+    async estadisticas(model) {
+        const { data } = await axios.get(`/admin/publicaciones/estadisticas`, { params: model });
+        return data;
+    }
+
     async porSlug(slug) {
         const { data } = await axios.get(`/publicaciones/${slug}`);
         return data;

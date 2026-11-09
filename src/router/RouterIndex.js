@@ -42,6 +42,7 @@ const JurisGPT = () => import("@/views/admin/jurisgpt/index.vue");
 const EmailConfig = () => import("@/views/admin/email-config/index.vue");
 const AiPanel = () => import("@/views/admin/ai-panel/index.vue");
 const AiAudit = () => import("@/views/admin/ai-audit/index.vue");
+const InformeIA = () => import("@/views/admin/informe-ia/index.vue");
 const Permisos = () => import("@/views/admin/permisos/index.vue");
 
 import UserProxy from "@/proxies/UserProxy";
@@ -373,6 +374,17 @@ const routes = [
         beforeEnter: ifAuthenticatedAdmin,
         component: AiPanel,
         meta: { title: 'Panel IA', subtitle: 'Control de búsqueda semántica por embeddings', permission: 'ai.panel' },
+      },
+      {
+        path: "/admin/informe-ia",
+        beforeEnter: ifAuthenticatedAdmin,
+        component: InformeIA,
+        meta: { title: 'Errores IA', subtitle: 'Comprobación manual de los errores reportados en la búsqueda con IA' },
+        props: (route) => {
+          return {
+            role: route?.params?.role || [],
+          };
+        }
       },
       {
         path: "/admin/ai-audit",

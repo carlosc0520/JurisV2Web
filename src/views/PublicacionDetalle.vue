@@ -147,6 +147,8 @@ import PublicacionesProxy from "@/proxies/PublicacionesProxy";
 import { headingsOf } from "@/components/Publicaciones/tiptap/renderPublicHtml";
 import { urlDeMedia } from "@/utils/mediaUrl";
 import { defineSeo, migasJsonLd, organizacionJsonLd, SITE_URL } from "@/composables/useSeo";
+import { iniciarVisita } from "@/utils/visitasBlog";
+import { useAuthStore } from "@/stores/auth.store";
 import { toast } from 'vue3-toastify';
 
 export default {
@@ -186,6 +188,7 @@ export default {
   },
   methods: {
     async cargar() {
+      this.cerrarVisita();
       this.loading = true;
       try {
         const [rCat, rPub] = await Promise.all([
@@ -200,9 +203,19 @@ export default {
         this.publicacion = null;
       } finally {
         this.aplicarSeo();
+        this.abrirVisita();
         this.loading = false;
         this.$nextTick(() => this.setupObserver());
       }
+    },
+    // Estadísticas del blog: no cuentan las vistas previas ni las visitas de administradores
+    abrirVisita() {
+      if (!this.publicacion?.slug || this.$route.params.token || useAuthStore().isAdmin) return;
+      this.terminarVisita = iniciarVisita(this.publicacion.slug);
+    },
+    cerrarVisita() {
+      if (this.terminarVisita) this.terminarVisita();
+      this.terminarVisita = null;
     },
     // Título, descripción, imagen para compartir y datos estructurados del artículo.
     // Las vistas previas y los no encontrados no se indexan.
@@ -285,6 +298,7 @@ export default {
   },
   beforeUnmount() {
     if (this.observer) this.observer.disconnect();
+    this.cerrarVisita();
   },
   async mounted() {
     await this.cargar();

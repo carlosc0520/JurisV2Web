@@ -31,6 +31,7 @@ import { MotionPlugin } from '@vueuse/motion'
 
 // ── UI Components ─────────────────────────────────────────────
 import AppLoader      from '@/components/ui/AppLoader.vue'
+import LoadingOverlay from '@/components/ui/LoadingOverlay.vue'
 import BaseButton     from '@/components/ui/BaseButton.vue'
 import BaseInput      from '@/components/ui/BaseInput.vue'
 import BaseModal      from '@/components/ui/BaseModal.vue'
@@ -115,6 +116,7 @@ app.component('date-picker',   DatePicker)
 app.component('PageHeader',    PageHeader)
 app.component('SectionCard',   SectionCard)
 app.component('AppLoader',      AppLoader)
+app.component('LoadingOverlay', LoadingOverlay)
 app.component('BaseButton',     BaseButton)
 app.component('BaseInput',      BaseInput)
 // Globales pesados (editor de texto, Element Plus): se descargan la primera vez que se usan
