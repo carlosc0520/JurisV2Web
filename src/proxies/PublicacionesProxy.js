@@ -79,6 +79,11 @@ class PublicacionesProxy {
         return data;
     }
 
+    async ordenCategorias(ids) {
+        const { data } = await axios.post(`/admin/publicaciones/categorias/orden`, { ids });
+        return data;
+    }
+
     async toggleCategoria(id) {
         const { data } = await axios.post(`/admin/publicaciones/categorias/toggle/${id}`);
         return data;

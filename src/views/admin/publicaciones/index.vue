@@ -35,6 +35,10 @@
           </app-select>
           <search-button @click="triggerSearch" />
           <new-button :label="active == 'articulos' ? 'Crear' : 'Nueva categoría'" @click="onCrear" />
+          <button v-if="active == 'categorias'" type="button" class="btn-ajustes" title="Ordenar categorías"
+            aria-label="Ordenar categorías" @click="modalOrden = true">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"/></svg>
+          </button>
           <button v-if="active == 'articulos'" type="button" class="btn-ajustes btn-estadisticas" title="Estadísticas del blog"
             aria-label="Estadísticas del blog" @click="active = 'estadisticas'">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
@@ -230,6 +234,9 @@
       :close="() => modalCategoria.show = false"
       :update="() => { searchCategorias(grid.currentPage, grid.perPage); versionEtiquetas++; }"/>
 
+    <ModalOrdenCategorias :show="modalOrden" :close="() => modalOrden = false"
+      :update="() => searchCategorias(grid.currentPage, grid.perPage)"/>
+
     <ModalEliminar message="¿Está seguro de cambiar el estado de este registro?" buttonOk="Sí, cambiar"
       :action="toggleArticulo" :openDelete="modalEliminarArticulo.show"
       :closeHandler="() => modalEliminarArticulo.show = false"/>
@@ -244,6 +251,7 @@ import DataTable from "@/components/Tables/DataTable.vue";
 import { toast } from 'vue3-toastify';
 import ModalEliminar from "../shared/ModalEliminar.vue";
 import ModalPublicacionCategoria from "./modals/ModalPublicacionCategoria.vue";
+import ModalOrdenCategorias from "./modals/ModalOrdenCategorias.vue";
 import EtiquetasAdmin from "./EtiquetasAdmin.vue";
 import EstadisticasBlog from "./EstadisticasBlog.vue";
 import HistorialPublicacion from "@/components/Publicaciones/HistorialPublicacion.vue";
@@ -263,7 +271,7 @@ function leerVista() {
 }
 
 export default {
-  components: { DataTable, ModalEliminar, ModalPublicacionCategoria, EtiquetasAdmin, EstadisticasBlog, HistorialPublicacion },
+  components: { DataTable, ModalEliminar, ModalPublicacionCategoria, ModalOrdenCategorias, EtiquetasAdmin, EstadisticasBlog, HistorialPublicacion },
   data() {
     return {
       active: 'articulos',
@@ -294,6 +302,7 @@ export default {
         delete: { label: 'Cambiar estado', icon: 'fas fa-trash', class: 'btn-delete', action: null },
       },
       modalCategoria:        { show: false, data: null },
+      modalOrden: false,
       modalEliminarArticulo:  { show: false, data: null },
       modalEliminarCategoria: { show: false, data: null },
       filter: { DESC: null, CDESTDO: '', IDCATEGORIA: leerCategoria() },
@@ -372,10 +381,10 @@ export default {
       const payload = r?.DATA ?? r;
       const rows = payload?.data ?? [];
       this.categoriasMap = new Map(rows.map(c => [Number(c.id ?? c.ID), c.descripcion ?? c.DESCRIPCION]));
-      // Mismo orden que el blog público (alfabético); las inactivas al final
+      // Mismo orden que el blog público (el API ya las devuelve ordenadas); las inactivas al final
       this.categoriasLista = rows
         .map(c => ({ id: Number(c.id ?? c.ID), nombre: c.descripcion ?? c.DESCRIPCION, activa: (c.estado ?? c.CDESTDO) === 'A' }))
-        .sort((a, b) => (b.activa - a.activa) || a.nombre.localeCompare(b.nombre, 'es'));
+        .sort((a, b) => b.activa - a.activa);
       return this.categoriasMap;
     },
     async searchArticulos(currentPage, perPage) {
