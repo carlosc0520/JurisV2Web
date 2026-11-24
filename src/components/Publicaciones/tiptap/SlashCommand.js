@@ -9,6 +9,10 @@ import { urlEmbedVideo } from './VideoNode';
 // functions definidas dentro de addOptions()).
 const estado = { onRequestImage: null };
 export function setOnRequestImage(fn) { estado.onRequestImage = fn; }
+// Abre la biblioteca de medios del editor (la usa el bloque Botón para enlazar un archivo)
+export function pedirMedio() {
+  return estado.onRequestImage ? estado.onRequestImage() : Promise.resolve(null);
+}
 
 function buildItems(onRequestImage) {
   return [

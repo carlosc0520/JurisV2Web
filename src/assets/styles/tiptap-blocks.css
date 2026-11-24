@@ -290,6 +290,15 @@ a.bloque-boton--borde.bloque-boton--color:hover { background: color-mix(in srgb,
   background-position: right 0.35rem center; background-size: 1.1em 1.1em;
 }
 .bb-input--error { border-color: #dc2626; }
+.bb-enlace { display: flex; gap: 0.35rem; min-width: 0; }
+.bb-enlace .bb-input { flex: 1; }
+.bb-biblioteca {
+  height: 1.85rem; flex-shrink: 0; display: inline-flex; align-items: center; gap: 0.3rem; padding: 0 0.55rem; cursor: pointer;
+  border: 1px solid var(--border); border-radius: 0.4rem; background: var(--bg-card, #fff);
+  font-size: 0.78rem; font-weight: 600; color: var(--text);
+}
+.bb-biblioteca svg { width: 0.9rem; height: 0.9rem; }
+.bb-biblioteca:hover { color: var(--brand-blue, #1864ff); border-color: var(--brand-blue, #1864ff); }
 .bb-check { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.78rem; color: var(--text); cursor: pointer; }
 .bb-colores { display: inline-flex; align-items: center; gap: 0.3rem; }
 .bb-muestra {

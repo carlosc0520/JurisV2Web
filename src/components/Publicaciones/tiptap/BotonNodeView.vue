@@ -13,9 +13,15 @@
       <div class="bb-fila">
         <input class="bb-input" :value="node.attrs.texto" maxlength="60" placeholder="Texto del botón" aria-label="Texto del botón"
           @input="e => updateAttributes({ texto: e.target.value })" />
-        <input class="bb-input" :class="{ 'bb-input--error': urlInvalida }" :value="node.attrs.url"
-          placeholder="Enlace (opcional): https://… o /contacto" aria-label="Enlace del botón"
-          @input="e => updateAttributes({ url: e.target.value.trim() })" />
+        <div class="bb-enlace">
+          <input class="bb-input" :class="{ 'bb-input--error': urlInvalida }" :value="node.attrs.url"
+            placeholder="Enlace (opcional): https://… o /contacto" aria-label="Enlace del botón"
+            @input="e => updateAttributes({ url: e.target.value.trim() })" />
+          <button type="button" class="bb-biblioteca" title="Elegir un archivo de la biblioteca de medios" @click="elegirDeBiblioteca">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+            Biblioteca
+          </button>
+        </div>
       </div>
       <div class="bb-fila bb-fila--opciones">
         <label class="bb-check">
@@ -51,6 +57,7 @@
 <script>
 import { NodeViewWrapper } from '@tiptap/vue-3';
 import { urlSegura, apariencia } from './BotonNode';
+import { pedirMedio } from './SlashCommand';
 
 // '' = degradado de la marca (el color de siempre)
 const COLORES = [
@@ -83,6 +90,19 @@ export default {
     },
     urlInvalida() {
       return !!this.node.attrs.url && !urlSegura(this.node.attrs.url);
+    },
+  },
+  methods: {
+    // Enlaza el botón a un archivo de la biblioteca (PDF, imagen…): se abre en otra pestaña
+    async elegirDeBiblioteca() {
+      const media = await pedirMedio();
+      if (!media?.url) return;
+      const cambios = { url: media.url, nuevaPestana: true };
+      // Si el texto sigue siendo el de ejemplo, se sugiere uno acorde al archivo
+      if (!this.node.attrs.texto || this.node.attrs.texto === 'Ver más') {
+        cambios.texto = media.categoria === 'documento' ? 'Ver documento' : 'Ver imagen';
+      }
+      this.updateAttributes(cambios);
     },
   },
 };

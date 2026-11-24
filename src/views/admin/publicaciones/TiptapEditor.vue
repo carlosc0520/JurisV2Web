@@ -11,10 +11,16 @@
 
     <div class="tiptap-toolbar">
       <span class="tiptap-hint">Escribe <kbd>/</kbd> para insertar un encabezado, imagen, video, recuadro destacado, lista de pasos o botón</span>
-      <a :href="GUIA_URL" target="_blank" rel="noopener" class="guia-btn" title="Abre la guía en PDF en otra pestaña">
-        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-        Guía de comandos ↗
-      </a>
+      <div class="flex flex-wrap items-center gap-2">
+        <button type="button" class="guia-btn" title="Abre la biblioteca de medios: elige un archivo para copiar su enlace" @click="copiarDeBiblioteca">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          Biblioteca
+        </button>
+        <a :href="GUIA_URL" target="_blank" rel="noopener" class="guia-btn" title="Abre la guía en PDF en otra pestaña">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          Guía de comandos ↗
+        </a>
+      </div>
     </div>
 
     <editor-content :editor="editor" class="tiptap-doc tiptap-editable" />
@@ -39,6 +45,8 @@ import { BotonNode } from '@/components/Publicaciones/tiptap/BotonNode';
 import { SlashCommand, setOnRequestImage } from '@/components/Publicaciones/tiptap/SlashCommand';
 import { normalizarDoc } from '@/components/Publicaciones/tiptap/docUtils';
 import MediaLibraryModal from '@/components/Media/MediaLibraryModal.vue';
+import { toast } from 'vue3-toastify';
+import { copiarTexto } from '@/utils/copiarTexto';
 import '@/assets/styles/tiptap-blocks.css';
 
 const RESOURCES_URL = process.env.VUE_APP_RESOURCES_URL || 'https://resources.jurissearch.com';
@@ -102,6 +110,14 @@ export default {
       this.resolverBiblioteca?.(media);
       this.resolverBiblioteca = null;
     },
+    // Botón "Biblioteca" de la barra: elegir un archivo copia su enlace (no inserta nada)
+    async copiarDeBiblioteca() {
+      const media = await this.abrirBiblioteca();
+      if (!media?.url) return;
+      const ok = await copiarTexto(media.url);
+      if (ok) toast.success('Enlace copiado: pégalo donde lo necesites', { autoClose: 2500, toastId: 'editor-enlace-copiado' });
+      else toast.error('No se pudo copiar el enlace', { toastId: 'editor-enlace-error' });
+    },
   },
   beforeUnmount() {
     this.editor?.destroy();
@@ -128,7 +144,7 @@ export default {
 .guia-btn {
   display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 9999px;
   border: 1px solid var(--border); background: var(--bg-card); color: var(--text-muted);
-  font-size: 0.75rem; font-weight: 600; text-decoration: none; transition: color 0.15s, border-color 0.15s;
+  font-size: 0.75rem; font-weight: 600; text-decoration: none; transition: color 0.15s, border-color 0.15s; cursor: pointer;
 }
 .guia-btn:hover { color: #1864ff; border-color: rgba(24, 100, 255, 0.4); }
 .tiptap-hint { font-size: 0.75rem; color: var(--text-muted); }

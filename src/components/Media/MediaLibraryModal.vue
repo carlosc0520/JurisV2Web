@@ -38,6 +38,9 @@
             </svg>
           </div>
           <span class="media-item-nombre">{{ m.nombre }}</span>
+          <span class="media-item-copiar" role="button" @click.stop="copiar(m)" title="Copiar enlace" aria-label="Copiar enlace">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M10 13a5 5 0 007.5.5l3-3a5 5 0 00-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 00-7.5-.5l-3 3a5 5 0 007 7l1.7-1.7"/></svg>
+          </span>
           <span class="media-item-eliminar" @click.stop="eliminar(m)" title="Eliminar">✕</span>
         </button>
       </div>
@@ -61,6 +64,7 @@
 <script>
 import { toast } from 'vue3-toastify';
 import MediaProxy from '@/proxies/MediaProxy';
+import { copiarTexto } from '@/utils/copiarTexto';
 
 const RESOURCES_URL = process.env.VUE_APP_RESOURCES_URL || 'https://resources.jurissearch.com';
 const PER_PAGE = 18;
@@ -154,6 +158,11 @@ export default {
       this.$emit('select', { url: this.urlDe(m.ruta), ruta: m.ruta, nombre: m.nombre, categoria: m.categoria });
       this.handleClose();
     },
+    async copiar(m) {
+      const ok = await copiarTexto(this.urlDe(m.ruta));
+      if (ok) toast.success('Enlace copiado', { autoClose: 1800, toastId: 'media-copiado' });
+      else toast.error('No se pudo copiar el enlace', { toastId: 'media-copiado-error' });
+    },
     usarUrlExterna() {
       if (!this.urlExterna) return;
       this.$emit('select', { url: this.urlExterna, ruta: null, nombre: this.urlExterna, categoria: 'imagen' });
@@ -210,6 +219,12 @@ export default {
   background: rgba(0,0,0,0.6); color: #fff; font-size: 0.6rem; display: flex; align-items: center; justify-content: center;
 }
 .media-item-eliminar:hover { background: #dc2626; }
+.media-item-copiar {
+  position: absolute; top: 0.25rem; left: 0.25rem; width: 1.3rem; height: 1.3rem; border-radius: 9999px;
+  background: rgba(0,0,0,0.6); color: #fff; display: flex; align-items: center; justify-content: center;
+}
+.media-item-copiar svg { width: 0.7rem; height: 0.7rem; }
+.media-item-copiar:hover { background: var(--brand-blue, #1864ff); }
 
 .cargar-mas {
   @apply self-center text-xs font-semibold px-4 py-2 rounded-lg transition-all;
