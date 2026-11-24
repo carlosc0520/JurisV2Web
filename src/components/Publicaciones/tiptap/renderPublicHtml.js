@@ -6,6 +6,7 @@ import { DestacadoNode } from './DestacadoNode';
 import { PasosNode } from './PasosNode';
 import { DocumentoNode } from './DocumentoNode';
 import { VideoNode } from './VideoNode';
+import { BotonNode } from './BotonNode';
 import { extractHeadings, extractPlainText, normalizarDoc } from './docUtils';
 
 const EXTENSIONS = [
@@ -16,6 +17,7 @@ const EXTENSIONS = [
   PasosNode,
   DocumentoNode,
   VideoNode,
+  BotonNode,
 ];
 
 // Genera el HTML del documento (sin instanciar un editor, liviano para el

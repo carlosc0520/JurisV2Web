@@ -81,6 +81,11 @@ function buildItems(onRequestImage) {
       command: ({ editor, range }) => editor.chain().focus().deleteRange(range)
         .insertContent({ type: 'pasos', attrs: { titulo: '', items: [{ titulo: '', descripcion: '' }] } }).run(),
     },
+    {
+      title: 'Botón', description: 'Botón con texto y enlace',
+      command: ({ editor, range }) => editor.chain().focus().deleteRange(range)
+        .insertContent({ type: 'boton', attrs: { texto: 'Ver más', url: '' } }).run(),
+    },
   ];
 }
 

@@ -10,7 +10,7 @@
     </div>
 
     <div class="tiptap-toolbar">
-      <span class="tiptap-hint">Escribe <kbd>/</kbd> para insertar un encabezado, imagen, video, recuadro destacado o lista de pasos</span>
+      <span class="tiptap-hint">Escribe <kbd>/</kbd> para insertar un encabezado, imagen, video, recuadro destacado, lista de pasos o botón</span>
       <a :href="GUIA_URL" target="_blank" rel="noopener" class="guia-btn" title="Abre la guía en PDF en otra pestaña">
         <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
         Guía de comandos ↗
@@ -35,6 +35,7 @@ import { DestacadoNode } from '@/components/Publicaciones/tiptap/DestacadoNode';
 import { PasosNode } from '@/components/Publicaciones/tiptap/PasosNode';
 import { DocumentoNode } from '@/components/Publicaciones/tiptap/DocumentoNode';
 import { VideoNode } from '@/components/Publicaciones/tiptap/VideoNode';
+import { BotonNode } from '@/components/Publicaciones/tiptap/BotonNode';
 import { SlashCommand, setOnRequestImage } from '@/components/Publicaciones/tiptap/SlashCommand';
 import { normalizarDoc } from '@/components/Publicaciones/tiptap/docUtils';
 import MediaLibraryModal from '@/components/Media/MediaLibraryModal.vue';
@@ -42,7 +43,7 @@ import '@/assets/styles/tiptap-blocks.css';
 
 const RESOURCES_URL = process.env.VUE_APP_RESOURCES_URL || 'https://resources.jurissearch.com';
 // Guía en PDF subida a la biblioteca de medios (scripts/subir-guia-comandos.ts en la API)
-const GUIA_URL = `${RESOURCES_URL}/uploads/media/documentos/2026/10/2ff86d2e50ac1c92c5946d4a6f6d8f4389a11a97895aaeb128bf3f5ca14cd643.pdf`;
+const GUIA_URL = `${RESOURCES_URL}/uploads/media/documentos/2026/11/4bfa3577e93a4fbb6c3d0f6b5ca8da093495e4075be70a6d4f3e5f86e43e368e.pdf`;
 
 export default {
   name: 'TiptapEditor',
@@ -67,8 +68,9 @@ export default {
         PasosNode,
         DocumentoNode,
         VideoNode,
+        BotonNode,
         SlashCommand,
-        GlobalDragHandle.configure({ customNodes: ['destacado', 'pasos', 'documentoAdjunto', 'videoEmbed'] }),
+        GlobalDragHandle.configure({ customNodes: ['destacado', 'pasos', 'documentoAdjunto', 'videoEmbed', 'boton'] }),
       ],
       onUpdate: ({ editor }) => {
         this.$emit('update:modelValue', editor.getJSON());
